@@ -1,3 +1,26 @@
 {
-  "extends": "next/core-web-vitals"
+    "extends": ["next", "next/core-web-vitals", "plugin:prettier/recommended"],
+    "rules": {
+        "tailwindcss/no-custom-classname": "off",
+        "sort-keys-fix/sort-keys-fix": "off",
+        "linebreak-style": 0,
+        "eslint linebreak-style": [0, "error", "windows"],
+        "react/jsx-props-no-spreading": 0,
+        "jsx-a11y/anchor-is-valid": 0,
+        "jsx-a11y/anchor-has-content": 0,
+        "jsx-a11y/control-has-associated-label": 0,
+        "no-restricted-syntax": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "prettier/prettier": [
+            "error",
+            {
+                "endOfLine": "auto"
+            }
+        ],
+        "react/display-name": "off",
+        "no-underscore-dangle": "off",
+
+        "import/no-anonymous-default-export": "off"
+    },
+    "plugins": ["react", "prettier"]
 }
