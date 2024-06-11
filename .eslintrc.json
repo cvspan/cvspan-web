@@ -1,5 +1,11 @@
 {
-    "extends": ["next", "next/core-web-vitals", "plugin:prettier/recommended"],
+    "extends": [
+        "eslint:recommended",
+        "next",
+        "next/core-web-vitals",
+        "plugin:prettier/recommended",
+        "plugin:react/recommended"
+    ],
     "rules": {
         "tailwindcss/no-custom-classname": "off",
         "sort-keys-fix/sort-keys-fix": "off",
@@ -20,7 +26,13 @@
         "react/display-name": "off",
         "no-underscore-dangle": "off",
 
-        "import/no-anonymous-default-export": "off"
+        "import/no-anonymous-default-export": "off",
+        "react/react-in-jsx-scope": "off"
     },
-    "plugins": ["react", "prettier"]
+    "plugins": ["react", "prettier"],
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    }
 }
