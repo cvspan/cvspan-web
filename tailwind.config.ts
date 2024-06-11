@@ -28,6 +28,11 @@ const config = {
                 'accordion-up': 'accordion-up 0.2s ease-out',
             },
         },
+
+        fontFamily: {
+            'pp-mori': 'var(--font-pp-mori)',
+            eudoxus: 'var(--font-eudoxus)',
+        },
     },
     plugins: [require('tailwindcss-animate')],
 } satisfies Config;
