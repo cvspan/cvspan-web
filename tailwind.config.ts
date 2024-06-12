@@ -33,6 +33,9 @@ const config = {
             'pp-mori': 'var(--font-pp-mori)',
             eudoxus: 'var(--font-eudoxus)',
         },
+        colors: {
+            'neutral-black': '#1a1a1a',
+        },
     },
     plugins: [require('tailwindcss-animate')],
 } satisfies Config;
