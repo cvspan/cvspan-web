@@ -27,14 +27,17 @@ const config = {
                 'accordion-down': 'accordion-down 0.2s ease-out',
                 'accordion-up': 'accordion-up 0.2s ease-out',
             },
+            colors: {
+                slate: {
+                    1000: '#1a1a1a',
+                    1050: '#484848',
+                },
+            },
         },
 
         fontFamily: {
             'pp-mori': 'var(--font-pp-mori)',
             eudoxus: 'var(--font-eudoxus)',
-        },
-        colors: {
-            'neutral-black': '#1a1a1a',
         },
     },
     plugins: [require('tailwindcss-animate')],
