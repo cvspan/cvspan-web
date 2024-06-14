@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { NAVBAR_LIST, NavButtons, NavLinks } from '../data';
 import { NavButton, NavLink, NavbarList, SubNavbarList } from '../types';
 import '../Navbar.css';
+import { useOutsideClick } from '../hooks/useOutsideClick';
 
 export const NavBrand = () => {
     return (
@@ -19,15 +20,27 @@ export const NavBrand = () => {
     );
 };
 
-export const NavMenu = () => {
-    const [open, setOpen] = useState(false);
+export const NavMenu = ({
+    currentIndex,
+    onIndexChanged,
+}: {
+    currentIndex: number;
+    onIndexChanged: React.Dispatch<React.SetStateAction<number>>;
+}) => {
+    const ref = useOutsideClick(handleOutsideClick);
+
+    function handleOutsideClick() {
+        onIndexChanged(0);
+    }
     return (
         <div className="mx-auto flex basis-1/2 flex-nowrap items-center">
             {NavButtons.map((navButton: NavButton) => (
                 <div className="border-box max-w-full flex-grow-0 basis-0" key={navButton.id}>
                     <div>
                         <button
-                            onClick={() => setOpen(!open)}
+                            onClick={() => {
+                                onIndexChanged(navButton.id);
+                            }}
                             type="button"
                             className="inline-flex px-8 text-base text-white"
                         >
@@ -38,80 +51,86 @@ export const NavMenu = () => {
                                 height="18"
                                 viewBox="0 0 19 18"
                                 fill="currentColor"
-                                className={`transform ps-2 transition duration-500 ease-in-out ${open ? '-rotate-180' : 'rotate-0'}`}
+                                className={`rotate-0 transform ps-2 transition duration-500 ease-in-out`}
                             >
                                 <path d="M14.75 6.75L9.5 11.25L4.25 6.75" stroke="white" />
                             </svg>
                         </button>
                     </div>
-                    <div className="absolute left-0 top-[100%] mt-12 rounded-3xl ps-16" style={{ width: '100%' }}>
-                        <div>
+                    {(currentIndex === 1 || currentIndex === 2) && (
+                        <div
+                            ref={ref}
+                            className="absolute left-0 top-[100%] mt-12 rounded-3xl ps-16"
+                            style={{ width: '100%' }}
+                        >
                             <div>
-                                <div className="grid auto-cols-auto grid-cols-12 gap-x-14">
-                                    <div className="col-span-8">
-                                        <div className="bg-white py-14">
-                                            <ul className="grid gap-x-14">
-                                                {NAVBAR_LIST.map((navList: NavbarList) => (
-                                                    <li key={navList.id} className="row-start-2">
-                                                        <h2 className="text-slate-1100 text-lg">{navList.title}</h2>
-                                                        <ul className="mt-8 grid gap-y-8">
-                                                            {navList.list.map((list: SubNavbarList) => (
-                                                                <li className="" key={list.id}>
-                                                                    <span>
-                                                                        <div className="text-slate=1000 text-base font-medium">
-                                                                            {list.title}
-                                                                        </div>
-                                                                        <div className="text-xs text-slate-1050">
-                                                                            {list.caption}
-                                                                        </div>
-                                                                    </span>
-                                                                </li>
-                                                            ))}
-                                                        </ul>
-                                                    </li>
-                                                ))}
-                                            </ul>
+                                <div>
+                                    <div className="grid auto-cols-auto grid-cols-12 gap-x-14">
+                                        <div className="col-span-8">
+                                            <div className="bg-white py-14">
+                                                <ul className="grid gap-x-14">
+                                                    {NAVBAR_LIST.map((navList: NavbarList) => (
+                                                        <li key={navList.id} className="row-start-2">
+                                                            <h2 className="text-slate-1100 text-lg">{navList.title}</h2>
+                                                            <ul className="mt-8 grid gap-y-8">
+                                                                {navList.list.map((list: SubNavbarList) => (
+                                                                    <li className="" key={list.id}>
+                                                                        <span>
+                                                                            <div className="text-slate=1000 text-base font-medium">
+                                                                                {list.title}
+                                                                            </div>
+                                                                            <div className="text-xs text-slate-1050">
+                                                                                {list.caption}
+                                                                            </div>
+                                                                        </span>
+                                                                    </li>
+                                                                ))}
+                                                            </ul>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="col-span-4">
-                                        <div className="h-full">
-                                            <div className="bg relative flex h-full flex-col justify-between rounded-r-3xl py-12 pe-2 ps-8">
-                                                <div className="flex-shrink-0">
-                                                    <h1 className="text-5xl font-extrabold text-white">
-                                                        HAVE AN IDEA IN MIND
-                                                    </h1>
-                                                    <div className="pt-1">
-                                                        <div className="text-lg font-normal text-white">
-                                                            Let`s create amazing digital experiences together
+                                        <div className="col-span-4">
+                                            <div className="h-full">
+                                                <div className="bg relative flex h-full flex-col justify-between rounded-r-3xl py-12 pe-2 ps-8">
+                                                    <div className="flex-shrink-0">
+                                                        <h1 className="text-5xl font-extrabold text-white">
+                                                            HAVE AN IDEA IN MIND
+                                                        </h1>
+                                                        <div className="pt-1">
+                                                            <div className="text-lg font-normal text-white">
+                                                                Let`s create amazing digital experiences together
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <Link
-                                                    href="/"
-                                                    className="inline-flex flex-shrink-0 items-center text-white"
-                                                >
-                                                    <span className="text-lg">LET{`'S`} TALK</span>
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        width="24"
-                                                        height="24"
-                                                        viewBox="0 0 40 40"
-                                                        fill="none"
-                                                        className="ps-2"
+                                                    <Link
+                                                        href="/"
+                                                        className="inline-flex flex-shrink-0 items-center text-white"
                                                     >
-                                                        <path
-                                                            d="M1.90476 0L1.82466 5.38679L30.8036 5.3869L0 36.1905L3.80952 40L34.6131 9.19643L34.6132 38.0954L40 38.0952C40 24.1486 40 13.3486 40 0H1.90476Z"
-                                                            fill="white"
-                                                        />
-                                                    </svg>
-                                                </Link>
+                                                        <span className="text-lg">LET{`'S`} TALK</span>
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            width="24"
+                                                            height="24"
+                                                            viewBox="0 0 40 40"
+                                                            fill="none"
+                                                            className="ps-2"
+                                                        >
+                                                            <path
+                                                                d="M1.90476 0L1.82466 5.38679L30.8036 5.3869L0 36.1905L3.80952 40L34.6131 9.19643L34.6132 38.0954L40 38.0952C40 24.1486 40 13.3486 40 0H1.90476Z"
+                                                                fill="white"
+                                                            />
+                                                        </svg>
+                                                    </Link>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    )}
                 </div>
             ))}
 

@@ -1,8 +1,9 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import { NavBrand, NavMenu, NavLetsTalkButton } from './components';
 
 function Navbar() {
+    const [currentIndex, setCurrentIndex] = useState<number | 0>(0);
     return (
         <header className="bg-slate-1000">
             <div>
@@ -10,7 +11,7 @@ function Navbar() {
                     <div className="mx-auto min-w-full px-28">
                         <div className="relative flex flex-grow flex-nowrap items-center">
                             <NavBrand />
-                            <NavMenu />
+                            <NavMenu currentIndex={currentIndex} onIndexChanged={setCurrentIndex} />
                             <NavLetsTalkButton />
                         </div>
                     </div>
