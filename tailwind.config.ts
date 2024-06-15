@@ -48,6 +48,11 @@ const config = {
                 'pp-mori-semibold': ['"PP Mori SemiBold"', 'sans-serif'],
             },
         },
+
+        fontFamily: {
+            'pp-mori': 'var(--font-pp-mori)',
+            eudoxus: 'var(--font-eudoxus)',
+        },
     },
     plugins: [require('tailwindcss-animate')],
 } satisfies Config;
