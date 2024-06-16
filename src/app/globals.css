@@ -84,11 +84,11 @@
     }
 
     .accordion-down {
-        animation: accordion-down 1s ease-out forwards;
+        animation: accordion-down 0.9s ease-out forwards;
     }
 
     .accordion-up {
-        animation: accordion-up 1s ease-out forwards;
+        animation: accordion-up 0.9s ease-out forwards;
     }
 }
 
