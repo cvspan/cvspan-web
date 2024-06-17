@@ -1,7 +1,11 @@
+import Cta from '@/components/molecules/Cta';
+import Testimonial from '@/components/molecules/Testimonial';
+
 export default function Homepage() {
     return (
-        <main className="flex min-h-screen flex-col items-center justify-between p-24">
-            <h1>HOME</h1>
+        <main className="">
+            <Testimonial/>
+            <Cta />
         </main>
     );
 }

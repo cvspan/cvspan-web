@@ -106,3 +106,6 @@ body {
     padding: 0;
     box-sizing: border-box;
 }
+.gradient {
+    background: linear-gradient(to right, #353535 30%, #404040 44.7%);
+}
