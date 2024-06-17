@@ -2,9 +2,9 @@ import Faq from '../mini-components/faq/Faq';
 
 const Faqs = () => {
     return (
-        <div className="flex w-full flex-col gap-y-14">
+        <div className="flex flex-col gap-y-14">
             <h3 className="lg:w-5/12">Frequently Asked Questions</h3>
-            <div className="flex h-full w-full flex-col">
+            <div className="flex h-full flex-col">
                 <div className="flex h-full w-full">
                     <Faq
                         id={1}
