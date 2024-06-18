@@ -13,9 +13,9 @@ export default function Homepage() {
                 <div className="m-auto w-full max-w-7xl pl-6 pr-6">
                     <Faqs />
                 </div>
-                {/* <div>
+                <div className="m-auto w-full max-w-7xl pl-6 pr-6">
                     <Testimonials />
-                </div> */}
+                </div>
                 <div className="bg-cta-bg w-full bg-cover bg-center bg-no-repeat bg-origin-border pl-6 pr-6">
                     <Cta />
                 </div>

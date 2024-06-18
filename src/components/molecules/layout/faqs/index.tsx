@@ -3,7 +3,7 @@ import Faq from '../mini-components/faq/Faq';
 const Faqs = () => {
     return (
         <div className="flex flex-col gap-y-14">
-            <h3 className="lg:w-5/12">Frequently Asked Questions</h3>
+            <h3 className="font-euxodus-bold lg:w-5/12">Frequently Asked Questions</h3>
             <div className="flex h-full flex-col">
                 <div className="flex h-full w-full">
                     <Faq

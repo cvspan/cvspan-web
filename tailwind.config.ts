@@ -39,6 +39,7 @@ const config = {
                 'cod-gray': '#1A1A1A',
                 tundora: '#484848',
                 'silver-chalice': '#A3A3A3',
+                'fade-white': '#D1D1D1',
             },
             backgroundImage: {
                 'fact-figure': 'url(../../public/assets/icons/fact_frame.svg)',
@@ -48,6 +49,7 @@ const config = {
                 'pp-mori': ['"PP Mori"', 'sans serif'],
                 eudoxus: ['"Eudoxus"', 'sans-serif'],
                 'pp-mori-semibold': ['"PP Mori SemiBold"', 'sans-serif'],
+                'euxodus-bold': ['"Eudoxus-Medium"', 'sans-serif'],
             },
         },
 
