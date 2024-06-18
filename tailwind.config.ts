@@ -39,7 +39,7 @@ const config = {
                 'cod-gray': '#1A1A1A',
                 tundora: '#484848',
                 'silver-chalice': '#A3A3A3',
-                'fade-white': '#D1D1D1',
+                alto: '#D1D1D1',
             },
             backgroundImage: {
                 'fact-figure': 'url(../../public/assets/icons/fact_frame.svg)',

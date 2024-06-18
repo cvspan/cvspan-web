@@ -1,14 +1,51 @@
+'use client';
+
 import Image from 'next/image';
 import TestimonialCard from '../mini-components/testimonialCard/TestimonialCard';
+import data from '../testimonials/testimonialData';
+import { useEffect, useState } from 'react';
+import goodluck from '../../../../../public/assets/images/goodluck.jpg';
 
 const Testimonials = () => {
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [itemsToShow, setItemsToShow] = useState(1);
+
+    useEffect(() => {
+        const updateItemsToShow = () => {
+            if (window.innerWidth >= 768) {
+                setItemsToShow(2);
+            } else {
+                setItemsToShow(1);
+            }
+        };
+        updateItemsToShow();
+
+        window.addEventListener('resize', updateItemsToShow);
+
+        return () => {
+            window.removeEventListener('resize', updateItemsToShow);
+        };
+    }, []);
+
+    const nextTestimony = () => {
+        setCurrentIndex((prevIndex) => (prevIndex + itemsToShow) % data.length);
+    };
+
+    const prevTestimony = () => {
+        setCurrentIndex((prevIndex) =>
+            prevIndex - itemsToShow < 0 ? data.length - itemsToShow : prevIndex - itemsToShow,
+        );
+    };
     return (
         <div className="overflow-hidden">
             <div className="flex w-full flex-col gap-10">
                 <div className="flex w-full flex-col items-start justify-between gap-5">
                     <h3 className="font-euxodus-bold lg:w-5/12">What Do People Say About Us</h3>
                     <div className="flex gap-x-8">
-                        <button className="flex items-center justify-center rounded-full border border-solid border-tundora p-2.5">
+                        <button
+                            onClick={prevTestimony}
+                            className="flex items-center justify-center rounded-full border border-solid border-tundora p-2.5"
+                        >
                             <svg
                                 className="opacity-25"
                                 width="32"
@@ -26,7 +63,10 @@ const Testimonials = () => {
                                 />
                             </svg>
                         </button>
-                        <button className="flex items-center justify-center rounded-full border border-solid border-white p-2.5">
+                        <button
+                            onClick={nextTestimony}
+                            className="flex items-center justify-center rounded-full border border-solid border-white p-2.5"
+                        >
                             <svg
                                 width="32"
                                 height="32"
@@ -44,15 +84,19 @@ const Testimonials = () => {
                         </button>
                     </div>
                 </div>
-                <div className="flex h-full items-center overflow-x-auto">
-                    <div className="w-full">
-                        <TestimonialCard />
-                    </div>
-                    <div className="w-full">
-                        <TestimonialCard />
-                    </div>
-                    <div className="w-full">
-                        <TestimonialCard />
+                <div className="flex h-full items-center overflow-x-hidden">
+                    <div className="flex gap-8">
+                        {data.slice(currentIndex, currentIndex + itemsToShow).map((testimony, index) => (
+                            <div className="md:w-6/12">
+                                <TestimonialCard
+                                    key={index}
+                                    name={testimony.name}
+                                    profession={testimony.profession}
+                                    testimony={testimony.testimony}
+                                    image={goodluck}
+                                />
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>
