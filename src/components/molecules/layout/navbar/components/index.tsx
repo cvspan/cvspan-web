@@ -6,11 +6,11 @@ import { NAVBAR_LIST, NavButtons, NavLinks } from '../data';
 import { NavButton, NavLink, NavbarList, SubNavbarList } from '../types';
 import '../Navbar.css';
 
-export const NavBrand = () => {
+export const NavBrand = ({ isLight }: { isLight: boolean }) => {
     return (
         <Link href="/" className="relative box-border block text-white">
             <Image
-                src="/assets/images/logo-transparent.svg"
+                src={`${isLight ? '/assets/images/logo-black.svg' : '/assets/images/logo-transparent.svg'}`}
                 width={152}
                 height={31}
                 alt="Cvspan logo"
@@ -21,9 +21,11 @@ export const NavBrand = () => {
 };
 
 export const NavMenu = ({
+    isLight,
     currentIndex,
     onIndexChanged,
 }: {
+    isLight: boolean;
     currentIndex: number;
     onIndexChanged: React.Dispatch<React.SetStateAction<number>>;
 }) => {
@@ -42,7 +44,7 @@ export const NavMenu = ({
                                 onIndexChanged(navButton.id);
                             }}
                             type="button"
-                            className="inline-flex text-base font-normal text-white"
+                            className={`inline-flex text-base font-normal ${isLight ? 'text-black' : 'text-white'}`}
                         >
                             <span className="pe-2">{navButton.text}</span>
                             <svg
@@ -101,17 +103,21 @@ export const NavMenu = ({
                                             <div className="h-full">
                                                 <div className="bg relative flex h-full flex-col justify-between rounded-r-3xl py-12 pe-2 ps-8">
                                                     <div className="flex flex-shrink-0 flex-col gap-y-1">
-                                                        <h1 className="text-5xl font-extrabold text-white">
+                                                        <h1
+                                                            className={`text-5xl font-extrabold ${isLight ? 'text-black' : 'text-white'}`}
+                                                        >
                                                             HAVE AN IDEA IN MIND
                                                         </h1>
 
-                                                        <div className="text-lg font-normal text-white">
+                                                        <div
+                                                            className={`text-lg font-normal ${isLight ? 'text-black' : 'text-white'}`}
+                                                        >
                                                             Let`s create amazing digital experiences together
                                                         </div>
                                                     </div>
                                                     <Link
                                                         href="/"
-                                                        className="inline-flex flex-shrink-0 items-center text-[34px] text-white"
+                                                        className={`inline-flex flex-shrink-0 items-center text-[34px] ${isLight ? 'text-black' : 'text-white'}`}
                                                     >
                                                         <span>LET{`'S`} TALK</span>
                                                         <svg
@@ -119,13 +125,10 @@ export const NavMenu = ({
                                                             width="40"
                                                             height="40"
                                                             viewBox="0 0 40 40"
-                                                            fill="none"
+                                                            fill="currentColor"
                                                             className="ps-2"
                                                         >
-                                                            <path
-                                                                d="M1.90476 0L1.82466 5.38679L30.8036 5.3869L0 36.1905L3.80952 40L34.6131 9.19643L34.6132 38.0954L40 38.0952C40 24.1486 40 13.3486 40 0H1.90476Z"
-                                                                fill="white"
-                                                            />
+                                                            <path d="M1.90476 0L1.82466 5.38679L30.8036 5.3869L0 36.1905L3.80952 40L34.6131 9.19643L34.6132 38.0954L40 38.0952C40 24.1486 40 13.3486 40 0H1.90476Z" />
                                                         </svg>
                                                     </Link>
                                                 </div>
@@ -148,12 +151,12 @@ export const NavMenu = ({
     );
 };
 
-export const NavLetsTalkButton = () => {
+export const NavLetsTalkButton = ({ isLight }: { isLight: boolean }) => {
     return (
         <button
             type="button"
             aria-label="Let's Talk"
-            className="inline-flex items-center gap-x-2 whitespace-nowrap text-nowrap rounded-2xl bg-blue-1000 px-4 py-2 text-base text-white"
+            className={`inline-flex items-center gap-x-2 whitespace-nowrap text-nowrap rounded-2xl bg-blue-1000 px-4 py-2 text-base ${isLight ? 'text-black' : 'text-white'}`}
         >
             LET{`'`}S TALK
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none" className="">
