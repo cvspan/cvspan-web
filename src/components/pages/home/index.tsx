@@ -6,7 +6,7 @@ import Testimonials from '@/components/molecules/layout/testimonials';
 export default function Homepage() {
     return (
         <main className="flex min-h-screen w-full flex-col items-center justify-between bg-custom-dark text-white">
-            <div className="flex h-full flex-col justify-between gap-y-24">
+            <div className="flex h-full flex-col justify-between">
                 <FactsAndFigures />
                 <Faqs />
                 <Testimonials />
