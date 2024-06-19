@@ -33,7 +33,7 @@ export const NavMenu = ({
         onIndexChanged(0);
     }
     return (
-        <div className="mx-auto flex basis-1/2 flex-nowrap items-center">
+        <div className="mx-auto flex basis-1/2 flex-nowrap items-center gap-x-8">
             {NavButtons.map((navButton: NavButton) => (
                 <div className="border-box max-w-full flex-grow-0 basis-0" key={navButton.id}>
                     <div>
@@ -42,18 +42,23 @@ export const NavMenu = ({
                                 onIndexChanged(navButton.id);
                             }}
                             type="button"
-                            className="inline-flex px-8 text-base text-white"
+                            className="inline-flex text-base text-white"
                         >
                             <span className="pe-2">{navButton.text}</span>
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
-                                width="19"
-                                height="18"
-                                viewBox="0 0 19 18"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
                                 fill="currentColor"
-                                className={`rotate-0 transform ps-2 transition duration-500 ease-in-out`}
                             >
-                                <path d="M14.75 6.75L9.5 11.25L4.25 6.75" stroke="white" />
+                                <path
+                                    d="M19 9L12 15L5 9"
+                                    stroke="#1C274C"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                />
                             </svg>
                         </button>
                     </div>
@@ -71,7 +76,7 @@ export const NavMenu = ({
                                                 <ul className="grid gap-x-14">
                                                     {NAVBAR_LIST.map((navList: NavbarList) => (
                                                         <li key={navList.id} className="row-start-2">
-                                                            <h2 className="text-slate-1100 text-lg">{navList.title}</h2>
+                                                            <h2 className="text-lg text-slate-1100">{navList.title}</h2>
                                                             <ul className="mt-8 grid gap-y-8">
                                                                 {navList.list.map((list: SubNavbarList) => (
                                                                     <li className="" key={list.id}>
@@ -135,7 +140,7 @@ export const NavMenu = ({
             ))}
 
             {NavLinks.map((navLink: NavLink) => (
-                <Link href="/" className="px-8 text-base text-white" key={navLink.id}>
+                <Link href="/" className="text-base text-white" key={navLink.id}>
                     {navLink.text}
                 </Link>
             ))}
@@ -148,7 +153,7 @@ export const NavLetsTalkButton = () => {
         <button
             type="button"
             aria-label="Let's Talk"
-            className="bg-blue-1000 inline-flex items-center gap-x-2 whitespace-nowrap text-nowrap rounded-2xl px-4 py-2 text-sm text-white"
+            className="inline-flex items-center gap-x-2 whitespace-nowrap text-nowrap rounded-2xl bg-blue-1000 px-4 py-2 text-sm text-white"
         >
             LET{`'`}S TALK
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none" className="">
