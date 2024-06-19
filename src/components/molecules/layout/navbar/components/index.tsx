@@ -79,9 +79,10 @@ export const NavMenu = ({
                                                             <h2 className="text-lg text-slate-1100">{navList.title}</h2>
                                                             <ul className="mt-8 grid gap-y-8">
                                                                 {navList.list.map((list: SubNavbarList) => (
-                                                                    <li className="" key={list.id}>
+                                                                    <li key={list.id} className="flex gap-x-6">
+                                                                        <div className="h-[50px] w-[50px] rounded-full bg-[#d9d9d9]" />
                                                                         <span>
-                                                                            <div className="text-slate=1000 text-base font-medium">
+                                                                            <div className="text-base font-medium text-slate-1000">
                                                                                 {list.title}
                                                                             </div>
                                                                             <div className="text-xs text-slate-1050">
