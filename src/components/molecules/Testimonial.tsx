@@ -90,7 +90,7 @@ const Testimonial: React.FC = () => {
 
   return (
     <div className="bg-[#0c0c0c]">
-      <div className="container py-6 ">
+      <div className="container py-6">
       <div className="top flex items-start justify-between gap-5 md:gap-20">
         <div className="w-1/2">
           <h1 className="text-2xl font-medium leading-7 text-white md:text-[48px] md:leading-[56px]">What Do People Say About Us</h1>
