@@ -4,7 +4,7 @@ import { PrimaryFooter, SecondaryFooter } from './components';
 function Footer() {
     return (
         <footer>
-            <div className="px-28 pb-24 pt-28">
+            <div className="mx-auto w-full max-w-[1200px] pb-24 pt-28">
                 <div>
                     <div className="flex flex-col">
                         <PrimaryFooter />
