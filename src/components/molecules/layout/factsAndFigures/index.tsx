@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 
 const FactsAndFigures = () => {
     return (
-        <section className="m-auto grid w-full max-w-[1200px] gap-x-6 gap-y-6 pl-6 pr-6 md:grid-cols-2">
+        <section className="m-auto grid w-full max-w-[1200px] gap-x-6 gap-y-6 pl-6 pr-6 text-white md:grid-cols-2">
             <div className="h-150 w-12/12 flex flex-col items-start gap-y-8 rounded-3xl bg-fact-figure bg-cover bg-center bg-no-repeat bg-origin-border p-[40px]">
                 <div className="flex flex-col gap-y-4">
                     <h2 className="font-pp-mori-semibold">Facts & Figures</h2>

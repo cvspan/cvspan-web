@@ -2,7 +2,7 @@ import React from 'react';
 
 const Cta = () => {
     return (
-        <div className="lg:p-r32 bg-cta-bg flex h-full w-full max-w-7xl flex-col justify-between gap-8 bg-cover bg-center bg-no-repeat bg-origin-border pb-16 pl-6 pr-6 pt-16 md:flex-row lg:gap-16 lg:pl-6 lg:pr-6">
+        <div className="lg:p-r32 bg-cta-bg flex h-full w-full max-w-7xl flex-col justify-between gap-8 bg-cover bg-center bg-no-repeat bg-origin-border pb-16 pl-6 pr-6 pt-16 text-white md:flex-row lg:gap-16 lg:pl-6 lg:pr-6">
             <h1 className="font-pp-mori-semibold">Have a project in mind?</h1>
             <div className="flex flex-col gap-5 md:items-end md:justify-between lg:min-h-full lg:justify-between">
                 <p className="lg:flex lg:justify-end lg:self-end">
