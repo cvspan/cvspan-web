@@ -153,7 +153,7 @@ export const NavLetsTalkButton = () => {
         <button
             type="button"
             aria-label="Let's Talk"
-            className="inline-flex items-center gap-x-2 whitespace-nowrap text-nowrap rounded-2xl bg-blue-1000 px-4 py-2 text-sm text-white"
+            className="inline-flex items-center gap-x-2 whitespace-nowrap text-nowrap rounded-2xl bg-blue-1000 px-4 py-2 text-base text-white"
         >
             LET{`'`}S TALK
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none" className="">
