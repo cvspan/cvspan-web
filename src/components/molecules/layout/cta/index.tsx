@@ -2,7 +2,7 @@ import React from 'react';
 
 const Cta = () => {
     return (
-        <div className="my-[50px] w-full bg-cta-bg bg-cover bg-center bg-no-repeat bg-origin-border p-[120px] text-white">
+        <div className="my-[50px] w-full bg-cta-bg bg-cover bg-center bg-no-repeat bg-origin-border p-6 pb-12 pt-12 text-white lg:p-[120px]">
             <div className="flex h-full w-full max-w-[1200px] flex-col justify-between gap-[40px] md:flex-row">
                 <h1 className="font-pp-mori-semibold lg:w-6/12">Have a project in mind?</h1>
                 <div className="flex flex-col gap-5 md:items-end md:justify-between lg:w-6/12 lg:justify-between">
