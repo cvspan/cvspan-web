@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { NavBrand, NavMenu, NavLetsTalkButton } from './components';
 
-function Navbar() {
+function Navbar({ light = true }: { light: boolean }) {
     const [currentIndex, setCurrentIndex] = useState<number | 0>(0);
     return (
         <header className="bg-slate-1000">
