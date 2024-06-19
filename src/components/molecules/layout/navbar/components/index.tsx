@@ -42,7 +42,7 @@ export const NavMenu = ({
                                 onIndexChanged(navButton.id);
                             }}
                             type="button"
-                            className="inline-flex text-base text-white"
+                            className="inline-flex text-base font-normal text-white"
                         >
                             <span className="pe-2">{navButton.text}</span>
                             <svg
@@ -140,7 +140,7 @@ export const NavMenu = ({
             ))}
 
             {NavLinks.map((navLink: NavLink) => (
-                <Link href="/" className="text-base text-white" key={navLink.id}>
+                <Link href="/" className="text-base font-normal text-white" key={navLink.id}>
                     {navLink.text}
                 </Link>
             ))}
