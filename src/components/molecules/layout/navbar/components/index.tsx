@@ -1,10 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useOutsideClick } from '../hooks/useOutsideClick';
 import { NAVBAR_LIST, NavButtons, NavLinks } from '../data';
 import { NavButton, NavLink, NavbarList, SubNavbarList } from '../types';
 import '../Navbar.css';
-import { useOutsideClick } from '../hooks/useOutsideClick';
 
 export const NavBrand = () => {
     return (
@@ -100,25 +100,24 @@ export const NavMenu = ({
                                         <div className="col-span-4">
                                             <div className="h-full">
                                                 <div className="bg relative flex h-full flex-col justify-between rounded-r-3xl py-12 pe-2 ps-8">
-                                                    <div className="flex-shrink-0">
+                                                    <div className="flex flex-shrink-0 flex-col gap-y-1">
                                                         <h1 className="text-5xl font-extrabold text-white">
                                                             HAVE AN IDEA IN MIND
                                                         </h1>
-                                                        <div className="pt-1">
-                                                            <div className="text-lg font-normal text-white">
-                                                                Let`s create amazing digital experiences together
-                                                            </div>
+
+                                                        <div className="text-lg font-normal text-white">
+                                                            Let`s create amazing digital experiences together
                                                         </div>
                                                     </div>
                                                     <Link
                                                         href="/"
-                                                        className="inline-flex flex-shrink-0 items-center text-white"
+                                                        className="inline-flex flex-shrink-0 items-center text-[34px] text-white"
                                                     >
-                                                        <span className="text-lg">LET{`'S`} TALK</span>
+                                                        <span>LET{`'S`} TALK</span>
                                                         <svg
                                                             xmlns="http://www.w3.org/2000/svg"
-                                                            width="24"
-                                                            height="24"
+                                                            width="40"
+                                                            height="40"
                                                             viewBox="0 0 40 40"
                                                             fill="none"
                                                             className="ps-2"
