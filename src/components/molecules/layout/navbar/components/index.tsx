@@ -4,8 +4,8 @@ import Image from 'next/image';
 import { useOutsideClick } from '../hooks/useOutsideClick';
 import { NavButtons, NavLinks } from '../data';
 import { NavLink } from '../types';
+import { NavDropDownIndustry, NavDropDownService } from '@/components/molecules/NavDropDown';
 import '../Navbar.css';
-import { IndustryDropDown, ServiceNavDropDown } from '@/components/molecules/NavDropDown';
 
 export const NavBrand = ({ isLight }: { isLight: boolean }) => {
     return (
@@ -66,7 +66,7 @@ export const NavMenu = ({
                 </div>
                 {currentIndex === 1 && (
                     <div ref={ref} className="absolute left-0 top-[100%] mt-12 ps-16">
-                        <ServiceNavDropDown links={NavButtons[0].links} isLight={isLight} />
+                        <NavDropDownService links={NavButtons[0].links} isLight={isLight} />
                     </div>
                 )}
             </div>
@@ -99,7 +99,7 @@ export const NavMenu = ({
                 </div>
                 {currentIndex === 2 && (
                     <div ref={ref} className="absolute left-[25%] top-[100%] mt-12 rounded-3xl ps-16">
-                        <IndustryDropDown links={NavButtons[1].links} isLight={isLight} />
+                        <NavDropDownIndustry links={NavButtons[1].links} isLight={isLight} />
                     </div>
                 )}
             </div>
