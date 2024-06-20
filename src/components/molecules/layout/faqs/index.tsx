@@ -2,9 +2,10 @@ import Faq from '../mini-components/faq/Faq';
 
 const Faqs = () => {
     return (
-        <div className="flex w-full flex-col gap-y-14">
-            <h3 className="lg:w-5/12">Frequently Asked Questions</h3>
-            <div className="flex h-full w-full flex-col">
+        <div className="my-[50px] pl-6 pr-6">
+             <div className=" m-auto flex w-full max-w-[1200px] flex-col gap-y-14 pl-6 pr-6 text-white">
+            <h3 className="font-euxodus-bold lg:w-5/12">Frequently Asked Questions</h3>
+            <div className="flex h-full flex-col">
                 <div className="flex h-full w-full">
                     <Faq
                         id={1}
@@ -35,6 +36,8 @@ const Faqs = () => {
                 </div>
             </div>
         </div>
+        </div>
+       
     );
 };
 
