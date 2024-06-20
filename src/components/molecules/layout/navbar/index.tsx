@@ -4,7 +4,7 @@ import { NavBrand, NavMenu, NavLetsTalkButton } from './components';
 
 function Navbar({ light = false }: { light: boolean }) {
     const [currentIndex, setCurrentIndex] = useState<number | 0>(0);
-    const [isLight, setIsLight] = useState<boolean | true>(light);
+    const [isLight, setIsLight] = useState<boolean | false>(light);
 
     return (
         <header className="bg-slate-1000">

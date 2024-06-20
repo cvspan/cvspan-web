@@ -8,7 +8,7 @@ import Testimonials from '@/components/molecules/Testimonials';
 import Cta from '@/components/molecules/CTA';
 import Clients from '@/components/molecules/Clients';
 import GetThings from '@/components/molecules/GetThings';
-
+import { DigitalProducts } from '@/components/molecules/DigitalProducts';
 function page() {
     return (
         <>
@@ -19,6 +19,7 @@ function page() {
             <Cta />
             <Clients />
             <GetThings />
+            <DigitalProducts />
             <Footer />
         </>
     );
