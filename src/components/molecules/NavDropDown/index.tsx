@@ -7,7 +7,7 @@ export const ServiceNavDropDown = ({ isLight, links }: { isLight: boolean; links
         <div>
             <div>
                 <div className="grid auto-cols-auto grid-cols-12 gap-x-[33px] rounded-3xl bg-white">
-                    <div className="col-span-8">
+                    <div className="col-span-7">
                         <div className="rounded-l-[24px] bg-white py-14 ps-[40px]">
                             <ul className="grid gap-x-[60px]">
                                 {links.map((navList: NavbarList) => (
@@ -31,7 +31,7 @@ export const ServiceNavDropDown = ({ isLight, links }: { isLight: boolean; links
                             </ul>
                         </div>
                     </div>
-                    <div className="col-span-4">
+                    <div className="col-span-5">
                         <div className="h-full">
                             <div className="bg relative flex h-full flex-col justify-between rounded-r-3xl py-12 pe-2 ps-8">
                                 <div className="flex flex-shrink-0 flex-col gap-y-1">
@@ -45,7 +45,7 @@ export const ServiceNavDropDown = ({ isLight, links }: { isLight: boolean; links
                                 </div>
                                 <Link
                                     href="/"
-                                    className={`inline-flex flex-shrink-0 items-center text-[34px] ${isLight ? 'text-black' : 'text-white'}`}
+                                    className={`inline-flex flex-shrink-0 items-center gap-x-[40px] text-[34px] ${isLight ? 'text-black' : 'text-white'}`}
                                 >
                                     <span>LET{`'S`} TALK</span>
                                     <svg
@@ -54,7 +54,6 @@ export const ServiceNavDropDown = ({ isLight, links }: { isLight: boolean; links
                                         height="40"
                                         viewBox="0 0 40 40"
                                         fill="currentColor"
-                                        className="ps-2"
                                     >
                                         <path d="M1.90476 0L1.82466 5.38679L30.8036 5.3869L0 36.1905L3.80952 40L34.6131 9.19643L34.6132 38.0954L40 38.0952C40 24.1486 40 13.3486 40 0H1.90476Z" />
                                     </svg>
@@ -111,7 +110,7 @@ export const IndustryDropDown = ({ isLight, links }: { isLight: boolean; links: 
                                 </div>
                                 <Link
                                     href="/"
-                                    className={`inline-flex flex-shrink-0 items-center text-[34px] ${isLight ? 'text-black' : 'text-white'}`}
+                                    className={`inline-flex flex-shrink-0 items-center gap-x-[40px] text-[34px] ${isLight ? 'text-black' : 'text-white'}`}
                                 >
                                     <span>LET{`'S`} TALK</span>
                                     <svg
@@ -120,7 +119,6 @@ export const IndustryDropDown = ({ isLight, links }: { isLight: boolean; links: 
                                         height="40"
                                         viewBox="0 0 40 40"
                                         fill="currentColor"
-                                        className="ps-2"
                                     >
                                         <path d="M1.90476 0L1.82466 5.38679L30.8036 5.3869L0 36.1905L3.80952 40L34.6131 9.19643L34.6132 38.0954L40 38.0952C40 24.1486 40 13.3486 40 0H1.90476Z" />
                                     </svg>
