@@ -4,11 +4,6 @@ export type NavLink = {
     link: string;
 };
 
-export type NavButton = {
-    id: number;
-    text: string;
-};
-
 export type SubNavbarList = {
     id: number;
     title: string;
@@ -19,4 +14,10 @@ export type NavbarList = {
     id: number;
     title: string;
     list: SubNavbarList[];
+};
+
+export type NavButton = {
+    id: number;
+    text: string;
+    links: NavbarList[];
 };

@@ -2,9 +2,10 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useOutsideClick } from '../hooks/useOutsideClick';
-import { NAVBAR_LIST, NavButtons, NavLinks } from '../data';
-import { NavButton, NavLink, NavbarList, SubNavbarList } from '../types';
+import { NavButtons, NavLinks } from '../data';
+import { NavLink } from '../types';
 import '../Navbar.css';
+import { NavDropDown } from '@/components/molecules/NavDropDown';
 
 export const NavBrand = ({ isLight }: { isLight: boolean }) => {
     return (
@@ -36,111 +37,80 @@ export const NavMenu = ({
     }
     return (
         <div className="mx-auto flex basis-1/2 flex-nowrap items-center gap-x-8">
-            {NavButtons.map((navButton: NavButton) => (
-                <div className="border-box max-w-full flex-grow-0 basis-0" key={navButton.id}>
-                    <div>
-                        <button
-                            onClick={() => {
-                                onIndexChanged(navButton.id);
-                            }}
-                            type="button"
-                            className={`inline-flex text-base font-normal ${isLight ? 'text-black' : 'text-white'}`}
+            <div className="border-box max-w-full flex-grow-0 basis-0">
+                <div>
+                    <button
+                        onClick={() => {
+                            onIndexChanged(1);
+                        }}
+                        type="button"
+                        className={`inline-flex text-base font-normal ${isLight ? 'text-black' : 'text-white'}`}
+                    >
+                        <span className="pe-2">Services</span>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
                         >
-                            <span className="pe-2">{navButton.text}</span>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="currentColor"
-                            >
-                                <path
-                                    d="M19 9L12 15L5 9"
-                                    stroke="#1C274C"
-                                    strokeWidth="1.5"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                />
-                            </svg>
-                        </button>
-                    </div>
-                    {(currentIndex === 1 || currentIndex === 2) && (
-                        <div
-                            ref={ref}
-                            className="absolute left-0 top-[100%] mt-12 rounded-3xl ps-16"
-                            style={{ width: '100%' }}
-                        >
-                            <div>
-                                <div>
-                                    <div className="grid auto-cols-auto grid-cols-12 gap-x-14">
-                                        <div className="col-span-8">
-                                            <div className="bg-white py-14">
-                                                <ul className="grid gap-x-14">
-                                                    {NAVBAR_LIST.map((navList: NavbarList) => (
-                                                        <li key={navList.id} className="row-start-2">
-                                                            <h2 className="text-lg text-slate-1100">{navList.title}</h2>
-                                                            <ul className="mt-8 grid gap-y-8">
-                                                                {navList.list.map((list: SubNavbarList) => (
-                                                                    <li key={list.id} className="flex gap-x-6">
-                                                                        <div className="h-[50px] w-[50px] rounded-full bg-[#d9d9d9]" />
-                                                                        <span>
-                                                                            <div className="text-base font-medium text-slate-1000">
-                                                                                {list.title}
-                                                                            </div>
-                                                                            <div className="text-xs text-slate-1050">
-                                                                                {list.caption}
-                                                                            </div>
-                                                                        </span>
-                                                                    </li>
-                                                                ))}
-                                                            </ul>
-                                                        </li>
-                                                    ))}
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div className="col-span-4">
-                                            <div className="h-full">
-                                                <div className="bg relative flex h-full flex-col justify-between rounded-r-3xl py-12 pe-2 ps-8">
-                                                    <div className="flex flex-shrink-0 flex-col gap-y-1">
-                                                        <h1
-                                                            className={`text-5xl font-extrabold ${isLight ? 'text-black' : 'text-white'}`}
-                                                        >
-                                                            HAVE AN IDEA IN MIND
-                                                        </h1>
-
-                                                        <div
-                                                            className={`text-lg font-normal ${isLight ? 'text-black' : 'text-white'}`}
-                                                        >
-                                                            Let`s create amazing digital experiences together
-                                                        </div>
-                                                    </div>
-                                                    <Link
-                                                        href="/"
-                                                        className={`inline-flex flex-shrink-0 items-center text-[34px] ${isLight ? 'text-black' : 'text-white'}`}
-                                                    >
-                                                        <span>LET{`'S`} TALK</span>
-                                                        <svg
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            width="40"
-                                                            height="40"
-                                                            viewBox="0 0 40 40"
-                                                            fill="currentColor"
-                                                            className="ps-2"
-                                                        >
-                                                            <path d="M1.90476 0L1.82466 5.38679L30.8036 5.3869L0 36.1905L3.80952 40L34.6131 9.19643L34.6132 38.0954L40 38.0952C40 24.1486 40 13.3486 40 0H1.90476Z" />
-                                                        </svg>
-                                                    </Link>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    )}
+                            <path
+                                d="M19 9L12 15L5 9"
+                                stroke="#1C274C"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            />
+                        </svg>
+                    </button>
                 </div>
-            ))}
+                {currentIndex === 1 && (
+                    <div
+                        ref={ref}
+                        className="absolute left-0 top-[100%] mt-12 rounded-3xl ps-16"
+                        style={{ width: '100%' }}
+                    >
+                        <NavDropDown links={NavButtons[0].links} isLight={isLight} />
+                    </div>
+                )}
+            </div>
+            <div className="border-box max-w-full flex-grow-0 basis-0">
+                <div>
+                    <button
+                        onClick={() => {
+                            onIndexChanged(2);
+                        }}
+                        type="button"
+                        className={`inline-flex text-base font-normal ${isLight ? 'text-black' : 'text-white'}`}
+                    >
+                        <span className="pe-2">Industries</span>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                        >
+                            <path
+                                d="M19 9L12 15L5 9"
+                                stroke="#1C274C"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            />
+                        </svg>
+                    </button>
+                </div>
+                {currentIndex === 2 && (
+                    <div
+                        ref={ref}
+                        className="absolute left-0 top-[100%] mt-12 rounded-3xl ps-16"
+                        style={{ width: '100%' }}
+                    >
+                        <NavDropDown links={NavButtons[1].links} isLight={isLight} />
+                    </div>
+                )}
+            </div>
 
             {NavLinks.map((navLink: NavLink) => (
                 <Link href="/" className="text-base font-normal text-white" key={navLink.id}>

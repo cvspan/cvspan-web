@@ -4,10 +4,107 @@ export const NavButtons: NavButton[] = [
     {
         id: 1,
         text: 'Services',
+        links: [
+            {
+                id: 1,
+                title: 'Design',
+                list: [
+                    {
+                        id: 1,
+                        title: 'UI/UX Design',
+                        caption: 'Web & Mobile App Design',
+                    },
+                    {
+                        id: 2,
+                        title: 'Website Design',
+                        caption: 'Custom Websites, Landing Page',
+                    },
+                    {
+                        id: 3,
+                        title: 'Mobile Design',
+                        caption: 'Make your product competitive',
+                    },
+                    {
+                        id: 4,
+                        title: 'Brand Identity',
+                        caption: 'Logo, Typography,Color',
+                    },
+                    {
+                        id: 5,
+                        title: 'Graphic Design',
+                        caption: 'Illustrations, Icons, Social Media',
+                    },
+                ],
+            },
+            {
+                id: 2,
+                title: 'Development',
+                list: [
+                    {
+                        id: 1,
+                        title: 'Webflow Development',
+                        caption: 'Site builder solutions',
+                    },
+                    {
+                        id: 2,
+                        title: 'Landing page',
+                        caption: 'High-converting website',
+                    },
+                    {
+                        id: 3,
+                        title: 'Web Development',
+                        caption: 'Front-End & Back-End Development',
+                    },
+                    {
+                        id: 4,
+                        title: 'Mobile Development',
+                        caption: 'IOS, Android, Cross-platform',
+                    },
+                    {
+                        id: 5,
+                        title: 'DevOps',
+                        caption: 'QA, Manual testing, Engineering',
+                    },
+                ],
+            },
+        ],
     },
     {
         id: 2,
         text: 'Industries',
+        links: [
+            {
+                id: 1,
+                title: 'Industries',
+                list: [
+                    {
+                        id: 1,
+                        title: 'AI & ML',
+                        caption: 'Analysing tools, Chatbots, Crypto',
+                    },
+                    {
+                        id: 2,
+                        title: 'Fintech',
+                        caption: 'Banking, Digital Payments, Exchanges',
+                    },
+                    {
+                        id: 3,
+                        title: 'Healthcare',
+                        caption: 'Mental health, Insurance, Fitness',
+                    },
+                    {
+                        id: 4,
+                        title: 'Web 3, Blockchain',
+                        caption: 'Crypto, DeFi, DEX, NFT',
+                    },
+                    {
+                        id: 5,
+                        title: 'Saas',
+                        caption: 'CMR, HR, AI, ERP, Automation',
+                    },
+                ],
+            },
+        ],
     },
 ];
 
