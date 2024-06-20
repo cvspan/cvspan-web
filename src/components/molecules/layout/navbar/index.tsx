@@ -11,7 +11,7 @@ function Navbar({ light = false }: { light: boolean }) {
             <div>
                 <section className="flex min-h-20 w-full flex-col justify-center">
                     <div className="mx-auto w-full max-w-[1200px]">
-                        <div className="relative flex flex-grow flex-nowrap items-center">
+                        <div className="relative box-border flex flex-grow flex-nowrap items-center">
                             <NavBrand isLight={isLight} />
                             <NavMenu isLight={isLight} currentIndex={currentIndex} onIndexChanged={setCurrentIndex} />
                             <NavLetsTalkButton isLight={isLight} />

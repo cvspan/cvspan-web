@@ -5,7 +5,7 @@ import { useOutsideClick } from '../hooks/useOutsideClick';
 import { NavButtons, NavLinks } from '../data';
 import { NavLink } from '../types';
 import '../Navbar.css';
-import { NavDropDown } from '@/components/molecules/NavDropDown';
+import { IndustryDropDown, ServiceNavDropDown } from '@/components/molecules/NavDropDown';
 
 export const NavBrand = ({ isLight }: { isLight: boolean }) => {
     return (
@@ -36,7 +36,7 @@ export const NavMenu = ({
         onIndexChanged(0);
     }
     return (
-        <div className="mx-auto flex basis-1/2 flex-nowrap items-center gap-x-8">
+        <div className="mx-auto flex flex-nowrap items-center gap-x-8">
             <div className="border-box max-w-full flex-grow-0 basis-0">
                 <div>
                     <button
@@ -65,12 +65,8 @@ export const NavMenu = ({
                     </button>
                 </div>
                 {currentIndex === 1 && (
-                    <div
-                        ref={ref}
-                        className="absolute left-0 top-[100%] mt-12 rounded-3xl ps-16"
-                        style={{ width: '100%' }}
-                    >
-                        <NavDropDown links={NavButtons[0].links} isLight={isLight} />
+                    <div ref={ref} className="absolute left-0 top-[100%] mt-12 ps-16">
+                        <ServiceNavDropDown links={NavButtons[0].links} isLight={isLight} />
                     </div>
                 )}
             </div>
@@ -102,12 +98,8 @@ export const NavMenu = ({
                     </button>
                 </div>
                 {currentIndex === 2 && (
-                    <div
-                        ref={ref}
-                        className="absolute left-0 top-[100%] mt-12 rounded-3xl ps-16"
-                        style={{ width: '100%' }}
-                    >
-                        <NavDropDown links={NavButtons[1].links} isLight={isLight} />
+                    <div ref={ref} className="absolute left-[25%] top-[100%] mt-12 rounded-3xl ps-16">
+                        <IndustryDropDown links={NavButtons[1].links} isLight={isLight} />
                     </div>
                 )}
             </div>

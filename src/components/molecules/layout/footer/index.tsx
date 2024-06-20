@@ -3,7 +3,7 @@ import { PrimaryFooter, SecondaryFooter } from './components';
 
 function Footer() {
     return (
-        <footer>
+        <footer className="bg-white">
             <div className="mx-auto w-full max-w-[1200px] pb-24 pt-28">
                 <div>
                     <div className="flex flex-col">
