@@ -17,7 +17,7 @@ const Faq: React.FC<FaqProps> = ({ id, question, answer }) => {
     const arrow = `h-6 w-6 flex items-start justify-start  ${toggleFaq ? 'rotate-180' : ''}`;
     const arrowStroke = `${toggleFaq ? 'white' : '#A3A3A3'}`;
     const answerClass = `m-auto relative flex transition-all duration-300 ${toggleFaq ? 'accordion-down' : 'accordion-up'} `;
-    const faqClass = `border-t-solid relative h-full flex w-full cursor-pointer items-center size-full justify-between gap-6 md:gap-12  border-t ${toggleFaq ? 'border-t-white border-t-4' : 'border-t border-t-tundora'}  pt-6 pb-6 transition-all duration-300 lg:items-start lg:gap-x-32 lg:pt-6 lg:pb-6`;
+    const faqClass = ` border-t-solid relative h-full flex w-full cursor-pointer items-center size-full justify-between gap-6 md:gap-12  border-t ${toggleFaq ? 'border-t-white border-t-4' : 'border-t border-t-tundora'}  pt-6 pb-6 transition-all duration-300 lg:items-start lg:gap-x-32 lg:pt-6 lg:pb-6`;
 
     return (
         <div className={faqClass} onClick={() => setToggleFaq(!toggleFaq)}>

@@ -3,8 +3,14 @@
 @tailwind utilities;
 
 @layer base {
+    h1 {
+        @apply text-h1-clamp font-bold leading-none;
+    }
+}
+
+@layer base {
     h2 {
-        @apply text-h2-clamp font-bold leading-tight;
+        @apply text-h2-clamp font-bold leading-none;
     }
 }
 
@@ -106,4 +112,12 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+html {
+    /* font-size: 14px; */
+}
+
+body {
+    background-color: #131313;
 }

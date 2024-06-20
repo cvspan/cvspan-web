@@ -29,6 +29,7 @@ const config = {
                 'accordion-up': 'accordion-up 0.2s ease-out',
             },
             fontSize: {
+                'h1-clamp': 'clamp(3rem, 8.6875vw, 7.5rem)',
                 'h2-clamp': 'clamp(1.5rem, 4.6875vw, 3.75rem)',
                 'h3-clamp': 'clamp(2rem, 4.6875vw, 3rem)',
                 'h5-clamp': 'clamp(1rem, 4.6875vw, 1.5rem)',
@@ -38,14 +39,17 @@ const config = {
                 'cod-gray': '#1A1A1A',
                 tundora: '#484848',
                 'silver-chalice': '#A3A3A3',
+                alto: '#D1D1D1',
             },
             backgroundImage: {
                 'fact-figure': 'url(../../public/assets/icons/fact_frame.svg)',
+                'cta-bg': 'url(../../public/assets/images/CTA.png)',
             },
             fontFamily: {
                 'pp-mori': ['"PP Mori"', 'sans serif'],
                 eudoxus: ['"Eudoxus"', 'sans-serif'],
                 'pp-mori-semibold': ['"PP Mori SemiBold"', 'sans-serif'],
+                'euxodus-bold': ['"Eudoxus-Medium"', 'sans-serif'],
             },
         },
 
