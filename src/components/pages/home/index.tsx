@@ -1,10 +1,9 @@
-import React from 'react';
 import { DigitalProducts } from '@/components/molecules/layout/digitalProducts';
-
+import React from 'react';
 export default function Homepage() {
     return (
-        <main>
+        <>
             <DigitalProducts />
-        </main>
+        </>
     );
 }

@@ -2,105 +2,95 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-    h1 {
-        @apply text-h1-clamp font-bold leading-none;
-    }
+@font-face {
+    font-family: 'PP Mori';
+    src: url('../../public/assets/fonts/PP_Mori/PPMori-Extralight.otf') format('opentype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'PP Mori';
+    src: url('../../public/assets/fonts/PP_Mori/PPMori-ExtralightItalic.otf') format('opentype');
+    font-weight: 300;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'PP Mori';
+    src: url('../../public/assets/fonts/PP_Mori/PPMori-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'PP Mori';
+    src: url('../../public/assets/fonts/PP_Mori/PPMori-RegularItalic.otf') format('opentype');
+    font-weight: 400;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'PP Mori';
+    src: url('../../public/assets/fonts/PP_Mori/PPMori-SemiBold.otf') format('opentype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'PP Mori';
+    src: url('../../public/assets/fonts/PP_Mori/PPMori-SemiBoldItalic.otf') format('opentype');
+    font-weight: 600;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Eudoxus';
+    src: url('../../public/assets/fonts/Eudoxus/EudoxusSans-ExtraLight-BF659b6cb1e7092.ttf') format('opentype');
+    font-weight: 200;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Eudoxus';
+    src: url('../../public/assets/fonts/Eudoxus/EudoxusSans-Light-BF659b6cb2036b5.ttf') format('opentype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Eudoxus';
+    src: url('../../public/assets/fonts/Eudoxus/EudoxusSans-Regular-BF659b6cb1d4714.ttf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Eudoxus';
+    src: url('../../public/assets/fonts/Eudoxus/EudoxusSans-Medium-BF659b6cb1c14cb.ttf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Eudoxus';
+    src: url('../../public/assets/fonts/Eudoxus/EudoxusSans-Bold-BF659b6cb1408e5.ttf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Eudoxus';
+    src: url('../../public/assets/fonts/Eudoxus/EudoxusSans-ExtraBold-BF659b6cb1b96c9.ttf') format('opentype');
+    font-weight: 800;
+    font-style: normal;
 }
 
 @layer base {
-    h2 {
-        @apply text-h2-clamp font-bold leading-none;
+    :root {
+        --font-pp-mori: 'PP Mori', sans-serif;
+        --font-eudoxus: 'Eudoxus', sans-serif;
     }
-}
-
-@layer base {
-    h5 {
-        @apply text-h5-clamp font-eudoxus;
-    }
-}
-@layer base {
-    h3 {
-        @apply text-h3-clamp font-eudoxus font-bold;
-    }
-}
-
-@layer base {
-    @font-face {
-        font-family: 'PP Mori';
-        src: url('../../src/fonts/ppmori/PPMori-Regular.otf') format('opentype');
-    }
-
-    @font-face {
-        font-family: 'PP Mori SemiBold';
-        src: url('../../src/fonts/ppmori/PPMori-SemiBold.otf') format('opentype');
-    }
-
-    @font-face {
-        font-family: 'PP Mori ExtraLight';
-        src: url('../../src/fonts/ppmori/PPMori-Extralight.otf') format('opentype');
-    }
-
-    @font-face {
-        font-family: 'Eudoxus-Bold';
-        src: url('../../src/fonts/eudoxus/EudoxusSans-Bold-BF659b6cb1408e5.ttf') format('opentype');
-    }
-
-    @font-face {
-        font-family: 'Eudoxus-ExtraBold';
-        src: url('../../src/fonts/eudoxus/EudoxusSans-ExtraBold-BF659b6cb1b96c9.ttf') format('opentype');
-    }
-
-    @font-face {
-        font-family: 'Eudoxus-ExtraLight';
-        src: url('../../src/fonts/eudoxus/EudoxusSans-ExtraLight-BF659b6cb1e7092.ttf') format('opentype');
-    }
-
-    @font-face {
-        font-family: 'Eudoxus-Light';
-        src: url('../../src/fonts/eudoxus/EudoxusSans-Light-BF659b6cb2036b5.ttf') format('opentype');
-    }
-    @font-face {
-        font-family: 'Eudoxus-Medium';
-        src: url('../../src/fonts/eudoxus/EudoxusSans-Medium-BF659b6cb1c14cb.ttf') format('opentype');
-    }
-    @font-face {
-        font-family: 'Eudoxus';
-        src: url('../../src/fonts/eudoxus/EudoxusSans-Regular-BF659b6cb1d4714.ttf') format('opentype');
-    }
-}
-
-@layer base {
-    @keyframes accordion-down {
-        from {
-            height: 0;
-        }
-        to {
-            height: 100%;
-        }
-    }
-
-    @keyframes accordion-up {
-        from {
-            height: 100%;
-        }
-        to {
-            height: 0;
-        }
-    }
-
-    .accordion-down {
-        animation: accordion-down 0.9s ease-out forwards;
-    }
-
-    .accordion-up {
-        animation: accordion-up 0.9s ease-out forwards;
-    }
-}
-
-:root {
-    --font-pp-mori: 'PP Mori', sans-serif;
-    --font-eudoxus: 'Eudoxus', sans-serif;
 }
 
 html,
@@ -112,12 +102,4 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
-
-html {
-    /* font-size: 14px; */
-}
-
-body {
-    background-color: #131313;
 }
