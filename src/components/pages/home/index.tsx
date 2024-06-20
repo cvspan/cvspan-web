@@ -1,4 +1,9 @@
 import React from 'react';
+
 export default function Homepage() {
-    return <h1>HOME</h1>;
+    return (
+        <>
+            <h1>HOME</h1>
+        </>
+    );
 }
