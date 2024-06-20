@@ -1,7 +1,9 @@
+import { DigitalProducts } from '@/components/molecules/layout/digitalProducts';
+
 export default function Homepage() {
     return (
-        <main className="flex min-h-screen flex-col items-center justify-between p-24">
-            <h1>HOME</h1>
+        <main>
+            <DigitalProducts />
         </main>
     );
 }
