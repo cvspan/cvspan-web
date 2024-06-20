@@ -16,12 +16,12 @@
 
 @layer base {
     h5 {
-        @apply font-eudoxus text-h5-clamp;
+        @apply text-h5-clamp font-eudoxus;
     }
 }
 @layer base {
     h3 {
-        @apply font-eudoxus text-h3-clamp font-bold;
+        @apply text-h3-clamp font-eudoxus font-bold;
     }
 }
 
