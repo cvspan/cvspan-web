@@ -1,13 +1,4 @@
-import Clients from '@/components/molecules/Clients';
-import Cta from '@/components/molecules/Cta';
-import Testimonial from '@/components/molecules/Testimonial';
-
+import React from 'react';
 export default function Homepage() {
-    return (
-        <main className="">
-            <Clients/>
-            <Testimonial/>
-            <Cta />
-        </main>
-    );
+    return <h1>HOME</h1>;
 }
