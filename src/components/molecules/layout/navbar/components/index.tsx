@@ -44,7 +44,7 @@ export const NavMenu = ({
                             onIndexChanged(1);
                         }}
                         type="button"
-                        className={`inline-flex text-base font-normal ${isLight ? 'text-black' : 'text-white'}`}
+                        className={`inline-flex text-base font-normal ${isLight ? 'text-[#1a1a1a]' : 'text-white'}`}
                     >
                         <span className="pe-2">Services</span>
                         <svg
@@ -65,8 +65,8 @@ export const NavMenu = ({
                     </button>
                 </div>
                 {currentIndex === 1 && (
-                    <div ref={ref} className="absolute left-0 top-[100%] mt-12 ps-16">
-                        <NavDropDownService links={NavButtons[0].links} isLight={isLight} />
+                    <div ref={ref} className="absolute left-0 top-[100%] z-[200] mt-12 ps-16">
+                        <NavDropDownService links={NavButtons[0].links} />
                     </div>
                 )}
             </div>
@@ -77,7 +77,7 @@ export const NavMenu = ({
                             onIndexChanged(2);
                         }}
                         type="button"
-                        className={`inline-flex text-base font-normal ${isLight ? 'text-black' : 'text-white'}`}
+                        className={`inline-flex text-base font-normal ${isLight ? 'text-[#1a1a1a]' : 'text-white'}`}
                     >
                         <span className="pe-2">Industries</span>
                         <svg
@@ -98,14 +98,18 @@ export const NavMenu = ({
                     </button>
                 </div>
                 {currentIndex === 2 && (
-                    <div ref={ref} className="absolute left-[25%] top-[100%] mt-12 rounded-3xl ps-16">
-                        <NavDropDownIndustry links={NavButtons[1].links} isLight={isLight} />
+                    <div ref={ref} className="absolute left-[25%] top-[100%] z-[200] mt-12 rounded-3xl ps-16">
+                        <NavDropDownIndustry links={NavButtons[1].links} />
                     </div>
                 )}
             </div>
 
             {NavLinks.map((navLink: NavLink) => (
-                <Link href="/" className="text-base font-normal text-white" key={navLink.id}>
+                <Link
+                    href="/"
+                    className={`text-base font-normal ${isLight ? 'text-[#1a1a1a]' : 'text-white'} `}
+                    key={navLink.id}
+                >
                     {navLink.text}
                 </Link>
             ))}
@@ -118,7 +122,7 @@ export const NavLetsTalkButton = ({ isLight }: { isLight: boolean }) => {
         <button
             type="button"
             aria-label="Let's Talk"
-            className={`bg-blue-1000 inline-flex items-center gap-x-2 whitespace-nowrap text-nowrap rounded-2xl px-4 py-2 text-base ${isLight ? 'text-black' : 'text-white'}`}
+            className={`inline-flex items-center gap-x-2 whitespace-nowrap text-nowrap rounded-2xl bg-blue-1000 px-4 py-2 text-base ${isLight ? 'text-black' : 'text-white'}`}
         >
             LET{`'`}S TALK
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none" className="">
