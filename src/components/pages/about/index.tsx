@@ -1,9 +1,9 @@
-import Aboutlanding from "@/components/molecules/Aboutlanding";
+import Aboutlanding from '@/components/molecules/Aboutlanding/Aboutlanding';
 
 export default function Aboutpage() {
     return (
         <main className="">
-            <Aboutlanding/>
+            <Aboutlanding />
         </main>
     );
 }
