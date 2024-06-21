@@ -1,0 +1,34 @@
+import { StaticImageData } from 'next/image';
+import React from 'react';
+import Image from 'next/image';
+
+interface FeaturedDigitalProductCardProps {
+    title: string;
+    description: string;
+    image: StaticImageData;
+}
+const FeaturedDigitalProductCard: React.FC<FeaturedDigitalProductCardProps> = ({ title, description, image }) => {
+    return (
+        <div className="flex flex-col gap-[25px]">
+            <div className="w-full">
+                <Image src={image} alt={title} className="h-[424px] w-full bg-alto" />
+            </div>
+            <div className="flex flex-col gap-[25px]">
+                <div className="flex items-center justify-between">
+                    <h4 className="text-black">{title}</h4>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M7 3.25C6.30964 3.25 5.75 2.69036 5.75 2C5.75 1.30964 6.30964 0.75 7 0.75H22C22.6904 0.75 23.25 1.30964 23.25 2V17C23.25 17.6904 22.6904 18.25 22 18.25C21.3096 18.25 20.75 17.6904 20.75 17V5.01777L2.88388 22.8839C2.39573 23.372 1.60427 23.372 1.11612 22.8839C0.627961 22.3957 0.627961 21.6043 1.11612 21.1161L18.9822 3.25H7Z"
+                            fill="#1C274C"
+                        />
+                    </svg>
+                </div>
+                <p className="flex self-start text-tundora">{description}</p>
+            </div>
+        </div>
+    );
+};
+
+export default FeaturedDigitalProductCard;
