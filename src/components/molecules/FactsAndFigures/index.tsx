@@ -5,12 +5,17 @@ import FactCard from './FactCard';
 const FactsAndFigures = () => {
     return (
         <>
-            <div className="my-[50px] w-full bg-[#0C0C0C] pl-6 pr-6">
+            <div className="w-full bg-[#0C0C0C] py-[60px] pl-6 pr-6 lg:py-[120px]">
                 <div className="mx-auto max-w-[1200px]">
                     <section className="m-auto grid w-full gap-x-6 gap-y-6 text-white md:grid-cols-2">
-                        <div className="h-150 w-12/12 bg-fact-figure flex flex-col items-start gap-y-8 rounded-3xl bg-cover bg-center bg-no-repeat bg-origin-border p-[40px]">
+                        <div className="h-150 w-12/12 flex flex-col items-start gap-y-8 rounded-3xl bg-fact-figure bg-cover bg-center bg-no-repeat bg-origin-border p-[40px]">
                             <div className="flex flex-col gap-y-4">
-                                <h2 className="font-pp-mori-semibold">Facts & Figures</h2>
+                                <h2
+                                    className="font-pp-mori-semibold font-semibold"
+                                    style={{ fontSize: 'clamp(2.5rem, 4.6875vw, 3.75rem);' }}
+                                >
+                                    Facts & Figures
+                                </h2>
                                 <p className="font-eudoxus text-[1.125em]">
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
                                     incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
@@ -18,7 +23,7 @@ const FactsAndFigures = () => {
                                 </p>
                             </div>
                         </div>
-                        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2">
+                        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-2">
                             <div>
                                 <FactCard id={'01'} rate="80%" description="of faster design asset delivery" />
                             </div>

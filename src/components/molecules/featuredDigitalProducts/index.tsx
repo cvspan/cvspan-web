@@ -12,7 +12,12 @@ const FeaturedDigitalProducts = () => {
                 <div className="m-auto flex max-w-[1200px] flex-col gap-[60px] lg:flex-row lg:gap-[120px]">
                     <div className="flex flex-col gap-[24px] lg:w-6/12">
                         <div className="flex flex-col gap-[24px] sm:w-8/12 lg:w-full">
-                            <h3 className="font-euxodus-bold text-black sm:w-[6/12]">Featured Digital Products</h3>
+                            <h3
+                                className="font-euxodus font-medium text-black sm:w-[6/12]"
+                                style={{ fontSize: 'clamp(2rem, 4.6875vw, 3rem)' }}
+                            >
+                                Featured Digital Products
+                            </h3>
                             <p className="text-tundora">
                                 Maximize your productivity with our innovative digital tools. From task management apps
                                 to advanced scheduling software, our products help you stay organized and focused,

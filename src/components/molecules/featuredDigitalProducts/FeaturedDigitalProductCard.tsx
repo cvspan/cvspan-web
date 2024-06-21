@@ -11,11 +11,16 @@ const FeaturedDigitalProductCard: React.FC<FeaturedDigitalProductCardProps> = ({
     return (
         <div className="flex flex-col gap-[25px]">
             <div className="w-full">
-                <Image src={image} alt={title} className="h-[424px] w-full bg-alto" />
+                <Image src={image} alt={title} className="bg-alto h-[424px] w-full object-cover" />
             </div>
             <div className="flex flex-col gap-[25px]">
                 <div className="flex items-center justify-between">
-                    <h4 className="text-black">{title}</h4>
+                    <h4
+                        className="font-eudoxus font-medium text-[#1A1A1A]"
+                        style={{ fontSize: 'clamp(1.5rem, 4.6875vw, 2.125rem)' }}
+                    >
+                        {title}
+                    </h4>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                             fill-rule="evenodd"
@@ -25,7 +30,7 @@ const FeaturedDigitalProductCard: React.FC<FeaturedDigitalProductCardProps> = ({
                         />
                     </svg>
                 </div>
-                <p className="flex self-start text-tundora">{description}</p>
+                <p className="text-tundora flex self-start">{description}</p>
             </div>
         </div>
     );
