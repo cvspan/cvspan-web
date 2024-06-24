@@ -15,7 +15,7 @@ const Design = () => {
                     <div className="flex flex-col gap-[20px]">
                         <h2
                             className="font-semibold leading-tight sm:w-9/12 lg:w-full"
-                            style={{ fontSize: 'clamp(2.5rem, 4.6875vw, 5rem)' }}
+                            style={{ fontSize: 'clamp(2.5rem, 4.6875vw, 3.75rem)' }}
                         >
                             Discover the benefits of professional UIUX design service
                         </h2>
@@ -41,10 +41,7 @@ const Design = () => {
                             title="Improved SEO"
                             description="Improved SEO refers to enhancing a website's visibility and ranking in search engine results pages (SERPs) through various strategies such as keyword optimization, content quality, backlinking, and technical improvements. It aims to attract more organic traffic, improve user experience, and ultimately drive business growth."
                         />
-                        <DesignCard
-                            title="Enhanced UX"
-                            description="Enhanced User Experience (UX) plays a pivotal role in modern digital interactions by significantly improving the usability, accessibility, and satisfaction derived from a product or service. By focusing on the user's needs and preferences, enhanced UX ensures that interfaces are intuitive, engaging, and efficient."
-                        />
+
                         <DesignCard
                             title="Increased Conversion"
                             description="As a company, our focus is on increasing conversion rates for our clients. We achieve this by optimizing user experience, refining sales funnels, conducting targeted marketing campaigns, and leveraging data-driven insights to maximize customer engagement and drive meaningful actions, ultimately boosting our clients' business outcomes."
