@@ -52,7 +52,7 @@ export const ContactForm = () => {
                         </div>
                         <div className="relative overflow-hidden">
                             <textarea
-                                name="massage"
+                                name="message"
                                 value={formState?.message}
                                 onChange={onFormChange}
                                 className="w-full text-ellipsis bg-transparent py-4 font-medium text-[#8a8a8a] outline-none"
