@@ -11,6 +11,7 @@ import GetThings from '@/components/molecules/GetThings';
 import { DigitalProducts } from '@/components/molecules/DigitalProducts';
 import FeaturedDigitalProducts from '@/components/molecules/featuredDigitalProducts';
 import Achievements from '@/components/molecules/achievements';
+
 function page() {
     return (
         <>
