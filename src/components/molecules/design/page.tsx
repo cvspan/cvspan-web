@@ -1,3 +1,4 @@
+import React from 'react';
 import DesignCard from './designCard/DesignCard';
 
 const Design = () => {
