@@ -9,11 +9,16 @@ import Cta from '@/components/molecules/CTA';
 import Clients from '@/components/molecules/Clients';
 import GetThings from '@/components/molecules/GetThings';
 import { DigitalProducts } from '@/components/molecules/DigitalProducts';
+import FeaturedDigitalProducts from '@/components/molecules/featuredDigitalProducts';
+import Achievements from '@/components/molecules/achievements';
 function page() {
     return (
         <>
             <Navbar light />
             <FactsAndFigures />
+            <FeaturedDigitalProducts />
+            <FeaturedDigitalProducts />
+            <Achievements />
             <Faqs />
             <Testimonials />
             <Cta />
