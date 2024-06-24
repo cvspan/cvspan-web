@@ -10,8 +10,6 @@ import icon6 from '../../../public/assets/images/44435101ab1add80f647fc69adcc4c6
 import icon7 from '../../../public/assets/images/500c51a1de4c15ca79f1da5e3faf026af0a50865-272x92 1.png';
 import icon8 from '../../../public/assets/images/7da9418ce9f65f07176bb7cc08cda6596ebc13f3-108x40 1.png';
 
-
-
 // brand icons white
 
 import iconWhite1 from '../../../public/assets/images/white brand icons/0212b325db645046ac471a20ca66331652113833-131x45 1.png';
@@ -22,5 +20,26 @@ import iconWhite5 from '../../../public/assets/images/white brand icons/500c51a1
 import iconWhite6 from '../../../public/assets/images/white brand icons/7da9418ce9f65f07176bb7cc08cda6596ebc13f3-108x40 1.png';
 import iconWhite7 from '../../../public/assets/images/white brand icons/a7e12b626d11ed7a53220f515f4968d6079df27c-155x44 1.png';
 import iconWhite8 from '../../../public/assets/images/white brand icons/d43c39003d5d16ce7c5a3590839f1d374f6f1dd7-140x25 1.png';
+import avatar from '../../../public/assets/images/avatar.png';
 
-export { icon1, icon2, icon3, icon4, icon5, icon6, icon7, icon8, iconWhite1, iconWhite2, iconWhite3,iconWhite4, iconWhite5, iconWhite6, iconWhite7, iconWhite8 };
+export {
+    icon1,
+    icon2,
+    icon3,
+    icon4,
+    icon5,
+    icon6,
+    icon7,
+    icon8,
+    iconWhite1,
+    iconWhite2,
+    iconWhite3,
+    iconWhite4,
+    iconWhite5,
+    iconWhite6,
+    iconWhite7,
+    iconWhite8,
+    coinbase,
+    amazon,
+    avatar,
+};
