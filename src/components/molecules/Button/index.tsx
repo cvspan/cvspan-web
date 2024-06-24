@@ -27,7 +27,7 @@ function Button({
     const _fullWidth = fullWidth ? 'w-full' : 'self-start';
     return (
         <button
-            className={`flex w-auto cursor-pointer items-center gap-[16px] rounded-[100px] border-[1px] text-[16px] font-[500] leading-[24px] ${_fullWidth} ${_background} ${_height} ${_padding}`}
+            className={`flex w-auto cursor-pointer items-center justify-center gap-[16px] rounded-[100px] border-[1px] text-[16px] font-[500] leading-[24px] ${_fullWidth} ${_background} ${_height} ${_padding}`}
         >
             <span className="font-eudoxus text-inherit">{title}</span>
             {!leftIcon ? null : (
