@@ -14,7 +14,7 @@ const Design = () => {
                 <div className="flex flex-col gap-[60px] lg:w-8/12">
                     <div className="flex flex-col gap-[20px]">
                         <h2
-                            className="font-medium leading-tight sm:w-9/12 lg:w-full"
+                            className="font-semibold leading-tight sm:w-9/12 lg:w-full"
                             style={{ fontSize: 'clamp(2.5rem, 4.6875vw, 5rem)' }}
                         >
                             Discover the benefits of professional UIUX design service
