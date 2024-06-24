@@ -11,11 +11,23 @@ import GetThings from '@/components/molecules/GetThings';
 import { DigitalProducts } from '@/components/molecules/DigitalProducts';
 import FeaturedDigitalProducts from '@/components/molecules/featuredDigitalProducts';
 import Achievements from '@/components/molecules/achievements';
+import Button from '@/components/molecules/Button';
 
 function page() {
     return (
         <>
             <Navbar light />
+            <div className="flex flex-col gap-[20px] bg-slate-300 p-[100px]">
+                <Button title="LET'S TALK" height="56px" />
+                <Button
+                    title="LET'S TALK"
+                    background="blue"
+                    leftIcon={'/assets/icons/whie-pencil-icon.svg'}
+                    leftIconSize="18px"
+                />
+                <Button title="OUR SERVICES" background="white" height="56px" />
+                <Button title="GET STARTED" background="dark" height="56px" />
+            </div>
             <FactsAndFigures />
             <FeaturedDigitalProducts />
             <FeaturedDigitalProducts />
