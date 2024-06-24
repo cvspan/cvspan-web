@@ -1,7 +1,11 @@
-import React from 'react';
+import Design from '@/components/molecules/design/page';
 
-const Design = () => {
-    return <div>Designnnnn</div>;
+const DesignPage = () => {
+    return (
+        <div>
+            <Design />
+        </div>
+    );
 };
 
-export default Design;
+export default DesignPage;
