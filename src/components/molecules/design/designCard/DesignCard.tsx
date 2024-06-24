@@ -8,10 +8,10 @@ interface DesignCardProps {
 const DesignCard: React.FC<DesignCardProps> = ({ title, description }) => {
     return (
         <div className="border-rgba(209, 209, 209, 1) flex w-full flex-col justify-between gap-[20px] border-t py-8 lg:flex-row lg:py-8">
-            <h4 className="font-medium lg:w-4/12" style={{ fontSize: 'clamp(1.5rem, 4.6875vw, 2.125rem)' }}>
+            <h4 className="font-medium lg:w-5/12" style={{ fontSize: 'clamp(1.5rem, 4.6875vw, 2.125rem)' }}>
                 {title}
             </h4>
-            <p className="flex -self-end justify-self-end lg:w-6/12">{description}</p>
+            <p className="flex -self-end justify-self-end lg:w-7/12">{description}</p>
         </div>
     );
 };
