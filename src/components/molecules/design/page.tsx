@@ -15,12 +15,12 @@ const Design = () => {
                 <div className="flex flex-col gap-[60px] lg:w-8/12">
                     <div className="flex flex-col gap-[20px]">
                         <h2
-                            className="font-semibold leading-tight sm:w-9/12 lg:w-full"
+                            className="font-semibold leading-tight md:w-full lg:w-full"
                             style={{ fontSize: 'clamp(2.5rem, 4.6875vw, 3.75rem)' }}
                         >
                             Discover the benefits of professional UIUX design service
                         </h2>
-                        <p className="sm:w-9/12 lg:w-full">
+                        <p className="md:w-full lg:w-full">
                             UX design enhances user satisfaction by creating intuitive, user-friendly interfaces that
                             improve ease of use. It reduces user frustration and encourages longer engagement with
                             products or services. By focusing on usability and accessibility, UX design helps businesses
