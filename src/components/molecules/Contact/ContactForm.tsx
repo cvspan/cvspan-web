@@ -43,6 +43,7 @@ export const ContactForm = () => {
                                 type="email"
                                 name="email"
                                 value={formState?.email}
+                                onChange={onFormChange}
                                 className="w-full text-ellipsis bg-transparent py-4 font-medium text-[#8a8a8a] outline-none"
                             />
                             <div className="absolute top-0 text-ellipsis whitespace-nowrap font-normal leading-[26px] text-[#8a8a8a]">
@@ -53,6 +54,7 @@ export const ContactForm = () => {
                             <textarea
                                 name="massage"
                                 value={formState?.message}
+                                onChange={onFormChange}
                                 className="w-full text-ellipsis bg-transparent py-4 font-medium text-[#8a8a8a] outline-none"
                             />
                             <div className="absolute top-0 text-ellipsis whitespace-nowrap font-normal leading-[26px] text-[#8a8a8a]">
