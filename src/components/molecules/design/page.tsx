@@ -6,7 +6,7 @@ const Design = () => {
         <section className="py-[60px] lg:py-[120px]">
             <div className="m-auto flex w-full max-w-[1200px] flex-col gap-[60px] overflow-hidden pl-6 pr-6 lg:flex-row lg:gap-[120px]">
                 <div className="lg:w-4/12">
-                    <p>
+                    <p className="font-eudoxus text-[14px] text-[#484848]">
                         Professional designers focus on creating intuitive and user-friendly interfaces that make it
                         easy for users to navigate and interact with a product or website, leading to a more satisfying
                         user experience.
@@ -15,12 +15,12 @@ const Design = () => {
                 <div className="flex flex-col gap-[60px] lg:w-8/12">
                     <div className="flex flex-col gap-[20px]">
                         <h2
-                            className="font-semibold leading-tight md:w-full lg:w-full"
+                            className="font-pp-mori font-semibold leading-tight text-[#1A1A1A] md:w-full lg:w-full"
                             style={{ fontSize: 'clamp(2.5rem, 4.6875vw, 3.75rem)' }}
                         >
                             Discover the benefits of professional UIUX design service
                         </h2>
-                        <p className="md:w-full lg:w-full">
+                        <p className="font-eudoxus text-[#484848] md:w-full lg:w-full">
                             UX design enhances user satisfaction by creating intuitive, user-friendly interfaces that
                             improve ease of use. It reduces user frustration and encourages longer engagement with
                             products or services. By focusing on usability and accessibility, UX design helps businesses
