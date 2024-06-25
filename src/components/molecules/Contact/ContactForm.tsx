@@ -63,7 +63,7 @@ export const ContactForm = () => {
                         </div>
                     </div>
                     <div className="mt-[146px]">
-                        <div className="text-sm font-normal leading-[24px] text-white">
+                        <div className="text-sm font-normal leading-[24px] text-[#a3a3a3]">
                             By clicking Submit, I consent to the{' '}
                             <Link href="/" className="text-white underline">
                                 privacy policy
