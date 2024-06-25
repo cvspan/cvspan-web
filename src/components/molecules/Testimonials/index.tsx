@@ -37,7 +37,7 @@ const Testimonials = () => {
         );
     };
     return (
-        <div className="bg-[#0C0C0C] py-[60px] lg:py-[120px]">
+        <section className="bg-[#0C0C0C] py-[60px] lg:py-[120px]">
             <div className="m-auto w-full max-w-[1200px] overflow-hidden bg-[#0C0C0C] pl-6 pr-6 text-white">
                 <div className="flex w-full flex-col gap-10">
                     <div className="flex w-full flex-col items-start justify-between gap-5">
@@ -107,7 +107,7 @@ const Testimonials = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     );
 };
 

@@ -27,6 +27,7 @@ function page() {
                 />
                 <Button title="OUR SERVICES" background="white" height="56px" />
                 <Button title="GET STARTED" background="dark" height="56px" />
+                <Button title="LET'S TALK" height="56px" fullWidth />
             </div>
             <FactsAndFigures />
             <FeaturedDigitalProducts />
