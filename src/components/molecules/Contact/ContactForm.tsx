@@ -31,35 +31,29 @@ export const ContactForm = () => {
                                 type="text"
                                 name="name"
                                 value={formState?.name}
-                                className="w-full text-ellipsis border-b-[1px] border-[#333] bg-transparent py-4 font-medium text-[#8a8a8a] outline-none"
+                                className="mt-4 w-full text-ellipsis border-b-[1px] border-[#333] bg-transparent pb-2 pt-4 font-medium text-[#8a8a8a] outline-none placeholder:text-[14px] placeholder:font-[400] placeholder:text-[#8A8A8A]"
                                 onChange={onFormChange}
+                                placeholder="Your Name *"
                             />
-                            <div className="absolute top-0 text-ellipsis whitespace-nowrap font-normal leading-[26px] text-[#8a8a8a]">
-                                Your Name <sup>*</sup>{' '}
-                            </div>
                         </div>
                         <div className="relative overflow-hidden">
                             <input
                                 type="email"
                                 name="email"
+                                placeholder="Your Email *"
                                 value={formState?.email}
                                 onChange={onFormChange}
-                                className="w-full text-ellipsis border-b-[1px] border-[#333] bg-transparent py-4 font-medium text-[#8a8a8a] outline-none"
+                                className="mt-4 w-full text-ellipsis border-b-[1px] border-[#333] bg-red-400 bg-transparent pb-2 pt-4 font-medium text-[#8a8a8a] outline-none placeholder:text-[14px] placeholder:font-[400] placeholder:text-[#8A8A8A]"
                             />
-                            <div className="absolute top-0 text-ellipsis whitespace-nowrap font-normal leading-[26px] text-[#8a8a8a]">
-                                Your Email <sup>*</sup>{' '}
-                            </div>
                         </div>
                         <div className="relative overflow-hidden">
                             <textarea
                                 name="message"
                                 value={formState?.message}
                                 onChange={onFormChange}
-                                className="w-full text-ellipsis border-b-[1px] border-[#333] bg-transparent py-4 font-medium text-[#8a8a8a] outline-none"
+                                className="mt-4 w-full text-ellipsis border-b-[1px] border-[#333] bg-transparent pb-2 pt-4 font-medium text-[#8a8a8a] outline-none placeholder:text-[14px] placeholder:font-[400] placeholder:text-[#8A8A8A]"
+                                placeholder="Enter Message Here *"
                             />
-                            <div className="absolute top-0 text-ellipsis whitespace-nowrap font-normal leading-[26px] text-[#8a8a8a]">
-                                Enter Message Here <sup>*</sup>{' '}
-                            </div>
                         </div>
                     </div>
                     <div className="mt-[146px]">
@@ -73,7 +67,7 @@ export const ContactForm = () => {
                         <div className="mt-8">
                             <button
                                 type="button"
-                                className="inline-flex gap-x-[10px] rounded-full bg-white px-8 py-4 text-base font-medium text-[#1a1a1a]"
+                                className="mt-4 inline-flex gap-x-[10px] rounded-full bg-white px-8 pb-2 pt-4 text-base font-medium text-[#1a1a1a]"
                             >
                                 Submit
                                 <svg
