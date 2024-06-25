@@ -31,7 +31,7 @@ export const ContactForm = () => {
                                 type="text"
                                 name="name"
                                 value={formState?.name}
-                                className="w-full text-ellipsis bg-transparent py-4 font-medium text-[#8a8a8a] outline-none"
+                                className="w-full text-ellipsis border-b-[1px] border-[#333] bg-transparent py-4 font-medium text-[#8a8a8a] outline-none"
                                 onChange={onFormChange}
                             />
                             <div className="absolute top-0 text-ellipsis whitespace-nowrap font-normal leading-[26px] text-[#8a8a8a]">
@@ -44,7 +44,7 @@ export const ContactForm = () => {
                                 name="email"
                                 value={formState?.email}
                                 onChange={onFormChange}
-                                className="w-full text-ellipsis bg-transparent py-4 font-medium text-[#8a8a8a] outline-none"
+                                className="w-full text-ellipsis border-b-[1px] border-[#333] bg-transparent py-4 font-medium text-[#8a8a8a] outline-none"
                             />
                             <div className="absolute top-0 text-ellipsis whitespace-nowrap font-normal leading-[26px] text-[#8a8a8a]">
                                 Your Email <sup>*</sup>{' '}
@@ -55,7 +55,7 @@ export const ContactForm = () => {
                                 name="message"
                                 value={formState?.message}
                                 onChange={onFormChange}
-                                className="w-full text-ellipsis bg-transparent py-4 font-medium text-[#8a8a8a] outline-none"
+                                className="w-full text-ellipsis border-b-[1px] border-[#333] bg-transparent py-4 font-medium text-[#8a8a8a] outline-none"
                             />
                             <div className="absolute top-0 text-ellipsis whitespace-nowrap font-normal leading-[26px] text-[#8a8a8a]">
                                 Enter Message Here <sup>*</sup>{' '}
