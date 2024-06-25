@@ -2,10 +2,15 @@ import React from 'react';
 
 const Cta = () => {
     return (
-        <div className="my-[50px] w-full bg-cta-bg bg-cover bg-center bg-no-repeat bg-origin-border p-6 pb-12 pt-12 text-white lg:p-[120px]">
-            <div className="flex h-full w-full max-w-[1200px] flex-col justify-between gap-[40px] md:flex-row">
-                <h1 className="font-pp-mori-semibold lg:w-6/12">Have a project in mind?</h1>
-                <div className="flex flex-col gap-5 md:items-end md:justify-between lg:w-6/12 lg:justify-between">
+        <div className="m-auto w-full bg-cta-bg bg-cover bg-center bg-no-repeat bg-origin-border py-[60px] pb-12 pl-6 pr-6 pt-12 text-white lg:py-[120px]">
+            <div className="m-auto flex h-full w-full max-w-[1200px] flex-col justify-between gap-[40px] md:flex-row">
+                <h1
+                    className="font-euxodus font-medium text-white lg:w-[6/12]"
+                    style={{ fontSize: 'clamp(3rem, 8.6875vw, 7.5rem)', lineHeight: 1 }}
+                >
+                    Have a project in mind?
+                </h1>
+                <div className="flex flex-col gap-5 md:items-end md:justify-between lg:w-10/12 lg:justify-between">
                     <p className="lg:flex lg:justify-end lg:self-end">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
                         labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco

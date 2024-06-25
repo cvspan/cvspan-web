@@ -1,4 +1,5 @@
 'use client';
+import React from 'react';
 import { StaticImageData } from 'next/image';
 import Image from 'next/image';
 import { icon1, icon2, icon3, icon4, icon5, icon6, icon7, icon8 } from '@/components/exports/images';
