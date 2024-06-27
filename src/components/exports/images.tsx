@@ -21,6 +21,8 @@ import iconWhite6 from '../../../public/assets/images/white brand icons/7da9418c
 import iconWhite7 from '../../../public/assets/images/white brand icons/a7e12b626d11ed7a53220f515f4968d6079df27c-155x44 1.png';
 import iconWhite8 from '../../../public/assets/images/white brand icons/d43c39003d5d16ce7c5a3590839f1d374f6f1dd7-140x25 1.png';
 import avatar from '../../../public/assets/images/avatar.png';
+import userOnBike from '../../../public/assets/images/user_on_bike.png';
+import arrowUp from '../../../public/assets/images/arrowUp.svg';
 
 export {
     icon1,
@@ -42,4 +44,6 @@ export {
     coinbase,
     amazon,
     avatar,
+    userOnBike,
+    arrowUp,
 };
