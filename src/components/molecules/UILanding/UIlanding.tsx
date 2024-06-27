@@ -18,7 +18,7 @@ const UIlanding = (props: Props) => {
                         <p className="text-white text-[18px] leading-[26px] font-normal font-eudoxus">As a UI/UX design agency, we create successful digital products that combine user needs with business goals. Our human centred design approach makes it happen.</p>
                     </div>
                     <div className="image w-1/2">
-                        <Image src={Frame} alt="elipse_image" className='w-[502px] h-[506px] ' />
+                        <Image src={Frame} alt="elipse_image" className='w-[502px] h-[506px]'/>
                     </div>
                 </div>
             </div>
