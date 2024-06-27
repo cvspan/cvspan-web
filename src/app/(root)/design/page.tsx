@@ -1,11 +1,13 @@
-// import Design from '@/components/molecules/design/page';
+import CustomizableDesign from '@/components/molecules/customizableDesign/CustomizableDesign';
+import Design from '@/components/molecules/design/page';
 
-// const DesignPage = () => {
-//     return (
-//         <div>
-//             <Design />
-//         </div>
-//     );
-// };
+const DesignPage = () => {
+    return (
+        <div>
+            <Design />
+            <CustomizableDesign />
+        </div>
+    );
+};
 
-// export default DesignPage;
+export default DesignPage;
