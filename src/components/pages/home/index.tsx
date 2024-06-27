@@ -1,3 +1,4 @@
+import Homelanding from '@/components/molecules/Homelanding/Homelanding';
 import React from 'react';
 import Navbar from '@/components/molecules/layout/navbar';
 import Footer from '@/components/molecules/layout/footer';
@@ -10,6 +11,7 @@ import FeaturedDigitalProducts from '@/components/molecules/featuredDigitalProdu
 export default function Homepage() {
     return (
         <>
+            <Homelanding />
             <Navbar light />
             <StoriesCard />
             <DigitalProducts />
