@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Button from '../Button';
-import { arrowUp, userOnBike } from '@/components/exports/images';
+import { userOnBike } from '@/components/exports/images';
 export const OurVisionAndMission = () => {
     return (
         <div className="py-[120px]">
