@@ -23,6 +23,10 @@ import iconWhite8 from '../../../public/assets/images/white brand icons/d43c3900
 import avatar from '../../../public/assets/images/avatar.png';
 import userOnBike from '../../../public/assets/images/user_on_bike.png';
 import arrowUp from '../../../public/assets/images/arrowUp.svg';
+import ourPeople1 from '../../../public/assets/images/our-people-1.png';
+import ourPeople2 from '../../../public/assets/images/our-people-2.png';
+import ourPeople3 from '../../../public/assets/images/our-people-3.png';
+import ourPeople4 from '../../../public/assets/images/our-people-4.png';
 
 export {
     icon1,
@@ -46,4 +50,8 @@ export {
     avatar,
     userOnBike,
     arrowUp,
+    ourPeople1,
+    ourPeople2,
+    ourPeople3,
+    ourPeople4,
 };
