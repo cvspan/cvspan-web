@@ -36,12 +36,12 @@ export const OurVisionAndMission = () => {
                     <div className="col-span-1">
                         <div className="rounded-3xl bg-[#f5f5f5]">
                             <div className="p-10">
-                                <div className="text-[34px] font-medium leading-[42px] text-[#1a1a1a]">
+                                <div className="font-eudoxus text-[34px] font-medium leading-[42px] text-[#1a1a1a]">
                                     CVSpan’s Vision is to create more equal opportunities globally, by accelerating the
                                     world’s transition to online work.
                                 </div>
                                 <div className="mt-6">
-                                    <span className="text-lg font-normal leading-[26px] text-[#484848]">
+                                    <span className="font-eudoxus text-lg font-normal leading-[26px] text-[#484848]">
                                         We believe online work is the greatest equalizer in the 21st century - unlocking
                                         the globalization of services and democratizing opportunities for both talent
                                         and companies.
@@ -53,11 +53,11 @@ export const OurVisionAndMission = () => {
                     <div className="col-span-1">
                         <div className="h-full rounded-3xl bg-[#f5f5f5]">
                             <div className="p-10">
-                                <div className="text-[34px] font-medium leading-[42px] text-[#1a1a1a]">
+                                <div className="font-eudoxus text-[34px] font-medium leading-[42px] text-[#1a1a1a]">
                                     CVSpan’s Mission is to build the best creative service in the world.
                                 </div>
                                 <div className="mt-6">
-                                    <span className="text-lg font-normal leading-[26px] text-[#484848]">
+                                    <span className="font-eudoxus text-lg font-normal leading-[26px] text-[#484848]">
                                         To create more equal opportunities globally, we believe creativity is an
                                         excellent place to start. It is not constrained by language, we are all
                                         increasingly part of the same global monoculture.
