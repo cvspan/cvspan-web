@@ -9,11 +9,11 @@ export const OurPeople = () => {
             <div className="m-auto max-w-[1200px]">
                 <div className="grid grid-cols-3 gap-x-6">
                     <div className="col-span-1">
-                        <h2 className="text-5xl font-medium leading-[56px]">Our People</h2>
+                        <h2 className="font-eudoxus text-5xl font-medium leading-[56px]">Our People</h2>
                     </div>
                     <div className="col-span-2">
                         <div>
-                            <div className="font-pp-mori text-[64px] font-semibold leading-[60px] text-[#1a1a1a]">
+                            <div className="font-pp-mori text-[60px] font-semibold leading-[64px] text-[#1a1a1a]">
                                 Be part of an international community
                             </div>
                         </div>
