@@ -1,10 +1,12 @@
 import React from 'react';
 import Button from '../Button';
-import f from '../../../../public/assets/icons/arrow-forward-slant.svg';
 
 const CustomizableCTA = () => {
     return (
-        <div className="group flex h-[516px] w-[336px] transform flex-col justify-between gap-[18px] bg-black p-8 text-white transition-transform duration-300 hover:transform hover:transition-transform hover:duration-300 group-hover:text-white lg:w-[336px]">
+        <div
+            style={{ height: '452px' }}
+            className="flex h-[452px] w-[336px] transform flex-col justify-between bg-black p-8 text-white"
+        >
             <svg width="151" height="112" viewBox="0 0 151 112" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                     d="M112.039 8.90918L106.172 9.02773C108.942 8.63836 111.708 9.89758 110.842 13.7862C110.095 23.5441 102.045 26.5592 102.045 26.5592L109.294 27.8945C109.294 27.8945 118.801 21.8494 118.816 15.2551C118.896 9.12251 112.039 8.90918 112.039 8.90918Z"
@@ -254,7 +256,6 @@ const CustomizableCTA = () => {
                     stroke-linejoin="bevel"
                 />
             </svg>
-
             <div className="flex flex-col gap-[18px]">
                 <h4
                     className="font-eudoxus font-medium leading-none text-white"
@@ -262,7 +263,7 @@ const CustomizableCTA = () => {
                 >
                     Ready to skyrocket your business?
                 </h4>
-                <Button title="LET'S TALK" leftIcon="../../../../public/assets/icons/arrow-forward-slant.svg" />
+                <Button title="LET'S TALK" leftIcon="/assets/icons/arrow-forward-slant.svg" leftIconSize="10px" />
             </div>
         </div>
     );

@@ -2,10 +2,16 @@ import React from 'react';
 
 const CustomisableCard = () => {
     return (
-        <div className="group flex h-[516px] w-[336px] transform flex-col justify-between gap-[18px] bg-white p-8 transition-transform duration-300 hover:transform hover:bg-[#1A1AFF] hover:transition-transform hover:duration-300 group-hover:text-white lg:w-[336px]">
+        <div
+            style={{ height: '452px', width: '336px' }}
+            className="group flex h-[452px] w-[336px] transform flex-col justify-between gap-[156px] bg-white p-8 transition-transform duration-300 hover:transform hover:bg-[#1A1AFF] hover:transition-transform hover:duration-300 group-hover:text-white"
+        >
             <div className="flex flex-col gap-[18px] group-hover:text-white lg:p-[12px]">
                 <span className="text-#767676 hover: font-eudoxus">01</span>
-                <h5 className="font-eudoxus font-medium" style={{ fontSize: 'clamp(1rem, 4.6875vw, 1.5rem)' }}>
+                <h5
+                    className="font-eudoxus font-medium leading-[32px] text-[#1A1A1A] group-hover:text-white"
+                    style={{ fontSize: 'clamp(1rem, 4.6875vw, 1.5rem)' }}
+                >
                     Discovering your goals and vision
                 </h5>
                 <p className="font-eudoxus font-normal text-[#767676] group-hover:hidden group-hover:text-white">
@@ -15,7 +21,6 @@ const CustomisableCard = () => {
                     Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
                     totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae
                     dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit,
-                    sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
                 </p>
             </div>
             <div className="flex h-[60px] w-[60px] items-center justify-center self-end justify-self-end bg-[#1A1AFF] group-hover:hidden">

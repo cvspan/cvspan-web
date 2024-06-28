@@ -4,8 +4,8 @@ import CustomizableCTA from './CustomizableCTA';
 
 const CustomizableDesign = () => {
     return (
-        <section className="bg-[#F5F5F5] py-[60px] lg:py-[120px]">
-            <div className="m-auto flex w-full max-w-[1200px] flex-col gap-[60px] overflow-hidden pl-6 pr-6 lg:gap-[120px]">
+        <section className="h-full bg-[#F5F5F5] py-[60px] pl-6 pr-6 lg:py-[120px]">
+            <div className="m-auto flex w-full max-w-[1200px] flex-col gap-[60px] overflow-hidden lg:gap-[120px]">
                 <div className="flex w-full flex-col justify-between gap-[20px] md:flex-row">
                     <h3
                         className="font-euxodus w-full max-w-[540px] font-medium leading-[50px] text-black lg:leading-[56px]"
@@ -22,7 +22,7 @@ const CustomizableDesign = () => {
                 </div>
                 <div
                     className="flex w-full -scroll-ml-0 gap-[24px] overflow-scroll"
-                    style={{ scrollbarColor: 'transparent' }}
+                    style={{ scrollbarColor: 'transparent', scrollbarWidth: 'none' }}
                 >
                     <div>
                         <CustomisableCard />
