@@ -4,7 +4,7 @@ import DesignCard from './designCard/DesignCard';
 const Design = () => {
     return (
         <section className="py-[60px] lg:py-[120px]">
-            <div className="m-auto flex w-full max-w-[1200px] flex-col gap-[60px] overflow-hidden pl-6 pr-6 lg:flex-row lg:gap-[120px]">
+            <div className="m-auto flex w-full max-w-[1200px] flex-col gap-[60px] overflow-hidden pl-6 pr-6 md:flex-row lg:gap-[120px]">
                 <div className="lg:w-4/12">
                     <p className="font-eudoxus text-[14px] text-[#484848]">
                         Professional designers focus on creating intuitive and user-friendly interfaces that make it
