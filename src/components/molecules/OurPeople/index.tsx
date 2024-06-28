@@ -27,13 +27,13 @@ export const OurPeople = () => {
                             dolore magnam aliquam quaerat voluptatem.
                         </div>
 
-                        <div className="grid grid-cols-2 gap-6">
+                        <div className="gap- grid grid-cols-2 grid-rows-2 gap-6">
                             <div className="col-span-1 row-span-2">
-                                <figure className="relative col-span-2 aspect-[4/3] h-full w-full place-self-stretch overflow-hidden">
-                                    <div className="absolute inset-0 h-full">
+                                <figure className="relative aspect-[4/3] h-full w-full overflow-hidden rounded-xl">
+                                    <div className="absolute inset-0 h-full rounded-xl">
                                         <Image
                                             src={ourPeople1}
-                                            className="obejct-contain absolute inset-0 block h-full w-full"
+                                            className="absolute inset-0 block h-full w-full rounded-xl object-cover"
                                             alt="Two People"
                                             sizes="100vw"
                                             fill
@@ -41,24 +41,24 @@ export const OurPeople = () => {
                                     </div>
                                 </figure>
                             </div>
-                            <div className="col-span-1">
-                                <div className="flex gap-x-6">
-                                    <figure className="relative col-span-2 aspect-[4/3] w-full place-self-stretch overflow-hidden">
+                            <div className="col-span-1 row-span-1">
+                                <div className="flex h-full gap-x-6">
+                                    <figure className="relative aspect-[4/3] h-full w-full overflow-hidden rounded-xl">
                                         <div className="absolute inset-0 h-full">
                                             <Image
                                                 src={ourPeople2}
-                                                className="obejct-cover absolute inset-0 block h-full w-full"
+                                                className="absolute inset-0 block h-full w-full object-cover"
                                                 alt="Two People"
                                                 sizes="100vw"
                                                 fill
                                             />
                                         </div>
                                     </figure>
-                                    <figure className="relative col-span-2 aspect-[4/3] w-full place-self-stretch overflow-hidden">
+                                    <figure className="relative aspect-[4/3] h-full w-full overflow-hidden rounded-xl">
                                         <div className="absolute inset-0 h-full">
                                             <Image
                                                 src={ourPeople3}
-                                                className="obejct-cover absolute inset-0 block h-full w-full"
+                                                className="absolute inset-0 block h-full w-full object-cover"
                                                 alt="Two People"
                                                 sizes="100vw"
                                                 fill
@@ -67,12 +67,12 @@ export const OurPeople = () => {
                                     </figure>
                                 </div>
                             </div>
-                            <div className="col-span-1">
-                                <figure className="relative col-span-2 aspect-[4/3] w-full place-self-stretch overflow-hidden">
-                                    <div className="absolute inset-0 h-full">
+                            <div className="col-span-1 row-span-1">
+                                <figure className="relative aspect-[4/3] w-full overflow-hidden rounded-xl">
+                                    <div className="absolute inset-0 h-full rounded-xl">
                                         <Image
                                             src={ourPeople4}
-                                            className="obejct-cover absolute inset-0 block h-full w-full"
+                                            className="absolute inset-0 block h-full w-full rounded-xl object-cover"
                                             alt="Two People"
                                             sizes="100vw"
                                             fill
