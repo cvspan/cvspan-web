@@ -16,7 +16,11 @@ export const OurVisionAndMission = () => {
                                 </div>
 
                                 <div className="mt-auto">
-                                    <Button title="SEE JOB OPENINGS" leftIcon={'/assets/images/arrowUp.svg'} />
+                                    <Button
+                                        height="56px"
+                                        title="SEE JOB OPENINGS"
+                                        leftIcon={'/assets/images/arrowUp.svg'}
+                                    />
                                 </div>
                             </div>
 
