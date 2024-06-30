@@ -27,7 +27,7 @@ export const OurPeople = () => {
                             dolore magnam aliquam quaerat voluptatem.
                         </div>
 
-                        <div className="gap- grid grid-cols-2 grid-rows-2 gap-6">
+                        <div className="grid grid-cols-2 grid-rows-2 gap-6">
                             <div className="col-span-1 row-span-2">
                                 <figure className="relative aspect-[4/3] h-full w-full overflow-hidden rounded-xl">
                                     <div className="absolute inset-0 h-full rounded-xl">
