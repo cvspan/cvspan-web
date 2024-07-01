@@ -1,10 +1,22 @@
-import React from 'react';
+'use client'
+import React, {useState} from 'react';
 import Image from 'next/image';
 import arrow from '../../../../public/assets/images/Arrow Right Up.png';
 
 type Props = {};
 
 const Openposition = (props: Props) => {
+    const [selected, setSelected] = useState<string>('All');
+
+    const buttons: string[] = [
+        'All',
+        'Design',
+        'Development',
+        'Marketing',
+        'Business Development',
+        'Product',
+    ];
+
     return (
         <div className="mx-auto w-[1200px] space-y-[60px] py-[120px]">
             <div className="space-y-6">
@@ -12,30 +24,20 @@ const Openposition = (props: Props) => {
                     Filter by departments
                 </p>
                 <div className="flex gap-3">
-                    <div className="flex gap-4">
-                        <button className="border-[1px] px-8 py-4 font-eudoxus text-[16px] font-medium leading-[24px] rounded-full">
-                            All
-                        </button>
-                        <button className="border-[1px] px-8 py-4 font-eudoxus text-[16px] font-medium leading-[24px] rounded-full">
-                            Design
-                        </button>
-                        <button className="border-[1px] px-8 py-4 font-eudoxus text-[16px] font-medium leading-[24px] rounded-full">
-                            Development
-                        </button>
-                        <button className="border-[1px] px-8 py-4 font-eudoxus text-[16px] font-medium leading-[24px] rounded-full">
-                            Marketing
-                        </button>
-                        <button className="border-[1px] px-8 py-4 font-eudoxus text-[16px] font-medium leading-[24px] rounded-full">
-                            Business Development
-                        </button>
-                        <button className="border-[1px] px-8 py-4 font-eudoxus text-[16px] font-medium leading-[24px] rounded-full">
-                            Product
-                        </button>
-                        <button className="border-[1px] px-8 py-4 font-eudoxus text-[16px] font-medium leading-[24px] rounded-full">
-                            Design
-                        </button>
-                    </div>
-                </div>
+            <div className="flex gap-4">
+                {buttons.map((button) => (
+                    <button
+                        key={button}
+                        className={`border-[1px] px-8 py-4 font-eudoxus text-[16px] font-medium leading-[24px] rounded-full ${
+                            selected === button ? 'bg-[#0c0c0c] text-white' : 'bg-white text-black'
+                        }`}
+                        onClick={() => setSelected(button)}
+                    >
+                        {button}
+                    </button>
+                ))}
+            </div>
+        </div>
             </div>
             <div className="flex items-start gap-6 border-t-[1px] border-[#a3a3a3]">
                 <div className="w-[384px] space-y-6 p-10">
