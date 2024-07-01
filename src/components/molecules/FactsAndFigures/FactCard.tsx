@@ -13,7 +13,7 @@ const FactCard: React.FC<FactCardProps> = ({ id, rate, description }) => {
             <p className="font-eudoxus text-[#484848]">{id}</p>
             <div>
                 <h2
-                    className="font-pp-mori-semibold bg-gradient-to-r font-semibold"
+                    className="bg-gradient-to-r font-pp-mori font-semibold"
                     style={{
                         background: 'linear-gradient(to right, #B0B0B0 0%, #FFFFFF 50%, #B0B0B0 100%)',
                         WebkitBackgroundClip: 'text',

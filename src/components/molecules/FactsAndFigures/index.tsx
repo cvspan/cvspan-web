@@ -11,7 +11,7 @@ const FactsAndFigures = () => {
                         <div className="h-150 w-12/12 flex flex-col items-start gap-y-8 rounded-3xl bg-fact-figure bg-cover bg-center bg-no-repeat bg-origin-border p-[40px]">
                             <div className="flex flex-col gap-y-4">
                                 <h2
-                                    className="font-pp-mori-semibold font-semibold"
+                                    className="font-pp-mori font-semibold"
                                     style={{ fontSize: 'clamp(2.5rem, 4.6875vw, 3.75rem);' }}
                                 >
                                     Facts & Figures
