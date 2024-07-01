@@ -4,7 +4,7 @@ import Design from '@/components/molecules/design/page';
 import SharedFeaturesComponent from '@/components/molecules/sharedFeaturesComponent/SharedFeaturesComponent';
 import { uiux } from '@/components/molecules/arrayOfFeatures/arrays';
 
-const DesignPage = () => {
+const UIUXDesign = () => {
     return (
         <>
             <UIlanding />
@@ -18,4 +18,4 @@ const DesignPage = () => {
     );
 };
 
-export default DesignPage;
+export default UIUXDesign;

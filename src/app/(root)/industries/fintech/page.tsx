@@ -2,7 +2,7 @@ import { websitedesign } from '@/components/molecules/arrayOfFeatures/arrays';
 import SharedFeaturesComponent from '@/components/molecules/sharedFeaturesComponent/SharedFeaturesComponent';
 import React from 'react';
 
-const WebsiteDesign = () => {
+const Fintech = () => {
     return (
         <section>
             <SharedFeaturesComponent
@@ -15,4 +15,4 @@ const WebsiteDesign = () => {
     );
 };
 
-export default WebsiteDesign;
+export default Fintech;

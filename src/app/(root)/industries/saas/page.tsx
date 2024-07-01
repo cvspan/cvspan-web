@@ -2,7 +2,7 @@ import { mobiledesign } from '@/components/molecules/arrayOfFeatures/arrays';
 import SharedFeaturesComponent from '@/components/molecules/sharedFeaturesComponent/SharedFeaturesComponent';
 import React from 'react';
 
-const HealthCare = () => {
+const Saas = () => {
     return (
         <section>
             <SharedFeaturesComponent
@@ -15,4 +15,4 @@ const HealthCare = () => {
     );
 };
 
-export default HealthCare;
+export default Saas;
