@@ -30,11 +30,11 @@ const WhatToExpect = () => {
                                 className="font-eudoxus text-[24px] font-medium text-[#1A1A1A]"
                                 style={{ fontSize: 'clamp(1rem, 4.6875vw, 1.5rem)' }}
                             >
-                                User-centered Approach
+                                Data-Informed Decisions
                             </h5>
                             <p className="font-eudoxus font-normal text-[#484848]">
-                                We prioritize users, conducting thorough research to create designs that resonate,
-                                enhancing engagement and fostering lasting connections.
+                                We apply user behaviour insights to link design choices with data, resulting in optimal
+                                usability and effective interactions.
                             </p>
                         </div>
                         <div className="flex flex-col gap-[30px] bg-white p-[32px]">
@@ -42,11 +42,11 @@ const WhatToExpect = () => {
                                 className="font-eudoxus text-[24px] font-medium text-[#1A1A1A]"
                                 style={{ fontSize: 'clamp(1rem, 4.6875vw, 1.5rem)' }}
                             >
-                                User-centered Approach
+                                Holistic Strategy
                             </h5>
                             <p className="font-eudoxus font-normal text-[#484848]">
-                                We prioritize users, conducting thorough research to create designs that resonate,
-                                enhancing engagement and fostering lasting connections.
+                                We perfectly integrate UX, UI, and functionality, creating designs that authentically
+                                reflect your brand while providing comprehensive and unified experiences.
                             </p>
                         </div>
                         <div className="flex flex-col gap-[30px] bg-white p-[32px]">
@@ -54,11 +54,35 @@ const WhatToExpect = () => {
                                 className="font-eudoxus text-[24px] font-medium text-[#1A1A1A]"
                                 style={{ fontSize: 'clamp(1rem, 4.6875vw, 1.5rem)' }}
                             >
-                                User-centered Approach
+                                Tailored solutions
                             </h5>
                             <p className="font-eudoxus font-normal text-[#484848]">
-                                We prioritize users, conducting thorough research to create designs that resonate,
-                                enhancing engagement and fostering lasting connections.
+                                We delve into user personas, creating tailored solutions to specific difficulties and
+                                ensuring designs are properly aligned with user needs.
+                            </p>
+                        </div>
+                        <div className="flex flex-col gap-[30px] bg-white p-[32px]">
+                            <h5
+                                className="font-eudoxus text-[24px] font-medium text-[#1A1A1A]"
+                                style={{ fontSize: 'clamp(1rem, 4.6875vw, 1.5rem)' }}
+                            >
+                                Timely Delivery
+                            </h5>
+                            <p className="font-eudoxus font-normal text-[#484848]">
+                                Our efficient workflows and strategic planning ensure that projects are delivered on
+                                time, without compromising your deadlines.
+                            </p>
+                        </div>
+                        <div className="flex flex-col gap-[30px] bg-white p-[32px]">
+                            <h5
+                                className="font-eudoxus text-[24px] font-medium text-[#1A1A1A]"
+                                style={{ fontSize: 'clamp(1rem, 4.6875vw, 1.5rem)' }}
+                            >
+                                Long Term-viability
+                            </h5>
+                            <p className="font-eudoxus font-normal text-[#484848]">
+                                With foresight, we build for durability, anticipating trends and changes, resulting in
+                                long-term relevance and fewer modifications.
                             </p>
                         </div>
                     </div>
