@@ -1,5 +1,6 @@
 import { websitedesign } from '@/components/molecules/arrayOfFeatures/arrays';
 import SharedFeaturesComponent from '@/components/molecules/sharedFeaturesComponent/SharedFeaturesComponent';
+import WhatTExpect from '@/components/molecules/whatToExpect/WhatToExpect';
 import React from 'react';
 
 const AIML = () => {
@@ -11,6 +12,7 @@ const AIML = () => {
                 arrayOfFeatures={websitedesign}
                 description="As a design agency offering comprehensive web design services, we aim to provide end-to-end solutions that enhance user experience, align with client goals, and drive business growth. Here's a highlight of what our web design services comprise."
             />
+            <WhatTExpect />
         </section>
     );
 };
