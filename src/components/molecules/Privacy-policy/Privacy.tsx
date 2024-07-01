@@ -1,10 +1,10 @@
 import React from 'react';
 
 type Props = {
-    pageTitle : String
+    pageTitle: String;
 };
 
-const Privacy = ({pageTitle}: Props) => { 
+const Privacy = ({ pageTitle }: Props) => {
     return (
         <div className="mx-auto w-[1200px] space-y-[60px] pt-[120px]">
             <div className="">
