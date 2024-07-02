@@ -2,6 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import Elipse from '../../../../public/Ellipse 1.png';
 import Frame from '../../../../public/assets/images/Frame 1618868713.png';
+import Button from '../Button';
 
 type Props = {
     Heading: String;
@@ -19,6 +20,7 @@ const Landing = ({ Heading, subHeading }: Props) => {
                     <div className="words w-1/2 space-y-[32px]">
                         <h1 className="font-pp-mori text-[70px] font-semibold leading-[78px] text-white">{Heading}</h1>
                         <p className="font-eudoxus text-[18px] font-normal leading-[26px] text-white">{subHeading}</p>
+                        <Button title="LET'S TALK" height='56px' leftIcon='../../../../public/assets/icons/vector(1).png' background='dark' />
                     </div>
                     <div className="image w-1/2">
                         <Image src={Frame} alt="elipse_image" className="h-[506px] w-[502px]" />
