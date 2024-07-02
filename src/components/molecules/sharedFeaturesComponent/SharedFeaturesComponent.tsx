@@ -1,5 +1,6 @@
 import React from 'react';
 import SharedFeaturedCard from './sharedFeatureCard/SharedFeaturedCard';
+import Button from '../Button';
 
 interface Feature {
     title: string;
@@ -16,8 +17,15 @@ const SharedFeaturesComponent: React.FC<SharedFeaturesProps> = ({ intro, title, 
     return (
         <section className="py-[60px] lg:py-[120px]">
             <div className="m-auto flex w-full max-w-[1200px] flex-col gap-[60px] overflow-hidden pl-6 pr-6 md:flex-row lg:gap-[120px]">
-                <div className="lg:w-4/12">
+                <div className="flex flex-col gap-[60px] lg:w-4/12 lg:gap-[120px]">
                     <p className="font-eudoxus text-[14px] text-[#484848]">{intro}</p>
+                    <Button
+                        title="LET'S TALK"
+                        leftIconSize="12px"
+                        leftIcon="/assets/icons/arrow-forward-slant.svg"
+                        height="56px"
+                        fullWidth={true}
+                    />
                 </div>
                 <div className="flex flex-col gap-[60px] lg:w-8/12">
                     <div className="flex flex-col gap-[20px]">

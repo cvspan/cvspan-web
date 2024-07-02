@@ -1,5 +1,6 @@
 'use client';
 
+import Button from '../Button';
 import FactCard from './FactCard';
 
 const FactsAndFigures = () => {
@@ -22,6 +23,12 @@ const FactsAndFigures = () => {
                                     exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                                 </p>
                             </div>
+                            <Button
+                                title="ABOUT US"
+                                leftIconSize="12px"
+                                leftIcon="/assets/icons/arrow-forward-slant.svg"
+                                height="56px"
+                            />
                         </div>
                         <div className="grid gap-6 sm:grid-cols-2 sm:grid-rows-2">
                             <div>
