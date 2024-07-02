@@ -1,4 +1,4 @@
-import React from 'react';
+'use client';
 
 import FactCard from './FactCard';
 
@@ -7,8 +7,8 @@ const FactsAndFigures = () => {
         <>
             <div className="w-full bg-[#0C0C0C] py-[60px] pl-6 pr-6 lg:py-[120px]">
                 <div className="mx-auto max-w-[1200px]">
-                    <section className="m-auto grid w-full gap-x-6 gap-y-6 text-white md:grid-cols-2">
-                        <div className="h-150 w-12/12 flex flex-col items-start gap-y-8 rounded-3xl bg-fact-figure bg-cover bg-center bg-no-repeat bg-origin-border p-[40px]">
+                    <section className="grid-layout m-auto w-full gap-x-6 gap-y-6 text-white md:grid-cols-2">
+                        <div className="w-12/12 mb-8 flex h-full flex-col items-start gap-y-8 rounded-3xl bg-fact-figure bg-cover bg-center bg-no-repeat bg-origin-border p-[40px]">
                             <div className="flex flex-col gap-y-4">
                                 <h2
                                     className="font-pp-mori-semibold font-semibold"
@@ -23,7 +23,7 @@ const FactsAndFigures = () => {
                                 </p>
                             </div>
                         </div>
-                        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-2">
+                        <div className="grid gap-6 sm:grid-cols-2 sm:grid-rows-2">
                             <div>
                                 <FactCard id={'01'} rate="80%" description="of faster design asset delivery" />
                             </div>
@@ -40,6 +40,13 @@ const FactsAndFigures = () => {
                     </section>
                 </div>
             </div>
+            <style jsx>{`
+                .grid-layout {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(30em, 1fr));
+                    grid-gap: 3em;
+                }
+            `}</style>
         </>
     );
 };
