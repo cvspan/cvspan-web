@@ -12,8 +12,8 @@ const FooterOfficeAddress = () => {
                 <Link href="/" className="relative box-border block">
                     <Image src="/assets/images/logo.svg" width={152} height={31} alt="Cvspan logo" />
                 </Link>
-                <div className="mt-6">
-                    <h3 className="text-base font-medium text-slate-1000">Offices</h3>
+                <div className="mt-6 hidden lg:block">
+                    <h3 className="text-slate-1000 text-base font-medium">Offices</h3>
                     <div>
                         <ul className="list-none" role="list">
                             {ADDRESSES.map((address: Address) => (
@@ -35,11 +35,11 @@ const FooterOfficeAddress = () => {
 
 const FooterPrimaryLinks = () => {
     return (
-        <div className="col-span-4">
-            <ul className="grid list-none gap-x-8" role="list">
+        <div className="col-span-2 lg:col-span-4">
+            <ul className="grid list-none grid-cols-4 gap-5 md:gap-x-8" role="list">
                 {FOOTER_LINKS.map((link: FooterLink) => (
-                    <li key={link.id} className="row-start-2 place-self-start" role="listitem">
-                        <h3 className="text-base font-medium text-slate-1000">{link.text}</h3>
+                    <li key={link.id} className="col-span-2 place-self-start lg:row-start-1" role="listitem">
+                        <h3 className="text-slate-1000 text-base font-medium">{link.text}</h3>
                         <ul className="mt-6 list-none">
                             {link.links.map((subLink: THIRD_PARTY_LINK) => (
                                 <li className="pt-2" role="listitem" key={subLink.id}>
@@ -60,7 +60,7 @@ const FooterPrimaryLinks = () => {
 
 const FooterThirdPartyLinks = () => {
     return (
-        <ul className="list-none">
+        <ul className="order-1 list-none lg:order-2">
             <div className="flex flex-row gap-x-4">
                 {THIRD_PARTY_LINKS.map((link: THIRD_PARTY_LINK) => (
                     <li key={link.id}>
@@ -86,7 +86,7 @@ const SecondaryFooterLink = ({ social }: { social: Social }) => {
 
 export const PrimaryFooter = () => {
     return (
-        <div className="grid auto-cols-fr grid-cols-6">
+        <div className="grid-cols-span-4 grid auto-cols-fr gap-y-[35px] lg:grid-cols-6">
             <FooterOfficeAddress />
             <FooterPrimaryLinks />
         </div>
@@ -96,14 +96,12 @@ export const PrimaryFooter = () => {
 export const SecondaryFooter = () => {
     return (
         <div>
-            <div className="flex flex-row items-center">
-                <div className="flex flex-grow flex-row">
-                    <div className="mr-8">
-                        <div className="font-normal leading-snug">© 2024 CVSpan. All rights reserved.</div>
-                    </div>
-                    <FooterThirdPartyLinks />
+            <div className="flex flex-col gap-y-8 md:items-center lg:flex-row">
+                <div className="order-3 mr-8 lg:order-1">
+                    <div className="font-normal leading-snug">© 2024 CVSpan. All rights reserved.</div>
                 </div>
-                <div className="flex flex-grow justify-end gap-x-4">
+                <FooterThirdPartyLinks />
+                <div className="order-2 flex flex-grow gap-x-4 lg:order-3 lg:justify-end">
                     {SOCIALS.map((social: Social) => (
                         <SecondaryFooterLink social={social} key={social.id} />
                     ))}
