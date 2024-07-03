@@ -1,14 +1,13 @@
 import React from 'react';
-import Image from 'next/image';
 import Button from '../Button';
-import { userOnBike } from '@/components/exports/images';
+import './index.css';
 export const OurVisionAndMission = () => {
     return (
         <div className="py-[60px] lg:py-[120px]">
             <div className="m-auto max-w-[1200px] px-5">
                 <div className="grid grid-cols-2 gap-5 lg:grid-cols-2 lg:gap-6">
                     <div className="col-span-2 rounded-3xl bg-[#f5f5f5]">
-                        <div className="grid grid-cols-2 lg:ml-[40.5px] lg:grid-cols-3">
+                        <div className="grid min-h-[354px] grid-cols-2 overflow-hidden lg:ml-[40.5px] lg:grid-cols-3">
                             <div className="col-span-2 flex w-full flex-col gap-y-8 pt-6 lg:col-span-1 lg:my-10">
                                 <div className="font-pp-mori text-[34px] font-semibold leading-[42px] text-[#1a1a1a] md:hidden">
                                     Our Vision and <br /> Mission
@@ -18,7 +17,7 @@ export const OurVisionAndMission = () => {
                                     and Mission
                                 </div>
 
-                                <div className="mt-auto w-full md:w-fit">
+                                <div className="w-full md:w-fit lg:mt-auto">
                                     <Button
                                         height="56px"
                                         title="SEE JOB OPENINGS"
@@ -28,17 +27,7 @@ export const OurVisionAndMission = () => {
                                 </div>
                             </div>
 
-                            <figure className="relative col-span-2 aspect-[3/2] w-full place-self-stretch overflow-hidden pl-6 pr-[25px]">
-                                <div className="absolute inset-0 h-full w-full">
-                                    <Image
-                                        src={userOnBike}
-                                        className="absolute inset-0 block h-full w-full object-cover lg:inset-0"
-                                        alt="User on bike"
-                                        sizes="100vw"
-                                        fill
-                                    />
-                                </div>
-                            </figure>
+                            <div className="bike-bg col-span-2"></div>
                         </div>
                     </div>
                     <div className="col-span-2 md:col-span-1">
