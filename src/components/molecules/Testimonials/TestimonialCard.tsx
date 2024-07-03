@@ -32,7 +32,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimony, name, prof
                     />
                 </svg>
                 <p className="text-alto text-lg">
-                    {testimony.length < 200 ? testimony : `${testimony.substring(0, 200)}...`}
+                    {testimony?.length < 200 ? testimony : `${(testimony || '').substring(0, 200)}...`}
                 </p>
                 <div>
                     <TestimonialProfile name={name} profession={profession} image={image} />

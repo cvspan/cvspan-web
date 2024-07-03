@@ -3,10 +3,16 @@ import UIlanding from '@/components/molecules/UILanding/UIlanding';
 import Design from '@/components/molecules/design/page';
 import SharedFeaturesComponent from '@/components/molecules/sharedFeaturesComponent/SharedFeaturesComponent';
 import { uiux } from '@/components/molecules/arrayOfFeatures/arrays';
+import Navbar from '@/components/molecules/layout/navbar';
+import Footer from '@/components/molecules/layout/footer';
+import Faqs from '@/components/molecules/FAQS';
+import Testimonials from '@/components/molecules/Testimonials';
+import Cta from '@/components/molecules/CTA';
 
 const UIUXDesign = () => {
     return (
         <>
+            <Navbar light />
             <UIlanding />
             <SharedFeaturesComponent
                 intro="We design intuitive UI UX solutions that connect you with your audience. Whether it's a website, an app, or a product, we make it easy and engaging."
@@ -14,6 +20,11 @@ const UIUXDesign = () => {
                 description="The scope of UI/UX design solutions typically encompasses a wide range of activities and deliverables aimed at creating intuitive, engaging, and aesthetically pleasing user interfaces. Here are some key aspects that fall within this scope"
                 arrayOfFeatures={uiux}
             />
+            <Design />
+            <Faqs />
+            <Testimonials />
+            <Cta />
+            <Footer />
         </>
     );
 };

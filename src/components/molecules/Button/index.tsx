@@ -25,6 +25,7 @@ function Button({
     const _padding = height === '40px' ? 'px-[16px] py-[8px]' : 'px-[32px] py-[16px]';
 
     const _fullWidth = fullWidth ? 'w-full' : 'self-start';
+
     return (
         <button
             className={`flex w-auto cursor-pointer items-center justify-center gap-[16px] rounded-[100px] border-[1px] text-[16px] font-[500] leading-[24px] ${_fullWidth} ${_background} ${_height} ${_padding}`}

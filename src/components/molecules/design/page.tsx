@@ -1,3 +1,4 @@
+import React from 'react';
 import { design } from '../arrayOfFeatures/arrays';
 import SharedFeaturesComponent from '../sharedFeaturesComponent/SharedFeaturesComponent';
 
