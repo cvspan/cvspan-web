@@ -1,6 +1,6 @@
 'use client';
-import React, { ChangeEvent, useState } from 'react';
 import Link from 'next/link';
+import React, { ChangeEvent, useState } from 'react';
 
 type FormLabel = {
     name?: string;
@@ -23,7 +23,7 @@ export const ContactForm = () => {
     };
     return (
         <div className="col-span-6">
-            <div className="rounded-2xl bg-[#1a1a1a] p-12">
+            <div className="rounded-2xl bg-[#1a1a1a] p-6 md:p-12">
                 <form name="contactForm">
                     <div className="flex flex-col gap-10">
                         <div className="relative overflow-hidden">
@@ -56,7 +56,7 @@ export const ContactForm = () => {
                             />
                         </div>
                     </div>
-                    <div className="mt-[146px]">
+                    <div className="mt-[60px] md:mt-[146px]">
                         <div className="text-sm font-normal leading-[24px] text-[#a3a3a3]">
                             By clicking Submit, I consent to the{' '}
                             <Link href="/" className="text-white underline">
@@ -67,7 +67,7 @@ export const ContactForm = () => {
                         <div className="mt-8">
                             <button
                                 type="button"
-                                className="mt-4 inline-flex gap-x-[10px] rounded-full bg-white px-8 pb-2 pt-4 text-base font-medium text-[#1a1a1a]"
+                                className="inline-flex w-full justify-center gap-x-[10px] rounded-full bg-white px-8 pb-2 pt-4 text-base font-medium text-[#1a1a1a] md:w-auto md:justify-start"
                             >
                                 Submit
                                 <svg
