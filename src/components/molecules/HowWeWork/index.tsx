@@ -7,7 +7,7 @@ export const HowweWork = () => {
     return (
         <section>
             <div className="bg-[#0c0c0c]">
-                <div className="mx-auto w-full max-w-[1200px] py-[120px]">
+                <div className="mx-auto w-full max-w-[1200px] py-[60px] lg:py-[120px] px-5">
                     <HowWeWorkHeader />
                     <HowWeWorkList />
                 </div>
