@@ -10,14 +10,14 @@ export const HowWorkItem = ({ item }: { item: HowWeWork }) => {
                 <div className="mt-6">
                     <div className="flex items-center justify-between">
                         <span>
-                            <div className="text-gradient text-[34px] font-medium leading-[42px] text-white">
+                            <div className="text-gradient font-eudoxus text-[34px] font-medium leading-[42px] text-white">
                                 {item.title}
                             </div>
                         </span>
                     </div>
                 </div>
                 <div className="mt-3">
-                    <span className="text-base text-[#a3a3a3]">{item.description}</span>
+                    <span className="font-eudoxus text-base text-[#a3a3a3]">{item.description}</span>
                 </div>
             </div>
         </div>
