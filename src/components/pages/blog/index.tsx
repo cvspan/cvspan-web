@@ -8,11 +8,11 @@ import React from 'react';
 const Blog = () => {
     return (
         <>
-            <Navbar light />
-            <Homelanding />
+            {/* <Navbar light /> */}
+            {/* <Homelanding /> */}
             <BlogCard />
-            <Cta />
-            <Footer />
+            {/* <Cta /> */}
+            {/* <Footer /> */}
         </>
     );
 };
