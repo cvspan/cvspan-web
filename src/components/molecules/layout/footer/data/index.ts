@@ -8,12 +8,12 @@ export const FOOTER_LINKS: FooterLink[] = [
             {
                 id: 1,
                 text: 'UI/UX Design',
-                link: '/',
+                link: '/services/ui-ux-design',
             },
             {
                 id: 2,
                 text: 'Web Design',
-                link: '/',
+                link: '/services/website-design',
             },
             {
                 id: 3,
@@ -131,17 +131,17 @@ export const THIRD_PARTY_LINKS: THIRD_PARTY_LINK[] = [
     {
         id: 1,
         text: 'Cookie Policy',
-        link: '/',
+        link: '/legal/cookie-policy',
     },
     {
         id: 2,
         text: 'Privacy Policy',
-        link: '/',
+        link: '/legal/privacy-policy',
     },
     {
         id: 3,
         text: 'Terms of Use',
-        link: '/',
+        link: '/legal/terms-of-use',
     },
 ];
 

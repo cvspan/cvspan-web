@@ -9,6 +9,8 @@ import Footer from '@/components/molecules/layout/footer';
 import Faqs from '@/components/molecules/FAQS';
 import Testimonials from '@/components/molecules/Testimonials';
 import Cta from '@/components/molecules/CTA';
+import WhatToExpect from '@/components/molecules/whatToExpect/WhatToExpect';
+import GetThings from '@/components/molecules/GetThings';
 
 const UIUXDesign = () => {
     return (
@@ -27,7 +29,8 @@ const UIUXDesign = () => {
                 description="The scope of UI/UX design solutions typically encompasses a wide range of activities and deliverables aimed at creating intuitive, engaging, and aesthetically pleasing user interfaces. Here are some key aspects that fall within this scope"
                 arrayOfFeatures={uiux}
             />
-            <Design />
+            <WhatToExpect />
+            <GetThings title="Benefits of our Design Services" />
             <Faqs />
             <Testimonials />
             <Cta />
