@@ -5,6 +5,7 @@ import SharedFeaturesComponent from '@/components/molecules/sharedFeaturesCompon
 import UIlanding from '@/components/molecules/UILanding/UIlanding';
 import Design from '@/components/molecules/design/page';
 import { uiux } from '@/components/molecules/arrayOfFeatures/arrays';
+import Landing from '@/components/molecules/ReusableLandingSection/Landing';
 import Navbar from '@/components/molecules/layout/navbar';
 import Footer from '@/components/molecules/layout/footer';
 import Faqs from '@/components/molecules/FAQS';
@@ -17,7 +18,11 @@ const WebsiteDesign = () => {
     return (
         <>
             <Navbar light />
-            <UIlanding />
+            <Landing
+                Heading={'Website Design & Development Services'}
+                subHeading={`Your website should not confuse, but rather convert, its visitors. A perfect combination of good user experience and appealing design can spark growth; we'll help you get there.`}
+            />
+
             <section>
                 <SharedFeaturesComponent
                     intro="You need a website that adapts to any screen size. No loading delays, no navigation issues, and no performance problems. Just results. That’s what we do."
@@ -27,7 +32,7 @@ const WebsiteDesign = () => {
                 />
             </section>
 
-            <GetThings title="Benefits of our Design Services" />
+            <GetThings title="Benefits of our Web Design Services" />
             <Faqs />
             <Testimonials />
             <Cta />

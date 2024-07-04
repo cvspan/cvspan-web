@@ -18,17 +18,17 @@ export const FOOTER_LINKS: FooterLink[] = [
             {
                 id: 3,
                 text: 'Mobile Design',
-                link: '/',
+                link: '/services/mobile-design',
             },
             {
                 id: 4,
                 text: 'Brand Identity',
-                link: '/',
+                link: '/services/brand-identity',
             },
             {
                 id: 5,
                 text: 'Graphic Design',
-                link: '/',
+                link: '/services/graphic-design',
             },
         ],
     },

@@ -9,7 +9,7 @@ const page = (props: Props) => {
             <Landing
                 Heading={'UI/UX Product Design Services'}
                 subHeading={
-                    "As a UI/UX design agency, we create successful digital products that combine user needs with business goals. Our human centred design approach makes it happen."
+                    'As a UI/UX design agency, we create successful digital products that combine user needs with business goals. Our human centred design approach makes it happen.'
                 }
             />
         </>
