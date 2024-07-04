@@ -6,7 +6,7 @@ export const ContactAside = () => {
         <div className="col-span-6 flex flex-col">
             <div className="pt-12">
                 <span>
-                    <div className="font-pp-mori text-8xl font-semibold text-white">
+                    <div className="font-pp-mori text-6xl font-semibold leading-[64px] text-white md:text-8xl">
                         Have a <br />
                         <span className="text-[#a6f46a]">project</span> in <br />
                         mind?
@@ -32,7 +32,7 @@ export const ContactAside = () => {
                     <span className="text-base font-normal leading-[26px] text-white">business@cvspan.com</span>
                 </div>
             </div>
-            <div className="mt-auto">
+            <div className="mt-auto hidden md:block">
                 <div className="flex gap-x-3">
                     <div className="flex items-center rounded-full bg-white p-2">
                         <Link

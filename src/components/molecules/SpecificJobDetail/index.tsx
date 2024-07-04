@@ -3,15 +3,18 @@ import Button from '@/components/molecules/Button';
 
 export const SpecificJobDetail = () => {
     return (
-        <div className="py-[120px]">
-            <div className="m-auto max-w-[1200px]">
-                <div className="grid grid-cols-3 gap-x-6">
-                    <div className="col-span-1">
-                        <Button height="56px" title="APPLY HERE" leftIcon={'/assets/images/arrowUp.svg'} />
+        <div className="py-[60px] lg:py-[120px]">
+            <div className="m-auto max-w-[1200px] px-5">
+                <div className="relative grid grid-cols-3 gap-x-6">
+                    {/* <div className="fixed inset-x-0 bottom-0 lg:static lg:col-span-1 lg:w-fit">
+                        <Button fullWidth height="56px" title="APPLY HERE" leftIcon={'/assets/images/arrowUp.svg'} />
+                    </div> */}
+                    <div className="sticky top-[calc(100vh-60px)] col-span-3 w-full lg:static lg:col-span-1 lg:w-fit">
+                        <Button fullWidth height="56px" title="APPLY HERE" leftIcon={'/assets/images/arrowUp.svg'} />
                     </div>
-                    <div className="col-span-2">
+                    <div className="col-span-3 lg:col-span-2">
                         <div className="mb-8">
-                            <div className="mb-3 font-pp-mori text-[60px] font-semibold leading-[64px] text-[#1a1a1a]">
+                            <div className="mb-3 font-pp-mori text-[34px] font-semibold leading-[42px] text-[#1a1a1a] lg:text-[60px] lg:leading-[64px]">
                                 Design Consultant
                             </div>
                             <span className="font-eudoxus text-2xl font-medium text-[#1a1aff]">Design</span>
