@@ -1,14 +1,12 @@
-import Bloglanding from '@/components/molecules/Bloglanding/Bloglanding';
-import React from 'react';
+import Blog from '@/components/pages/blog'
+import React from 'react'
 
-type Props = {};
+const page = () => {
+  return (
+    <div>
+        <Blog/>
+    </div>
+  )
+}
 
-const page = (props: Props) => {
-    return (
-        <>
-            <Bloglanding />
-        </>
-    );
-};
-
-export default page;
+export default page
