@@ -26,22 +26,24 @@ export const NavDropDownService = ({ links }: { links: NavbarList[] }) => {
     return (
         <div>
             <div>
-                <div className="grid auto-cols-auto grid-cols-12 gap-x-[33px] rounded-3xl bg-white">
-                    <div className="col-span-7">
-                        <div className="rounded-l-[24px] bg-white py-14 ps-[40px]">
-                            <ul className="grid gap-x-[60px]">
+                <div className="lg:grid lg:auto-cols-auto lg:grid-cols-12 lg:gap-x-[33px] lg:rounded-3xl lg:bg-white">
+                    <div className="lg:col-span-7">
+                        <div className="lg:rounded-l-[24px] lg:bg-white lg:py-14 lg:ps-[40px]">
+                            <ul className="grid gap-y-10 lg:gap-x-[60px]">
                                 {links.map((navList: NavbarList) => (
-                                    <li key={navList.id} className="row-start-2">
-                                        <h2 className="text-lg text-slate-1100">{navList.title}</h2>
-                                        <ul className="mt-8 grid gap-y-8">
+                                    <li key={navList.id} className="lg:row-start-2">
+                                        <h2 className="font-eudoxus text-lg text-[#a3a3a3]">{navList.title}</h2>
+                                        <ul className="mt-8 grid gap-y-4 lg:gap-y-8">
                                             {navList.list.map((list: SubNavbarList) => (
                                                 <li key={list.id} className="flex gap-x-6">
-                                                    <div className="h-[50px] w-[50px] rounded-full bg-[#d9d9d9]" />
+                                                    <div className="hidden h-[50px] w-[50px] rounded-full bg-[#d9d9d9] lg:block" />
                                                     <span>
-                                                        <div className="text-base font-medium text-slate-1000">
+                                                        <div className="font-eudoxus text-base font-medium text-[#1a1a1a]">
                                                             {list.title}
                                                         </div>
-                                                        <div className="text-xs text-slate-1050">{list.caption}</div>
+                                                        <div className="text-slate-[#1a1a1a] hidden font-eudoxus text-xs lg:block">
+                                                            {list.caption}
+                                                        </div>
                                                     </span>
                                                 </li>
                                             ))}
@@ -51,7 +53,7 @@ export const NavDropDownService = ({ links }: { links: NavbarList[] }) => {
                             </ul>
                         </div>
                     </div>
-                    <div className="col-span-5">
+                    <div className="hidden lg:col-span-5 lg:block">
                         <LetsTalk />
                     </div>
                 </div>
@@ -64,22 +66,24 @@ export const NavDropDownIndustry = ({ links }: { links: NavbarList[] }) => {
     return (
         <div>
             <div>
-                <div className="grid auto-cols-auto grid-cols-4 gap-x-[80px] rounded-3xl bg-white">
-                    <div className="col-span-2">
-                        <div className="rounded-l-[24px] bg-white py-14 ps-[40px]">
-                            <ul className="grid gap-x-14">
+                <div className="lg:grid lg:auto-cols-auto lg:grid-cols-4 lg:gap-x-[80px] lg:rounded-3xl lg:bg-white">
+                    <div className="lg:col-span-2">
+                        <div className="lg:rounded-l-[24px] lg:bg-white lg:py-14 lg:ps-[40px]">
+                            <ul className="grid gap-y-10 lg:gap-x-14">
                                 {links.map((navList: NavbarList) => (
-                                    <li key={navList.id} className="row-start-2">
-                                        <h2 className="text-lg text-slate-1100">{navList.title}</h2>
-                                        <ul className="mt-8 grid gap-y-8">
+                                    <li key={navList.id} className="lg:row-start-2">
+                                        <h2 className="font-eudoxus text-lg text-[#a3a3a3]">{navList.title}</h2>
+                                        <ul className="mt-8 grid gap-y-4 lg:gap-y-8">
                                             {navList.list.map((list: SubNavbarList) => (
                                                 <li key={list.id} className="flex gap-x-6">
-                                                    <div className="h-[50px] w-[50px] rounded-full bg-[#d9d9d9]" />
+                                                    <div className="hidden h-[50px] w-[50px] rounded-full bg-[#d9d9d9] lg:block" />
                                                     <span>
-                                                        <div className="text-base font-medium text-slate-1000">
+                                                        <div className="font-eudoxus text-base font-medium text-[#1a1a1a]">
                                                             {list.title}
                                                         </div>
-                                                        <div className="text-xs text-slate-1050">{list.caption}</div>
+                                                        <div className="hidden font-eudoxus text-xs text-[#1a1a1a] lg:block">
+                                                            {list.caption}
+                                                        </div>
                                                     </span>
                                                 </li>
                                             ))}
@@ -89,7 +93,7 @@ export const NavDropDownIndustry = ({ links }: { links: NavbarList[] }) => {
                             </ul>
                         </div>
                     </div>
-                    <div className="col-span-2">
+                    <div className="col-span-2 hidden lg:block">
                         <LetsTalk />
                     </div>
                 </div>

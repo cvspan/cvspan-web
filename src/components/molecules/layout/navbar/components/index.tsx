@@ -36,15 +36,15 @@ export const NavMenu = ({
         onIndexChanged(0);
     }
     return (
-        <div className="mx-auto flex flex-nowrap items-center gap-x-8">
-            <div className="border-box max-w-full flex-grow-0 basis-0">
+        <div className="flex flex-col gap-y-6 lg:mx-auto lg:flex-row lg:flex-nowrap lg:items-center lg:gap-x-8">
+            <div className="border-box group/services relative w-fit lg:static lg:max-w-full lg:flex-grow-0">
                 <div>
                     <button
                         onClick={() => {
                             onIndexChanged(1);
                         }}
                         type="button"
-                        className={`inline-flex text-base font-normal ${isLight ? 'text-[#1a1a1a]' : 'text-white'}`}
+                        className={`inline-flex items-center font-eudoxus text-[34px] font-medium leading-[42px] lg:text-sm lg:font-normal lg:leading-[22px] ${isLight ? 'text-[#1a1a1a]' : 'text-white'}`}
                     >
                         <span className="pe-2">Services</span>
                         <svg
@@ -52,7 +52,7 @@ export const NavMenu = ({
                             width="24"
                             height="24"
                             viewBox="0 0 24 24"
-                            fill="currentColor"
+                            fill="transparent"
                         >
                             <path
                                 d="M19 9L12 15L5 9"
@@ -64,20 +64,23 @@ export const NavMenu = ({
                         </svg>
                     </button>
                 </div>
-                {currentIndex === 1 && (
-                    <div ref={ref} className="absolute left-0 top-[100%] z-[200] mt-12 ps-16">
-                        <NavDropDownService links={NavButtons[0].links} />
-                    </div>
-                )}
+                {/* {currentIndex === 1 && ( */}
+                <div
+                    ref={ref}
+                    className="invisible mt-4 hidden opacity-0 group-hover/services:visible group-hover/services:block group-hover/services:opacity-100 lg:absolute lg:left-0 lg:top-[100%] lg:z-[200] lg:mt-12 lg:ps-16"
+                >
+                    <NavDropDownService links={NavButtons[0].links} />
+                </div>
+                {/* )} */}
             </div>
-            <div className="border-box max-w-full flex-grow-0 basis-0">
+            <div className="group/industries border-box w-fit max-w-full flex-grow-0 basis-0">
                 <div>
                     <button
                         onClick={() => {
                             onIndexChanged(2);
                         }}
                         type="button"
-                        className={`inline-flex text-base font-normal ${isLight ? 'text-[#1a1a1a]' : 'text-white'}`}
+                        className={`inline-flex items-center font-eudoxus text-[34px] font-medium leading-[42px] lg:text-sm lg:font-normal lg:leading-[22px] ${isLight ? 'text-[#1a1a1a]' : 'text-white'}`}
                     >
                         <span className="pe-2">Industries</span>
                         <svg
@@ -85,7 +88,7 @@ export const NavMenu = ({
                             width="24"
                             height="24"
                             viewBox="0 0 24 24"
-                            fill="currentColor"
+                            fill="transparent"
                         >
                             <path
                                 d="M19 9L12 15L5 9"
@@ -97,17 +100,20 @@ export const NavMenu = ({
                         </svg>
                     </button>
                 </div>
-                {currentIndex === 2 && (
-                    <div ref={ref} className="absolute left-[25%] top-[100%] z-[200] mt-12 rounded-3xl ps-16">
-                        <NavDropDownIndustry links={NavButtons[1].links} />
-                    </div>
-                )}
+
+                <div
+                    ref={ref}
+                    className="invisible mt-4 hidden opacity-0 group-hover/industries:visible group-hover/industries:block group-hover/industries:opacity-100 lg:absolute lg:left-[25%] lg:top-[100%] lg:z-[200] lg:mt-12 lg:rounded-3xl lg:ps-16"
+                >
+                    <NavDropDownIndustry links={NavButtons[1].links} />
+                </div>
+                {/* )} */}
             </div>
 
             {NavLinks.map((navLink: NavLink) => (
                 <Link
                     href="/"
-                    className={`text-base font-normal ${isLight ? 'text-[#1a1a1a]' : 'text-white'} `}
+                    className={`inline-flex items-center font-eudoxus text-[34px] font-medium leading-[42px] lg:text-sm lg:font-normal lg:leading-[22px] ${isLight ? 'text-[#1a1a1a]' : 'text-white'}`}
                     key={navLink.id}
                 >
                     {navLink.text}
@@ -122,7 +128,7 @@ export const NavLetsTalkButton = ({ isLight }: { isLight: boolean }) => {
         <button
             type="button"
             aria-label="Let's Talk"
-            className={`inline-flex items-center gap-x-2 whitespace-nowrap text-nowrap rounded-2xl bg-blue-1000 px-4 py-2 text-base ${isLight ? 'text-black' : 'text-white'}`}
+            className={`inline-flex w-full items-center justify-center gap-x-2 whitespace-nowrap text-nowrap rounded-2xl bg-blue-900 px-4 py-2 text-base lg:w-fit lg:justify-normal ${isLight ? 'text-black' : 'text-white'}`}
         >
             LET{`'`}S TALK
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none" className="">

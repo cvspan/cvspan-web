@@ -11,10 +11,32 @@ function Navbar({ light = false }: { light: boolean }) {
             <div>
                 <section className="flex min-h-20 w-full flex-col justify-center">
                     <div className="mx-auto w-full max-w-[1200px]">
-                        <div className="relative box-border flex flex-grow flex-nowrap items-center">
-                            <NavBrand isLight={isLight} />
-                            <NavMenu isLight={isLight} currentIndex={currentIndex} onIndexChanged={setCurrentIndex} />
-                            <NavLetsTalkButton isLight={isLight} />
+                        <div className="fixed inset-0 z-50 box-border w-full overflow-y-scroll bg-white lg:relative lg:flex-grow lg:flex-nowrap lg:items-center lg:justify-normal lg:overflow-y-visible">
+                            <div className="flex flex-col gap-y-10 p-5 lg:flex-row lg:gap-y-0">
+                                <div className="flex w-full justify-between lg:w-fit lg:justify-normal">
+                                    <NavBrand isLight={isLight} />
+                                    <button type="button" className="lg:hidden">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="40"
+                                            height="40"
+                                            viewBox="0 0 40 40"
+                                            fill="none"
+                                        >
+                                            <path
+                                                d="M5 7.5H35V11.25H5V7.5ZM5 18.125H35V21.875H5V18.125ZM5 28.75H35V32.5H5V28.75Z"
+                                                fill="black"
+                                            />
+                                        </svg>
+                                    </button>
+                                </div>
+                                <NavMenu
+                                    isLight={isLight}
+                                    currentIndex={currentIndex}
+                                    onIndexChanged={setCurrentIndex}
+                                />
+                                <NavLetsTalkButton isLight={isLight} />
+                            </div>
                         </div>
                     </div>
                 </section>
