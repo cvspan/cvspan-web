@@ -9,7 +9,7 @@ import '../Navbar.css';
 
 export const NavBrand = ({ isLight }: { isLight: boolean }) => {
     return (
-        <Link href="/" className="relative box-border block text-white">
+        <Link href="/" className="relative my-auto box-border block text-white">
             <Image
                 src={`${isLight ? '/assets/images/logo-black.svg' : '/assets/images/logo-transparent.svg'}`}
                 width={152}
@@ -37,26 +37,20 @@ export const NavMenu = ({
     }
     return (
         <div className="flex flex-col gap-y-6 lg:mx-auto lg:flex-row lg:flex-nowrap lg:items-center lg:gap-x-8">
-            <div className="border-box group/services relative w-fit lg:static lg:max-w-full lg:flex-grow-0">
-                <div>
+            <div className="border-box group/services relative w-fit lg:static lg:flex lg:h-full lg:max-w-full lg:flex-grow-0">
+                <div className="flex flex-grow flex-col justify-center">
                     <button
                         onClick={() => {
                             onIndexChanged(1);
                         }}
                         type="button"
-                        className={`inline-flex items-center font-eudoxus text-[34px] font-medium leading-[42px] lg:text-sm lg:font-normal lg:leading-[22px] ${isLight ? 'text-[#1a1a1a]' : 'text-white'}`}
+                        className={`inline-flex flex-grow items-center font-eudoxus text-[34px] font-medium leading-[42px] lg:text-sm lg:font-normal lg:leading-[22px] ${isLight ? 'text-[#1a1a1a]' : 'text-white'}`}
                     >
                         <span className="pe-2">Services</span>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="transparent"
-                        >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18" fill="none">
                             <path
                                 d="M19 9L12 15L5 9"
-                                stroke="#1C274C"
+                                stroke={`${isLight ? 'black' : 'white'}`}
                                 strokeWidth="1.5"
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
@@ -66,33 +60,27 @@ export const NavMenu = ({
                 </div>
                 {/* {currentIndex === 1 && ( */}
                 <div
-                    ref={ref}
+                    // ref={ref}
                     className="invisible mt-4 hidden opacity-0 group-hover/services:visible group-hover/services:block group-hover/services:opacity-100 lg:absolute lg:left-0 lg:top-[calc(80px-1px)] lg:z-[200] lg:mt-0 lg:ps-16"
                 >
                     <NavDropDownService links={NavButtons[0].links} />
                 </div>
                 {/* )} */}
             </div>
-            <div className="group/industries border-box w-fit max-w-full flex-grow-0 basis-0">
-                <div>
+            <div className="border-box group/industries relative w-fit lg:static lg:flex lg:h-full lg:max-w-full lg:flex-grow-0">
+                <div className="flex flex-grow flex-col justify-center">
                     <button
                         onClick={() => {
                             onIndexChanged(2);
                         }}
                         type="button"
-                        className={`inline-flex items-center font-eudoxus text-[34px] font-medium leading-[42px] lg:text-sm lg:font-normal lg:leading-[22px] ${isLight ? 'text-[#1a1a1a]' : 'text-white'}`}
+                        className={`inline-flex flex-grow items-center font-eudoxus text-[34px] font-medium leading-[42px] lg:text-sm lg:font-normal lg:leading-[22px] ${isLight ? 'text-[#1a1a1a]' : 'text-white'}`}
                     >
                         <span className="pe-2">Industries</span>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="transparent"
-                        >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18" fill="none">
                             <path
                                 d="M19 9L12 15L5 9"
-                                stroke="#1C274C"
+                                stroke={`${isLight ? 'black' : 'white'}`}
                                 strokeWidth="1.5"
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
@@ -128,7 +116,7 @@ export const NavLetsTalkButton = () => {
         <button
             type="button"
             aria-label="Let's Talk"
-            className="inline-flex w-full items-center justify-center gap-x-2 whitespace-nowrap text-nowrap rounded-2xl bg-[#1a1aff] px-4 py-2 text-base text-white lg:w-fit lg:justify-normal"
+            className="my-auto inline-flex w-full items-center justify-center gap-x-2 whitespace-nowrap text-nowrap rounded-2xl bg-[#1a1aff] px-4 py-2 text-base text-white lg:w-fit lg:justify-normal"
         >
             LET{`'`}S TALK
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none" className="">

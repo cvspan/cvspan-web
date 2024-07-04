@@ -15,7 +15,7 @@ import Cta from '@/components/molecules/CTA';
 export default function Homepage() {
     return (
         <>
-            <Navbar light />
+            <Navbar light={false} />
             <Homelanding />
             <Clients />
             <StoriesCard />
