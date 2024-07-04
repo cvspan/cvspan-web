@@ -123,7 +123,7 @@ export const NavMenu = ({
     );
 };
 
-export const NavLetsTalkButton = ({ isLight }: { isLight: boolean }) => {
+export const NavLetsTalkButton = () => {
     return (
         <button
             type="button"
