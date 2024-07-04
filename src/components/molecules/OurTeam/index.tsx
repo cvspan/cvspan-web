@@ -6,7 +6,7 @@ export const OurTeam = () => {
     return (
         <section>
             <div className="bg-white">
-                <div className="mx-auto w-full max-w-[1200px] py-[120px]">
+                <div className="mx-auto w-full max-w-[1200px] px-5 py-[60px] lg:py-[120px]">
                     <OurTeamHeader />
                     <OurTeamList />
                 </div>

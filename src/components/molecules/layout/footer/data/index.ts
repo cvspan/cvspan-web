@@ -106,7 +106,7 @@ export const FOOTER_LINKS: FooterLink[] = [
             {
                 id: 2,
                 text: 'About',
-                link: '/',
+                link: '/about',
             },
             {
                 id: 3,
@@ -116,7 +116,7 @@ export const FOOTER_LINKS: FooterLink[] = [
             {
                 id: 4,
                 text: 'Contact Us',
-                link: '/',
+                link: '/contact',
             },
             {
                 id: 5,
