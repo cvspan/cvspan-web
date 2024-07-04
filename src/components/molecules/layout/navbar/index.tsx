@@ -35,7 +35,7 @@ function Navbar({ light = false }: { light: boolean }) {
                                     currentIndex={currentIndex}
                                     onIndexChanged={setCurrentIndex}
                                 />
-                                <NavLetsTalkButton isLight={isLight} />
+                                <NavLetsTalkButton />
                             </div>
                         </div>
                     </div>
