@@ -96,6 +96,25 @@
 html,
 body {
     font-family: var(--font-eudoxus);
+    scrollbar-width: none;
+    scrollbar-gutter: 0;
+    -ms-overflow-style: none;
+    /* Selecting scrollbar elements */
+    ::-webkit-scrollbar {
+        width: 0; /* width of the scrollbar */
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: transparent; /* color of the thumb */
+    }
+
+    ::-webkit-scrollbar-track {
+        background-color: transparent; /* color of the track */
+    }
+
+    ::-webkit-scrollbar-button {
+        background-color: transparent; /* color of the buttons (arrows) */
+    }
 }
 
 * {

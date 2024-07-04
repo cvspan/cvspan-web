@@ -1,16 +1,6 @@
-import OpenPosition from '@/components/molecules/openPosition';
-import PerksAndBenefits from '@/components/molecules/perksAndBenefits';
-import OurValues from '@/components/molecules/values/OurValues';
 import React from 'react';
+import CareersPage from '@/components/pages/careers';
 
-const Careers = () => {
-    return (
-        <div>
-            <OurValues />
-            <PerksAndBenefits />
-            <OpenPosition />
-        </div>
-    );
-};
-
-export default Careers;
+export default function page() {
+    return <CareersPage />;
+}

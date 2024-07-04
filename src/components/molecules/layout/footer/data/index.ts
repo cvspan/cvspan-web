@@ -8,27 +8,27 @@ export const FOOTER_LINKS: FooterLink[] = [
             {
                 id: 1,
                 text: 'UI/UX Design',
-                link: '/',
+                link: '/services/ui-ux-design',
             },
             {
                 id: 2,
                 text: 'Web Design',
-                link: '/',
+                link: '/services/website-design',
             },
             {
                 id: 3,
                 text: 'Mobile Design',
-                link: '/',
+                link: '/services/mobile-design',
             },
             {
                 id: 4,
                 text: 'Brand Identity',
-                link: '/',
+                link: '/services/brand-identity',
             },
             {
                 id: 5,
                 text: 'Graphic Design',
-                link: '/',
+                link: '/services/graphic-design',
             },
         ],
     },
@@ -39,27 +39,27 @@ export const FOOTER_LINKS: FooterLink[] = [
             {
                 id: 1,
                 text: 'Landing Page',
-                link: '/',
+                link: '/services/landing-page',
             },
             {
                 id: 2,
                 text: 'Web Development',
-                link: '/',
+                link: '/services/web-development',
             },
             {
                 id: 3,
                 text: 'Webflow Devlopment',
-                link: '/',
+                link: '/services/webflow-development',
             },
             {
                 id: 4,
                 text: 'Mobile Development',
-                link: '/',
+                link: '/services/mobile-development',
             },
             {
                 id: 5,
                 text: 'DevOps',
-                link: '/',
+                link: '/services/devops',
             },
         ],
     },
@@ -70,27 +70,27 @@ export const FOOTER_LINKS: FooterLink[] = [
             {
                 id: 1,
                 text: 'AI & ML',
-                link: '/',
+                link: '/industries/ai-ml',
             },
             {
                 id: 2,
                 text: 'Fintech',
-                link: '/',
+                link: '/industries/fintech',
             },
             {
                 id: 3,
                 text: 'Healthcare & Wellness',
-                link: '/',
+                link: '/industries/healthcare-welness',
             },
             {
                 id: 4,
                 text: 'Web3 Blockchain',
-                link: '/',
+                link: '/industries/web3-blockchain',
             },
             {
                 id: 5,
                 text: 'Saas',
-                link: '/',
+                link: '/industries/saas',
             },
         ],
     },
@@ -106,7 +106,7 @@ export const FOOTER_LINKS: FooterLink[] = [
             {
                 id: 2,
                 text: 'About',
-                link: '/',
+                link: '/about',
             },
             {
                 id: 3,
@@ -116,12 +116,12 @@ export const FOOTER_LINKS: FooterLink[] = [
             {
                 id: 4,
                 text: 'Contact Us',
-                link: '/',
+                link: '/contact',
             },
             {
                 id: 5,
                 text: 'Careers',
-                link: '/',
+                link: '/careers',
             },
         ],
     },
@@ -131,17 +131,17 @@ export const THIRD_PARTY_LINKS: THIRD_PARTY_LINK[] = [
     {
         id: 1,
         text: 'Cookie Policy',
-        link: '/',
+        link: '/legal/cookie-policy',
     },
     {
         id: 2,
         text: 'Privacy Policy',
-        link: '/',
+        link: '/legal/privacy-policy',
     },
     {
         id: 3,
         text: 'Terms of Use',
-        link: '/',
+        link: '/legal/terms-of-use',
     },
 ];
 

@@ -51,7 +51,7 @@ export const OurTeamList = () => {
     return (
         <div className="pt-[60px]">
             <div>
-                <div className="grid grid-cols-12 gap-12">
+                <div className="grid grid-cols-4 gap-5 sm:grid-cols-8 lg:grid-cols-12 lg:gap-12">
                     {TEAM.map((item: Team, i: number) => (
                         <OurTeamItem item={item} key={i} />
                     ))}
