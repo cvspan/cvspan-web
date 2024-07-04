@@ -11,7 +11,7 @@ import Clients from '@/components/molecules/Clients';
 import Achievements from '@/components/molecules/achievements';
 import Faqs from '@/components/molecules/FAQS';
 import Cta from '@/components/molecules/CTA';
-
+import Testimonials from '@/components/molecules/Testimonials';
 export default function Homepage() {
     return (
         <>
@@ -24,6 +24,8 @@ export default function Homepage() {
             <FeaturedDigitalProducts />
             <Achievements />
             <Faqs />
+            <Testimonials />
+
             <Cta />
             <Footer />
         </>
