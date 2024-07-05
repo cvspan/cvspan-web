@@ -26,9 +26,6 @@ export const NavMenu = ({ isLight }: { isLight: boolean }) => {
             <div className="border-box group/services relative w-fit lg:static lg:flex lg:h-full lg:max-w-full lg:flex-grow-0">
                 <div className="flex flex-grow flex-col justify-center">
                     <button
-                        onClick={() => {
-                            onIndexChanged(1);
-                        }}
                         type="button"
                         className={`inline-flex flex-grow items-center font-eudoxus text-[34px] font-medium leading-[42px] lg:text-sm lg:font-normal lg:leading-[22px] ${isLight ? 'text-[#1a1a1a]' : 'text-white'}`}
                     >
@@ -52,9 +49,6 @@ export const NavMenu = ({ isLight }: { isLight: boolean }) => {
             <div className="border-box group/industries relative w-fit lg:static lg:flex lg:h-full lg:max-w-full lg:flex-grow-0">
                 <div className="flex flex-grow flex-col justify-center">
                     <button
-                        onClick={() => {
-                            onIndexChanged(2);
-                        }}
                         type="button"
                         className={`inline-flex flex-grow items-center font-eudoxus text-[34px] font-medium leading-[42px] lg:text-sm lg:font-normal lg:leading-[22px] ${isLight ? 'text-[#1a1a1a]' : 'text-white'}`}
                     >
@@ -71,13 +65,9 @@ export const NavMenu = ({ isLight }: { isLight: boolean }) => {
                     </button>
                 </div>
 
-                <div
-                    ref={ref}
-                    className="invisible mt-4 hidden opacity-0 group-hover/industries:visible group-hover/industries:block group-hover/industries:opacity-100 lg:absolute lg:left-[25%] lg:top-[calc(80px-1px)] lg:z-[200] lg:mt-0 lg:rounded-3xl lg:ps-16"
-                >
+                <div className="invisible mt-4 hidden opacity-0 group-hover/industries:visible group-hover/industries:block group-hover/industries:opacity-100 lg:absolute lg:left-[25%] lg:top-[calc(80px-1px)] lg:z-[200] lg:mt-0 lg:rounded-3xl lg:ps-16">
                     <NavDropDownIndustry links={NavButtons[1].links} />
                 </div>
-                {/* )} */}
             </div>
 
             {NavLinks.map((navLink: NavLink) => (
