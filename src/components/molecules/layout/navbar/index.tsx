@@ -39,7 +39,7 @@ function Navbar({ light = false }: { light: boolean }) {
                     </section>
                 </div>
             </header>
-            {/* <MobileNav isLight={false} /> */}
+            <MobileNav isLight={false} />
         </>
     );
 }
