@@ -21,7 +21,7 @@ const Careerlanding = (props: Props) => {
                     a supportive and diverse community of people that are kind, truth seeking, and authentic
                 </p>
                 <div>
-                    <Link href="/">
+                    <Link href="/careers/open-position">
                         <Button title="JOIN US" />
                     </Link>
                 </div>
