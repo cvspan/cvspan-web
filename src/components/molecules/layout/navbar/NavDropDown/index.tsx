@@ -6,13 +6,16 @@ const LetsTalk = () => (
     <div className="h-full">
         <div className="bg relative flex h-full flex-col justify-between rounded-r-3xl py-12 pe-2 ps-8">
             <div className="flex flex-shrink-0 flex-col gap-y-1">
-                <h1 className={'text-5xl font-extrabold text-white'}>HAVE AN IDEA IN MIND</h1>
+                <h1 className={'font-eudoxus text-5xl font-extrabold text-white'}>HAVE AN IDEA IN MIND</h1>
 
-                <div className={'text-lg font-normal text-white'}>
+                <div className={'font-eudoxus text-lg font-normal text-white'}>
                     Let`s create amazing digital experiences together
                 </div>
             </div>
-            <Link href="/" className="inline-flex flex-shrink-0 items-center gap-x-[40px] text-[34px] text-white">
+            <Link
+                href="/"
+                className="inline-flex flex-shrink-0 items-center gap-x-[40px] font-eudoxus text-[34px] text-white"
+            >
                 <span>LET{`'S`} TALK</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="currentColor">
                     <path d="M1.90476 0L1.82466 5.38679L30.8036 5.3869L0 36.1905L3.80952 40L34.6131 9.19643L34.6132 38.0954L40 38.0952C40 24.1486 40 13.3486 40 0H1.90476Z" />
