@@ -1,7 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useOutsideClick } from '../hooks/useOutsideClick';
 import { NavButtons, NavLinks } from '../data';
 import { NavLink } from '../types';
 import { NavDropDownIndustry, NavDropDownService } from '../NavDropDown';
@@ -23,18 +22,12 @@ export const NavBrand = ({ isLight }: { isLight: boolean }) => {
 
 export const NavMenu = ({
     isLight,
-    currentIndex,
     onIndexChanged,
 }: {
     isLight: boolean;
     currentIndex: number;
     onIndexChanged: React.Dispatch<React.SetStateAction<number>>;
 }) => {
-    const ref = useOutsideClick(handleOutsideClick);
-
-    function handleOutsideClick() {
-        onIndexChanged(0);
-    }
     return (
         <div className="flex flex-col gap-y-6 lg:mx-auto lg:flex-row lg:flex-nowrap lg:items-center lg:gap-x-8">
             <div className="border-box group/services relative w-fit lg:static lg:flex lg:h-full lg:max-w-full lg:flex-grow-0">
@@ -58,14 +51,10 @@ export const NavMenu = ({
                         </svg>
                     </button>
                 </div>
-                {/* {currentIndex === 1 && ( */}
-                <div
-                    // ref={ref}
-                    className="invisible mt-4 hidden opacity-0 group-hover/services:visible group-hover/services:block group-hover/services:opacity-100 lg:absolute lg:left-0 lg:top-[calc(80px-1px)] lg:z-[200] lg:mt-0 lg:ps-16"
-                >
+
+                <div className="invisible mt-4 hidden opacity-0 group-hover/services:visible group-hover/services:block group-hover/services:opacity-100 lg:absolute lg:left-0 lg:top-[calc(80px-1px)] lg:z-[200] lg:mt-0 lg:ps-16">
                     <NavDropDownService links={NavButtons[0].links} />
                 </div>
-                {/* )} */}
             </div>
             <div className="border-box group/industries relative w-fit lg:static lg:flex lg:h-full lg:max-w-full lg:flex-grow-0">
                 <div className="flex flex-grow flex-col justify-center">
