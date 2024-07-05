@@ -20,14 +20,7 @@ export const NavBrand = ({ isLight }: { isLight: boolean }) => {
     );
 };
 
-export const NavMenu = ({
-    isLight,
-    onIndexChanged,
-}: {
-    isLight: boolean;
-    currentIndex: number;
-    onIndexChanged: React.Dispatch<React.SetStateAction<number>>;
-}) => {
+export const NavMenu = ({ isLight }: { isLight: boolean }) => {
     return (
         <div className="flex flex-col gap-y-6 lg:mx-auto lg:flex-row lg:flex-nowrap lg:items-center lg:gap-x-8">
             <div className="border-box group/services relative w-fit lg:static lg:flex lg:h-full lg:max-w-full lg:flex-grow-0">
