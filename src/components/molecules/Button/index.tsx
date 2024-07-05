@@ -9,7 +9,7 @@ function Button({
     fullWidth = false,
 }: {
     title: string;
-    background?: 'blue' | 'white' | 'dark';
+    background?: 'blue' | 'white' | 'dark' | 'transparent';
     height?: '40px' | '56px';
     leftIcon?: string;
     leftIconSize?: string;

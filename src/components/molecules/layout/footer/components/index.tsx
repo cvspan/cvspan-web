@@ -65,7 +65,7 @@ const FooterThirdPartyLinks = () => {
                 {THIRD_PARTY_LINKS.map((link: THIRD_PARTY_LINK) => (
                     <li key={link.id}>
                         <div className="flex-shrink-0 flex-grow">
-                            <Link href="/" className="font-normal leading-snug underline">
+                            <Link href={link?.link} className="font-normal leading-snug underline">
                                 {link.text}
                             </Link>
                         </div>

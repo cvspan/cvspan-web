@@ -10,12 +10,12 @@ export const data = [
         title: 'Flexible collaboration and fixed monthly rate',
         text: "Once we've heard more about your goals and timeline, we'll start assembling your teem",
     },
-    {
-        id: 2,
-        image: guarantee,
-        title: 'Guaranteed on-time deliverables',
-        text: 'Well send you high-qualty candidates for consideration. ensuring a perfect fit for your company',
-    },
+    // {
+    //     id: 2,
+    //     image: guarantee,
+    //     title: 'Guaranteed on-time deliverables',
+    //     text: 'Well send you high-qualty candidates for consideration. ensuring a perfect fit for your company',
+    // },
     {
         id: 3,
         image: hiring,

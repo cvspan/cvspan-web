@@ -1,20 +1,39 @@
-import { websitedesign } from '@/components/molecules/arrayOfFeatures/arrays';
+import { design } from '@/components/molecules/arrayOfFeatures/arrays';
 import SharedFeaturesComponent from '@/components/molecules/sharedFeaturesComponent/SharedFeaturesComponent';
-import WhatTExpect from '@/components/molecules/whatToExpect/WhatToExpect';
 import React from 'react';
 
-const AIML = () => {
+import Navbar from '@/components/molecules/layout/navbar';
+import Landing from '@/components/molecules/ReusableLandingSection/Landing';
+import Footer from '@/components/molecules/layout/footer';
+import Faqs from '@/components/molecules/FAQS';
+import Testimonials from '@/components/molecules/Testimonials';
+import Cta from '@/components/molecules/CTA';
+import CustomizableDesign from '@/components/molecules/customizableDesign/CustomizableDesign';
+import GetThings from '@/components/molecules/GetThings';
+
+const Page = () => {
     return (
-        <section>
-            <SharedFeaturesComponent
-                intro="You need a website that adapts to any screen size. No loading delays, no navigation issues, and no performance problems. Just results. That’s what we do."
-                title="Our comprehensive web design services"
-                arrayOfFeatures={websitedesign}
-                description="As a design agency offering comprehensive web design services, we aim to provide end-to-end solutions that enhance user experience, align with client goals, and drive business growth. Here's a highlight of what our web design services comprise."
+        <>
+            <Navbar light />
+            <Landing
+                Heading={'AI & ML'}
+                subHeading={`As a UI/UX design agency, we create successful digital products that combine user needs with business goals. Our human centred design approach makes it happen.`}
             />
-            <WhatTExpect />
-        </section>
+
+            <SharedFeaturesComponent
+                intro="Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo."
+                title="Discover the benefits of professional UIUX design service "
+                arrayOfFeatures={design}
+                description="Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+            />
+            <CustomizableDesign />
+            <GetThings title="Benefits of our Design Services" />
+            <Faqs />
+            <Testimonials />
+            <Cta />
+            <Footer />
+        </>
     );
 };
 
-export default AIML;
+export default Page;

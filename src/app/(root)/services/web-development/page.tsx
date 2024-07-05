@@ -2,17 +2,38 @@ import { design } from '@/components/molecules/arrayOfFeatures/arrays';
 import SharedFeaturesComponent from '@/components/molecules/sharedFeaturesComponent/SharedFeaturesComponent';
 import React from 'react';
 
-const WebsiteDevelopment = () => {
+import Navbar from '@/components/molecules/layout/navbar';
+import Landing from '@/components/molecules/ReusableLandingSection/Landing';
+import Footer from '@/components/molecules/layout/footer';
+import Faqs from '@/components/molecules/FAQS';
+import Testimonials from '@/components/molecules/Testimonials';
+import Cta from '@/components/molecules/CTA';
+import CustomizableDesign from '@/components/molecules/customizableDesign/CustomizableDesign';
+import GetThings from '@/components/molecules/GetThings';
+
+const Page = () => {
     return (
-        <section>
-            <SharedFeaturesComponent
-                intro="Stop dealing with sloppy web builders. Webflow's visual interface enables entrepreneurs like you to develop professional websites in 7 days. We design; you shine. Are you ready to impress your users?"
-                title="Range of our Webflow design and development solutions"
-                arrayOfFeatures={design}
-                description="Your website need more than just performance and security. It must be intuitive and simple to use. Webflow provides speed and security, so we provide the experience your users demand."
+        <>
+            <Navbar light />
+            <Landing
+                Heading={'Web Development'}
+                subHeading={`As a UI/UX design agency, we create successful digital products that combine user needs with business goals. Our human centred design approach makes it happen.`}
             />
-        </section>
+
+            <SharedFeaturesComponent
+                intro="Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo."
+                title="Discover the benefits of professional UIUX design service "
+                arrayOfFeatures={design}
+                description="Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+            />
+            <CustomizableDesign />
+            <GetThings title="Benefits of our Design Services" />
+            <Faqs />
+            <Testimonials />
+            <Cta />
+            <Footer />
+        </>
     );
 };
 
-export default WebsiteDevelopment;
+export default Page;
