@@ -4,13 +4,13 @@ import Link from 'next/link';
 export const DigitalProduct = ({ item }: { item: number }) => {
     return (
         <div
-            className="relative col-span-4 rounded-xl border-[1px] border-transparent bg-[#1a1a1a] p-6 hover:border-[#272727]"
+            className="relative col-span-1 rounded-xl border-[1px] border-transparent bg-[#1a1a1a] p-6 hover:border-[#272727] sm:col-span-2 md:col-span-4"
             key={item}
         >
             <div>
                 <div className="flex items-center justify-between">
                     <span>
-                        <div className="text-2xl font-medium text-white">Product Design</div>
+                        <div className="text-2xl font-medium leading-8 text-white">Product Design</div>
                     </span>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -23,7 +23,7 @@ export const DigitalProduct = ({ item }: { item: number }) => {
                     </svg>
                 </div>
                 <div className="mt-[60px]">
-                    <span className="text-[#767676]">
+                    <span className="text-base text-[#767676]">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
                         labore et dolore magna aliqua.
                     </span>

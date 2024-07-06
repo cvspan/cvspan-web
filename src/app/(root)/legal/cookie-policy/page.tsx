@@ -6,7 +6,7 @@ type Props = {};
 const page = (props: Props) => {
     return (
         <>
-            <Privacy />
+            <Privacy pageTitle={'Cookies Policy'} />
         </>
     );
 };

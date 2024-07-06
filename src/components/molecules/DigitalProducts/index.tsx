@@ -6,7 +6,7 @@ export const DigitalProducts = () => {
     return (
         <section>
             <div className="bg-[#0c0c0c]">
-                <div className="mx-auto w-full max-w-[1200px] py-[120px]">
+                <div className="mx-auto w-full max-w-[1200px] px-5 py-[60px] sm:py-[120px]">
                     <DigitalProductHeader />
                     <DigitalProductList />
                 </div>
