@@ -23,20 +23,15 @@ const brands: Brand[] = [
 
 const Clients: React.FC = () => {
     return (
-        <div className="container relative w-full overflow-hidden py-8">
-            <div
-                className="pointer-events-none absolute inset-0"
-                style={{
-                    background:
-                        'linear-gradient(to right, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.8))',
-                }}
-            ></div>
-            <div className="flex items-center justify-between">
-                {brands.map((brand) => (
-                    <div key={brand.id} className="">
-                        <Image src={brand.logo} alt={brand.name} />
-                    </div>
-                ))}
+        <div className="relative w-full overflow-hidden py-8">
+            <div className="mx-auto w-[335px] lg:w-[1012px]">
+                <div className="flex w-full items-center justify-between">
+                    {brands.map((brand) => (
+                        <div key={brand.id} className="">
+                            <Image src={brand.logo} alt={brand.name} />
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     );

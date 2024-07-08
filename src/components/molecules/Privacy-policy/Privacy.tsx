@@ -10,15 +10,15 @@ const Privacy = ({ pageTitle }: Props) => {
     return (
         <>
             <Navbar light />
-            <div className="mx-auto w-[1200px] space-y-[60px] pt-[120px]">
-                <div className="">
-                    <h1 className="font-pp-mori text-[96px] font-semibold leading-[103.68px] text-[#1A1A1A]">
+            <div className="mx-auto w-[335px] space-y-[60px] pt-[120px] lg:w-[1200px]">
+                <div className="w-full">
+                    <h1 className="font-pp-mori text-[34px] font-[500] leading-[42px] text-[#1A1A1A] lg:text-[96px] lg:font-semibold lg:leading-[103.68px]">
                         {pageTitle}
                     </h1>
                 </div>
                 <div className="space-y-[30px]">
                     <div className="space-y-[16px]">
-                        <h5 className="font-eudoxus text-[24px] font-[600] leading-[32px]">
+                        <h5 className="font-eudoxus text-[24px] font-[500] leading-[32px] lg:font-[600]">
                             Our privacy policy promise
                         </h5>
                         <p className="text-[16px] font-normal leading-[24px] text-[#484848]">
@@ -60,7 +60,7 @@ const Privacy = ({ pageTitle }: Props) => {
                         </p>
                     </div>
                     <div className="space-y-[16px]">
-                        <h5 className="font-eudoxus text-[24px] font-[600] leading-[32px]">
+                        <h5 className="font-eudoxus text-[24px] font-[500] leading-[32px] lg:font-[600]">
                             Using your Personal Information
                         </h5>
                         <p className="text-[16px] font-normal leading-[24px] text-[#484848]">
@@ -101,7 +101,7 @@ const Privacy = ({ pageTitle }: Props) => {
                         </p>
                     </div>
                     <div className="space-y-[16px]">
-                        <h5 className="font-eudoxus text-[24px] font-[600] leading-[32px]">
+                        <h5 className="font-eudoxus text-[24px] font-[500] leading-[32px] lg:font-[600]">
                             {' '}
                             Links to other websites{' '}
                         </h5>
@@ -112,7 +112,9 @@ const Privacy = ({ pageTitle }: Props) => {
                         </p>
                     </div>
                     <div className="space-y-[16px]">
-                        <h5 className="font-eudoxus text-[24px] font-[600] leading-[32px]">Newsletter Signup</h5>
+                        <h5 className="font-eudoxus text-[24px] font-[500] leading-[32px] lg:font-[600]">
+                            Newsletter Signup
+                        </h5>
                         <p className="text-[16px] font-normal leading-[24px] text-[#484848]">
                             As part of the registration process for our monthly e-newsletter, we collect personal
                             information. We use that information for a couple of reasons:
@@ -142,7 +144,9 @@ const Privacy = ({ pageTitle }: Props) => {
                         </p>
                     </div>
                     <div className="space-y-[16px]">
-                        <h5 className="font-eudoxus text-[24px] font-[600] leading-[32px]">Disclosures</h5>
+                        <h5 className="font-eudoxus text-[24px] font-[500] leading-[32px] lg:font-[600]">
+                            Disclosures
+                        </h5>
                         <p className="text-[16px] font-normal leading-[24px] text-[#484848]">
                             We may disclose your personal information to any of our employees, officers, agents,
                             suppliers or subcontractors insofar as reasonably necessary for the purposes set out in this
@@ -172,7 +176,7 @@ const Privacy = ({ pageTitle }: Props) => {
                         </p>
                     </div>
                     <div className="space-y-[16px]">
-                        <h5 className="font-eudoxus text-[24px] font-[600] leading-[32px]">
+                        <h5 className="font-eudoxus text-[24px] font-[500] leading-[32px] lg:font-[600]">
                             Security of your personal information
                         </h5>
                         <p className="text-[16px] font-normal leading-[24px] text-[#484848]">
@@ -185,7 +189,7 @@ const Privacy = ({ pageTitle }: Props) => {
                         </p>
                     </div>
                     <div className="space-y-[16px]">
-                        <h5 className="font-eudoxus text-[24px] font-[600] leading-[32px]">
+                        <h5 className="font-eudoxus text-[24px] font-[500] leading-[32px] lg:font-[600]">
                             Access to your personal information
                         </h5>
                         <p className="text-[16px] font-normal leading-[24px] text-[#484848]">
@@ -204,7 +208,7 @@ const Privacy = ({ pageTitle }: Props) => {
                         </div>
                     </div>
                     <div className="space-y-[16px]">
-                        <h5 className="font-eudoxus text-[24px] font-[600] leading-[32px]">
+                        <h5 className="font-eudoxus text-[24px] font-[500] leading-[32px] lg:font-[600]">
                             Changes to this privacy notice
                         </h5>
                         <p className="text-[16px] font-normal leading-[24px] text-[#484848]">
