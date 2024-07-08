@@ -13,7 +13,7 @@ const Aboutlanding = (props: Props) => {
                 <Image src={Elipse} alt="elipse" />
             </div>
             <div className="flex h-full w-full flex-col items-center justify-center">
-                <div className="mx-auto flex w-[335px] flex-col justify-center space-y-6 lg:w-[1012px]">
+                <div className="mx-auto flex w-[335px] flex-col items-center justify-center space-y-6 lg:w-[1012px]">
                     <h1 className="text-center font-pp-mori text-[32px] font-[500] leading-[42px] text-white lg:text-[70px] lg:font-[600] lg:leading-[78px]">
                         We provide innovative design solutions & expert talents
                     </h1>
@@ -21,7 +21,7 @@ const Aboutlanding = (props: Props) => {
                         From a small team of five people to a leading global remote team of professional designers &
                         developers that strive to develop valuable digital products for people worldwide.
                     </p>
-                    <div className="flex w-full flex-col items-center justify-center space-y-4 lg:w-[368px] lg:flex-row lg:space-x-6">
+                    <div className="flex w-full flex-col items-center justify-center space-y-4 lg:w-[400px] lg:flex-row lg:space-x-6">
                         <Button title="OUR SERVICES" fullWidth height="56px" background="white" />
                         <Button title="GET STARTED" fullWidth height="56px" background="transparent" />
                     </div>
