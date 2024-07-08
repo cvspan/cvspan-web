@@ -27,9 +27,9 @@ const Aboutlanding = (props: Props) => {
                     </div>
                 </div>
 
-                {/* <div className="">
+                <div className="absolute bottom-9">
                     <Brands />
-                </div> */}
+                </div>
             </div>
         </div>
     );

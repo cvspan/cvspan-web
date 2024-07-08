@@ -3,6 +3,7 @@ import React from 'react';
 import { StaticImageData } from 'next/image';
 import Image from 'next/image';
 import { icon1, icon2, icon3, icon4, icon5, icon6, icon7, icon8 } from '@/components/exports/images';
+import Marquee from 'react-fast-marquee';
 
 interface Brand {
     id: number;
@@ -25,13 +26,15 @@ const Clients: React.FC = () => {
     return (
         <div className="relative w-full overflow-hidden py-8">
             <div className="mx-auto w-[335px] lg:w-[1012px]">
-                <div className="flex w-full items-center justify-between">
-                    {brands.map((brand) => (
-                        <div key={brand.id} className="">
-                            <Image src={brand.logo} alt={brand.name} />
-                        </div>
-                    ))}
-                </div>
+                <Marquee speed={50}>
+                    <div className="flex items-center justify-between">
+                        {brands.map((brand) => (
+                            <div key={brand.id} className="mx-[24px]">
+                                <Image src={brand.logo} alt={brand.name} />
+                            </div>
+                        ))}
+                    </div>
+                </Marquee>
             </div>
         </div>
     );
