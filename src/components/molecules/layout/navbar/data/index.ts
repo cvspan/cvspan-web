@@ -112,12 +112,12 @@ export const NavLinks: NavLink[] = [
     {
         id: 1,
         text: 'About',
-        link: '/',
+        link: '/about',
     },
     {
         id: 2,
         text: 'Blog',
-        link: '/',
+        link: '/blog',
     },
     {
         id: 3,

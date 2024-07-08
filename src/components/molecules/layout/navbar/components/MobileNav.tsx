@@ -241,7 +241,7 @@ export const MobileNav = () => {
                             {NavLinks.map((navLink: NavLink, i: number) => (
                                 <Link
                                     key={i}
-                                    href="/"
+                                    href={navLink.link}
                                     className={
                                         'inline-flex items-center font-eudoxus text-[34px] font-medium leading-[42px] text-[#1a1a1a] lg:text-sm lg:font-normal lg:leading-[22px]'
                                     }

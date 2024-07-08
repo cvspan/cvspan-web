@@ -72,7 +72,7 @@ export const NavMenu = ({ isLight }: { isLight: boolean }) => {
 
             {NavLinks.map((navLink: NavLink) => (
                 <Link
-                    href="/"
+                    href={navLink.link}
                     className={`inline-flex items-center font-eudoxus text-[34px] font-medium leading-[42px] lg:text-sm lg:font-normal lg:leading-[22px] ${isLight ? 'text-[#1a1a1a]' : 'text-white'}`}
                     key={navLink.id}
                 >
