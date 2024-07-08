@@ -85,9 +85,10 @@ export const NavMenu = ({ isLight }: { isLight: boolean }) => {
 
 export const NavLetsTalkButton = () => {
     return (
-        <button
-            type="button"
+        <Link
+            href="/contact"
             aria-label="Let's Talk"
+            role="button"
             className="my-auto inline-flex w-full items-center justify-center gap-x-2 whitespace-nowrap text-nowrap rounded-2xl bg-[#1a1aff] px-4 py-2 font-eudoxus text-base text-white lg:w-fit lg:justify-normal"
         >
             LET{`'`}S TALK
@@ -101,6 +102,6 @@ export const NavLetsTalkButton = () => {
                     fill="white"
                 />
             </svg>
-        </button>
+        </Link>
     );
 };

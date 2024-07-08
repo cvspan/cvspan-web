@@ -2,8 +2,8 @@ import React, { useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { NavLetsTalkButton } from '.';
-import { NavLinks } from '../data';
-import { NavLink } from '../types';
+import { NavButtons, NavLinks } from '../data';
+import { NavbarList, NavLink, SubNavbarList } from '../types';
 
 export const MobileNav = () => {
     const serviceRef = useRef<HTMLDivElement>(null);
@@ -106,70 +106,24 @@ export const MobileNav = () => {
 
                                 <div ref={serviceRef} className="hidden">
                                     <ul className="mt-4 grid gap-y-10 ps-6">
-                                        <li>
-                                            <div className="font-eudoxus text-lg font-normal leading-[22px] text-[#a3a3a3]">
-                                                Design
-                                            </div>
-                                            <ul>
-                                                <li className="mt-4">
-                                                    <div className="font-eudoxus text-base font-medium leading-6 text-[#1a1a1a]">
-                                                        UI/UX Design
-                                                    </div>
-                                                </li>
-                                                <li className="mt-4">
-                                                    <div className="font-eudoxus text-base font-medium leading-6 text-[#1a1a1a]">
-                                                        Website Design
-                                                    </div>
-                                                </li>
-                                                <li className="mt-4">
-                                                    <div className="font-eudoxus text-base font-medium leading-6 text-[#1a1a1a]">
-                                                        Mobile Design
-                                                    </div>
-                                                </li>
-                                                <li className="mt-4">
-                                                    <div className="font-eudoxus text-base font-medium leading-6 text-[#1a1a1a]">
-                                                        Brand Identity
-                                                    </div>
-                                                </li>
-                                                <li className="mt-4">
-                                                    <div className="font-eudoxus text-base font-medium leading-6 text-[#1a1a1a]">
-                                                        Graphic Design
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <div className="font-eudoxus text-lg font-normal leading-[22px] text-[#a3a3a3]">
-                                                Development
-                                            </div>
-                                            <ul>
-                                                <li className="mt-4">
-                                                    <div className="font-eudoxus text-base font-medium leading-6 text-[#1a1a1a]">
-                                                        Webflow Development
-                                                    </div>
-                                                </li>
-                                                <li className="mt-4">
-                                                    <div className="font-eudoxus text-base font-medium leading-6 text-[#1a1a1a]">
-                                                        Landing Page
-                                                    </div>
-                                                </li>
-                                                <li className="mt-4">
-                                                    <div className="font-eudoxus text-base font-medium leading-6 text-[#1a1a1a]">
-                                                        Web Development
-                                                    </div>
-                                                </li>
-                                                <li className="mt-4">
-                                                    <div className="font-eudoxus text-base font-medium leading-6 text-[#1a1a1a]">
-                                                        Mobile Development
-                                                    </div>
-                                                </li>
-                                                <li className="mt-4">
-                                                    <div className="font-eudoxus text-base font-medium leading-6 text-[#1a1a1a]">
-                                                        DevOps
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </li>
+                                        {NavButtons[0].links.map((subList: NavbarList, i: number) => (
+                                            <li key={i}>
+                                                <div className="font-eudoxus text-lg font-normal leading-[22px] text-[#a3a3a3]">
+                                                    {subList.title}
+                                                </div>
+                                                <ul>
+                                                    {subList.list.map((list: SubNavbarList, i: number) => (
+                                                        <li className="mt-4" key={i}>
+                                                            <Link href={`${list.link}`} className="no-underline">
+                                                                <div className="font-eudoxus text-base font-medium leading-6 text-[#1a1a1a]">
+                                                                    {list.title}
+                                                                </div>
+                                                            </Link>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </li>
+                                        ))}
                                     </ul>
                                 </div>
                             </div>
@@ -208,31 +162,15 @@ export const MobileNav = () => {
                                                 Industries
                                             </div>
                                             <ul>
-                                                <li className="mt-4">
-                                                    <div className="font-eudoxus text-base font-medium leading-6 text-[#1a1a1a]">
-                                                        AI & ML
-                                                    </div>
-                                                </li>
-                                                <li className="mt-4">
-                                                    <div className="font-eudoxus text-base font-medium leading-6 text-[#1a1a1a]">
-                                                        Fintech
-                                                    </div>
-                                                </li>
-                                                <li className="mt-4">
-                                                    <div className="font-eudoxus text-base font-medium leading-6 text-[#1a1a1a]">
-                                                        HealtCare
-                                                    </div>
-                                                </li>
-                                                <li className="mt-4">
-                                                    <div className="font-eudoxus text-base font-medium leading-6 text-[#1a1a1a]">
-                                                        Web 3,Blockchain
-                                                    </div>
-                                                </li>
-                                                <li className="mt-4">
-                                                    <div className="font-eudoxus text-base font-medium leading-6 text-[#1a1a1a]">
-                                                        Saas
-                                                    </div>
-                                                </li>
+                                                {NavButtons[1].links[0].list.map((link: SubNavbarList, i: number) => (
+                                                    <li className="mt-4" key={i}>
+                                                        <Link href={`${link.link}`} className="mt-4 flex no-underline">
+                                                            <div className="font-eudoxus text-base font-medium leading-6 text-[#1a1a1a]">
+                                                                {link.title}
+                                                            </div>
+                                                        </Link>
+                                                    </li>
+                                                ))}
                                             </ul>
                                         </li>
                                     </ul>
