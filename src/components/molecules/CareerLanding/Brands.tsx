@@ -1,8 +1,17 @@
 'use client';
 import { StaticImageData } from 'next/image';
 import Image from 'next/image';
-import { iconWhite1,iconWhite2, iconWhite3, iconWhite4, iconWhite5, iconWhite6, iconWhite7, iconWhite8 } from '@/components/exports/images';
-
+import {
+    iconWhite1,
+    iconWhite2,
+    iconWhite3,
+    iconWhite4,
+    iconWhite5,
+    iconWhite6,
+    iconWhite7,
+    iconWhite8,
+} from '@/components/exports/images';
+import Marquee from 'react-fast-marquee';
 interface Brand {
     id: number;
     name: string;
@@ -22,20 +31,23 @@ const brands: Brand[] = [
 
 const Brands: React.FC = () => {
     return (
-        <div className="w-[1125px] relative overflow-hidden py-8 mt-[5rem]">
+        <div className="relative mt-[5rem] w-[1125px] overflow-hidden py-8">
             <div
                 className="pointer-events-none absolute inset-0"
                 style={{
-                    background:
-                        'linear-gradient(to right, #050505 , rgba(255, 255, 255, 0), #050505)',
+                    background: 'linear-gradient(to right, #050505 , rgba(255, 255, 255, 0), #050505)',
                 }}
             ></div>
-            <div className="flex items-center justify-between">
-                {brands.map((brand) => (
-                    <div key={brand.id} className="">
-                        <Image src={brand.logo} alt={brand.name} />
+            <div className="">
+                <Marquee speed={50}>
+                    <div className="flex items-center justify-between">
+                        {brands.map((brand) => (
+                            <div key={brand.id} className="mx-[24px]">
+                                <Image src={brand.logo} alt={brand.name} />
+                            </div>
+                        ))}
                     </div>
-                ))}
+                </Marquee>
             </div>
         </div>
     );
