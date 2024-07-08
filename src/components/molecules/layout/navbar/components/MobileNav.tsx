@@ -5,7 +5,7 @@ import { NavLetsTalkButton } from '.';
 import { NavLinks } from '../data';
 import { NavLink } from '../types';
 
-export const MobileNav = ({ isLight }: { isLight: boolean }) => {
+export const MobileNav = () => {
     const serviceRef = useRef<HTMLDivElement>(null);
     const industryRef = useRef<HTMLDivElement>(null);
     const [menuActive, setMenuActive] = useState<boolean>(false);
