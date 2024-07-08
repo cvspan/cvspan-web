@@ -15,7 +15,7 @@ import Testimonials from '@/components/molecules/Testimonials';
 export default function Homepage() {
     return (
         <>
-            <Navbar light />
+            <Navbar light={false} />
             <Homelanding />
             <Clients />
             <StoriesCard />
