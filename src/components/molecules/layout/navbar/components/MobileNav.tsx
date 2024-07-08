@@ -5,7 +5,7 @@ import { NavLetsTalkButton } from '.';
 import { NavButtons, NavLinks } from '../data';
 import { NavbarList, NavLink, SubNavbarList } from '../types';
 
-export const MobileNav = () => {
+export const MobileNav = ({ isLight }: { isLight: boolean }) => {
     const serviceRef = useRef<HTMLDivElement>(null);
     const industryRef = useRef<HTMLDivElement>(null);
     const [menuActive, setMenuActive] = useState<boolean>(false);
@@ -25,14 +25,14 @@ export const MobileNav = () => {
     };
     return (
         <header
-            className={`${menuActive ? 'bg-white' : 'bg-transparent'} fixed left-0 right-0 top-0 z-50 bg-transparent lg:hidden`}
+            className={`${menuActive || isLight ? 'bg-white' : 'bg-transparent'} fixed left-0 right-0 top-0 z-50 bg-transparent lg:hidden`}
         >
             <div>
                 <section className="flex w-full flex-col justify-center gap-y-10">
                     <div className="sticky top-0 z-30 flex h-20 w-full justify-between p-5">
                         <Link href="/" className="relative my-auto box-border block text-white">
                             <Image
-                                src={`${menuActive ? '/assets/images/logo-black.svg' : '/assets/images/logo-transparent.svg'}`}
+                                src={`${menuActive || isLight ? '/assets/images/logo-black.svg' : '/assets/images/logo-transparent.svg'}`}
                                 width={152}
                                 height={31}
                                 alt="Cvspan logo"
@@ -49,7 +49,7 @@ export const MobileNav = () => {
                             >
                                 <path
                                     d="M5 7.5H35V11.25H5V7.5ZM5 18.125H35V21.875H5V18.125ZM5 28.75H35V32.5H5V28.75Z"
-                                    fill={`${menuActive ? '#1a1a1a' : 'white'}`}
+                                    fill={`${menuActive || isLight ? '#1a1a1a' : 'white'}`}
                                 />
                             </svg>
                         </button>

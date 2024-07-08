@@ -6,7 +6,9 @@ import { MobileNav } from './components/MobileNav';
 function Navbar({ light }: { light: boolean }) {
     return (
         <>
-            <header className="hidden lg:fixed lg:left-0 lg:right-0 lg:top-0 lg:z-50 lg:block">
+            <header
+                className={`${light ? 'bg-white' : 'bg-transparent'} hidden lg:fixed lg:left-0 lg:right-0 lg:top-0 lg:z-50 lg:block`}
+            >
                 <div>
                     <section className="flex w-full flex-col justify-center lg:h-20">
                         <div className="mx-auto w-full max-w-[1200px] px-5 lg:h-full">
@@ -37,7 +39,7 @@ function Navbar({ light }: { light: boolean }) {
                     </section>
                 </div>
             </header>
-            <MobileNav />
+            <MobileNav isLight={light} />
         </>
     );
 }
