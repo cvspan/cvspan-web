@@ -1,7 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useOutsideClick } from '../hooks/useOutsideClick';
 import { NavButtons, NavLinks } from '../data';
 import { NavLink } from '../types';
 import { NavDropDownIndustry, NavDropDownService } from '../NavDropDown';
@@ -9,7 +8,7 @@ import '../Navbar.css';
 
 export const NavBrand = ({ isLight }: { isLight: boolean }) => {
     return (
-        <Link href="/" className="relative box-border block text-white">
+        <Link href="/" className="relative my-auto box-border block text-white">
             <Image
                 src={`${isLight ? '/assets/images/logo-black.svg' : '/assets/images/logo-transparent.svg'}`}
                 width={152}
@@ -21,42 +20,20 @@ export const NavBrand = ({ isLight }: { isLight: boolean }) => {
     );
 };
 
-export const NavMenu = ({
-    isLight,
-    currentIndex,
-    onIndexChanged,
-}: {
-    isLight: boolean;
-    currentIndex: number;
-    onIndexChanged: React.Dispatch<React.SetStateAction<number>>;
-}) => {
-    const ref = useOutsideClick(handleOutsideClick);
-
-    function handleOutsideClick() {
-        onIndexChanged(0);
-    }
+export const NavMenu = ({ isLight }: { isLight: boolean }) => {
     return (
-        <div className="mx-auto flex flex-nowrap items-center gap-x-8">
-            <div className="border-box max-w-full flex-grow-0 basis-0">
-                <div>
+        <div className="flex flex-col gap-y-6 lg:mx-auto lg:flex-row lg:flex-nowrap lg:items-center lg:gap-x-8">
+            <div className="border-box group/services relative w-fit lg:static lg:flex lg:h-full lg:max-w-full lg:flex-grow-0">
+                <div className="flex flex-grow flex-col justify-center">
                     <button
-                        onClick={() => {
-                            onIndexChanged(1);
-                        }}
                         type="button"
-                        className={`inline-flex text-base font-normal ${isLight ? 'text-[#1a1a1a]' : 'text-white'}`}
+                        className={`inline-flex flex-grow items-center font-eudoxus text-[34px] font-medium leading-[42px] lg:text-sm lg:font-normal lg:leading-[22px] ${isLight ? 'text-[#1a1a1a]' : 'text-white'}`}
                     >
                         <span className="pe-2">Services</span>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="currentColor"
-                        >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18" fill="none">
                             <path
                                 d="M19 9L12 15L5 9"
-                                stroke="#1C274C"
+                                stroke={`${isLight ? 'black' : 'white'}`}
                                 strokeWidth="1.5"
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
@@ -64,32 +41,22 @@ export const NavMenu = ({
                         </svg>
                     </button>
                 </div>
-                {currentIndex === 1 && (
-                    <div ref={ref} className="absolute left-0 top-[100%] z-[200] mt-12 ps-16">
-                        <NavDropDownService links={NavButtons[0].links} />
-                    </div>
-                )}
+
+                <div className="invisible mt-4 hidden opacity-0 group-hover/services:visible group-hover/services:block group-hover/services:opacity-100 lg:absolute lg:left-0 lg:top-[calc(80px-1px)] lg:z-[200] lg:mt-0 lg:ps-16">
+                    <NavDropDownService links={NavButtons[0].links} />
+                </div>
             </div>
-            <div className="border-box max-w-full flex-grow-0 basis-0">
-                <div>
+            <div className="border-box group/industries relative w-fit lg:static lg:flex lg:h-full lg:max-w-full lg:flex-grow-0">
+                <div className="flex flex-grow flex-col justify-center">
                     <button
-                        onClick={() => {
-                            onIndexChanged(2);
-                        }}
                         type="button"
-                        className={`inline-flex text-base font-normal ${isLight ? 'text-[#1a1a1a]' : 'text-white'}`}
+                        className={`inline-flex flex-grow items-center font-eudoxus text-[34px] font-medium leading-[42px] lg:text-sm lg:font-normal lg:leading-[22px] ${isLight ? 'text-[#1a1a1a]' : 'text-white'}`}
                     >
                         <span className="pe-2">Industries</span>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="currentColor"
-                        >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18" fill="none">
                             <path
                                 d="M19 9L12 15L5 9"
-                                stroke="#1C274C"
+                                stroke={`${isLight ? 'black' : 'white'}`}
                                 strokeWidth="1.5"
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
@@ -97,17 +64,16 @@ export const NavMenu = ({
                         </svg>
                     </button>
                 </div>
-                {currentIndex === 2 && (
-                    <div ref={ref} className="absolute left-[25%] top-[100%] z-[200] mt-12 rounded-3xl ps-16">
-                        <NavDropDownIndustry links={NavButtons[1].links} />
-                    </div>
-                )}
+
+                <div className="invisible mt-4 hidden opacity-0 group-hover/industries:visible group-hover/industries:block group-hover/industries:opacity-100 lg:absolute lg:left-[25%] lg:top-[calc(80px-1px)] lg:z-[200] lg:mt-0 lg:rounded-3xl lg:ps-16">
+                    <NavDropDownIndustry links={NavButtons[1].links} />
+                </div>
             </div>
 
             {NavLinks.map((navLink: NavLink) => (
                 <Link
                     href="/"
-                    className={`text-base font-normal ${isLight ? 'text-[#1a1a1a]' : 'text-white'} `}
+                    className={`inline-flex items-center font-eudoxus text-[34px] font-medium leading-[42px] lg:text-sm lg:font-normal lg:leading-[22px] ${isLight ? 'text-[#1a1a1a]' : 'text-white'}`}
                     key={navLink.id}
                 >
                     {navLink.text}
@@ -117,12 +83,12 @@ export const NavMenu = ({
     );
 };
 
-export const NavLetsTalkButton = ({ isLight }: { isLight: boolean }) => {
+export const NavLetsTalkButton = () => {
     return (
         <button
             type="button"
             aria-label="Let's Talk"
-            className={`inline-flex items-center gap-x-2 whitespace-nowrap text-nowrap rounded-2xl bg-blue-1000 px-4 py-2 text-base ${isLight ? 'text-black' : 'text-white'}`}
+            className="my-auto inline-flex w-full items-center justify-center gap-x-2 whitespace-nowrap text-nowrap rounded-2xl bg-[#1a1aff] px-4 py-2 text-base text-white lg:w-fit lg:justify-normal"
         >
             LET{`'`}S TALK
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none" className="">
