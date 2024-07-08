@@ -28,7 +28,7 @@ export const HowWeWorkList = () => {
     return (
         <div className="pt-[60px]">
             <div>
-                <div className="grid grid-cols-3 gap-6 sm:grid-cols-6 lg:grid-cols-12 lg:gap-12">
+                <div className="grid grid-cols-3 gap-6 sm:grid-cols-6 lg:grid-cols-12">
                     {HOWWEWORK.map((item: HowWeWork, i: number) => (
                         <HowWorkItem item={item} key={i} />
                     ))}
