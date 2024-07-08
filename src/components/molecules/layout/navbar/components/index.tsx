@@ -29,7 +29,7 @@ export const NavMenu = ({ isLight }: { isLight: boolean }) => {
                         type="button"
                         className={`inline-flex flex-grow items-center font-eudoxus text-[34px] font-medium leading-[42px] lg:text-sm lg:font-normal lg:leading-[22px] ${isLight ? 'text-[#1a1a1a]' : 'text-white'}`}
                     >
-                        <span className="pe-2">Service</span>
+                        <span className="pe-2">Services</span>
                         <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18" fill="none">
                             <path
                                 d="M19 9L12 15L5 9"
