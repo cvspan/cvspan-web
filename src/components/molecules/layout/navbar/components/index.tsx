@@ -88,7 +88,7 @@ export const NavLetsTalkButton = () => {
         <button
             type="button"
             aria-label="Let's Talk"
-            className="my-auto inline-flex w-full items-center justify-center gap-x-2 whitespace-nowrap text-nowrap rounded-2xl bg-[#1a1aff] px-4 py-2 text-base text-white lg:w-fit lg:justify-normal"
+            className="my-auto inline-flex w-full items-center justify-center gap-x-2 whitespace-nowrap text-nowrap rounded-2xl bg-[#1a1aff] px-4 py-2 font-eudoxus text-base text-white lg:w-fit lg:justify-normal"
         >
             LET{`'`}S TALK
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none" className="">

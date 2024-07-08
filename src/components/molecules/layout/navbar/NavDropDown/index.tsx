@@ -16,9 +16,9 @@ const LetsTalk = () => (
             </div>
             <Link
                 href="/"
-                className="mt-auto inline-flex flex-shrink-0 items-center gap-x-[40px] font-eudoxus text-[34px] text-white"
+                className="mt-auto inline-flex flex-shrink-0 items-center gap-x-[40px] font-eudoxus text-[34px] leading-[42px] text-white"
             >
-                <span>LET{`'S`} TALK</span>
+                <span className="font-medium">LET{`'S`} TALK</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="currentColor">
                     <path d="M1.90476 0L1.82466 5.38679L30.8036 5.3869L0 36.1905L3.80952 40L34.6131 9.19643L34.6132 38.0954L40 38.0952C40 24.1486 40 13.3486 40 0H1.90476Z" />
                 </svg>
