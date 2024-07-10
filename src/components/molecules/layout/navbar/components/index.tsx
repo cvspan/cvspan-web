@@ -10,7 +10,7 @@ export const NavBrand = ({ isLight }: { isLight: boolean }) => {
     return (
         <Link href="/" className="relative my-auto box-border block text-white">
             <Image
-                src={`${isLight ? '/assets/images/logo-white.svg' : '/assets/images/logo-transparent.svg'}`}
+                src={`${isLight ? '/assets/images/logo-black.svg' : '/assets/images/logo-transparent.svg'}`}
                 width={152}
                 height={31}
                 alt="Cvspan logo"
