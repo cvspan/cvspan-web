@@ -1,21 +1,21 @@
 'use client';
-import React, { useState } from 'react';
+import React from 'react';
 import { NavBrand, NavMenu, NavLetsTalkButton } from './components';
 import { MobileNav } from './components/MobileNav';
 
-function Navbar({ light = false }: { light: boolean }) {
-    const [isLight, setIsLight] = useState<boolean | false>(light);
-
+function Navbar({ light }: { light: boolean }) {
     return (
         <>
-            <header className="hidden lg:fixed lg:left-0 lg:right-0 lg:top-0 lg:z-50 lg:block">
+            <header
+                className={`${light ? 'bg-white' : 'bg-transparent'} hidden lg:fixed lg:left-0 lg:right-0 lg:top-0 lg:z-50 lg:block`}
+            >
                 <div>
                     <section className="flex w-full flex-col justify-center lg:h-20">
-                        <div className="mx-auto w-full max-w-[1200px] lg:h-full">
-                            <div className="fixed inset-0 z-50 box-border w-full overflow-y-scroll bg-transparent lg:relative lg:h-full lg:flex-grow lg:flex-nowrap lg:items-center lg:justify-normal lg:overflow-y-visible">
-                                <div className="flex flex-col items-stretch gap-y-10 p-5 lg:h-full lg:flex-row lg:gap-y-0 lg:px-5 lg:py-0">
+                        <div className="mx-auto w-full max-w-[1200px] px-5 lg:h-full">
+                            <div className="fixed inset-0 z-50 box-border w-full overflow-y-scroll lg:relative lg:h-full lg:flex-grow lg:flex-nowrap lg:items-center lg:justify-normal lg:overflow-y-visible">
+                                <div className="flex flex-col items-stretch gap-y-10 p-5 lg:h-full lg:flex-row lg:gap-y-0 lg:p-0 lg:py-0">
                                     <div className="flex w-full justify-between lg:w-fit lg:justify-normal">
-                                        <NavBrand isLight={isLight} />
+                                        <NavBrand isLight={light} />
                                         <button type="button" className="lg:hidden">
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -31,7 +31,7 @@ function Navbar({ light = false }: { light: boolean }) {
                                             </svg>
                                         </button>
                                     </div>
-                                    <NavMenu isLight={isLight} />
+                                    <NavMenu isLight={light} />
                                     <NavLetsTalkButton />
                                 </div>
                             </div>
@@ -39,7 +39,7 @@ function Navbar({ light = false }: { light: boolean }) {
                     </section>
                 </div>
             </header>
-            <MobileNav isLight={false} />
+            <MobileNav isLight={light} />
         </>
     );
 }
