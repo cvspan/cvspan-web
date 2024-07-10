@@ -8,6 +8,7 @@ export type SubNavbarList = {
     id: number;
     title: string;
     caption: string;
+    link: string;
 };
 
 export type NavbarList = {

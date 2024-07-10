@@ -7,15 +7,17 @@ import { avatar } from '@/components/exports/images';
 
 export const OurTeamItem = ({ item }: { item: Team }) => {
     return (
-        <div className="relative col-span-4 rounded-xl bg-[#fafafa]">
+        <div className="relative col-span-4 rounded-3xl bg-[#fafafa]">
             <div className="aspect-[16/9]">
                 <div className="ms-8 mt-8 flex-grow-0">
                     <div className="flex items-center justify-between">
                         <span className="max-w-[300px]">
-                            <div className="overflow-auto text-ellipsis whitespace-nowrap text-2xl font-medium leading-[32px] text-[#1a1a1a]">
+                            <div className="overflow-auto text-ellipsis whitespace-nowrap font-eudoxus text-2xl font-medium leading-[32px] text-[#1a1a1a]">
                                 {item.name}
                             </div>
-                            <div className="text-sm font-normal leading-[22px] text-[#1a1a1a]">{item.role}</div>
+                            <div className="font-eudoxus text-sm font-normal leading-[22px] text-[#1a1a1a]">
+                                {item.role}
+                            </div>
                         </span>
                     </div>
                 </div>

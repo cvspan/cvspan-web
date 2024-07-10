@@ -36,7 +36,7 @@ export const ContactAside = () => {
                 <div className="flex gap-x-3">
                     <div className="flex items-center rounded-full bg-white p-2">
                         <Link
-                            href="/"
+                            href="/facebook.com/CVSpancom"
                             aria-label="Facebook"
                             className="inline-flex h-full w-full items-center text-inherit no-underline"
                         >
@@ -142,7 +142,7 @@ export const ContactAside = () => {
                     </div>
                     <div className="flex items-center rounded-full bg-white p-2">
                         <Link
-                            href="/"
+                            href="/www.youtube.com/cvspantv"
                             aria-label="Youtube"
                             className="inline-flex h-full w-full items-center text-inherit no-underline"
                         >
