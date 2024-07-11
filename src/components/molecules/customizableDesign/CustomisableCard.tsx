@@ -26,8 +26,8 @@ const CustomisableCard = () => {
             <div className="flex h-[60px] w-[60px] items-center justify-center self-end justify-self-end bg-[#1A1AFF] group-hover:hidden">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
+                        fillRule="evenodd"
+                        clipRule="evenodd"
                         d="M0.75 2C0.75 1.30964 1.30964 0.75 2 0.75H17C17.6904 0.75 18.25 1.30964 18.25 2C18.25 2.69036 17.6904 3.25 17 3.25H5.01777L22.8839 21.1161C23.372 21.6043 23.372 22.3957 22.8839 22.8839C22.3957 23.372 21.6043 23.372 21.1161 22.8839L3.25 5.01777V17C3.25 17.6904 2.69036 18.25 2 18.25C1.30964 18.25 0.75 17.6904 0.75 17V2Z"
                         fill="white"
                     />

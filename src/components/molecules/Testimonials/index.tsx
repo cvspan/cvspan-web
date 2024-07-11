@@ -63,9 +63,9 @@ const Testimonials = () => {
                                     <path
                                         d="M34.6667 14H1.33337M1.33337 14L13.8334 1.5M1.33337 14L13.8334 26.5"
                                         stroke="white"
-                                        stroke-width="1.5"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
+                                        strokeWidth="1.5"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
                                     />
                                 </svg>
                             </button>
@@ -81,8 +81,8 @@ const Testimonials = () => {
                                     xmlns="http://www.w3.org/2000/svg"
                                 >
                                     <path
-                                        fill-rule="evenodd"
-                                        clip-rule="evenodd"
+                                        fillRule="evenodd"
+                                        clipRule="evenodd"
                                         d="M22.0619 1.39515C22.672 0.784951 23.6614 0.784951 24.2716 1.39515L36.7716 13.8951C37.3818 14.5053 37.3818 15.4947 36.7716 16.1049L24.2716 28.6049C23.6614 29.215 22.672 29.215 22.0619 28.6049C21.4517 27.9947 21.4517 27.0053 22.0619 26.3951L31.8945 16.5625H2.33337C1.47043 16.5625 0.770874 15.8629 0.770874 15C0.770874 14.1371 1.47043 13.4375 2.33337 13.4375H31.8945L22.0619 3.60485C21.4517 2.99466 21.4517 2.00534 22.0619 1.39515Z"
                                         fill="white"
                                     />
@@ -93,7 +93,7 @@ const Testimonials = () => {
                     <div className="flex h-full items-center overflow-x-hidden">
                         <div className="flex gap-8">
                             {data.slice(currentIndex, currentIndex + itemsToShow).map((testimony, index) => (
-                                <div className="md:w-6/12">
+                                <div className="md:w-6/12" key={index}>
                                     <TestimonialCard
                                         key={index}
                                         name={testimony.name}
