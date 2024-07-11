@@ -14,7 +14,7 @@ const Homelanding = (props: Props) => {
             </div>
             <div className="flex h-full w-full items-center justify-center">
                 <div className="relative flex h-full w-[1200px] items-center justify-center lg:justify-start">
-                    <div className="w-[335px] space-y-8 lg:w-full">
+                    <div className="w-[335px] space-y-[24px] lg:w-full">
                         <h1 className="text-center font-pp-mori text-[67px] font-thin leading-[72.36px] text-white md:text-left md:text-[120px] md:leading-[129.6px]">
                             We{' '}
                             <span className="font-semibold">
@@ -26,15 +26,14 @@ const Homelanding = (props: Props) => {
                             Our experts accompany our Clients from the private and public sector in their <br /> digital
                             transformation journey by providing business value solutions
                         </p>
-                        <div className="flex w-full flex-col items-center justify-start space-y-4 lg:w-[400px] lg:flex-row lg:space-x-6">
+                        <div className="flex max-w-[400px] gap-x-[24px]">
                             <Button background="white" title="OUR SERVICES" height="56px" fullWidth />
-
                             <Button background="transparent" title="GET STARTED" height="56px" fullWidth />
                         </div>
                     </div>
 
                     <div className="absolute bottom-0 right-0 rotate-[21.43] overflow-hidden lg:w-[959.12px]">
-                        <Image src={Ribbon} alt="elipse" className="" />
+                        <Image src={Ribbon} alt="elipse" />
                     </div>
                 </div>
 

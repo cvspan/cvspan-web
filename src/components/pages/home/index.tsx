@@ -13,6 +13,8 @@ import Achievements from '@/components/molecules/achievements';
 import Faqs from '@/components/molecules/FAQS';
 import Cta from '@/components/molecules/CTA';
 import Testimonials from '@/components/molecules/Testimonials';
+import TestimonialsNew from '@/components/molecules/TestimonialsNew';
+
 export default function Homepage() {
     const [light, setLight] = useState<boolean | false>(false);
 
@@ -38,6 +40,7 @@ export default function Homepage() {
             <Achievements />
             <Faqs />
             <Testimonials />
+            <TestimonialsNew />
 
             <Cta />
             <Footer />

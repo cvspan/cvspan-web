@@ -17,11 +17,13 @@ function Button({
 }) {
     const _height = `h-[${height}]`;
     const _background =
-        background === 'blue'
-            ? `bg-[#1A1AFF] text-[#ffffff] border-[#1A1AFF]`
-            : background === 'white'
-              ? 'bg-[#ffffff] text-[#1A1A1A] border-[#ffffff]'
-              : 'bg-[#050505] text-[#ffffff] border-[#050505]';
+        background === 'transparent'
+            ? 'text-white'
+            : background === 'blue'
+              ? `bg-[#1A1AFF] text-[#ffffff] border-[#1A1AFF]`
+              : background === 'white'
+                ? 'bg-[#ffffff] text-[#1A1A1A] border-[#ffffff]'
+                : 'bg-[#050505] text-[#ffffff] border-[#050505]';
     const _padding = height === '40px' ? 'px-[16px] py-[8px]' : 'px-[32px] py-[16px]';
 
     const _fullWidth = fullWidth ? 'w-full' : 'self-start';

@@ -40,12 +40,10 @@ const Testimonials = () => {
         <section className="bg-[#0C0C0C] py-[60px] lg:py-[120px]">
             <div className="m-auto w-full max-w-[1200px] overflow-hidden bg-[#0C0C0C] pl-6 pr-6 text-white">
                 <div className="flex w-full flex-col gap-10">
-                    <div className="flex w-full flex-col items-start justify-between gap-5">
-                        <h3
-                            className="font-euxodus font-medium text-white sm:w-[6/12]"
-                            style={{ fontSize: 'clamp(2rem, 4.6875vw, 3rem)' }}
-                        >
-                            What Do People Say About Us
+                    <div className="flex w-full items-start justify-between gap-5">
+                        <h3 className="font-euxodus text-[48px] font-medium leading-[56px] text-white">
+                            What Do People Say <br />
+                            About Us
                         </h3>
                         <div className="flex gap-x-8">
                             <button

@@ -24,8 +24,8 @@ const brands: Brand[] = [
 
 const Clients: React.FC = () => {
     return (
-        <div className="relative w-full overflow-hidden py-8">
-            <div className="mx-auto w-[335px] lg:w-[1012px]">
+        <div className="relative w-full overflow-hidden pt-[120px]">
+            <div className="mx-auto w-[335px] lg:w-[1200px]">
                 <Marquee speed={50}>
                     <div className="flex items-center justify-between">
                         {brands.map((brand) => (
