@@ -10,8 +10,8 @@ function Navbar({ light }: { light: boolean }) {
                 className={`${light ? 'bg-white' : 'bg-transparent'} hidden lg:fixed lg:left-0 lg:right-0 lg:top-0 lg:z-50 lg:block`}
             >
                 <div>
-                    <section className="flex w-full flex-col justify-center lg:h-20">
-                        <div className="mx-auto w-full max-w-[1200px] px-5 lg:h-full">
+                    <section className="flex w-full flex-col justify-center px-5 lg:h-20">
+                        <div className="mx-auto w-full max-w-[1200px] lg:h-full">
                             <div className="fixed inset-0 z-50 box-border w-full overflow-y-scroll lg:relative lg:h-full lg:flex-grow lg:flex-nowrap lg:items-center lg:justify-normal lg:overflow-y-visible">
                                 <div className="flex flex-col items-stretch gap-y-10 p-5 lg:h-full lg:flex-row lg:gap-y-0 lg:p-0 lg:py-0">
                                     <div className="flex w-full justify-between lg:w-fit lg:justify-normal">

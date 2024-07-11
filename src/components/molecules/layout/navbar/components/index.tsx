@@ -29,7 +29,7 @@ export const NavMenu = ({ isLight }: { isLight: boolean }) => {
                         type="button"
                         className={`inline-flex flex-grow items-center font-eudoxus text-[34px] font-medium leading-[42px] lg:text-sm lg:font-normal lg:leading-[22px] ${isLight ? 'text-[#1a1a1a]' : 'text-white'}`}
                     >
-                        <span className="pe-2">Services</span>
+                        <span className="pr-2">Services</span>
                         <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18" fill="none">
                             <path
                                 d="M19 9L12 15L5 9"
@@ -52,7 +52,7 @@ export const NavMenu = ({ isLight }: { isLight: boolean }) => {
                         type="button"
                         className={`inline-flex flex-grow items-center font-eudoxus text-[34px] font-medium leading-[42px] lg:text-sm lg:font-normal lg:leading-[22px] ${isLight ? 'text-[#1a1a1a]' : 'text-white'}`}
                     >
-                        <span className="pe-2">Industries</span>
+                        <span className="pr-2">Industries</span>
                         <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18" fill="none">
                             <path
                                 d="M19 9L12 15L5 9"
@@ -89,7 +89,7 @@ export const NavLetsTalkButton = () => {
             href="/contact"
             aria-label="Let's Talk"
             role="button"
-            className="my-auto inline-flex w-full items-center justify-center gap-x-2 whitespace-nowrap text-nowrap rounded-2xl bg-[#1a1aff] px-4 py-2 font-eudoxus text-base text-white lg:w-fit lg:justify-normal"
+            className="my-auto inline-flex w-full items-center justify-center gap-x-2 whitespace-nowrap text-nowrap rounded-[100px] bg-[#1a1aff] px-4 py-2 font-eudoxus text-base text-white lg:w-fit lg:justify-normal"
         >
             LET{`'`}S TALK
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none" className="">
