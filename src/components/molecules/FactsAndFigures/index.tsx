@@ -13,7 +13,7 @@ const FactsAndFigures = () => {
                             <div className="flex flex-col gap-y-4">
                                 <h2
                                     className="font-pp-mori font-semibold"
-                                    style={{ fontSize: 'clamp(2.5rem, 4.6875vw, 3.75rem);' }}
+                                    style={{ fontSize: 'clamp(2.5rem, 4.6875vw, 3.75rem)' }}
                                 >
                                     Facts & Figures
                                 </h2>
@@ -47,7 +47,7 @@ const FactsAndFigures = () => {
                     </section>
                 </div>
             </div>
-            <style jsx>{`
+            <style>{`
                 .grid-layout {
                     display: grid;
                     grid-template-columns: repeat(auto-fit, minmax(30em, 1fr));
