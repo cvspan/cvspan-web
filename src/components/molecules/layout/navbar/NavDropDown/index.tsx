@@ -83,7 +83,7 @@ export const NavDropDownIndustry = ({ links }: { links: NavbarList[] }) => {
                                         <ul className="mt-8 grid gap-y-4 lg:gap-y-8">
                                             {navList.list.map((list: SubNavbarList) => (
                                                 <li key={list.id}>
-                                                    <Link href="/" className="flex gap-x-6">
+                                                    <Link href={list.link} className="flex gap-x-6">
                                                         <div className="hidden h-[50px] w-[50px] rounded-full bg-[#d9d9d9] lg:block" />
                                                         <span>
                                                             <div className="font-eudoxus text-base font-medium text-[#1a1a1a]">

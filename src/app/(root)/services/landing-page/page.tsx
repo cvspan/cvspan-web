@@ -14,7 +14,7 @@ import GetThings from '@/components/molecules/GetThings';
 const LandingPage = () => {
     return (
         <>
-            <Navbar light />
+            <Navbar light={false} />
             <Landing
                 Heading={'Landing page design services'}
                 subHeading={`Our landing page design firm will assist you in increasing your internet visibility, generating more leads, and converting them into repeat clients.`}

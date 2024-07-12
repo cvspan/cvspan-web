@@ -4,10 +4,23 @@ import { NavBrand, NavMenu, NavLetsTalkButton } from './components';
 import { MobileNav } from './components/MobileNav';
 
 function Navbar({ light }: { light: boolean }) {
+    const [_light, setLight] = React.useState<boolean | false>(light);
+
+    const onNavbarBgChange = () => {
+        window.scrollY >= 820 ? setLight(true) : setLight(false);
+    };
+
+    React.useEffect(() => {
+        window.addEventListener('scroll', onNavbarBgChange);
+        return () => {
+            window.removeEventListener('scroll', onNavbarBgChange);
+        };
+    }, []);
+
     return (
         <>
             <header
-                className={`${light ? 'bg-white' : 'bg-transparent'} hidden lg:fixed lg:left-0 lg:right-0 lg:top-0 lg:z-50 lg:block`}
+                className={`${_light ? 'bg-white' : 'bg-transparent'} hidden lg:fixed lg:left-0 lg:right-0 lg:top-0 lg:z-50 lg:block`}
             >
                 <div>
                     <section className="flex w-full flex-col justify-center px-5 lg:h-20">
@@ -15,7 +28,7 @@ function Navbar({ light }: { light: boolean }) {
                             <div className="fixed inset-0 z-50 box-border w-full overflow-y-scroll lg:relative lg:h-full lg:flex-grow lg:flex-nowrap lg:items-center lg:justify-normal lg:overflow-y-visible">
                                 <div className="flex flex-col items-stretch gap-y-10 p-5 lg:h-full lg:flex-row lg:gap-y-0 lg:p-0 lg:py-0">
                                     <div className="flex w-full justify-between lg:w-fit lg:justify-normal">
-                                        <NavBrand isLight={light} />
+                                        <NavBrand isLight={_light} />
                                         <button type="button" className="lg:hidden">
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -31,7 +44,7 @@ function Navbar({ light }: { light: boolean }) {
                                             </svg>
                                         </button>
                                     </div>
-                                    <NavMenu isLight={light} />
+                                    <NavMenu isLight={_light} />
                                     <NavLetsTalkButton />
                                 </div>
                             </div>

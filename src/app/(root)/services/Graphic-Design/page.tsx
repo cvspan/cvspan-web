@@ -14,7 +14,7 @@ import GetThings from '@/components/molecules/GetThings';
 const GraphicDesign = () => {
     return (
         <>
-            <Navbar light />
+            <Navbar light={false} />
             <Landing
                 Heading={'Graphic Design services'}
                 subHeading={`As a graphic design agency, we assist products in reflecting their company values through creative illustrations, icons, and marketing materials.`}

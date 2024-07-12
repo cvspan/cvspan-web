@@ -16,21 +16,21 @@ import Testimonials from '@/components/molecules/Testimonials';
 import TestimonialsNew from '@/components/molecules/TestimonialsNew';
 
 export default function Homepage() {
-    const [light, setLight] = useState<boolean | false>(false);
+    // const [light, setLight] = useState<boolean | false>(false);
 
-    const onNavbarBgChange = () => {
-        window.scrollY >= 820 ? setLight(true) : setLight(false);
-    };
+    // const onNavbarBgChange = () => {
+    //     window.scrollY >= 820 ? setLight(true) : setLight(false);
+    // };
 
-    useEffect(() => {
-        window.addEventListener('scroll', onNavbarBgChange);
-        return () => {
-            window.removeEventListener('scroll', onNavbarBgChange);
-        };
-    }, []);
+    // useEffect(() => {
+    //     window.addEventListener('scroll', onNavbarBgChange);
+    //     return () => {
+    //         window.removeEventListener('scroll', onNavbarBgChange);
+    //     };
+    // }, []);
     return (
         <>
-            <Navbar light={light} />
+            <Navbar light={false} />
             <Homelanding />
             <Clients />
             <StoriesCard />

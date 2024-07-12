@@ -14,7 +14,7 @@ import GetThings from '@/components/molecules/GetThings';
 const Page = () => {
     return (
         <>
-            <Navbar light />
+            <Navbar light={false} />
             <Landing
                 Heading={'Healthcare & Wellness'}
                 subHeading={`As a UI/UX design agency, we create successful digital products that combine user needs with business goals. Our human centred design approach makes it happen.`}
