@@ -22,8 +22,8 @@ function page() {
                 <Button
                     title="LET'S TALK"
                     background="blue"
-                    leftIcon={'/assets/icons/whie-pencil-icon.svg'}
-                    leftIconSize="18px"
+                    rightIcon={'/assets/icons/whie-pencil-icon.svg'}
+                    rightIconSize="18px"
                 />
                 <Button title="OUR SERVICES" background="white" height="56px" />
                 <Button title="GET STARTED" background="dark" height="56px" />

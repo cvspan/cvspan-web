@@ -1,14 +1,14 @@
 'use client';
 import React from 'react';
-import Button from '../Button';
+import Button from '@/components/molecules/Button';
 import FactCard from './FactCard';
 
 const FactsAndFigures = () => {
     return (
         <>
-            <div className="w-full bg-[#0C0C0C] py-[60px] pl-6 pr-6 lg:py-[120px]">
+            <div className="w-full bg-[#0C0C0C] px-5 py-[60px] lg:py-[120px]">
                 <div className="mx-auto max-w-[1200px]">
-                    <section className="grid-layout m-auto w-full gap-x-6 gap-y-6 text-white md:grid-cols-2">
+                    <section className="m-auto grid w-full gap-x-6 gap-y-6 text-white md:grid-cols-2">
                         <div className="w-12/12 mb-8 flex h-full flex-col items-start gap-y-8 rounded-3xl bg-fact-figure bg-cover bg-center bg-no-repeat bg-origin-border p-[40px]">
                             <div className="flex flex-col gap-y-4">
                                 <h2
@@ -23,11 +23,12 @@ const FactsAndFigures = () => {
                                     exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                                 </p>
                             </div>
+
                             <Button
                                 title="ABOUT US"
-                                leftIconSize="12px"
-                                leftIcon="/assets/icons/arrow-forward-slant.svg"
                                 height="56px"
+                                background="transparent"
+                                rightIcon="/assets/icons/arrow-top-right-white.svg"
                             />
                         </div>
                         <div className="grid gap-6 sm:grid-cols-2 sm:grid-rows-2">

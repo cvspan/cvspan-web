@@ -16,11 +16,14 @@ function TestimonialsNew() {
     return null;
     return (
         <>
-            <div className="bg-[#f4f1ec] py-[50px] md:py-[100px]">
+            <div className="bg-[#0C0C0C] py-[50px] md:py-[100px]">
                 <div className="widow-main">
                     <div className="widow-inner">
-                        <div className="mb-[32px] flex items-center justify-between sm:mb-[60px]">
-                            <h1 className="text_60 text-[#161616]">Our Clients</h1>
+                        <div className="mx-auto mb-[32px] flex w-full max-w-[1200px] items-center justify-between sm:mb-[60px]">
+                            <h3 className="font-euxodus text-left text-[48px] font-medium leading-[56px] text-white">
+                                What Do People Say <br />
+                                About Us
+                            </h3>
                             <div className="hidden sm:flex">
                                 <ControlButtons emblaApi={emblaApi} />
                             </div>

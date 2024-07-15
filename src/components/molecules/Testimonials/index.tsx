@@ -36,6 +36,7 @@ const Testimonials = () => {
             prevIndex - itemsToShow < 0 ? data.length - itemsToShow : prevIndex - itemsToShow,
         );
     };
+
     return (
         <section className="bg-[#0C0C0C] py-[60px] lg:py-[120px]">
             <div className="m-auto w-full max-w-[1200px] overflow-hidden bg-[#0C0C0C] pl-6 pr-6 text-white">

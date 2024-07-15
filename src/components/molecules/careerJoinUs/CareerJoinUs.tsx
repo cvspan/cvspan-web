@@ -56,7 +56,7 @@ const CareerJoinUs = (props: Props) => {
                             <Button
                                 height="56px"
                                 title="ABOUT US"
-                                leftIcon={'/assets/images/arrowUp.svg'}
+                                rightIcon={'/assets/images/arrowUp.svg'}
                                 background="transparent"
                             />
                         </div>

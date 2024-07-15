@@ -24,13 +24,13 @@ const brands: Brand[] = [
 
 const Clients: React.FC = () => {
     return (
-        <div className="relative w-full overflow-hidden pt-[120px]">
-            <div className="mx-auto w-[335px] lg:w-[1200px]">
+        <div className="relative w-full overflow-hidden py-[50px] md:py-[120px]">
+            <div className="mx-auto w-full max-w-[1200px]">
                 <Marquee speed={50}>
                     <div className="flex items-center justify-between">
                         {brands.map((brand) => (
                             <div key={brand.id} className="mx-[24px]">
-                                <Image src={brand.logo} alt={brand.name} />
+                                <Image src={brand.logo} alt={brand.name} className="w-[80px] md:w-[106px]" />
                             </div>
                         ))}
                     </div>

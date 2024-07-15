@@ -7,10 +7,10 @@ export const SpecificJobDetail = () => {
             <div className="m-auto max-w-[1200px] px-5">
                 <div className="relative grid grid-cols-3 gap-x-6">
                     {/* <div className="fixed inset-x-0 bottom-0 lg:static lg:col-span-1 lg:w-fit">
-                        <Button fullWidth height="56px" title="APPLY HERE" leftIcon={'/assets/images/arrowUp.svg'} />
+                        <Button fullWidth height="56px" title="APPLY HERE" rightIcon={'/assets/images/arrowUp.svg'} />
                     </div> */}
                     <div className="sticky top-[calc(100vh-60px)] col-span-3 w-full lg:static lg:col-span-1 lg:w-fit">
-                        <Button fullWidth height="56px" title="APPLY HERE" leftIcon={'/assets/images/arrowUp.svg'} />
+                        <Button fullWidth height="56px" title="APPLY HERE" rightIcon={'/assets/images/arrowUp.svg'} />
                     </div>
                     <div className="col-span-3 lg:col-span-2">
                         <div className="mb-8">

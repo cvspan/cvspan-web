@@ -21,7 +21,7 @@ export const OurVisionAndMission = () => {
                                     <Button
                                         height="56px"
                                         title="SEE JOB OPENINGS"
-                                        leftIcon={'/assets/images/arrowUp.svg'}
+                                        rightIcon={'/assets/images/arrowUp.svg'}
                                         fullWidth
                                     />
                                 </div>

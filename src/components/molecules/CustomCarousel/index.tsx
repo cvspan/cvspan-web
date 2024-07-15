@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-
+import TestimonialCard from '../Testimonials/TestimonialCard';
 const CustomCarousel = ({
     emblaRef,
     slides = [],

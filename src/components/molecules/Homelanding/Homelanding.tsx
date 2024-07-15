@@ -8,54 +8,37 @@ type Props = {};
 
 const Homelanding = (props: Props) => {
     return (
-        <div className="relative h-[820px] w-full bg-[#0c0c0c]">
+        <div className="relative h-[100vh] w-full bg-[#0c0c0c] px-5 sm:h-[820px]">
             <div className="absolute left-0 top-0">
                 <Image src={Elipse} alt="elipse" />
             </div>
             <div className="flex h-full w-full items-center justify-center">
-                <div className="relative flex h-full w-[1200px] items-center justify-center lg:justify-start">
-                    <div className="w-[335px] space-y-[24px] lg:w-full">
-                        <h1 className="text-center font-pp-mori text-[67px] font-thin leading-[72.36px] text-white md:text-left md:text-[120px] md:leading-[129.6px]">
+                <div className="relative flex h-full w-full max-w-[1200px] justify-center sm:items-center lg:justify-start">
+                    <div className="mt-[130px] w-full max-w-[941px] sm:mt-0">
+                        <h1 className="m-0 mx-auto text-center font-pp-mori text-[67px] font-[100] leading-[72px] text-white sm:text-[90px] sm:leading-[99.6px] md:text-left lg:text-[120px] lg:leading-[129.6px]">
                             We{' '}
                             <span className="font-semibold">
                                 Create <br /> Awesome
                             </span>{' '}
                             Stuff
                         </h1>
-                        <p className="font-Exodus text-center text-[16px] font-normal leading-[24px] text-white md:text-[18px] md:leading-[26px] lg:text-left">
-                            Our experts accompany our Clients from the private and public sector in their <br /> digital
+                        <p className="font-Exodus m-0 mx-auto mb-[32px] max-w-[660px] p-0 text-center text-[16px] font-normal leading-[24px] text-white md:mx-0 md:text-left lg:text-[18px] lg:leading-[26px]">
+                            Our experts accompany our Clients from the private and public sector in their digital
                             transformation journey by providing business value solutions
                         </p>
-                        <div className="flex max-w-[400px] gap-x-[24px]">
+                        <div className="mx-auto flex w-full max-w-[400px] flex-col justify-center gap-x-[24px] gap-y-[16px] sm:flex-row md:mx-0 md:justify-start">
                             <Button background="white" title="OUR SERVICES" height="56px" fullWidth />
                             <Button background="transparent" title="GET STARTED" height="56px" fullWidth />
                         </div>
                     </div>
 
-                    <div className="absolute bottom-0 right-0 rotate-[21.43] overflow-hidden lg:w-[959.12px]">
+                    <div className="absolute bottom-0 right-0 w-[450px] rotate-[21.43] overflow-hidden lg:w-[959.12px]">
                         <Image src={Ribbon} alt="elipse" />
                     </div>
                 </div>
-
-                {/* <h1 className="text-white">hello</h1> */}
             </div>
         </div>
     );
 };
 
 export default Homelanding;
-
-{
-    /* <h1 className="text-center font-pp-mori text-[67px] font-thin leading-[72.36px] text-white md:text-left md:text-[120px] md:leading-[129.6px]">
-We <span className="font-semibold">Create Awesome</span> Stuff
-</h1>
-<p className="font-Exodus md:text-[18px]md:leading-[26px] text-center text-[16px] font-normal leading-[24px] text-white md:text-left">
-Our experts accompany our Clients from the private and public sector in their <br /> digital
-transformation journey by providing business value solutions
-</p>
-<div className="flex w-full flex-col gap-6 md:flex-row lg:w-[400px]">
-<Button background="white" title="OUR SERVICES" height="56px" fullWidth />
-
-<Button background="transparent" title="GET STARTED" height="56px" fullWidth />
-</div> */
-}

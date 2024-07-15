@@ -29,7 +29,7 @@ const Landing = ({ Heading, subHeading }: Props) => {
                             <Button
                                 title="LET'S TALK"
                                 height="56px"
-                                leftIcon={'/assets/images/arrowUp.svg'}
+                                rightIcon={'/assets/images/arrowUp.svg'}
                                 background="transparent"
                                 fullWidth
                             />

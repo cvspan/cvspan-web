@@ -4,15 +4,17 @@ function Button({
     title,
     background = 'blue',
     height = '40px',
-    leftIcon,
-    leftIconSize = '18px',
+    rightIcon,
+    rightIconSize = '18px',
+
     fullWidth = false,
 }: {
     title: string;
     background?: 'blue' | 'white' | 'dark' | 'transparent';
     height?: '40px' | '56px';
-    leftIcon?: string;
-    leftIconSize?: string;
+    rightIcon?: string;
+    rightIconSize?: string;
+
     fullWidth?: boolean;
 }) {
     const _height = `h-[${height}]`;
@@ -33,11 +35,11 @@ function Button({
             className={`flex w-auto cursor-pointer items-center justify-center gap-[16px] rounded-[100px] border-[1px] text-[16px] font-[500] leading-[24px] ${_fullWidth} ${_background} ${_height} ${_padding}`}
         >
             <span className="font-eudoxus text-inherit">{title}</span>
-            {!leftIcon ? null : (
+            {!rightIcon ? null : (
                 <img
                     alt="button_icon"
-                    src={leftIcon}
-                    style={{ width: leftIconSize, height: 'leftIconSize', objectFit: 'contain' }}
+                    src={rightIcon}
+                    style={{ width: rightIconSize, height: 'rightIconSize', objectFit: 'contain' }}
                 />
             )}
         </button>
