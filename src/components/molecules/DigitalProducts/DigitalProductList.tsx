@@ -13,12 +13,12 @@ export const DigitalProductList = () => {
 
     return (
         <div className="">
-            <div className="my-[40px] flex w-full gap-x-[24px] border-b-[3px] border-b-[#484848] sm:my-[60px] md:gap-x-[70px]">
+            <div className="my-[40px] flex w-full justify-center gap-x-[24px] border-b-[3px] border-b-[#484848] sm:my-[60px] md:justify-start md:gap-x-[70px]">
                 {tabs.map((tab) => {
                     const active = tab.key === current;
                     return (
                         <button
-                            className={`${active ? 'border-b-[#A6F46A] text-[#A6F46A]' : 'border-b-[#484848] text-[#484848]'} mb-[-3px] flex items-center gap-[16px] border-b-[3px] pb-[16px] text-[18px] leading-[24px] md:pb-[24px] md:text-[24px] md:leading-[36px]`}
+                            className={`${active ? 'border-b-[#A6F46A] text-[#A6F46A]' : 'border-b-[#484848] text-[#484848]'} mb-[-3px] flex items-center gap-[16px] border-b-[3px] pb-[16px] text-[16px] leading-[24px] md:pb-[24px] md:text-[24px] md:leading-[36px]`}
                             key={tab?.key}
                             onClick={() => setcurrent(tab?.key)}
                         >

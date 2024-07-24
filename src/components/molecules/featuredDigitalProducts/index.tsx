@@ -60,7 +60,7 @@ const FeaturedDigitalProducts = () => {
                 <CardsRow />
             </div>
 
-            <div className="mx-auto mb-[60px] flex h-auto w-full max-w-[1200px] flex-col gap-[24px] pt-[60px] md:mb-[120px] md:pt-[120px] lg:h-[594px] lg:flex-row">
+            <div className="mx-auto mb-[60px] flex h-auto w-full max-w-[1200px] flex-col gap-[24px] pt-[60px] md:mb-[180px] md:pt-[180px] lg:h-[594px] lg:flex-row">
                 <div />
                 <CardsRow />
             </div>

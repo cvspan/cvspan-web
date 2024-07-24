@@ -1,53 +1,32 @@
 'use client';
+import React from 'react';
 
-import Image from 'next/image';
-import behance from '../../../../public/assets/icons/behance.svg';
-import clutch from '../../../../public/assets/icons/clutch.svg';
-import dribble from '../../../../public/assets/icons/dribble.svg';
-import appbusiness from '../../../../public/assets/icons/appbusiness.svg';
+const AcievmentItem = ({ src, title }: { src?: string; title?: string }) => {
+    return (
+        <div className="flex w-[220px] flex-col items-center gap-[22px] font-eudoxus">
+            <img src={src} alt="behance" className="w-[135px]" />
+            <span className="w-full max-w-[120px] text-center text-[16px] font-[500] leading-[24px]">{title}</span>
+        </div>
+    );
+};
 
 const Achievements = () => {
     return (
         <>
-            <div className="bg-faint-white bg-[#F5F5F5] pb-[60px] pl-6 pr-6 pt-[60px] lg:pb-[120px] lg:pt-[120px]">
+            <div className="bg-faint-white bg-[#F5F5F5] px-5 py-[60px] md:py-[120px]">
                 <div className="m-auto flex w-full max-w-[1200px] flex-col items-start gap-[60px]">
-                    <h3
-                        className="font-euxodus font-medium text-black sm:w-[6/12]"
-                        style={{ fontSize: 'clamp(2rem, 4.6875vw, 3rem)' }}
-                    >
+                    <h3 className="font-euxodus w-full text-center text-[34px] font-medium leading-[42px] text-black md:text-left md:text-[48px] md:leading-[56px]">
                         Our Achievements
                     </h3>
-                    <div className="grid-layout w-full items-center justify-between font-eudoxus text-black">
-                        <div className="flex flex-col items-center gap-[22px] font-eudoxus text-black">
-                            <Image src={behance} alt="behance" />
-                            <span className="align-center">28 Behance Galleries</span>
-                        </div>
-                        <div className="flex flex-col items-center gap-[22px]">
-                            <Image src={clutch} alt="behance" />
-                            <span>5.0 Ratings on Clutch</span>
-                        </div>
-                        <div className="flex flex-col items-center gap-[22px]">
-                            <Image src={dribble} alt="behance" />
-                            <span className="align-center">28 Behance Galleries</span>
-                        </div>
-                        <div className="flex flex-col items-center gap-[22px]">
-                            <Image src={appbusiness} alt="behance" />
-                            <span className="align-center">28 Behance Galleries</span>
-                        </div>
-                        <div className="flex flex-col items-center gap-[22px]">
-                            <Image src={dribble} alt="behance" />
-                            <span className="align-center">28 Behance Galleries</span>
-                        </div>
+                    <div className="flex w-full flex-wrap items-center justify-center gap-[20px] gap-y-[40px] font-eudoxus text-black">
+                        <AcievmentItem src={'/assets/icons/behance.svg'} title="28 Behance Galleries" />
+                        <AcievmentItem src={'/assets/icons/clutch.svg'} title="5.0 Ratings on Clutch" />
+                        <AcievmentItem src={'/assets/icons/dribble.svg'} title="Top 3 on Dribble" />
+                        <AcievmentItem src={'/assets/icons/appbusiness.svg'} title="22 Reviews on Clutch" />
+                        <AcievmentItem src={'/assets/icons/appbusiness.svg'} title="Verified on App Business" />
                     </div>
                 </div>
             </div>
-            <style jsx>{`
-                .grid-layout {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(10em, 1fr));
-                    grid-gap: 3em;
-                }
-            `}</style>
         </>
     );
 };

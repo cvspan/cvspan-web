@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Homelanding from '@/components/molecules/Homelanding/Homelanding';
 import Navbar from '@/components/molecules/layout/navbar';
 import Footer from '@/components/molecules/layout/footer';
@@ -13,7 +13,6 @@ import Achievements from '@/components/molecules/achievements';
 import Faqs from '@/components/molecules/FAQS';
 import Cta from '@/components/molecules/CTA';
 import Testimonials from '@/components/molecules/Testimonials';
-import TestimonialsNew from '@/components/molecules/TestimonialsNew';
 
 export default function Homepage() {
     return (
@@ -28,7 +27,6 @@ export default function Homepage() {
             <Achievements />
             <Faqs />
             <Testimonials />
-            <TestimonialsNew />
 
             <Cta />
             <Footer />

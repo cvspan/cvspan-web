@@ -10,15 +10,14 @@ const Cta = () => {
                 >
                     Have a project in mind?
                 </h1>
-                <div className="flex flex-col gap-5 md:items-end md:justify-between lg:w-10/12 lg:justify-between">
-                    <p className="lg:flex lg:justify-end lg:self-end">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                        laboris nisi ut aliquip ex ea commodo consequat.
+                <div className="flex flex-col gap-5 md:items-end md:justify-between lg:justify-between">
+                    <p className="">
+                        Let us know about your project idea! If the vibe for the collaboration isn't right, we're happy
+                        to provide you with insightful information that might be useful.
                     </p>
                     <div className="flex items-center justify-between gap-5 self-end lg:self-end lg:justify-self-end">
-                        <h4>LET’S TALK</h4>
-                        <svg width="20" height="20" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <h4 className="text-[34px] leading-[42px]">LET’S TALK</h4>
+                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 fillRule="evenodd"
                                 clipRule="evenodd"
