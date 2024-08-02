@@ -50,7 +50,7 @@ const BlogCard = () => {
         <div className="mx-auto w-full max-w-[1200px] px-4 pb-24 pt-10">
             <div className="flex flex-wrap justify-center">
                 {articles.map((article, index) => (
-                    <Link className="mb-16 w-full px-4 sm:w-1/2 lg:w-1/3" key={index} href="/blog/blog-post">
+                    <Link className="mb-16 w-full px-4 sm:w-1/2 lg:w-1/3" key={index} href="/cvspan-blog/blog-post">
                         <>
                             <div className="overflow-hidden">
                                 <Image

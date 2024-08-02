@@ -132,7 +132,7 @@ export const NavLinks: NavLink[] = [
     {
         id: 2,
         text: 'Blog',
-        link: '/blog',
+        link: '/cvspan-blog',
     },
     {
         id: 3,
