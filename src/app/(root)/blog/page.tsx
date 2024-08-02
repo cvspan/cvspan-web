@@ -10,7 +10,7 @@ const page = () => {
         <>
             <Navbar light />
             <Bloglanding />
-            <Blog />
+            {/* <Blog /> */}
             <DontMiss />
             <Footer />
         </>

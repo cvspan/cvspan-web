@@ -15,7 +15,7 @@ import GetThings from '@/components/molecules/GetThings';
 const UIUXDesign = () => {
     return (
         <>
-            <Navbar light />
+            <Navbar />
             <Landing
                 Heading={'UI/UX Product Design Services'}
                 subHeading={

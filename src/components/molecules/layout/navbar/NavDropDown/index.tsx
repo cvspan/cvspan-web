@@ -15,10 +15,10 @@ const LetsTalk = () => (
                 </div>
             </div>
             <Link
-                href="/"
-                className="mt-auto inline-flex flex-shrink-0 items-center gap-x-[40px] font-eudoxus text-[34px] text-white"
+                href="/contact"
+                className="mt-auto inline-flex flex-shrink-0 items-center gap-x-[40px] font-eudoxus text-[34px] leading-[42px] text-white"
             >
-                <span>LET{`'S`} TALK</span>
+                <span className="font-medium">LET{`'S`} TALK</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="currentColor">
                     <path d="M1.90476 0L1.82466 5.38679L30.8036 5.3869L0 36.1905L3.80952 40L34.6131 9.19643L34.6132 38.0954L40 38.0952C40 24.1486 40 13.3486 40 0H1.90476Z" />
                 </svg>
@@ -40,16 +40,18 @@ export const NavDropDownService = ({ links }: { links: NavbarList[] }) => {
                                         <h2 className="font-eudoxus text-lg text-[#a3a3a3]">{navList.title}</h2>
                                         <ul className="mt-8 grid gap-y-4 lg:gap-y-8">
                                             {navList.list.map((list: SubNavbarList) => (
-                                                <li key={list.id} className="flex gap-x-6">
-                                                    <div className="hidden h-[50px] w-[50px] rounded-full bg-[#d9d9d9] lg:block" />
-                                                    <span>
-                                                        <div className="font-eudoxus text-base font-medium text-[#1a1a1a]">
-                                                            {list.title}
-                                                        </div>
-                                                        <div className="text-slate-[#1a1a1a] hidden font-eudoxus text-xs lg:block">
-                                                            {list.caption}
-                                                        </div>
-                                                    </span>
+                                                <li key={list.id}>
+                                                    <Link href={list.link} className="flex gap-x-6">
+                                                        <div className="block h-[50px] w-[50px] rounded-full bg-[#d9d9d9]" />
+                                                        <span>
+                                                            <div className="font-eudoxus text-base font-medium text-[#1a1a1a]">
+                                                                {list.title}
+                                                            </div>
+                                                            <div className="text-slate-[#1a1a1a] hidden font-eudoxus text-xs lg:block">
+                                                                {list.caption}
+                                                            </div>
+                                                        </span>
+                                                    </Link>
                                                 </li>
                                             ))}
                                         </ul>
@@ -80,16 +82,18 @@ export const NavDropDownIndustry = ({ links }: { links: NavbarList[] }) => {
                                         <h2 className="font-eudoxus text-lg text-[#a3a3a3]">{navList.title}</h2>
                                         <ul className="mt-8 grid gap-y-4 lg:gap-y-8">
                                             {navList.list.map((list: SubNavbarList) => (
-                                                <li key={list.id} className="flex gap-x-6">
-                                                    <div className="hidden h-[50px] w-[50px] rounded-full bg-[#d9d9d9] lg:block" />
-                                                    <span>
-                                                        <div className="font-eudoxus text-base font-medium text-[#1a1a1a]">
-                                                            {list.title}
-                                                        </div>
-                                                        <div className="hidden font-eudoxus text-xs text-[#1a1a1a] lg:block">
-                                                            {list.caption}
-                                                        </div>
-                                                    </span>
+                                                <li key={list.id}>
+                                                    <Link href={list.link} className="flex gap-x-6">
+                                                        <div className="hidden h-[50px] w-[50px] rounded-full bg-[#d9d9d9] lg:block" />
+                                                        <span>
+                                                            <div className="font-eudoxus text-base font-medium text-[#1a1a1a]">
+                                                                {list.title}
+                                                            </div>
+                                                            <div className="hidden font-eudoxus text-xs text-[#1a1a1a] lg:block">
+                                                                {list.caption}
+                                                            </div>
+                                                        </span>
+                                                    </Link>
                                                 </li>
                                             ))}
                                         </ul>

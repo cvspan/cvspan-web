@@ -1,57 +1,70 @@
 'use client';
 
 import React from 'react';
-import FeaturedDigitalProductCard from './FeaturedDigitalProductCard';
-import feature1 from '../../../../public/assets/images/digitalfeature1.jpeg';
-import feature2 from '../../../../public/assets/images/digitalfeature2.jpeg';
+import Button from '../Button';
+
+const SingleCard = () => {
+    return (
+        <div className="flex h-fit w-full flex-col overflow-hidden md:h-[594px] md:max-w-[336px]">
+            <div className="min-h-[230px] w-full flex-1 overflow-hidden bg-[#D9D9D9] md:h-full md:max-w-[336px]"></div>
+            <div className="flex w-full items-center justify-between py-[24px]">
+                <h2 className="text-[24px] font-[500] leading-[32px] text-[#1A1A1A] md:text-[34px] md:leading-[42px]">
+                    Insight
+                </h2>
+
+                <img className="h-[22px] w-[22px]" src="/assets/icons/arrow-top-right-black.svg" />
+            </div>
+            <h2 className="text-[18px] font-[400] leading-[26px] text-[#484848] md:text-[16px] md:leading-[24px]">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore{' '}
+            </h2>
+        </div>
+    );
+};
+
+const CardsRow = () => {
+    return (
+        <div className="flex flex-1 flex-col justify-start gap-[24px] md:flex-row lg:justify-end">
+            <SingleCard />
+            <SingleCard />
+        </div>
+    );
+};
 
 const FeaturedDigitalProducts = () => {
     return (
-        <>
-            <section className="flex w-full bg-white py-[50px] pb-[60px] pl-6 pr-6 pt-[60px] lg:pb-[120px] lg:pt-[120px]">
-                <div className="m-auto flex max-w-[1200px] flex-col gap-[60px] lg:flex-row lg:gap-[120px]">
-                    <div className="flex flex-col gap-[24px] lg:w-6/12">
-                        <div className="flex flex-col gap-[24px] sm:w-8/12 lg:w-full">
-                            <h3
-                                className="font-euxodus font-medium text-black sm:w-[6/12]"
-                                style={{ fontSize: 'clamp(2rem, 4.6875vw, 3rem)' }}
-                            >
-                                Featured Digital Products
-                            </h3>
-                            <p className="text-tundora">
-                                Maximize your productivity with our innovative digital tools. From task management apps
-                                to advanced scheduling software, our products help you stay organized and focused,
-                                ensuring you get the most out of every day.
-                            </p>
-                        </div>
+        <div className="px-5 py-[60px] md:py-[120px]">
+            <div className="mx-auto flex h-auto w-full max-w-[1200px] flex-col gap-[24px] lg:h-[594px] lg:flex-row">
+                <div className="bg-re mb-[24px] flex h-full w-full flex-row justify-between lg:mb-0 lg:max-w-[384px] lg:flex-col">
+                    <div className="lg:max-w-auto max-w-[600px]">
+                        <h3 className="font-euxodus text-[48px] font-medium leading-[56px] text-black">
+                            Featured Digital Products
+                        </h3>
+                        <p className="font-euxodus mt-[16px] text-[18px] font-normal leading-[26px] text-[#484848] md:mt-[24px]">
+                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
+                            laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi
+                            architecto beatae vitae dicta
+                        </p>
                     </div>
-                    <div className="custom-flex-row flex flex-col gap-[44px] sm:flex-row md:flex-row lg:w-6/12">
-                        <div className="">
-                            <FeaturedDigitalProductCard
-                                title="Insights"
-                                description="Maximize your productivity with our innovative digital tools. From task management apps to advanced scheduling software, our products help you stay organized and focused, ensuring you get the most out of every day."
-                                image={feature1}
-                            />
-                        </div>
-                        <div className="">
-                            <FeaturedDigitalProductCard
-                                title="Creativity"
-                                description="Unleash your creativity with our range of creative software. Whether you're into graphic design, video editing, or music production, our tools provide the features and flexibility you need to bring your ideas to life."
-                                image={feature2}
-                            />
-                        </div>
+
+                    <div className="mt-auto hidden lg:block">
+                        <Button
+                            title="SEE ALL CASE STUDIES"
+                            height="56px"
+                            background="blue"
+                            rightIcon="/assets/icons/arrow-top-right-white.svg"
+                        />
                     </div>
                 </div>
-            </section>
-            <style jsx>{`
-                @media (min-width: 480px) {
-                    .custom-flex-row {
-                        flex-direction: row;
-                        gap: 22px;
-                    }
-                }
-            `}</style>
-        </>
+
+                <CardsRow />
+            </div>
+
+            <div className="mx-auto mb-[60px] flex h-auto w-full max-w-[1200px] flex-col gap-[24px] pt-[60px] md:mb-[180px] md:pt-[180px] lg:h-[594px] lg:flex-row">
+                <div />
+                <CardsRow />
+            </div>
+        </div>
     );
 };
 

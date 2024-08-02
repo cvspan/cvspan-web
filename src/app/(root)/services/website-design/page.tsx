@@ -17,7 +17,7 @@ import GetThings from '@/components/molecules/GetThings';
 const WebsiteDesign = () => {
     return (
         <>
-            <Navbar light />
+            <Navbar />
             <Landing
                 Heading={'Website Design & Development Services'}
                 subHeading={`Your website should not confuse, but rather convert, its visitors. A perfect combination of good user experience and appealing design can spark growth; we'll help you get there.`}

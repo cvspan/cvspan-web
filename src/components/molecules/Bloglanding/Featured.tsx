@@ -1,6 +1,7 @@
 'use client';
 import { StaticImageData } from 'next/image';
 import Image from 'next/image';
+import Marquee from 'react-fast-marquee';
 import {
     iconWhite1,
     iconWhite2,
@@ -32,7 +33,9 @@ const brands: Brand[] = [
 const Featured = () => {
     return (
         <div className="">
-            <h3 className="text-center font-eudoxus text-[16px] font-medium leading-[24px] text-gray-600 ">FEATURED IN</h3>
+            <h3 className="text-center font-eudoxus text-[16px] font-medium leading-[24px] text-gray-600">
+                FEATURED IN
+            </h3>
             <div className="relative mt-[1rem] w-[1125px] overflow-hidden py-2">
                 <div
                     className="pointer-events-none absolute inset-0"
@@ -40,12 +43,16 @@ const Featured = () => {
                         background: 'linear-gradient(to right, #0c0c0c , rgba(255, 255, 255, 0), #0c0c0c)',
                     }}
                 ></div>
-                <div className="flex items-center justify-between">
-                    {brands.map((brand) => (
-                        <div key={brand.id} className="mt-6">
-                            <Image src={brand.logo} alt={brand.name} />
+                <div className="">
+                    <Marquee speed={50}>
+                        <div className="flex items-center justify-between">
+                            {brands.map((brand) => (
+                                <div key={brand.id} className="mx-[24px]">
+                                    <Image src={brand.logo} alt={brand.name} />
+                                </div>
+                            ))}
                         </div>
-                    ))}
+                    </Marquee>
                 </div>
             </div>
         </div>

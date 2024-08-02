@@ -14,7 +14,7 @@ import GetThings from '@/components/molecules/GetThings';
 const BrandIdentity = () => {
     return (
         <>
-            <Navbar light />
+            <Navbar light={false} />
             <Landing
                 Heading={'Brand Design & Consulting Services'}
                 subHeading={`You want your brand to sparkle and capture your target audience. But how do you do this? By telling a distinctive, memorable, and captivating tale that connects with people. And that is exactly what we assist you with.`}

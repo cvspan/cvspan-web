@@ -1,5 +1,6 @@
-import Homelanding from '@/components/molecules/Homelanding/Homelanding';
+'use client';
 import React from 'react';
+import Homelanding from '@/components/molecules/Homelanding/Homelanding';
 import Navbar from '@/components/molecules/layout/navbar';
 import Footer from '@/components/molecules/layout/footer';
 
@@ -12,6 +13,7 @@ import Achievements from '@/components/molecules/achievements';
 import Faqs from '@/components/molecules/FAQS';
 import Cta from '@/components/molecules/CTA';
 import Testimonials from '@/components/molecules/Testimonials';
+
 export default function Homepage() {
     return (
         <>

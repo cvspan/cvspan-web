@@ -12,7 +12,7 @@ const Faq: React.FC<FaqProps> = ({ id, question, answer }) => {
     const [toggleFaq, setToggleFaq] = useState(false);
 
     const questionClass = `flex font-eudoxus transform transition-transform duration-300  lg:self-start lg:justify-self-start ${toggleFaq ? 'text-white' : 'text-[#A3A3A3]'}`;
-    const idClass = `${toggleFaq ? 'text-white flex self-start' : 'text-silver-chalice'}`;
+    const idClass = `${toggleFaq ? 'text-white flex self-start' : 'text-[#A3A3A3]'}`;
     const arrowClass = `h-6 w-6 transform transition-transform duration-300 md:flex md:justify-end lg:flex lg:justify-end md:w-3/12 ${toggleFaq ? 'flex self-start pt-3' : ''} `;
     const arrow = `h-6 w-6 flex items-start justify-start  ${toggleFaq ? 'rotate-180' : ''}`;
     const arrowStroke = `${toggleFaq ? 'white' : '#A3A3A3'}`;
@@ -21,7 +21,7 @@ const Faq: React.FC<FaqProps> = ({ id, question, answer }) => {
 
     return (
         <div className={faqClass} onClick={() => setToggleFaq(!toggleFaq)}>
-            <span className={idClass}>{id}</span>
+            <span className={idClass}>0{id}</span>
             <div
                 className={`flex w-full flex-col justify-between gap-y-6 md:items-center md:justify-between ${toggleFaq ? 'size-full h-min' : ''}`}
             >

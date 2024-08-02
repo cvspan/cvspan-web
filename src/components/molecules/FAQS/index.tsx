@@ -1,13 +1,11 @@
 import Faq from './Faq';
+import React from 'react';
 
 const Faqs = () => {
     return (
-        <div className="bg-[#0C0C0C] py-[60px] pl-6 pr-6 lg:py-[120px]">
-            <div className="m-auto flex w-full max-w-[1200px] flex-col gap-y-14 pl-6 pr-6 text-white">
-                <h3
-                    className="font-euxodus font-medium text-white sm:w-[6/12]"
-                    style={{ fontSize: 'clamp(2rem, 4.6875vw, 3rem)' }}
-                >
+        <div className="bg-[#0C0C0C] px-5 py-[60px] lg:py-[120px]">
+            <div className="m-auto flex w-full max-w-[1200px] flex-col gap-y-14 text-white">
+                <h3 className="font-euxodus text-[34px] font-medium leading-[42px] text-white sm:w-[6/12] md:text-[48px] md:leading-[56px]">
                     Frequently Asked Questions
                 </h3>
                 <div className="flex h-full flex-col">

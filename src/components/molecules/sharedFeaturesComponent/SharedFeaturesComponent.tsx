@@ -21,8 +21,8 @@ const SharedFeaturesComponent: React.FC<SharedFeaturesProps> = ({ intro, title, 
                     <p className="font-eudoxus text-[14px] text-[#484848]">{intro}</p>
                     <Button
                         title="LET'S TALK"
-                        leftIconSize="12px"
-                        leftIcon="/assets/icons/arrow-forward-slant.svg"
+                        rightIconSize="12px"
+                        rightIcon="/assets/icons/arrow-forward-slant.svg"
                         height="56px"
                         fullWidth={true}
                     />

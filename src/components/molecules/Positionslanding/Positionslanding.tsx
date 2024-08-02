@@ -11,7 +11,7 @@ const Positionslanding = (props: Props) => {
                 <Image src={Elipse} alt="elipse" />
             </div>
             <div className="flex h-full w-full flex-col items-center justify-center space-y-6">
-                <h1 className="w-[1012px] text-center font-pp-mori text-[96px] font-[600] leading-[103.65px] text-white">
+                <h1 className="w-[335px] text-center font-pp-mori text-[48px] font-[400] leading-[56px] text-white lg:w-[1012px] lg:text-[96px] lg:font-[600] lg:leading-[103.65px]">
                     Check our <br /> open positions
                 </h1>
             </div>

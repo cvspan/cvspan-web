@@ -263,7 +263,7 @@ const CustomizableCTA = () => {
                 >
                     Ready to skyrocket your business?
                 </h4>
-                <Button title="LET'S TALK" leftIcon="/assets/icons/arrow-forward-slant.svg" leftIconSize="10px" />
+                <Button title="LET'S TALK" rightIcon="/assets/icons/arrow-forward-slant.svg" rightIconSize="10px" />
             </div>
         </div>
     );
