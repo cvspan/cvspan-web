@@ -27,7 +27,7 @@ const Homelanding = () => {
                         </motion.h1>
                         <motion.p
                             {...ANIMATE_PROPS({ delay: 0.6 })}
-                            className="font-Exodus m-0 mx-auto mb-[32px] max-w-[660px] p-0 text-center text-[16px] font-normal leading-[24px] text-white md:mx-0 md:text-left lg:text-[18px] lg:leading-[26px]"
+                            className="font-exodus m-0 mx-auto mb-[32px] max-w-[660px] p-0 text-center text-[16px] font-normal leading-[24px] text-white md:mx-0 md:text-left lg:text-[18px] lg:leading-[26px]"
                         >
                             Our experts accompany our Clients from the private and public sector in their digital
                             transformation journey by providing business value solutions
