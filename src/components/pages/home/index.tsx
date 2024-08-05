@@ -27,7 +27,6 @@ export default function Homepage() {
             <Achievements />
             <Faqs />
             <Testimonials />
-
             <Cta />
             <Footer />
         </>

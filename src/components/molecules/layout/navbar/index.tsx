@@ -26,7 +26,7 @@ function Navbar({ light }: { light: boolean }) {
                     <section className="flex w-full flex-col justify-center px-5 lg:h-20">
                         <div className="mx-auto w-full max-w-[1200px] lg:h-full">
                             <div className="fixed inset-0 z-50 box-border w-full overflow-y-scroll lg:relative lg:h-full lg:flex-grow lg:flex-nowrap lg:items-center lg:justify-normal lg:overflow-y-visible">
-                                <div className="flex flex-col items-stretch gap-y-10 p-5 lg:h-full lg:flex-row lg:gap-y-0 lg:p-0 lg:py-0">
+                                <div className="flex flex-col items-center gap-y-10 p-5 lg:h-full lg:flex-row lg:gap-y-0 lg:p-0 lg:py-0">
                                     <div className="flex w-full justify-between lg:w-fit lg:justify-normal">
                                         <NavBrand isLight={_light} />
                                         <button type="button" className="lg:hidden">
@@ -45,7 +45,7 @@ function Navbar({ light }: { light: boolean }) {
                                         </button>
                                     </div>
                                     <NavMenu isLight={_light} />
-                                    <NavLetsTalkButton />
+                                    <NavLetsTalkButton isLight={_light} />
                                 </div>
                             </div>
                         </div>

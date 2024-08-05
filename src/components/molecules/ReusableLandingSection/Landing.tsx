@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import Elipse from '../../../../public/Ellipse 1.png';
+
 import Frame from '../../../../public/assets/images/Frame 1618868713.png';
 import Button from '../Button';
 
@@ -13,7 +13,7 @@ const Landing = ({ Heading, subHeading }: Props) => {
     return (
         <div className="relative h-[820px] bg-[#0c0c0c]">
             <div className="absolute left-0 top-0">
-                <Image src={Elipse} alt="elipse" />
+                <img src={'/assets/images/haomepage_banner.png'} alt="elipse" />
             </div>
             <div className="flex h-full w-full flex-col items-center justify-center space-y-6">
                 <div className="flex w-[335px] flex-col-reverse items-center justify-between gap-[38px] lg:w-[1200px] lg:flex-row">

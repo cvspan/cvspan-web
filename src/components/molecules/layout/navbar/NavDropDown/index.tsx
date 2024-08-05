@@ -29,41 +29,37 @@ const LetsTalk = () => (
 
 export const NavDropDownService = ({ links }: { links: NavbarList[] }) => {
     return (
-        <div>
-            <div>
-                <div className="lg:grid lg:auto-cols-auto lg:grid-cols-12 lg:gap-x-[33px] lg:rounded-3xl lg:bg-white">
-                    <div className="lg:col-span-7">
-                        <div className="py-[37px] lg:rounded-l-[24px] lg:ps-[40px]">
-                            <ul className="grid gap-y-10 lg:gap-x-[60px]">
-                                {links.map((navList: NavbarList) => (
-                                    <li key={navList.id} className="row-start-1">
-                                        <h2 className="font-eudoxus text-lg text-[#a3a3a3]">{navList.title}</h2>
-                                        <ul className="mt-8 grid gap-y-4 lg:gap-y-8">
-                                            {navList.list.map((list: SubNavbarList) => (
-                                                <li key={list.id}>
-                                                    <Link href={list.link} className="flex gap-x-6">
-                                                        <div className="block h-[50px] w-[50px] rounded-full bg-[#d9d9d9]" />
-                                                        <span>
-                                                            <div className="font-eudoxus text-base font-medium text-[#1a1a1a]">
-                                                                {list.title}
-                                                            </div>
-                                                            <div className="text-slate-[#1a1a1a] hidden font-eudoxus text-xs lg:block">
-                                                                {list.caption}
-                                                            </div>
-                                                        </span>
-                                                    </Link>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    </div>
-                    <div className="hidden lg:col-span-5 lg:block">
-                        <LetsTalk />
+        <div className="lg:grid lg:auto-cols-auto lg:grid-cols-12 lg:gap-x-[33px] lg:rounded-3xl lg:bg-white">
+            <div className="lg:col-span-7">
+                <div className="py-[37px] lg:rounded-l-[24px] lg:ps-[40px]">
+                    <div className="grid gap-y-10 lg:gap-x-[60px]">
+                        {links.map((navList: NavbarList) => (
+                            <div key={navList.id} className="row-start-1">
+                                <h2 className="font-eudoxus text-lg text-[#a3a3a3]">{navList.title}</h2>
+                                <div className="mt-8 grid gap-y-4 lg:gap-y-8">
+                                    {navList.list.map((list: SubNavbarList) => (
+                                        <div key={list.id} className="group">
+                                            <Link href={list.link} className="flex gap-x-6">
+                                                <div className="block h-[50px] w-[50px] rounded-full bg-[#d9d9d9]" />
+                                                <span>
+                                                    <div className="font-eudoxus text-base font-medium text-[#1a1a1a] group-hover:text-[#1A1AFF]">
+                                                        {list.title}
+                                                    </div>
+                                                    <div className="text-slate-[#1a1a1a] hidden font-eudoxus text-xs lg:block">
+                                                        {list.caption}
+                                                    </div>
+                                                </span>
+                                            </Link>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
+            </div>
+            <div className="hidden lg:col-span-5 lg:block">
+                <LetsTalk />
             </div>
         </div>
     );
@@ -76,17 +72,19 @@ export const NavDropDownIndustry = ({ links }: { links: NavbarList[] }) => {
                 <div className="grid auto-cols-auto grid-cols-4 rounded-3xl bg-white">
                     <div className="col-span-2 pe-[80px]">
                         <div className="lg:rounded-l-[24px] lg:bg-white lg:py-[37px] lg:ps-[40px]">
-                            <ul className="grid gap-y-10 lg:gap-x-14">
+                            <div className="grid gap-y-10 lg:gap-x-14">
                                 {links.map((navList: NavbarList) => (
-                                    <li key={navList.id} className="lg:row-start-1">
+                                    <div key={navList.id} className={`cvspan-nav-link lg:row-start-1`}>
                                         <h2 className="font-eudoxus text-lg text-[#a3a3a3]">{navList.title}</h2>
-                                        <ul className="mt-8 grid gap-y-4 lg:gap-y-8">
+                                        <div className="mt-8 grid gap-y-4 lg:gap-y-8">
                                             {navList.list.map((list: SubNavbarList) => (
-                                                <li key={list.id}>
+                                                <div key={list.id} className="group">
                                                     <Link href={list.link} className="flex gap-x-6">
                                                         <div className="hidden h-[50px] w-[50px] rounded-full bg-[#d9d9d9] lg:block" />
                                                         <span>
-                                                            <div className="font-eudoxus text-base font-medium text-[#1a1a1a]">
+                                                            <div
+                                                                className={`cvspan-nav-title font-eudoxus text-base font-medium text-[#1a1a1a] group-hover:text-[#1A1AFF]`}
+                                                            >
                                                                 {list.title}
                                                             </div>
                                                             <div className="hidden font-eudoxus text-xs text-[#1a1a1a] lg:block">
@@ -94,12 +92,12 @@ export const NavDropDownIndustry = ({ links }: { links: NavbarList[] }) => {
                                                             </div>
                                                         </span>
                                                     </Link>
-                                                </li>
+                                                </div>
                                             ))}
-                                        </ul>
-                                    </li>
+                                        </div>
+                                    </div>
                                 ))}
-                            </ul>
+                            </div>
                         </div>
                     </div>
                     <div className="col-span-2 block">

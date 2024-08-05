@@ -33,9 +33,9 @@ const CardsRow = () => {
 
 const FeaturedDigitalProducts = () => {
     return (
-        <div className="px-5 py-[60px] md:py-[120px]">
-            <div className="mx-auto flex h-auto w-full max-w-[1200px] flex-col gap-[24px] lg:h-[594px] lg:flex-row">
-                <div className="bg-re mb-[24px] flex h-full w-full flex-row justify-between lg:mb-0 lg:max-w-[384px] lg:flex-col">
+        <div className="px-5 py-[60px] lg:py-[120px]">
+            <div className="mx-auto flex w-full max-w-[1200px]">
+                <div className="flex h-full w-full flex-row justify-between lg:mb-0 lg:h-[594px] lg:max-w-[384px] lg:flex-col">
                     <div className="lg:max-w-auto max-w-[600px]">
                         <h3 className="font-euxodus text-[48px] font-medium leading-[56px] text-black">
                             Featured Digital Products
@@ -57,12 +57,16 @@ const FeaturedDigitalProducts = () => {
                     </div>
                 </div>
 
-                <CardsRow />
-            </div>
-
-            <div className="mx-auto mb-[60px] flex h-auto w-full max-w-[1200px] flex-col gap-[24px] pt-[60px] md:mb-[180px] md:pt-[180px] lg:h-[594px] lg:flex-row">
-                <div />
-                <CardsRow />
+                <div className="ml-auto">
+                    <div className="mx-auto mb-[60px] flex h-auto w-full max-w-[1200px] flex-col gap-[24px] lg:h-[594px] lg:flex-row">
+                        <div />
+                        <CardsRow />
+                    </div>
+                    <div className="mx-auto mb-[60px] flex h-auto w-full max-w-[1200px] flex-col gap-[24px] pt-[60px] md:mb-[180px] md:pt-[180px] lg:h-[594px] lg:flex-row">
+                        <div />
+                        <CardsRow />
+                    </div>
+                </div>
             </div>
         </div>
     );

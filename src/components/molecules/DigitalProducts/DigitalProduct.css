@@ -1,0 +1,16 @@
+.dgp_card {
+    border: 0.5px solid transparent;
+}
+
+.dgp_card:hover {
+    /* box-shadow:
+        inset 0px 0px 1px #272727,
+        inset 0px 0px 1px #686868,
+        0px 0px 1px #686868,
+        0px 0px 1px #272727; */
+    @apply bg-[#0C0C0C];
+    transition: all 0.5s ease-in-out;
+    border-radius: 12px;
+    border: 0.5px solid transparent;
+    border-image: linear-gradient(to bottom, #272727, #686868, #686868, #272727) 1;
+}

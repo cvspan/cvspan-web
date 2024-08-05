@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import Elipse from '../../../../public/Ellipse 1.png';
+
 import Featured from './Featured';
 import Button from '../Button';
 import Search from '../../../../public/assets/icons/Vector.png';
@@ -11,7 +11,7 @@ const Bloglanding = (props: Props) => {
     return (
         <div className="relative h-[820px] bg-[#0c0c0c]">
             <div className="absolute left-0 top-0">
-                <Image src={Elipse} alt="elipse" />
+                <img src={'/assets/images/haomepage_banner.png'} alt="elipse" />
             </div>
             <div className="flex h-full w-full flex-col items-center justify-center">
                 <div className="w-[335px] space-y-[60px] lg:w-[1012px]">
