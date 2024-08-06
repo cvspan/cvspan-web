@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import SpecificJobPage from '@/components/pages/careers/specific-job';
 

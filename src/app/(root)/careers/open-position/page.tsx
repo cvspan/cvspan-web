@@ -1,3 +1,4 @@
+'use client';
 import Openposition from '@/components/molecules/Openpositions/Openposition';
 import Positionslanding from '@/components/molecules/Positionslanding/Positionslanding';
 import React from 'react';

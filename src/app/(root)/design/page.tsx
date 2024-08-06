@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import { design } from '@/components/molecules/arrayOfFeatures/arrays';
 import SharedFeaturesComponent from '@/components/molecules/sharedFeaturesComponent/SharedFeaturesComponent';
