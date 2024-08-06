@@ -1,6 +1,7 @@
 import React from 'react';
 import { HowWeWork } from './types';
 import { HowWorkItem } from './HowWeWorkItem';
+
 const HOWWEWORK: HowWeWork[] = [
     {
         id: 1,
@@ -30,7 +31,7 @@ export const HowWeWorkList = () => {
             <div>
                 <div className="grid grid-cols-3 gap-6 sm:grid-cols-6 lg:grid-cols-12">
                     {HOWWEWORK.map((item: HowWeWork, i: number) => (
-                        <HowWorkItem item={item} key={i} />
+                        <HowWorkItem item={item} key={i} index={i} />
                     ))}
                 </div>
             </div>

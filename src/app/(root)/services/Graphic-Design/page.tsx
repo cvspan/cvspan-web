@@ -1,3 +1,4 @@
+'use client';
 import { brandIdentity, graphicDesign } from '@/components/molecules/arrayOfFeatures/arrays';
 import SharedFeaturesComponent from '@/components/molecules/sharedFeaturesComponent/SharedFeaturesComponent';
 import React from 'react';

@@ -21,7 +21,7 @@ export default function RootLayout({
         <html lang="en">
             <body className={inter.className}>
                 <FullScreenAnimatedLoader />
-                <NextTopLoader color="#ffffff" height={3} />
+                <NextTopLoader color="#0A1EB9" height={3} />
                 {children}
             </body>
         </html>

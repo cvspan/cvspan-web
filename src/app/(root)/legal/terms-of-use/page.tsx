@@ -1,3 +1,4 @@
+'use client';
 import Privacy from '@/components/molecules/Privacy-policy/Privacy';
 import React from 'react';
 

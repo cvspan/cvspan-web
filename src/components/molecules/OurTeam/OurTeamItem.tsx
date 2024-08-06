@@ -3,16 +3,23 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Team } from './types';
 
+import { motion } from 'framer-motion';
+import { ANIMATE_PROPS } from '@/helpers/motion';
+
 import { avatar } from '@/components/exports/images';
 
-export const OurTeamItem = ({ item }: { item: Team }) => {
+export const OurTeamItem = ({ item, index = 0 }: { item: Team; index?: number }) => {
     return (
-        <div className="relative col-span-4 rounded-3xl bg-[#fafafa]">
+        <motion.div
+            {...ANIMATE_PROPS({ delay: 0.2 * index })}
+            className="relative col-span-4 rounded-3xl bg-[#fafafa] grayscale transition-all duration-300 ease-in-out hover:grayscale-0"
+        >
+            <img src="/assets/images/team_card_bg.jpg" className="absolute left-0 top-0 h-full w-full" />
             <div className="aspect-[16/9]">
-                <div className="ms-8 mt-8 flex-grow-0">
+                <div className="relative z-10 ms-8 mt-8 flex-grow-0">
                     <div className="flex items-center justify-between">
                         <span className="max-w-[300px]">
-                            <div className="overflow-auto text-ellipsis whitespace-nowrap font-eudoxus text-2xl font-medium leading-[32px] text-[#1a1a1a]">
+                            <div className="font-eudoxus overflow-auto text-ellipsis whitespace-nowrap text-2xl font-medium leading-[32px] text-[#1a1a1a]">
                                 {item.name}
                             </div>
                             <div className="font-eudoxus text-sm font-normal leading-[22px] text-[#1a1a1a]">
@@ -51,6 +58,6 @@ export const OurTeamItem = ({ item }: { item: Team }) => {
                 aria-label={`${item.name}`}
                 className="absolute left-0 top-0 z-[100] block h-full w-full overflow-hidden whitespace-nowrap bg-transparent outline-none"
             ></Link>
-        </div>
+        </motion.div>
     );
 };

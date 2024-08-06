@@ -1,0 +1,35 @@
+.fdp_card {
+    @apply flex h-fit w-full cursor-pointer flex-col overflow-hidden transition-all duration-300 ease-in-out md:h-[594px] md:w-[336px];
+}
+
+.fdp_card_img_wrapper {
+    @apply min-h-[300px] w-full flex-1 overflow-hidden bg-[#D9D9D9] transition-all duration-300 ease-in-out md:h-full md:max-w-[336px];
+}
+
+.fdp_card_desc {
+    @apply text-[18px] font-[400] leading-[26px] text-[#484848] md:text-[16px] md:leading-[24px];
+}
+
+.fdp_card_title {
+    @apply text-[24px] font-[500] leading-[32px] text-inherit md:text-[34px] md:leading-[42px];
+}
+
+.fdp_card_title_wrapper {
+    @apply flex w-full items-center justify-between py-[24px] pr-[10px] text-[#1A1A1A];
+}
+
+.fdp_card .arrow_blue {
+    @apply hidden;
+}
+
+.fdp_card:hover .arrow_blue {
+    @apply block;
+}
+
+.fdp_card:hover .arrow_black {
+    @apply hidden;
+}
+
+.fdp_card:hover .fdp_card_title {
+    @apply text-[#1A1AFF] transition-all duration-300 ease-in-out;
+}

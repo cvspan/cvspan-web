@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import Bloglanding from '@/components/molecules/Bloglanding/Bloglanding';
 
@@ -8,7 +10,7 @@ import DontMiss from '@/components/molecules/DontMiss/DontMiss';
 const page = () => {
     return (
         <>
-            <Navbar light />
+            <Navbar />
             <Bloglanding />
             <DontMiss />
             <Footer />

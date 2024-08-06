@@ -1,4 +1,6 @@
 import React from 'react';
+import CustomCountUp from '@/components/molecules/CustomCountUp';
+
 export const SpecificJobGlobalTeam = () => {
     return (
         <div className="bg-[#0c0c0c] py-[120px]">
@@ -18,7 +20,7 @@ export const SpecificJobGlobalTeam = () => {
                                     </div>
                                     <div className="mb-[22px] mt-[88px] lg:mb-[41px] lg:mt-auto">
                                         <span className="text-gradient font-pp-mori text-[60px] leading-[64px] text-white lg:text-[77px] lg:leading-[83.16px]">
-                                            65+
+                                            <CustomCountUp end={65} duration={3} />+
                                         </span>
                                         <div className="font-eudoxus text-2xl font-medium text-white">Team Members</div>
                                     </div>
@@ -26,8 +28,10 @@ export const SpecificJobGlobalTeam = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="back col-span-3 h-[427px] rounded-3xl border-[1px] border-[#272727] bg-[#1a1a1a] lg:col-span-2">
-                        <div className="text-gradient ps-6 pt-6 font-eudoxus text-2xl font-medium leading-8 text-white lg:pl-[47px] lg:pt-10 lg:text-[34px] lg:leading-[42px]">
+                    <div className="back relative col-span-3 h-[427px] rounded-3xl border-[1px] border-[#272727] bg-[#1a1a1a] lg:col-span-2">
+                        <img src="/assets/images/univers_cta_bg.webp" className="absolute left-0 top-0 h-full w-full" />
+
+                        <div className="text-gradient font-eudoxus relative z-10 ps-6 pt-6 text-2xl font-medium leading-8 text-white lg:pl-[47px] lg:pt-10 lg:text-[34px] lg:leading-[42px]">
                             Global remote team that <br /> operates internationally
                         </div>
                     </div>

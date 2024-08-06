@@ -1,0 +1,11 @@
+.char {
+    opacity: 0;
+}
+
+.hp_header_inner_h1 {
+    opacity: 0;
+}
+
+.hp_header_innerTop {
+    @apply mb-[-12px] text-red-700 lg:mb-[-40px];
+}

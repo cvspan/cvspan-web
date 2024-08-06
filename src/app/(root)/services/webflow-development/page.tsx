@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 
 import { mobiledesign } from '@/components/molecules/arrayOfFeatures/arrays';

@@ -115,7 +115,7 @@ export const NavMenu = ({ isLight }: { isLight: boolean }) => {
 
 export const NavLetsTalkButton = ({ isLight }: { isLight?: boolean }) => {
     return (
-        <Link href="/contact-us">
+        <Link href="/contact">
             <motion.button
                 whileHover="animate"
                 whileTap="animate"

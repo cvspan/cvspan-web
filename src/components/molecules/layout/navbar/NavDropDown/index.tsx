@@ -1,12 +1,13 @@
 import React from 'react';
 import Link from 'next/link';
 import { NavbarList, SubNavbarList } from '../types';
+import { motion } from 'framer-motion';
 
 const LetsTalk = () => (
     <div className="h-full">
         <div className="bg relative flex h-full flex-col rounded-r-3xl py-[37px] pe-[25px] ps-[37px]">
             <div className="flex flex-col gap-y-1">
-                <h1 className={'leding-[56px] max-w-[350px] font-eudoxus text-5xl font-extrabold text-white'}>
+                <h1 className={'leding-[56px] font-eudoxus max-w-[350px] text-5xl font-extrabold text-white'}>
                     HAVE AN IDEA IN MIND
                 </h1>
 
@@ -14,14 +15,40 @@ const LetsTalk = () => (
                     Let`s create amazing digital experiences together
                 </div>
             </div>
-            <Link
-                href="/contact"
-                className="mt-auto inline-flex flex-shrink-0 items-center gap-x-[40px] font-eudoxus text-[34px] leading-[42px] text-white"
-            >
-                <span className="font-medium">LET{`'S`} TALK</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="currentColor">
-                    <path d="M1.90476 0L1.82466 5.38679L30.8036 5.3869L0 36.1905L3.80952 40L34.6131 9.19643L34.6132 38.0954L40 38.0952C40 24.1486 40 13.3486 40 0H1.90476Z" />
-                </svg>
+
+            <Link href={'/contact'} className="mt-auto">
+                <motion.button
+                    whileHover="on_hover"
+                    className="font-eudoxus group inline-flex flex-shrink-0 items-center gap-x-[40px] text-[34px] leading-[42px] text-white"
+                >
+                    <motion.h4 className="text-[34px] leading-[42px] group-hover:text-white/80">LET’S TALK</motion.h4>
+
+                    <motion.img
+                        initial={{ x: '-30px', y: 30, opacity: 0 }}
+                        variants={{
+                            on_hover: {
+                                x: 0,
+                                y: 0,
+                                opacity: 1,
+                            },
+                        }}
+                        src="/assets/icons/arrow-up-big-white.svg"
+                        className="hidden h-[40px] w-[40px] group-hover:block"
+                    />
+
+                    <motion.img
+                        initial={{ x: 0, y: 0, opacity: 1 }}
+                        variants={{
+                            on_hover: {
+                                x: 30,
+                                y: -30,
+                                opacity: 0,
+                            },
+                        }}
+                        src="/assets/icons/arrow-up-big-white.svg"
+                        className="h-[40px] w-[40px] group-hover:hidden"
+                    />
+                </motion.button>
             </Link>
         </div>
     </div>
@@ -45,7 +72,7 @@ export const NavDropDownService = ({ links }: { links: NavbarList[] }) => {
                                                     <div className="font-eudoxus text-base font-medium text-[#1a1a1a] group-hover:text-[#1A1AFF]">
                                                         {list.title}
                                                     </div>
-                                                    <div className="text-slate-[#1a1a1a] hidden font-eudoxus text-xs lg:block">
+                                                    <div className="text-slate-[#1a1a1a] font-eudoxus hidden text-xs lg:block">
                                                         {list.caption}
                                                     </div>
                                                 </span>
@@ -87,7 +114,7 @@ export const NavDropDownIndustry = ({ links }: { links: NavbarList[] }) => {
                                                             >
                                                                 {list.title}
                                                             </div>
-                                                            <div className="hidden font-eudoxus text-xs text-[#1a1a1a] lg:block">
+                                                            <div className="font-eudoxus hidden text-xs text-[#1a1a1a] lg:block">
                                                                 {list.caption}
                                                             </div>
                                                         </span>

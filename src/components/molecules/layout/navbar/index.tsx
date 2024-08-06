@@ -7,7 +7,7 @@ function Navbar({ light }: { light: boolean }) {
     const [_light, setLight] = React.useState<boolean | false>(light);
 
     const onNavbarBgChange = () => {
-        window.scrollY >= 820 ? setLight(true) : setLight(false);
+        window.scrollY >= 820 ? setLight(true) : setLight(_light ? true : false);
     };
 
     React.useEffect(() => {
@@ -45,7 +45,7 @@ function Navbar({ light }: { light: boolean }) {
                                         </button>
                                     </div>
                                     <NavMenu isLight={_light} />
-                                    <NavLetsTalkButton isLight={_light} />
+                                    <NavLetsTalkButton />
                                 </div>
                             </div>
                         </div>

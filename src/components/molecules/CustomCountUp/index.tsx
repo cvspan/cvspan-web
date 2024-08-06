@@ -2,7 +2,7 @@
 import React from 'react';
 import { CountUp } from 'use-count-up';
 
-const CustomCountUp = ({ end = 0, duration = 1000 }: { end?: number; duration?: number }) => {
+const CustomCountUp = ({ end = 0, duration = 3 }: { end?: number; duration?: number }) => {
     const [isVisible, setIsVisible] = React.useState(false);
     const componentRef = React.useRef(null);
 

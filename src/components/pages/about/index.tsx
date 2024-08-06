@@ -11,10 +11,11 @@ import Faqs from '@/components/molecules/FAQS';
 import Testimonials from '@/components/molecules/Testimonials';
 import Cta from '@/components/molecules/CTA';
 import { SpecificJobGlobalTeam } from '@/components/molecules/SepcificJobGlobalTeam';
+
 export default function Aboutpage() {
     return (
         <>
-            <Navbar light />
+            <Navbar light={false} />
             <Aboutlanding />
             <StoriesCard />
             <HowweWork />

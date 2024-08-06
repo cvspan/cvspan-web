@@ -1,8 +1,15 @@
 import React from 'react';
 import { HowWeWork } from './types';
+
+import { motion } from 'framer-motion';
+import { ANIMATE_PROPS } from '@/helpers/motion';
+
 export const HowWorkItem = ({ item }: { item: HowWeWork }) => {
     return (
-        <div className="col-span-3 rounded-3xl border-[1px] border-[#272727] p-6">
+        <motion.div
+            {...ANIMATE_PROPS({ delay: 0.2 * item?.index })}
+            className="col-span-3 rounded-3xl border-[1px] border-[#272727] p-6"
+        >
             <div>
                 <div>
                     <div className="h-[56px] w-[56px] rounded-full bg-[#a6F46a]" />
@@ -22,6 +29,6 @@ export const HowWorkItem = ({ item }: { item: HowWeWork }) => {
                     </span>
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 };

@@ -13,12 +13,12 @@ const FooterOfficeAddress = () => {
                     <Image src="/assets/images/logo.svg" width={152} height={31} alt="Cvspan logo" />
                 </Link>
                 <div className="mt-6 hidden lg:block">
-                    <h3 className="text-slate-1000 text-base font-medium">Offices</h3>
+                    <h3 className="text-[16px] font-medium text-[#1A1A1A]">Offices</h3>
                     <div>
                         <ul className="list-none" role="list">
                             {ADDRESSES.map((address: Address) => (
                                 <li key={address.id} className="mt-6">
-                                    <span className="text-slate-1050">
+                                    <span className="text-[14px] font-normal text-[#484848]">
                                         <div>{address.region}</div>
                                         <div>{address.address}</div>
                                         <div>{address.phone}</div>
@@ -39,12 +39,15 @@ const FooterPrimaryLinks = () => {
             <ul className="grid list-none grid-cols-4 gap-5 md:gap-x-8" role="list">
                 {FOOTER_LINKS.map((link: FooterLink) => (
                     <li key={link.id} className="col-span-2 place-self-start lg:row-start-1" role="listitem">
-                        <h3 className="text-slate-1000 text-base font-medium">{link.text}</h3>
+                        <h3 className="text-[16px] font-medium text-[#1A1A1A]">{link.text}</h3>
                         <ul className="mt-6 list-none">
                             {link.links.map((subLink: THIRD_PARTY_LINK) => (
                                 <li className="pt-2" role="listitem" key={subLink.id}>
                                     <div className="flex">
-                                        <Link href={subLink.link} className="text-slate-1050">
+                                        <Link
+                                            href={subLink.link}
+                                            className="text-[14px] font-normal text-[#484848] hover:underline"
+                                        >
                                             {subLink.text}
                                         </Link>
                                     </div>
@@ -65,7 +68,7 @@ const FooterThirdPartyLinks = () => {
                 {THIRD_PARTY_LINKS.map((link: THIRD_PARTY_LINK) => (
                     <li key={link.id}>
                         <div className="flex-shrink-0 flex-grow">
-                            <Link href={link?.link} className="font-normal leading-snug underline">
+                            <Link href={link?.link} className="text-[14px] font-normal text-[#484848] underline">
                                 {link.text}
                             </Link>
                         </div>
@@ -170,7 +173,7 @@ export const SecondaryFooter = () => {
         <div>
             <div className="flex flex-col gap-y-8 md:items-center lg:flex-row">
                 <div className="order-3 mr-8 lg:order-1">
-                    <div className="font-normal leading-snug">© 2024 CVSpan. All rights reserved.</div>
+                    <div className="text-[14px] font-normal text-[#484848]">© 2024 CVSpan. All rights reserved.</div>
                 </div>
                 <FooterThirdPartyLinks />
                 <SocialHandles />

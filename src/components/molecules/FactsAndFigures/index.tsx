@@ -41,10 +41,10 @@ const FactsAndFigures = () => {
                             </div>
                         </motion.div>
                         <div className="grid gap-6 sm:grid-cols-2 sm:grid-rows-2">
-                            <motion.div {...ANIMATE_PROPS({ from: 'bottom', delay: 0.2 })}>
+                            <motion.div {...ANIMATE_PROPS({ from: 'bottom', delay: 0 })}>
                                 <FactCard id={'01'} rate={80} after="%" description="of faster design asset delivery" />
                             </motion.div>
-                            <motion.div {...ANIMATE_PROPS({ from: 'bottom', delay: 0.3 })}>
+                            <motion.div {...ANIMATE_PROPS({ from: 'bottom', delay: 0 })}>
                                 <FactCard
                                     id={'02'}
                                     before="$"
@@ -53,7 +53,7 @@ const FactsAndFigures = () => {
                                     description="Saved on creative production"
                                 />
                             </motion.div>
-                            <motion.div {...ANIMATE_PROPS({ from: 'bottom', delay: 0.5 })}>
+                            <motion.div {...ANIMATE_PROPS({ from: 'bottom', delay: 0.2 })}>
                                 <FactCard
                                     id={'03'}
                                     before="+"
@@ -62,7 +62,7 @@ const FactsAndFigures = () => {
                                     description="Increase in customer base"
                                 />
                             </motion.div>
-                            <motion.div {...ANIMATE_PROPS({ from: 'bottom', delay: 0.6 })}>
+                            <motion.div {...ANIMATE_PROPS({ from: 'bottom', delay: 0.2 })}>
                                 <FactCard
                                     id={'04'}
                                     before="+"

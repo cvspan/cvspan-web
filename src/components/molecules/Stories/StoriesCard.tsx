@@ -30,7 +30,7 @@ const StoriesCard = () => {
                     stagger: 0.02,
                     scrollTrigger: {
                         trigger: char,
-                        start: 'top 80%',
+                        start: 'top 70%',
                         end: 'top 20%',
                         scrub: true,
                         markers: false,
@@ -54,12 +54,9 @@ const StoriesCard = () => {
                         Success Stories Shaped By Our Experience
                     </motion.h3>
 
-                    <motion.h3
-                        {...ANIMATE_PROPS({ delay: 0.5, from: 'bottom' })}
-                        className="font-eudoxus text-[34px] font-[500] leading-[42px] md:text-[48px] md:leading-[56px] lg:hidden"
-                    >
+                    <h3 className="font-eudoxus text-[34px] font-[500] leading-[42px] md:text-[48px] md:leading-[56px] lg:hidden">
                         Success Stories Shaped By Our Experience
-                    </motion.h3>
+                    </h3>
                 </div>
 
                 <div className="w-full lg:max-w-[696px]">
