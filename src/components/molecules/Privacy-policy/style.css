@@ -1,5 +1,5 @@
 .scroll_watcher_wrapper {
-    @apply fixed top-[80px] z-[900] h-[5px] w-full bg-[#D1D1D1];
+    @apply fixed top-[80px] z-[40] h-[5px] w-full bg-[#D1D1D1];
 }
 
 .scroll_watcher {
@@ -10,7 +10,7 @@
     /* background-color: lime; */
     /* width: 100%; */
 
-    @apply fixed top-[80px] z-[1000] h-[5px] w-full bg-[#A6F46A];
+    @apply fixed top-[80px] z-[40] h-[5px] w-full bg-[#A6F46A];
     scale: 0 1;
 
     animation: scroll_watcher linear;

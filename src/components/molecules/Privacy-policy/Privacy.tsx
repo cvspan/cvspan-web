@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import Navbar from '@/components/molecules/layout/navbar';
 import Footer from '@/components/molecules/layout/footer';
 import { motion } from 'framer-motion';

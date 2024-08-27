@@ -12,9 +12,10 @@ function Button({
 
     fullWidth = false,
     animateRightIconOnHover = false,
+    onClick = () => null,
 }: {
     title: string;
-    background?: 'blue' | 'white' | 'dark' | 'transparent';
+    background?: 'blue' | 'white-no-border' | 'white-with-border' | 'dark' | 'transparent';
     height?: '40px' | '56px';
     rightIcon?: string;
     rightIconHover?: string;
@@ -22,16 +23,19 @@ function Button({
 
     fullWidth?: boolean;
     animateRightIconOnHover?: boolean;
+    onClick?: any;
 }) {
     const _height = `h-[${height}]`;
     const _background =
-        background === 'transparent'
-            ? 'text-white hover:bg-[#ffffff] hover:text-[#1A1A1A]'
-            : background === 'blue'
-              ? `bg-[#1A1AFF] text-[#ffffff] border-[#1A1AFF] hover:opacity-80`
-              : background === 'white'
-                ? 'bg-[#ffffff] text-[#1A1A1A] border-[#ffffff] hover:text-[#ffffff] hover:bg-[#050505]'
-                : 'bg-[#050505] text-[#ffffff] border-[#050505]';
+        background === 'white-with-border'
+            ? 'bg-[#ffffff] text-[#1A1A1A] border-[#1A1A1A] hover:text-[#ffffff] hover:bg-[#050505] '
+            : background === 'transparent'
+              ? 'text-white hover:bg-[#ffffff] hover:text-[#1A1A1A]'
+              : background === 'blue'
+                ? `bg-[#1A1AFF] text-[#ffffff] border-[#1A1AFF] hover:opacity-80`
+                : background === 'white-no-border'
+                  ? 'bg-[#ffffff] text-[#1A1A1A] border-[#ffffff] hover:text-[#ffffff] hover:bg-[#050505]'
+                  : 'bg-[#050505] text-[#ffffff] border-[#050505]';
 
     const _padding = height === '40px' ? 'px-[16px] py-[8px]' : 'px-[32px] py-[16px]';
 
@@ -39,6 +43,7 @@ function Button({
 
     return (
         <motion.button
+            onClick={onClick}
             whileHover="on_hover"
             className={`group flex w-auto cursor-pointer items-center justify-center gap-[16px] overflow-hidden rounded-[100px] border-[1px] text-[16px] font-[500] leading-[24px] transition duration-300 ease-in-out ${_fullWidth} ${_background} ${_height} ${_padding}`}
         >

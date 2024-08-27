@@ -33,7 +33,7 @@ export const NavMenu = ({ isLight }: { isLight: boolean }) => {
                         <HoverCardTrigger asChild>
                             <button
                                 type="button"
-                                className={`font-eudoxus inline-flex flex-grow items-center text-[34px] font-medium leading-[42px] lg:text-sm lg:font-normal lg:leading-[22px] ${isLight ? 'text-[#1a1a1a]' : 'text-white'} hover:underline`}
+                                className={`inline-flex flex-grow items-center font-eudoxus text-[34px] font-medium leading-[42px] lg:text-sm lg:font-normal lg:leading-[22px] ${isLight ? 'text-[#1a1a1a]' : 'text-white'} hover:underline`}
                             >
                                 <span className="pr-2">Services</span>
                                 <svg
@@ -69,7 +69,7 @@ export const NavMenu = ({ isLight }: { isLight: boolean }) => {
                         <HoverCardTrigger asChild>
                             <button
                                 type="button"
-                                className={`font-eudoxus inline-flex flex-grow items-center text-[34px] font-medium leading-[42px] lg:text-sm lg:font-normal lg:leading-[22px] ${isLight ? 'text-[#1a1a1a]' : 'text-white'} hover:underline`}
+                                className={`inline-flex flex-grow items-center font-eudoxus text-[34px] font-medium leading-[42px] lg:text-sm lg:font-normal lg:leading-[22px] ${isLight ? 'text-[#1a1a1a]' : 'text-white'} hover:underline`}
                             >
                                 <span className="pr-2">Industries</span>
                                 <svg
@@ -103,7 +103,7 @@ export const NavMenu = ({ isLight }: { isLight: boolean }) => {
             {NavLinks.map((navLink: NavLink) => (
                 <Link
                     href={navLink.link}
-                    className={`font-eudoxus inline-flex items-center text-[34px] font-medium leading-[42px] hover:underline lg:text-sm lg:font-normal lg:leading-[22px] ${isLight ? 'text-[#1a1a1a]' : 'text-white'}`}
+                    className={`inline-flex items-center font-eudoxus text-[34px] font-medium leading-[42px] hover:underline lg:text-sm lg:font-normal lg:leading-[22px] ${isLight ? 'text-[#1a1a1a]' : 'text-white'}`}
                     key={navLink.id}
                 >
                     {navLink.text}

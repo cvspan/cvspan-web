@@ -70,7 +70,7 @@ export const ContactForm = () => {
                             <Button
                                 title="Submit"
                                 height="56px"
-                                background="white"
+                                background="white-no-border"
                                 rightIcon="/assets/icons/arrow_top_right_black.svg"
                             />
                         </div>

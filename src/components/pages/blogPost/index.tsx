@@ -1,18 +1,21 @@
-import Cta from '@/components/molecules/CTA';
+'use client';
+
 import BlogPostLanding from '@/components/molecules/blogPostLanding';
 import Summary from '@/components/molecules/blogSummary';
 import Footer from '@/components/molecules/layout/footer';
 import Navbar from '@/components/molecules/layout/navbar';
-import DontMiss from '@/components/molecules/DontMiss/DontMiss';
+import CTA_MissAnything from '@/components/molecules/CTA_MissAnything';
 import React from 'react';
 
 const BlogPost = () => {
     return (
         <>
             <Navbar light />
-            <BlogPostLanding />
+            <div className="mt-[100px] px-4 md:px-6 lg:px-8">
+                <BlogPostLanding />
+            </div>
             <Summary />
-            <DontMiss />
+            <CTA_MissAnything />
             <Footer />
         </>
     );

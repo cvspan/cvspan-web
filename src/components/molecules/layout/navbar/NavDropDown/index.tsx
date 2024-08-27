@@ -7,7 +7,7 @@ const LetsTalk = () => (
     <div className="h-full">
         <div className="bg relative flex h-full flex-col rounded-r-3xl py-[37px] pe-[25px] ps-[37px]">
             <div className="flex flex-col gap-y-1">
-                <h1 className={'leding-[56px] font-eudoxus max-w-[350px] text-5xl font-extrabold text-white'}>
+                <h1 className={'leding-[56px] max-w-[350px] font-eudoxus text-5xl font-extrabold text-white'}>
                     HAVE AN IDEA IN MIND
                 </h1>
 
@@ -19,7 +19,7 @@ const LetsTalk = () => (
             <Link href={'/contact'} className="mt-auto">
                 <motion.button
                     whileHover="on_hover"
-                    className="font-eudoxus group inline-flex flex-shrink-0 items-center gap-x-[40px] text-[34px] leading-[42px] text-white"
+                    className="group inline-flex flex-shrink-0 items-center gap-x-[40px] font-eudoxus text-[34px] leading-[42px] text-white"
                 >
                     <motion.h4 className="text-[34px] leading-[42px] group-hover:text-white/80">LET’S TALK</motion.h4>
 
@@ -56,7 +56,13 @@ const LetsTalk = () => (
 
 export const NavDropDownService = ({ links }: { links: NavbarList[] }) => {
     return (
-        <div className="lg:grid lg:auto-cols-auto lg:grid-cols-12 lg:gap-x-[33px] lg:rounded-3xl lg:bg-white">
+        <div
+            className="lg:grid lg:auto-cols-auto lg:grid-cols-12 lg:gap-x-[33px] lg:rounded-3xl lg:bg-white"
+            style={{
+                boxShadow: 'rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px',
+                zIndex: '1000',
+            }}
+        >
             <div className="lg:col-span-7">
                 <div className="py-[37px] lg:rounded-l-[24px] lg:ps-[40px]">
                     <div className="grid gap-y-10 lg:gap-x-[60px]">
@@ -72,7 +78,7 @@ export const NavDropDownService = ({ links }: { links: NavbarList[] }) => {
                                                     <div className="font-eudoxus text-base font-medium text-[#1a1a1a] group-hover:text-[#1A1AFF]">
                                                         {list.title}
                                                     </div>
-                                                    <div className="text-slate-[#1a1a1a] font-eudoxus hidden text-xs lg:block">
+                                                    <div className="text-slate-[#1a1a1a] hidden font-eudoxus text-xs lg:block">
                                                         {list.caption}
                                                     </div>
                                                 </span>
@@ -96,7 +102,13 @@ export const NavDropDownIndustry = ({ links }: { links: NavbarList[] }) => {
     return (
         <div>
             <div>
-                <div className="grid auto-cols-auto grid-cols-4 rounded-3xl bg-white">
+                <div
+                    className="grid auto-cols-auto grid-cols-4 rounded-3xl bg-white"
+                    style={{
+                        boxShadow: 'rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px',
+                        zIndex: '1000',
+                    }}
+                >
                     <div className="col-span-2 pe-[80px]">
                         <div className="lg:rounded-l-[24px] lg:bg-white lg:py-[37px] lg:ps-[40px]">
                             <div className="grid gap-y-10 lg:gap-x-14">
@@ -114,7 +126,7 @@ export const NavDropDownIndustry = ({ links }: { links: NavbarList[] }) => {
                                                             >
                                                                 {list.title}
                                                             </div>
-                                                            <div className="font-eudoxus hidden text-xs text-[#1a1a1a] lg:block">
+                                                            <div className="hidden font-eudoxus text-xs text-[#1a1a1a] lg:block">
                                                                 {list.caption}
                                                             </div>
                                                         </span>

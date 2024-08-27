@@ -1,6 +1,7 @@
 import React from 'react';
 
-import Button from '../Button';
+import Button from '@/components/molecules/Button';
+
 import { motion } from 'framer-motion';
 import { ANIMATE_PROPS } from '@/helpers/motion';
 import gsap from 'gsap';
@@ -55,7 +56,7 @@ const Aboutlanding = (props: Props) => {
                         {...ANIMATE_PROPS({ delay: 0.3 })}
                         className="flex w-full max-w-[400px] flex-col gap-[24px] pt-[10px] md:flex-row"
                     >
-                        <Button title="OUR SERVICES" fullWidth height="56px" background="white" />
+                        <Button title="OUR SERVICES" fullWidth height="56px" background="white-no-border" />
                         <Button title="GET STARTED" fullWidth height="56px" background="transparent" />
                     </motion.div>
                 </div>

@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { ANIMATE_PROPS } from '@/helpers/motion';
 
 import './index.css';
+import Link from 'next/link';
 export const OurVisionAndMission = () => {
     return (
         <div className="px-5 py-[60px] lg:py-[120px]">
@@ -28,14 +29,16 @@ export const OurVisionAndMission = () => {
                                 </motion.div>
 
                                 <div className="w-full md:w-fit lg:mt-auto">
-                                    <Button
-                                        height="56px"
-                                        title="SEE JOB OPENINGS"
-                                        rightIconSize="12px"
-                                        rightIcon="/assets/icons/arrow-top-right-white.svg"
-                                        animateRightIconOnHover
-                                        fullWidth
-                                    />
+                                    <Link href={'/careers/open-position'}>
+                                        <Button
+                                            height="56px"
+                                            title="SEE JOB OPENINGS"
+                                            rightIconSize="12px"
+                                            rightIcon="/assets/icons/arrow-top-right-white.svg"
+                                            animateRightIconOnHover
+                                            fullWidth
+                                        />
+                                    </Link>
                                 </div>
                             </div>
 

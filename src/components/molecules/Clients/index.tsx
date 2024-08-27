@@ -62,7 +62,7 @@ const brands: Brand[] = [
     },
 ];
 
-const Clients = ({ darkMode = false, containerClassName }: { darkMode?: boolean; containerClassName: string }) => {
+const Clients = ({ darkMode = false, containerClassName }: { darkMode?: boolean; containerClassName?: string }) => {
     return (
         <div
             className={cn(

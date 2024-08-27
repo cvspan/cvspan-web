@@ -10,7 +10,7 @@ import FactsAndFigures from '@/components/molecules/FactsAndFigures';
 import Faqs from '@/components/molecules/FAQS';
 import Testimonials from '@/components/molecules/Testimonials';
 import Cta from '@/components/molecules/CTA';
-import { SpecificJobGlobalTeam } from '@/components/molecules/SepcificJobGlobalTeam';
+import GlobalTeam from '@/components/molecules/GlobalTeam';
 
 export default function Aboutpage() {
     return (
@@ -31,7 +31,7 @@ export default function Aboutpage() {
 
             <OurTeam />
             <Achievements />
-            <SpecificJobGlobalTeam />
+            <GlobalTeam />
             <Faqs />
             <Testimonials />
             <Cta />
