@@ -1,13 +1,17 @@
 import Faq from './Faq';
 import React from 'react';
-
+import { motion } from 'framer-motion';
+import { ANIMATE_PROPS } from '@/helpers/motion';
 const Faqs = () => {
     return (
         <div className="bg-[#0C0C0C] px-5 py-[60px] lg:py-[120px]">
             <div className="m-auto flex w-full max-w-[1200px] flex-col gap-y-14 text-white">
-                <h3 className="font-euxodus text-[34px] font-medium leading-[42px] text-white sm:w-[6/12] md:text-[48px] md:leading-[56px]">
+                <motion.h3
+                    {...ANIMATE_PROPS({})}
+                    className="font-euxodus w-full max-w-[564px] text-[34px] font-medium leading-[42px] text-white md:text-[48px] md:leading-[56px]"
+                >
                     Frequently Asked Questions
-                </h3>
+                </motion.h3>
                 <div className="flex h-full flex-col">
                     <div className="flex h-full w-full">
                         <Faq

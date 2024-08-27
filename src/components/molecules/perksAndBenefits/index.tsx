@@ -15,7 +15,7 @@ const PerksAndBenefits = () => {
                         Perks and Benefits
                     </h3>
 
-                    <div className="grid-layout sm:gap-1">
+                    <div className="flex flex-col justify-between lg:flex-row">
                         <PerkandBenefit
                             id="01"
                             title="Bonuses for hardworkers"
@@ -34,13 +34,6 @@ const PerksAndBenefits = () => {
                     </div>
                 </div>
             </section>
-            <style jsx>{`
-                .grid-layout {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(18em, 1fr));
-                    grid-gap: 1em;
-                }
-            `}</style>
         </>
     );
 };

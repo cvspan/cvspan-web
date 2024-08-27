@@ -4,14 +4,14 @@ import { clients } from './data';
 import CustomCarousel from '@/components/molecules/CustomCarousel';
 import ControlButtons from './ControlButtons';
 import useEmblaCarousel from 'embla-carousel-react';
-import { DotButton, useDotButton } from './DotButton';
+import { useDotButton } from './DotButton';
 
 const options = { startIndex: 1 };
 
 function TestimonialsNew() {
     const [emblaRef, emblaApi] = useEmblaCarousel(options);
 
-    const { selectedIndex, scrollSnaps, onDotButtonClick } = useDotButton(emblaApi);
+    const { selectedIndex } = useDotButton(emblaApi);
 
     return (
         <>

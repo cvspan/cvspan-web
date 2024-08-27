@@ -2,29 +2,66 @@
 
 import React from 'react';
 import Button from '../Button';
+import { motion } from 'framer-motion';
+import { ANIMATE_PROPS } from '@/helpers/motion';
+import './style.css';
 
 const SingleCard = () => {
     return (
-        <div className="flex h-fit w-full flex-col overflow-hidden md:h-[594px] md:max-w-[336px]">
-            <div className="min-h-[230px] w-full flex-1 overflow-hidden bg-[#D9D9D9] md:h-full md:max-w-[336px]"></div>
-            <div className="flex w-full items-center justify-between py-[24px]">
-                <h2 className="text-[24px] font-[500] leading-[32px] text-[#1A1A1A] md:text-[34px] md:leading-[42px]">
-                    Insight
-                </h2>
+        <motion.div {...ANIMATE_PROPS({ delay: 0 })} className="fdp_card" whileHover="on_hover">
+            <div className="fdp_card_img_wrapper" />
+            <div className="fdp_card_title_wrapper">
+                <h2 className="fdp_card_title">Insight</h2>
+                {/* <img className="arrow_black h-[22px] w-[22px]" src="/assets/icons/arrow-top-right-black.svg" />
+                <img className="arrow_blue h-[22px] w-[22px]" src="/assets/icons/arrow-top-right-blue.svg" /> */}
 
-                <img className="h-[22px] w-[22px]" src="/assets/icons/arrow-top-right-black.svg" />
+                <motion.img
+                    initial={{ x: 0, y: 0, opacity: 1 }}
+                    variants={{
+                        on_hover: {
+                            x: 20,
+                            y: -30,
+                            opacity: 0,
+                            transition: { duration: 0.2 },
+                        },
+                    }}
+                    src="/assets/icons/arrow-top-right-black.svg"
+                    className="arrow_black h-[22px] w-[22px]"
+                />
+
+                <motion.img
+                    initial={{ x: -20, y: 30, opacity: 0 }}
+                    variants={{
+                        on_hover: {
+                            x: 0,
+                            y: 0,
+                            opacity: 1,
+                            transition: { duration: 0.2 },
+                        },
+                    }}
+                    src="/assets/icons/arrow-top-right-blue.svg"
+                    className="arrow_blue h-[22px] w-[22px]"
+                />
             </div>
-            <h2 className="text-[18px] font-[400] leading-[26px] text-[#484848] md:text-[16px] md:leading-[24px]">
+            <motion.h2
+                variants={{
+                    on_hover: {
+                        opacity: 0,
+                        height: 0,
+                    },
+                }}
+                className="fdp_card_desc"
+            >
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
                 dolore{' '}
-            </h2>
-        </div>
+            </motion.h2>
+        </motion.div>
     );
 };
 
 const CardsRow = () => {
     return (
-        <div className="flex flex-1 flex-col justify-start gap-[24px] md:flex-row lg:justify-end">
+        <div className="flex flex-1 flex-col justify-start gap-[32px] gap-y-[40px] md:flex-row md:gap-x-[24px] md:gap-y-[24px] lg:justify-end">
             <SingleCard />
             <SingleCard />
         </div>
@@ -33,18 +70,24 @@ const CardsRow = () => {
 
 const FeaturedDigitalProducts = () => {
     return (
-        <div className="px-5 py-[60px] md:py-[120px]">
-            <div className="mx-auto flex h-auto w-full max-w-[1200px] flex-col gap-[24px] lg:h-[594px] lg:flex-row">
-                <div className="bg-re mb-[24px] flex h-full w-full flex-row justify-between lg:mb-0 lg:max-w-[384px] lg:flex-col">
+        <div className="px-5 py-[60px] lg:py-[120px]">
+            <div className="mx-auto w-full max-w-[1200px] lg:flex">
+                <div className="mb-[24px] flex h-full w-full flex-row justify-between lg:sticky lg:top-[100px] lg:mb-0 lg:h-[594px] lg:max-w-[384px] lg:flex-col">
                     <div className="lg:max-w-auto max-w-[600px]">
-                        <h3 className="font-euxodus text-[48px] font-medium leading-[56px] text-black">
+                        <motion.h3
+                            {...ANIMATE_PROPS()}
+                            className="font-euxodus text-[48px] font-medium leading-[56px] text-black"
+                        >
                             Featured Digital Products
-                        </h3>
-                        <p className="font-euxodus mt-[16px] text-[18px] font-normal leading-[26px] text-[#484848] md:mt-[24px]">
+                        </motion.h3>
+                        <motion.p
+                            {...ANIMATE_PROPS({ delay: 0.5 })}
+                            className="font-euxodus mt-[16px] text-[18px] font-normal leading-[26px] text-[#484848] md:mt-[24px]"
+                        >
                             Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
                             laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi
                             architecto beatae vitae dicta
-                        </p>
+                        </motion.p>
                     </div>
 
                     <div className="mt-auto hidden lg:block">
@@ -52,17 +95,22 @@ const FeaturedDigitalProducts = () => {
                             title="SEE ALL CASE STUDIES"
                             height="56px"
                             background="blue"
+                            animateRightIconOnHover
                             rightIcon="/assets/icons/arrow-top-right-white.svg"
                         />
                     </div>
                 </div>
 
-                <CardsRow />
-            </div>
-
-            <div className="mx-auto mb-[60px] flex h-auto w-full max-w-[1200px] flex-col gap-[24px] pt-[60px] md:mb-[180px] md:pt-[180px] lg:h-[594px] lg:flex-row">
-                <div />
-                <CardsRow />
+                <div className="ml-auto">
+                    <div className="mx-auto flex h-auto w-full max-w-[1200px] flex-col gap-[24px] lg:mb-[60px] lg:h-[594px] lg:flex-row">
+                        <div />
+                        <CardsRow />
+                    </div>
+                    <div className="mx-auto flex h-auto w-full max-w-[1200px] flex-col gap-[24px] md:mb-[180px] md:pt-[60px] lg:mb-[60px] lg:h-[594px] lg:flex-row lg:pt-[60px]">
+                        <div />
+                        <CardsRow />
+                    </div>
+                </div>
             </div>
         </div>
     );

@@ -1,6 +1,7 @@
+'use client';
+
 import React from 'react';
-import UIlanding from '@/components/molecules/UILanding/UIlanding';
-import Design from '@/components/molecules/design/page';
+
 import Landing from '@/components/molecules/ReusableLandingSection/Landing';
 import SharedFeaturesComponent from '@/components/molecules/sharedFeaturesComponent/SharedFeaturesComponent';
 import { uiux } from '@/components/molecules/arrayOfFeatures/arrays';

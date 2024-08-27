@@ -1,5 +1,8 @@
+'use client';
+
 import Link from 'next/link';
 import React from 'react';
+import { showDefaultToast } from '@/utils/toaster';
 
 export const ContactAside = () => {
     return (
@@ -29,7 +32,20 @@ export const ContactAside = () => {
                             strokeLinejoin="round"
                         />
                     </svg>
-                    <span className="text-base font-normal leading-[26px] text-white">business@cvspan.com</span>
+
+                    <button
+                        className="cursor-pointer"
+                        onClick={() => {
+                            navigator.clipboard.writeText('business@cvspan.com');
+                            showDefaultToast({
+                                message: 'Copied!',
+                                position: 'bottom-center',
+                                closeButton: false,
+                            });
+                        }}
+                    >
+                        <span className="text-base font-normal leading-[26px] text-white">business@cvspan.com</span>
+                    </button>
                 </div>
             </div>
             <div className="mt-auto hidden md:block">

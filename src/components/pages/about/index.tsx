@@ -10,18 +10,28 @@ import FactsAndFigures from '@/components/molecules/FactsAndFigures';
 import Faqs from '@/components/molecules/FAQS';
 import Testimonials from '@/components/molecules/Testimonials';
 import Cta from '@/components/molecules/CTA';
-import { SpecificJobGlobalTeam } from '@/components/molecules/SepcificJobGlobalTeam';
+import GlobalTeam from '@/components/molecules/GlobalTeam';
+
 export default function Aboutpage() {
     return (
         <>
-            <Navbar light />
+            <Navbar light={false} />
             <Aboutlanding />
             <StoriesCard />
             <HowweWork />
-            <FactsAndFigures />
+            <FactsAndFigures
+                title="Facts & Figures"
+                description={`Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.`}
+                card1Number={80}
+                card2Number={56}
+                card3Number={1}
+                card4Number={28}
+                containerBackground="/assets/images/backgrounds/about-figures-bg.webp"
+            />
+
             <OurTeam />
             <Achievements />
-            <SpecificJobGlobalTeam />
+            <GlobalTeam />
             <Faqs />
             <Testimonials />
             <Cta />

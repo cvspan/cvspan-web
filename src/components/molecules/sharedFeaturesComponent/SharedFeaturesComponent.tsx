@@ -1,6 +1,8 @@
 import React from 'react';
 import SharedFeaturedCard from './sharedFeatureCard/SharedFeaturedCard';
 import Button from '../Button';
+import { motion } from 'framer-motion';
+import { ANIMATE_PROPS } from '@/helpers/motion';
 
 interface Feature {
     title: string;
@@ -15,32 +17,37 @@ interface SharedFeaturesProps {
 
 const SharedFeaturesComponent: React.FC<SharedFeaturesProps> = ({ intro, title, description, arrayOfFeatures }) => {
     return (
-        <section className="py-[60px] lg:py-[120px]">
-            <div className="m-auto flex w-full max-w-[1200px] flex-col gap-[60px] overflow-hidden pl-6 pr-6 md:flex-row lg:gap-[120px]">
-                <div className="flex flex-col gap-[60px] lg:w-4/12 lg:gap-[120px]">
+        <section className="px-[16px] py-[60px] lg:py-[120px]">
+            <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-[32px] lg:flex-row">
+                <motion.div
+                    {...ANIMATE_PROPS({ delay: 0, from: 'left' })}
+                    className="hidden h-[264px] w-full max-w-[300px] flex-col lg:sticky lg:top-[100px] lg:flex"
+                >
                     <p className="font-eudoxus text-[14px] text-[#484848]">{intro}</p>
-                    <Button
-                        title="LET'S TALK"
-                        rightIconSize="12px"
-                        rightIcon="/assets/icons/arrow-forward-slant.svg"
-                        height="56px"
-                        fullWidth={true}
-                    />
-                </div>
-                <div className="flex flex-col gap-[60px] lg:w-8/12">
+                    <div className="mt-auto w-full">
+                        <Button
+                            title="LET'S TALK"
+                            rightIconSize="12px"
+                            rightIcon="/assets/icons/arrow-forward-slant.svg"
+                            height="56px"
+                            fullWidth={true}
+                            animateRightIconOnHover
+                        />
+                    </div>
+                </motion.div>
+                <div className="ml-auto w-full lg:max-w-[800px]">
                     <div className="flex flex-col gap-[20px]">
-                        <h2
-                            className="font-pp-mori font-semibold leading-tight text-[#1A1A1A] md:w-full lg:w-full"
-                            style={{ fontSize: 'clamp(2.5rem, 4.6875vw, 3.75rem)' }}
-                        >
+                        <h2 className="mb-[12px] font-pp-mori text-[clamp(34px,calc(60/1400*100vw),60px)] font-semibold leading-[1.2] text-[#1A1A1A] md:w-full lg:w-full">
                             {title}
                         </h2>
-                        <p className="font-eudoxus text-[#484848] md:w-full lg:w-full">{description}</p>
+                        <p className="mb-[40px] font-eudoxus text-[clamp(16px,calc(16/1400*100vw),16px)] leading-[1.6] text-[#484848] md:w-full lg:w-full">
+                            {description}
+                        </p>
                     </div>
                     <div>
-                        {arrayOfFeatures.map(({ title, details }) => (
+                        {arrayOfFeatures.map(({ title, details }, index) => (
                             <div>
-                                <SharedFeaturedCard title={title} description={details} />
+                                <SharedFeaturedCard title={title} description={details} index={index} />
                             </div>
                         ))}
                     </div>

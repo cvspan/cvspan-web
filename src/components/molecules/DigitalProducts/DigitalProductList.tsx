@@ -41,7 +41,7 @@ export const DigitalProductList = () => {
             <div>
                 <div className="grid grid-cols-1 gap-[24px] sm:grid-cols-2 lg:grid-cols-3">
                     {services[current].map((item, index) => {
-                        return <DigitalProduct item={item} key={index + item?.title} />;
+                        return <DigitalProduct item={item} key={index + item?.title} index={index} />;
                     })}
                 </div>
             </div>

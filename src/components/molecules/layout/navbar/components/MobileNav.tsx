@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { NavLetsTalkButton } from '.';
+
 import { NavButtons, NavLinks } from '../data';
 import { NavbarList, NavLink, SubNavbarList } from '../types';
 

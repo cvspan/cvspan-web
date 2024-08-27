@@ -13,12 +13,12 @@ const FooterOfficeAddress = () => {
                     <Image src="/assets/images/logo.svg" width={152} height={31} alt="Cvspan logo" />
                 </Link>
                 <div className="mt-6 hidden lg:block">
-                    <h3 className="text-slate-1000 text-base font-medium">Offices</h3>
+                    <h3 className="text-[16px] font-medium text-[#1A1A1A]">Offices</h3>
                     <div>
                         <ul className="list-none" role="list">
                             {ADDRESSES.map((address: Address) => (
                                 <li key={address.id} className="mt-6">
-                                    <span className="text-slate-1050">
+                                    <span className="text-[14px] font-normal text-[#484848]">
                                         <div>{address.region}</div>
                                         <div>{address.address}</div>
                                         <div>{address.phone}</div>
@@ -39,12 +39,15 @@ const FooterPrimaryLinks = () => {
             <ul className="grid list-none grid-cols-4 gap-5 md:gap-x-8" role="list">
                 {FOOTER_LINKS.map((link: FooterLink) => (
                     <li key={link.id} className="col-span-2 place-self-start lg:row-start-1" role="listitem">
-                        <h3 className="text-slate-1000 text-base font-medium">{link.text}</h3>
+                        <h3 className="text-[16px] font-medium text-[#1A1A1A]">{link.text}</h3>
                         <ul className="mt-6 list-none">
                             {link.links.map((subLink: THIRD_PARTY_LINK) => (
                                 <li className="pt-2" role="listitem" key={subLink.id}>
                                     <div className="flex">
-                                        <Link href={subLink.link} className="text-slate-1050">
+                                        <Link
+                                            href={subLink.link}
+                                            className="text-[14px] font-normal text-[#484848] hover:underline"
+                                        >
                                             {subLink.text}
                                         </Link>
                                     </div>
@@ -65,7 +68,7 @@ const FooterThirdPartyLinks = () => {
                 {THIRD_PARTY_LINKS.map((link: THIRD_PARTY_LINK) => (
                     <li key={link.id}>
                         <div className="flex-shrink-0 flex-grow">
-                            <Link href={link?.link} className="font-normal leading-snug underline">
+                            <Link href={link?.link} className="text-[14px] font-normal text-[#484848] underline">
                                 {link.text}
                             </Link>
                         </div>
@@ -88,8 +91,9 @@ const SocialHandles = () => {
     return (
         <div className="order-2 flex flex-grow gap-x-4 lg:order-3 lg:justify-end">
             <Link
+                target="_blank"
                 href="/facebook.com/CVSpancom"
-                className="relative flex h-8 w-8 items-center overflow-hidden rounded-full bg-[#484848] p-2"
+                className="relative flex h-8 w-8 items-center overflow-hidden rounded-full bg-[#484848] p-2 opacity-80 hover:opacity-100"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                     <path
@@ -98,7 +102,11 @@ const SocialHandles = () => {
                     />
                 </svg>
             </Link>
-            <Link href="/" className="relative flex h-8 w-8 items-center overflow-hidden rounded-full bg-[#484848] p-2">
+            <Link
+                target="_blank"
+                href="/"
+                className="relative flex h-8 w-8 items-center overflow-hidden rounded-full bg-[#484848] p-2 opacity-80 hover:opacity-100"
+            >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                     <path
                         d="M14.038 4.78678C14.0442 4.92758 14.0442 5.06198 14.0442 5.20278C14.0504 9.47159 10.9141 14.3996 5.17858 14.3996C3.48695 14.3996 1.82618 13.894 0.400024 12.9468C0.646978 12.9788 0.893932 12.9916 1.14089 12.9916C2.54235 12.9916 3.90677 12.5052 5.01188 11.6028C3.67833 11.5772 2.5053 10.6748 2.09783 9.35639C2.56704 9.45239 3.0486 9.43319 3.50547 9.29879C2.05461 9.00439 1.01123 7.67959 1.00506 6.13718C1.00506 6.12438 1.00506 6.11158 1.00506 6.09878C1.43723 6.34838 1.92496 6.48918 2.41887 6.50198C1.05445 5.55478 0.628457 3.66677 1.45575 2.18837C3.04243 4.21078 5.37614 5.43318 7.88272 5.56758C7.62959 4.44758 7.97533 3.26997 8.7841 2.47637C10.0374 1.25397 12.013 1.31797 13.1984 2.61717C13.896 2.47637 14.569 2.20757 15.1802 1.82997C14.9456 2.57877 14.4579 3.21237 13.8096 3.61557C14.427 3.53877 15.032 3.36597 15.6 3.10997C15.1802 3.76278 14.6493 4.32598 14.038 4.78678Z"
@@ -106,7 +114,11 @@ const SocialHandles = () => {
                     />
                 </svg>
             </Link>
-            <Link href="/" className="relative flex h-8 w-8 items-center overflow-hidden rounded-full bg-[#484848] p-2">
+            <Link
+                target="_blank"
+                href="/"
+                className="relative flex h-8 w-8 items-center overflow-hidden rounded-full bg-[#484848] p-2 opacity-80 hover:opacity-100"
+            >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                     <g clipPath="url(#clip0_1340_1215)">
                         <path
@@ -134,7 +146,11 @@ const SocialHandles = () => {
                 </svg>
             </Link>
 
-            <Link href="/" className="relative flex h-8 w-8 items-center overflow-hidden rounded-full bg-[#484848] p-2">
+            <Link
+                target="_blank"
+                href="/"
+                className="relative flex h-8 w-8 items-center overflow-hidden rounded-full bg-[#484848] p-2 opacity-80 hover:opacity-100"
+            >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                     <g clipPath="url(#clip0_1340_1220)">
                         <path
@@ -151,8 +167,9 @@ const SocialHandles = () => {
             </Link>
 
             <Link
+                target="_blank"
                 href="/www.youtube.com/cvspantv"
-                className="relative flex h-8 w-8 items-center overflow-hidden rounded-full bg-[#484848] p-2"
+                className="relative flex h-8 w-8 items-center overflow-hidden rounded-full bg-[#484848] p-2 opacity-80 hover:opacity-100"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="12" viewBox="0 0 16 12" fill="none">
                     <path
@@ -170,7 +187,7 @@ export const SecondaryFooter = () => {
         <div>
             <div className="flex flex-col gap-y-8 md:items-center lg:flex-row">
                 <div className="order-3 mr-8 lg:order-1">
-                    <div className="font-normal leading-snug">© 2024 CVSpan. All rights reserved.</div>
+                    <div className="text-[14px] font-normal text-[#484848]">© 2024 CVSpan. All rights reserved.</div>
                 </div>
                 <FooterThirdPartyLinks />
                 <SocialHandles />

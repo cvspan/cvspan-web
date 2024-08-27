@@ -22,12 +22,19 @@ export default function Homepage() {
             <Clients />
             <StoriesCard />
             <DigitalProducts />
-            <FactsAndFigures />
+            <FactsAndFigures
+                title="Facts & Figures"
+                description={`Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.`}
+                card1Number={80}
+                card2Number={56}
+                card3Number={1}
+                card4Number={28}
+                containerBackground="/assets/images/backgrounds/about-figures-bg.webp"
+            />
             <FeaturedDigitalProducts />
             <Achievements />
             <Faqs />
             <Testimonials />
-
             <Cta />
             <Footer />
         </>
