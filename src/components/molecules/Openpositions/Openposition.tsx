@@ -59,7 +59,7 @@ const Openposition = () => {
             <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-[32px] lg:flex-row">
                 <motion.div
                     {...ANIMATE_PROPS({ delay: 0, from: 'left' })}
-                    className="flex w-full max-w-full flex-col lg:sticky lg:top-[100px] lg:h-[264px] lg:max-w-[300px]"
+                    className="flex h-auto w-full max-w-full flex-col lg:sticky lg:top-[100px] lg:h-[264px] lg:max-w-[300px]"
                 >
                     <p className="mb-[24px] font-eudoxus text-[34px] font-medium leading-[42px] text-[#1A1A1A]">
                         Open Positions
