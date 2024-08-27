@@ -14,8 +14,13 @@ export const DigitalProduct = ({
         <motion.div
             {...ANIMATE_PROPS({ delay: 0.1 * index })}
             whileHover="on_hover"
-            className={`relative h-[212px] w-full cursor-pointer overflow-hidden rounded-[12px] border-[1px] border-transparent ${item?.isLetsTalk ? 'bg-[#0A1EB9]' : 'dgp_card bg-[#1a1a1a]'} p-[16px] hover:border-[#272727] md:p-[24px]`}
+            className={`relative h-[212px] w-full cursor-pointer overflow-hidden rounded-[12px] ${item?.isLetsTalk ? 'bg-[#0A1EB9]' : 'dgp_card bg-[#1a1a1a]'} relative p-[16px] md:p-[24px]`}
         >
+            <img
+                src="/assets/images/border-digital-product-bg.svg"
+                className="dgp_card_img absolute left-0 top-0 h-full w-full"
+            />
+
             {!item?.isLetsTalk ? null : (
                 <img src="/assets/images/service-card-bg.jpg" className="z-1 absolute left-0 top-0 h-full w-full" />
             )}

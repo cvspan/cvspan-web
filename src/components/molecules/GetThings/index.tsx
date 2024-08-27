@@ -9,10 +9,10 @@ export default function GetThings({ title = 'We get things done with quality' }:
         <div className="bg-black px-[16px] py-[60px] lg:py-[120px]">
             <div className="mx-auto w-full max-w-[1200px]">
                 <motion.div {...ANIMATE_PROPS({ delay: 0 })} className="w-[100%] max-w-[524px]">
-                    <h2 className="font-eudoxus pb-10 text-[48px] font-medium leading-[56px] text-white">{title}</h2>
+                    <h2 className="pb-10 font-eudoxus text-[48px] font-medium leading-[56px] text-white">{title}</h2>
                 </motion.div>
 
-                <div className="flex w-full flex-wrap items-center justify-start gap-[24px] self-center">
+                <div className="mt-[20px] flex w-full flex-wrap items-center justify-start gap-[24px] self-center">
                     {data.map((details, index) => (
                         <DoneCard
                             index={index}

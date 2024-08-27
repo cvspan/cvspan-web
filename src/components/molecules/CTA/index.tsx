@@ -1,11 +1,15 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ANIMATE_PROPS } from '@/helpers/motion';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const Cta = () => {
+    const router = useRouter();
     return (
-        <div className="bg-cta-bg m-auto w-full bg-cover bg-center bg-no-repeat bg-origin-border py-[60px] pb-12 pl-6 pr-6 pt-12 text-white lg:py-[120px]">
+        <div
+            onClick={() => router.push('/contact')}
+            className="bg-cta-bg m-auto w-full cursor-[url(/assets/icons/lets-talk-cursor.svg),_pointer] bg-cover bg-center bg-no-repeat bg-origin-border py-[60px] pb-12 pl-6 pr-6 pt-12 text-white lg:py-[120px]"
+        >
             <div className="m-auto flex h-full w-full max-w-[1200px] flex-col justify-between gap-[40px] md:flex-row">
                 <motion.div {...ANIMATE_PROPS({ from: 'left' })}>
                     <h1
@@ -23,42 +27,40 @@ const Cta = () => {
                         Let us know about your project idea! If the vibe for the collaboration isn't right, we're happy
                         to provide you with insightful information that might be useful.
                     </motion.p>
-                    <Link href={'/contact'}>
-                        <motion.button
-                            whileHover="on_hover"
-                            className="group mt-[100px] flex items-center justify-between gap-5 self-end lg:mt-[0px] lg:self-end lg:justify-self-end"
-                        >
-                            <motion.h4 className="text-[34px] leading-[42px] group-hover:text-white/80">
-                                LET’S TALK
-                            </motion.h4>
+                    <motion.div
+                        whileHover="on_hover"
+                        className="group mt-[100px] flex cursor-[url(/assets/icons/lets-talk-cursor.svg),_pointer] items-center justify-between gap-5 self-end lg:mt-[0px] lg:self-end lg:justify-self-end"
+                    >
+                        <motion.h4 className="text-[34px] leading-[42px] group-hover:text-white/80">
+                            LET’S TALK
+                        </motion.h4>
 
-                            <motion.img
-                                initial={{ x: '-30px', y: 30, opacity: 0 }}
-                                variants={{
-                                    on_hover: {
-                                        x: 0,
-                                        y: 0,
-                                        opacity: 1,
-                                    },
-                                }}
-                                src="/assets/icons/arrow-up-big-white.svg"
-                                className="hidden h-[40px] w-[40px] group-hover:block"
-                            />
+                        <motion.img
+                            initial={{ x: '-30px', y: 30, opacity: 0 }}
+                            variants={{
+                                on_hover: {
+                                    x: 0,
+                                    y: 0,
+                                    opacity: 1,
+                                },
+                            }}
+                            src="/assets/icons/arrow-up-big-white.svg"
+                            className="hidden h-[40px] w-[40px] group-hover:block"
+                        />
 
-                            <motion.img
-                                initial={{ x: 0, y: 0, opacity: 1 }}
-                                variants={{
-                                    on_hover: {
-                                        x: 30,
-                                        y: -30,
-                                        opacity: 0,
-                                    },
-                                }}
-                                src="/assets/icons/arrow-up-big-white.svg"
-                                className="h-[40px] w-[40px] group-hover:hidden"
-                            />
-                        </motion.button>
-                    </Link>
+                        <motion.img
+                            initial={{ x: 0, y: 0, opacity: 1 }}
+                            variants={{
+                                on_hover: {
+                                    x: 30,
+                                    y: -30,
+                                    opacity: 0,
+                                },
+                            }}
+                            src="/assets/icons/arrow-up-big-white.svg"
+                            className="h-[40px] w-[40px] group-hover:hidden"
+                        />
+                    </motion.div>
                 </motion.div>
             </div>
         </div>

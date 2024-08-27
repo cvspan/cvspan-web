@@ -1,11 +1,11 @@
-.char {
-    opacity: 0;
-}
+.cursor {
+    z-index: 999;
+    position: fixed;
 
-.hp_header_inner_h1 {
-    opacity: 0;
-}
+    width: 110px;
+    height: 110px;
+    pointer-events: none;
 
-.hp_header_innerTop {
-    @apply mb-[-12px] text-red-700 lg:mb-[-40px];
+    transform: translate(-50%, -50%);
+    display: none;
 }

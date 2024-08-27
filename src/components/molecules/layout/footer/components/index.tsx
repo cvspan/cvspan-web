@@ -91,8 +91,9 @@ const SocialHandles = () => {
     return (
         <div className="order-2 flex flex-grow gap-x-4 lg:order-3 lg:justify-end">
             <Link
+                target="_blank"
                 href="/facebook.com/CVSpancom"
-                className="relative flex h-8 w-8 items-center overflow-hidden rounded-full bg-[#484848] p-2"
+                className="relative flex h-8 w-8 items-center overflow-hidden rounded-full bg-[#484848] p-2 opacity-80 hover:opacity-100"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                     <path
@@ -101,7 +102,11 @@ const SocialHandles = () => {
                     />
                 </svg>
             </Link>
-            <Link href="/" className="relative flex h-8 w-8 items-center overflow-hidden rounded-full bg-[#484848] p-2">
+            <Link
+                target="_blank"
+                href="/"
+                className="relative flex h-8 w-8 items-center overflow-hidden rounded-full bg-[#484848] p-2 opacity-80 hover:opacity-100"
+            >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                     <path
                         d="M14.038 4.78678C14.0442 4.92758 14.0442 5.06198 14.0442 5.20278C14.0504 9.47159 10.9141 14.3996 5.17858 14.3996C3.48695 14.3996 1.82618 13.894 0.400024 12.9468C0.646978 12.9788 0.893932 12.9916 1.14089 12.9916C2.54235 12.9916 3.90677 12.5052 5.01188 11.6028C3.67833 11.5772 2.5053 10.6748 2.09783 9.35639C2.56704 9.45239 3.0486 9.43319 3.50547 9.29879C2.05461 9.00439 1.01123 7.67959 1.00506 6.13718C1.00506 6.12438 1.00506 6.11158 1.00506 6.09878C1.43723 6.34838 1.92496 6.48918 2.41887 6.50198C1.05445 5.55478 0.628457 3.66677 1.45575 2.18837C3.04243 4.21078 5.37614 5.43318 7.88272 5.56758C7.62959 4.44758 7.97533 3.26997 8.7841 2.47637C10.0374 1.25397 12.013 1.31797 13.1984 2.61717C13.896 2.47637 14.569 2.20757 15.1802 1.82997C14.9456 2.57877 14.4579 3.21237 13.8096 3.61557C14.427 3.53877 15.032 3.36597 15.6 3.10997C15.1802 3.76278 14.6493 4.32598 14.038 4.78678Z"
@@ -109,7 +114,11 @@ const SocialHandles = () => {
                     />
                 </svg>
             </Link>
-            <Link href="/" className="relative flex h-8 w-8 items-center overflow-hidden rounded-full bg-[#484848] p-2">
+            <Link
+                target="_blank"
+                href="/"
+                className="relative flex h-8 w-8 items-center overflow-hidden rounded-full bg-[#484848] p-2 opacity-80 hover:opacity-100"
+            >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                     <g clipPath="url(#clip0_1340_1215)">
                         <path
@@ -137,7 +146,11 @@ const SocialHandles = () => {
                 </svg>
             </Link>
 
-            <Link href="/" className="relative flex h-8 w-8 items-center overflow-hidden rounded-full bg-[#484848] p-2">
+            <Link
+                target="_blank"
+                href="/"
+                className="relative flex h-8 w-8 items-center overflow-hidden rounded-full bg-[#484848] p-2 opacity-80 hover:opacity-100"
+            >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                     <g clipPath="url(#clip0_1340_1220)">
                         <path
@@ -154,8 +167,9 @@ const SocialHandles = () => {
             </Link>
 
             <Link
+                target="_blank"
                 href="/www.youtube.com/cvspantv"
-                className="relative flex h-8 w-8 items-center overflow-hidden rounded-full bg-[#484848] p-2"
+                className="relative flex h-8 w-8 items-center overflow-hidden rounded-full bg-[#484848] p-2 opacity-80 hover:opacity-100"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="12" viewBox="0 0 16 12" fill="none">
                     <path

@@ -19,9 +19,10 @@ const SingleCard = () => {
                     initial={{ x: 0, y: 0, opacity: 1 }}
                     variants={{
                         on_hover: {
-                            x: 30,
+                            x: 20,
                             y: -30,
                             opacity: 0,
+                            transition: { duration: 0.2 },
                         },
                     }}
                     src="/assets/icons/arrow-top-right-black.svg"
@@ -29,12 +30,13 @@ const SingleCard = () => {
                 />
 
                 <motion.img
-                    initial={{ x: -30, y: 30, opacity: 0 }}
+                    initial={{ x: -20, y: 30, opacity: 0 }}
                     variants={{
                         on_hover: {
                             x: 0,
                             y: 0,
                             opacity: 1,
+                            transition: { duration: 0.2 },
                         },
                     }}
                     src="/assets/icons/arrow-top-right-blue.svg"
@@ -93,6 +95,7 @@ const FeaturedDigitalProducts = () => {
                             title="SEE ALL CASE STUDIES"
                             height="56px"
                             background="blue"
+                            animateRightIconOnHover
                             rightIcon="/assets/icons/arrow-top-right-white.svg"
                         />
                     </div>

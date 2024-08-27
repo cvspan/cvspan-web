@@ -30,7 +30,7 @@ const ControlButtons = ({ emblaApi }: { emblaApi?: any }) => {
     }, [emblaApi, onSelect]);
 
     return (
-        <div className="flex flex-1 items-start justify-end gap-[20px]">
+        <div className="flex flex-1 items-start justify-end gap-[32px]">
             <motion.div
                 whileInView="visible"
                 initial="hidden"

@@ -31,15 +31,16 @@ const SharedFeaturesComponent: React.FC<SharedFeaturesProps> = ({ intro, title, 
                             rightIcon="/assets/icons/arrow-forward-slant.svg"
                             height="56px"
                             fullWidth={true}
+                            animateRightIconOnHover
                         />
                     </div>
                 </motion.div>
                 <div className="ml-auto w-full lg:max-w-[800px]">
                     <div className="flex flex-col gap-[20px]">
-                        <h2 className="font-pp-mori mb-[12px] text-[clamp(34px,calc(60/1400*100vw),60px)] font-semibold leading-[1.2] text-[#1A1A1A] md:w-full lg:w-full">
+                        <h2 className="mb-[12px] font-pp-mori text-[clamp(34px,calc(60/1400*100vw),60px)] font-semibold leading-[1.2] text-[#1A1A1A] md:w-full lg:w-full">
                             {title}
                         </h2>
-                        <p className="font-eudoxus mb-[40px] text-[clamp(16px,calc(16/1400*100vw),16px)] leading-[1.6] text-[#484848] md:w-full lg:w-full">
+                        <p className="mb-[40px] font-eudoxus text-[clamp(16px,calc(16/1400*100vw),16px)] leading-[1.6] text-[#484848] md:w-full lg:w-full">
                             {description}
                         </p>
                     </div>

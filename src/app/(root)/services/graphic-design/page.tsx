@@ -28,7 +28,6 @@ const GraphicDesign = () => {
                 description="Our graphic design services take a deliberate approach to meeting clients' creative objectives while producing high-quality visuals that successfully communicate their message. This is a detailed description of how a graphic design service could be constructed."
             />
 
-            <WhatToExpect />
             <GetThings title="Benefits of our Design Services" />
             <Faqs />
             <Testimonials />

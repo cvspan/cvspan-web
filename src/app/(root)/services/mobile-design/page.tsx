@@ -28,7 +28,6 @@ const MobileDesign = () => {
                 description="As a design agency that specializes in mobile app solutions, our offerings are designed to create intuitive, engaging, and high-performing applications that meet the specific needs of your clients and their target users."
             />
 
-            <WhatToExpect />
             <GetThings title="Benefits of our Design Services" />
             <Faqs />
             <Testimonials />

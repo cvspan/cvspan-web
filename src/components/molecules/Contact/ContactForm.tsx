@@ -22,6 +22,7 @@ export const ContactForm = () => {
             [e.target.name]: e.target.value.trim(),
         }));
     };
+
     return (
         <div className="col-span-6">
             <div className="rounded-2xl bg-[#1a1a1a] p-6 md:p-12">

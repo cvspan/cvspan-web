@@ -1,7 +1,6 @@
 'use client';
 import React from 'react';
 import CustomCountUp from '@/components/molecules/CustomCountUp';
-import './FactCard.css';
 
 interface FactCardProps {
     id: string;
@@ -14,11 +13,11 @@ interface FactCardProps {
 
 const FactCard: React.FC<FactCardProps> = ({ id, rate, description, after, before, duration = 4 }) => {
     return (
-        <div className="bg-cod-gray ffg_card flex h-full cursor-pointer flex-col justify-between gap-14 rounded-3xl bg-[#1A1A1A] p-6">
-            <p className="font-eudoxus overflow-hidden text-[#484848]">{id}</p>
+        <div className="bg-cod-gray flex h-full cursor-pointer flex-col justify-between gap-14 rounded-3xl bg-[#1A1A1A] p-6">
+            <p className="overflow-hidden font-eudoxus text-[#484848]">{id}</p>
             <div>
                 <h2
-                    className="font-pp-mori bg-gradient-to-r font-semibold"
+                    className="bg-gradient-to-r font-pp-mori font-semibold"
                     style={{
                         background: 'linear-gradient(to right, #B0B0B0 0%, #FFFFFF 50%, #B0B0B0 100%)',
                         WebkitBackgroundClip: 'text',

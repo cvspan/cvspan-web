@@ -5,12 +5,11 @@ import React from 'react';
 import Navbar from '@/components/molecules/layout/navbar';
 import Footer from '@/components/molecules/layout/footer';
 import PerksAndBenefits from '@/components/molecules/perksAndBenefits';
-type Props = {};
 
-const page = (props: Props) => {
+const page = () => {
     return (
         <>
-            <Navbar light />
+            <Navbar />
             <Positionslanding />
             <Openposition />
             <PerksAndBenefits />

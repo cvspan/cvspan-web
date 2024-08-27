@@ -2,7 +2,7 @@
 import React from 'react';
 import { design } from '@/components/molecules/arrayOfFeatures/arrays';
 import SharedFeaturesComponent from '@/components/molecules/sharedFeaturesComponent/SharedFeaturesComponent';
-import CustomizableDesign from '@/components/molecules/customizableDesign/CustomizableDesign';
+
 import Design from '@/components/molecules/design/page';
 
 const DesignPage = () => {
@@ -15,8 +15,6 @@ const DesignPage = () => {
                 arrayOfFeatures={design}
             />
             <Design />
-
-            <CustomizableDesign />
         </div>
     );
 };

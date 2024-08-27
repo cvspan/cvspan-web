@@ -8,7 +8,7 @@ const Faqs = () => {
             <div className="m-auto flex w-full max-w-[1200px] flex-col gap-y-14 text-white">
                 <motion.h3
                     {...ANIMATE_PROPS({})}
-                    className="font-euxodus text-[34px] font-medium leading-[42px] text-white sm:w-[6/12] md:text-[48px] md:leading-[56px]"
+                    className="font-euxodus w-full max-w-[564px] text-[34px] font-medium leading-[42px] text-white md:text-[48px] md:leading-[56px]"
                 >
                     Frequently Asked Questions
                 </motion.h3>

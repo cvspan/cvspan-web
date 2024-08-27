@@ -3,7 +3,7 @@ import React from 'react';
 import { NavBrand, NavMenu, NavLetsTalkButton } from './components';
 import { MobileNav } from './components/MobileNav';
 
-function Navbar({ light }: { light: boolean }) {
+function Navbar({ light }: { light?: boolean }) {
     const [_light, setLight] = React.useState<boolean | false>(light);
 
     const onNavbarBgChange = () => {
