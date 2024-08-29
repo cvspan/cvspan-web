@@ -1,6 +1,8 @@
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import Button from '../Button';
 export const OurTeamHeader = () => {
+    const router = useRouter();
     return (
         <div>
             <div className="flex items-end justify-between">
@@ -24,6 +26,7 @@ export const OurTeamHeader = () => {
                         background="blue"
                         animateRightIconOnHover
                         rightIcon="/assets/icons/arrow-top-right-white.svg"
+                        onClick={() => router.push('/team')}
                     />
                 </div>
             </div>
