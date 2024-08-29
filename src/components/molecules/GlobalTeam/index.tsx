@@ -28,7 +28,7 @@ const GlobalTeam = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="back relative col-span-3 max-h-[427px] overflow-hidden rounded-3xl border-[1px] border-[#272727] bg-[#1a1a1a] lg:col-span-2">
+                    <div className="back relative col-span-3 max-h-[427px] min-h-[427px] overflow-hidden rounded-3xl border-[1px] border-[#272727] bg-[#1a1a1a] lg:col-span-2">
                         <img
                             src="/assets/images/univers_cta_bg.webp"
                             className="absolute left-0 top-0 h-full w-full object-cover"
