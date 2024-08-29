@@ -21,12 +21,12 @@ export const OurTeamHeader = () => {
                 </div>
                 <div>
                     <Button
-                        title="SEE ALL CASE STUDIES"
+                        title="SEE ALL OUR TEAM"
                         height="56px"
                         background="blue"
                         animateRightIconOnHover
                         rightIcon="/assets/icons/arrow-top-right-white.svg"
-                        onClick={() => router.push('/team')}
+                        onClick={() => router.push('/about/team')}
                     />
                 </div>
             </div>
