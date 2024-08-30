@@ -1,9 +1,10 @@
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import Footer from '@/components/molecules/layout/footer';
 import Navbar from '@/components/molecules/layout/navbar';
 import Cta from '@/components/molecules/CTA';
-import Link from 'next/link';
+import { avatar } from '@/components/exports/images';
 
 const EmployeeProfile = () => {
     return (
@@ -15,7 +16,7 @@ const EmployeeProfile = () => {
                             <div className="relative flex flex-shrink-0 flex-grow justify-center">
                                 <Image
                                     className="w-full object-cover"
-                                    src="/assets/images/new_avatar.png"
+                                    src={avatar}
                                     alt="avatar"
                                     width={230}
                                     height={329}

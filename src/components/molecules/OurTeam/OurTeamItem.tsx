@@ -70,7 +70,7 @@ export const OurTeamItem = ({ item, index = 0 }: { item: Team; index?: number })
             <div className="aspect-[16/9] bg-[#fafafa]">
                 <div className="relative flex flex-shrink-0 flex-grow justify-center">
                     <Image
-                        className="w-7/12 object-cover"
+                        className="w-full object-cover"
                         src={avatar}
                         alt={`${item.name} avatar`}
                         width={230}
