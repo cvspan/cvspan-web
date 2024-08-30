@@ -1,10 +1,15 @@
 import React from 'react';
-import { data } from '@/components/molecules/GetThings/data/data';
 import DoneCard from './DoneCard';
 import { motion } from 'framer-motion';
 import { ANIMATE_PROPS } from '@/helpers/motion';
 
-export default function GetThings({ title = 'We get things done with quality' }: { title?: string }) {
+export default function GetThings({
+    title = 'We get things done with quality',
+    products,
+}: {
+    title?: string;
+    products: any[];
+}) {
     return (
         <div className="bg-black px-[16px] py-[60px] lg:py-[120px]">
             <div className="mx-auto w-full max-w-[1200px]">
@@ -13,14 +18,13 @@ export default function GetThings({ title = 'We get things done with quality' }:
                 </motion.div>
 
                 <div className="mt-[20px] flex w-full flex-wrap items-center justify-start gap-[24px] self-center">
-                    {data.map((details, index) => (
+                    {products.map((product, index: number) => (
                         <DoneCard
                             index={index}
-                            key={details.id}
-                            id={details.id}
-                            image={details.image}
-                            text={details.text}
-                            title={details.title}
+                            key={index}
+                            // image={product.image}
+                            text={product?.text}
+                            title={product?.title}
                         />
                     ))}
                 </div>

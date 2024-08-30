@@ -1,5 +1,5 @@
 'use client';
-import { design } from '@/components/molecules/arrayOfFeatures/arrays';
+import { industries } from '@/components/molecules/arrayOfFeatures/arrays';
 import SharedFeaturesComponent from '@/components/molecules/sharedFeaturesComponent/SharedFeaturesComponent';
 import React from 'react';
 
@@ -17,18 +17,18 @@ const Page = () => {
         <>
             <Navbar light={false} />
             <Landing
-                Heading={'Healthcare & Wellness'}
-                subHeading={`As a UI/UX design agency, we create successful digital products that combine user needs with business goals. Our human centred design approach makes it happen.`}
+                Heading={'Healthcare design solutions'}
+                subHeading={`Engage our skilled designers to transform your complex healthcare product into an intuitive, straightforward, and effective user experience.`}
             />
 
             <SharedFeaturesComponent
-                intro="Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo."
-                title="Discover the benefits of professional UIUX design service "
-                arrayOfFeatures={design}
-                description="Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+                intro="By streamlining your health and wellness operations, CVSpan gives you the peace of mind to focus on strategic growth goals, knowing that your company is in capable hands."
+                title="How we design healthcare products that meet all user requirements "
+                arrayOfFeatures={industries.health.summary}
+                description="As a Healthcare design firm, we develop valuable user experiences that enable people and companies to invest, save, and do business in a convenient and modern way."
             />
             {/* <CustomizableDesign /> */}
-            <GetThings title="Benefits of our Design Services" />
+            <GetThings title="Healthcare products that our team can develop" products={industries.health.products} />
             <Faqs />
             <Testimonials />
             <Cta />
