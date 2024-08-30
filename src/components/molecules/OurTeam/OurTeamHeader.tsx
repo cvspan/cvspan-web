@@ -26,7 +26,7 @@ export const OurTeamHeader = () => {
                         background="blue"
                         animateRightIconOnHover
                         rightIcon="/assets/icons/arrow-top-right-white.svg"
-                        onClick={() => router.push('/about/team')}
+                        onClick={() => router.push('/about/teams')}
                     />
                 </div>
             </div>
