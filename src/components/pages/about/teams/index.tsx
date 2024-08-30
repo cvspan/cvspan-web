@@ -4,66 +4,7 @@ import Cta from '@/components/molecules/CTA';
 import GlobalTeam from '@/components/molecules/GlobalTeam';
 import Footer from '@/components/molecules/layout/footer';
 import { OurTeamList } from '@/components/molecules/OurTeam/OurTeamList';
-import { Team } from '@/components/molecules/OurTeam/types';
-
-const TEAM: Team[] = [
-    {
-        id: 1,
-        name: 'Moses Arfo',
-        role: 'Founder & CEO',
-        avatar: '',
-        linkedin: '/about/team',
-    },
-    {
-        id: 2,
-        name: 'Tobi Olowu',
-        role: 'Founder & CEO',
-        avatar: '',
-        linkedin: '/about/team',
-    },
-    {
-        id: 3,
-        name: 'Charles Eshimokhai',
-        role: 'Founder & CEO',
-        avatar: '',
-        linkedin: '/about/team',
-    },
-    {
-        id: 4,
-        name: 'David Arfo',
-        role: 'Founder & CEO',
-        avatar: '',
-        linkedin: '/about/user',
-    },
-    {
-        id: 5,
-        name: 'Vivian Adams',
-        role: 'Founder & CEO',
-        avatar: '',
-        linkedin: '/about/user',
-    },
-    {
-        id: 6,
-        name: 'Moses Arfo',
-        role: 'Founder & CEO',
-        avatar: '',
-        linkedin: '/about/user',
-    },
-    {
-        id: 7,
-        name: 'Moses Arfo',
-        role: 'Founder & CEO',
-        avatar: '',
-        linkedin: '/about/user',
-    },
-    {
-        id: 8,
-        name: 'Moses Arfo',
-        role: 'Founder & CEO',
-        avatar: '',
-        linkedin: '/about/team',
-    },
-];
+import { TEAMS } from '@/components/ui/data';
 
 const HeroHeader = () => {
     return (
@@ -90,7 +31,7 @@ const Hero = () => {
             <div className="absolute -right-[79px] top-[163px] h-[398px] w-[398px] rounded-[398px] bg-[#00ffb2] opacity-20 blur-[150px]" />
             <div className="mx-auto w-full max-w-[1200px] px-5 pb-24 pt-28">
                 <HeroHeader />
-                <OurTeamList teams={TEAM} />
+                <OurTeamList teams={TEAMS} />
             </div>
         </div>
     );
