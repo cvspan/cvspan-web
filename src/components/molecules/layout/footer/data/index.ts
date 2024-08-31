@@ -101,7 +101,7 @@ export const FOOTER_LINKS: FooterLink[] = [
             {
                 id: 1,
                 text: 'Our works',
-                link: '/',
+                link: '/our-works',
             },
             {
                 id: 2,
