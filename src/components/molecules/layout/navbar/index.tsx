@@ -16,11 +16,11 @@ function Navbar({ light }: { light?: boolean }) {
             window.removeEventListener('scroll', onNavbarBgChange);
         };
     }, []);
-
+    // bg-white/90
     return (
         <>
             <header
-                className={`${_light ? 'bg-white/90' : 'bg-transparent'} hidden lg:fixed lg:left-0 lg:right-0 lg:top-0 lg:z-50 lg:block`}
+                className={`${_light ? 'bg-transparent' : 'bg-transparent'} hidden lg:fixed lg:left-0 lg:right-0 lg:top-0 lg:z-50 lg:block`}
             >
                 <div>
                     <section className="flex w-full flex-col justify-center px-5 lg:h-20">

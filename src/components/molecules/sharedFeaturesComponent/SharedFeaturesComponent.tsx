@@ -46,7 +46,7 @@ const SharedFeaturesComponent: React.FC<SharedFeaturesProps> = ({ intro, title, 
                     </div>
                     <div>
                         {arrayOfFeatures.map(({ title, details }, index) => (
-                            <div>
+                            <div key={index}>
                                 <SharedFeaturedCard title={title} description={details} index={index} />
                             </div>
                         ))}
