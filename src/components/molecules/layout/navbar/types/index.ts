@@ -9,6 +9,7 @@ export type SubNavbarList = {
     title: string;
     caption: string;
     link: string;
+    icon: string
 };
 
 export type NavbarList = {
