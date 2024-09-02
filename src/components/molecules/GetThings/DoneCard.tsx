@@ -19,7 +19,7 @@ const DoneCard: React.FC<DoneCardProps> = ({ index, title, text }) => {
                 src="/assets/images/border-benefits-card.svg"
                 className="absolute left-0 top-0 hidden h-full w-full md:block"
             />
-            <div className="bg-[linear-gradient(180deg,_#272727,0%,_#686868,43%,_#686868,64%,_#272727,100%)] bg-clip-text font-pp-mori text-6xl leading-[64px] text-white">
+            <div className="bg-[linear-gradient(180deg,#272727_0%,#686868_43%,#686868_64%,#272727_100%)] bg-clip-text font-pp-mori text-6xl leading-[64px] text-transparent">
                 {`0${index + 1}`}
             </div>
             <div className="mt-6">
