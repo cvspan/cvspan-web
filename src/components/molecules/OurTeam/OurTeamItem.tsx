@@ -107,7 +107,7 @@ export const OurTeamItem = ({ item, index = 0 }: { item: Team; index?: number })
                 </div>
             </div>
             <Link
-                href={item.linkedin}
+                href={`/about/teams/${item.id}`}
                 aria-label={`${item.name}`}
                 className="absolute left-0 top-0 z-[100] block h-full w-full overflow-hidden whitespace-nowrap bg-transparent outline-none"
             />

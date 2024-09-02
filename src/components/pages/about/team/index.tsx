@@ -5,8 +5,9 @@ import Footer from '@/components/molecules/layout/footer';
 import Navbar from '@/components/molecules/layout/navbar';
 import Cta from '@/components/molecules/CTA';
 import { avatar } from '@/components/exports/images';
+import { Team } from '@/components/molecules/OurTeam/types';
 
-const EmployeeProfile = () => {
+const EmployeeProfile = ({ team }: { team: Team | undefined }) => {
     return (
         <div className="bg-white">
             <div className="mx-auto w-full max-w-[1200px] px-5 pb-24 pt-28">
@@ -138,10 +139,10 @@ const EmployeeProfile = () => {
                     <div className="col-span-2">
                         <div>
                             <span>
-                                <h1 className="font-pp-mori text-6xl font-semibold leading-[60px]">Moses Arfo</h1>
+                                <h1 className="font-pp-mori text-6xl font-semibold leading-[60px]">{team?.name}</h1>
                                 <div>
                                     <span className="font-eudoxus text-2xl font-medium text-[#a3a3a3]">
-                                        Founder & CEO
+                                        {team?.role}
                                     </span>
                                 </div>
                             </span>
@@ -166,11 +167,11 @@ const EmployeeProfile = () => {
     );
 };
 
-export default function Team() {
+export default function EmployeePage({ team }: { team: Team | undefined }) {
     return (
         <>
             <Navbar light={true} />
-            <EmployeeProfile />
+            <EmployeeProfile team={team} />
             <Cta />
             <Footer />
         </>
