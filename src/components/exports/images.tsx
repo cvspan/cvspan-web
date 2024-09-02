@@ -20,7 +20,7 @@ import iconWhite5 from '../../../public/assets/images/white brand icons/500c51a1
 import iconWhite6 from '../../../public/assets/images/white brand icons/7da9418ce9f65f07176bb7cc08cda6596ebc13f3-108x40 1.png';
 import iconWhite7 from '../../../public/assets/images/white brand icons/a7e12b626d11ed7a53220f515f4968d6079df27c-155x44 1.png';
 import iconWhite8 from '../../../public/assets/images/white brand icons/d43c39003d5d16ce7c5a3590839f1d374f6f1dd7-140x25 1.png';
-import avatar from '../../../public/assets/images/avatar.png';
+import avatar from '../../../public/assets/images/new_avatar.png';
 import userOnBike from '../../../public/assets/images/user_on_bike.png';
 import ourPeople1 from '../../../public/assets/images/our-people-1.png';
 import ourPeople2 from '../../../public/assets/images/our-people-2.png';
