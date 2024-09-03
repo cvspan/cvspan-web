@@ -69,18 +69,8 @@ const StoriesCard = () => {
                             data-bg-color="#48484830"
                             data-fg-color="#484848"
                         >
-                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
-                            laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi
-                            architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
-                            aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione
-                            voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet,
-                            consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et
-                            dolore magnam aliquam quaerat voluptatem. Sed ut perspiciatis unde omnis iste natus error
-                            sit voluptatem accusantium doloremque laudantium. <br />
-                            Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci
-                            velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam
-                            quaerat voluptatem. Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                            accusantium doloremque laudantium.
+                            Welcome to CVSpan, where creativity and innovation converge to bring your vision to life. As a forward-thinking design agency, we are dedicated to creating exceptional digital experiences that engage audiences and drive meaningful results.
+                            Our passion for design, combined with our commitment to excellence, fuels our ability to deliver impactful solutions. With a team of experts driven by creativity and dedication, we transform ideas into successful outcomes. We are excited about the opportunity to collaborate with you on your next project and help achieve your business goals.
                         </p>
                     </div>
 
@@ -93,17 +83,7 @@ const StoriesCard = () => {
                             data-bg-color="#48484830"
                             data-fg-color="#484848"
                         >
-                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
-                            laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi
-                            architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
-                            aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione
-                            voluptatem sequi nesciunt. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit
-                            aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
-                            <br />
-                            Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci
-                            velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam
-                            quaerat voluptatem. Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                            accusantium doloremque laudantium.
+                            At our design and development agency, our values are the foundation of everything we do, influencing both our approach to work and our collaboration with clients. We are dedicated to delivering outstanding results by upholding a core set of principles that define our identity and drive our actions: people, awareness, and growth. This value system forms a cohesive framework where our people, as our most valuable asset, achieve meaningful growth while staying focused and purposeful.
                         </p>
                     </div>
                 </div>

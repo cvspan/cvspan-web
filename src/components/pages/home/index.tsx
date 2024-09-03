@@ -24,7 +24,7 @@ export default function Homepage() {
             <DigitalProducts />
             <FactsAndFigures
                 title="Facts & Figures"
-                description={`Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.`}
+                description={`We have developed over 20 sustainable startup products and assisted more than 100 brands in securing substantial funding, achieving successful acquisitions, and establishing themselves as globally recognized companies.`}
                 card1Number={80}
                 card2Number={56}
                 card3Number={1}

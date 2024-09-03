@@ -7,7 +7,7 @@ export const DigitalProduct = ({
     item,
     index = 1,
 }: {
-    item?: { isLetsTalk?: boolean; title?: string };
+    item?: { isLetsTalk?: boolean; title?: string; subtitle?: string };
     index?: number;
 }) => {
     return (
@@ -60,16 +60,13 @@ export const DigitalProduct = ({
                         className="absolute right-[24px] top-[24px] h-[16px] w-[16px]"
                     />
                 </div>
-                <div className="mt-auto">
+                <div className="mt-auto h-full pt-[40px]">
                     {item?.isLetsTalk ? (
                         <div className="relative z-10 text-[24px] font-medium leading-[32px] text-white">
                             {item?.title}
                         </div>
                     ) : (
-                        <span className="text-[16px] leading-[24px] text-[#767676]">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna aliqua. 
-                        </span>
+                        <span className="text-[16px] leading-[24px] text-[#767676]">{item?.subtitle}</span>
                     )}
                 </div>
             </div>
