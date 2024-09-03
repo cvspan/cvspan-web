@@ -3,9 +3,10 @@ import DoneCard from './DoneCard';
 import { motion } from 'framer-motion';
 import { ANIMATE_PROPS } from '@/helpers/motion';
 
+import { data } from './data/data';
 export default function GetThings({
     title = 'We get things done with quality',
-    products,
+    products = data,
 }: {
     title?: string;
     products: any[];

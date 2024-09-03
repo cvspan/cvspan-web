@@ -17,6 +17,7 @@ const GraphicDesign = () => {
         <>
             <Navbar light={false} />
             <Landing
+                bannerImage="/assets/images/headers/services/graphic-design.svg"
                 Heading={'Graphic Design services'}
                 subHeading={`As a graphic design agency, we assist products in reflecting their company values through creative illustrations, icons, and marketing materials.`}
             />

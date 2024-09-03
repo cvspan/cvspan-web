@@ -13,7 +13,7 @@ const DoneCard: React.FC<DoneCardProps> = ({ index, title, text }) => {
     return (
         <motion.div
             {...ANIMATE_PROPS({ delay: index * 0.1 })}
-            className="h-[270px] w-full rounded-[24px] border-[1px] border-solid border-[#272727] p-6 md:max-w-[384px]"
+            className="h-[270px] w-full rounded-[24px] border-solid p-6 md:max-w-[384px]"
         >
             <img
                 src="/assets/images/border-benefits-card.svg"
