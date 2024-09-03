@@ -60,7 +60,7 @@ export const DigitalProduct = ({
                         className="absolute right-[24px] top-[24px] h-[16px] w-[16px]"
                     />
                 </div>
-                <div className="mt-auto">
+                <div className="mt-auto h-full pt-[40px]">
                     {item?.isLetsTalk ? (
                         <div className="relative z-10 text-[24px] font-medium leading-[32px] text-white">
                             {item?.title}

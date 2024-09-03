@@ -73,7 +73,7 @@ export const NavDropDownService = ({ links }: { links: NavbarList[] }) => {
                                     {navList.list.map((list: SubNavbarList) => (
                                         <div key={list.id} className="group">
                                             <Link href={list.link} className="flex gap-x-6">
-                                                <div className="block h-[50px] w-[50px] rounded-full bg-[#d9d9d9]">
+                                                <div className="flex h-[50px] w-[50px] items-center justify-center rounded-full">
                                                     <img src={list.icon} alt="" />
                                                 </div>
                                                 <span>
@@ -121,7 +121,7 @@ export const NavDropDownIndustry = ({ links }: { links: NavbarList[] }) => {
                                             {navList.list.map((list: SubNavbarList) => (
                                                 <div key={list.id} className="group">
                                                     <Link href={list.link} className="flex gap-x-6">
-                                                        <div className="hidden h-[50px] w-[50px] rounded-full bg-[#d9d9d9] lg:block">
+                                                        <div className="flex h-[50px] w-[50px] items-center justify-center rounded-full">
                                                             <img src={list.icon} alt="" />
                                                         </div>
                                                         <span>
