@@ -82,11 +82,12 @@ const FeaturedDigitalProducts = () => {
                         </motion.h3>
                         <motion.p
                             {...ANIMATE_PROPS({ delay: 0.5 })}
-                            className="font-euxodus mt-[16px] text-[18px] font-normal leading-[26px] text-[#484848] md:mt-[24px]"
+                            className="font-euxodus mt-[16px] text-[17px] font-normal leading-[26px] text-[#484848] md:mt-[24px]"
                         >
-                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
-                            laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi
-                            architecto beatae vitae dicta
+                            Our portfolio features a diverse array of digital designs critical to the advancement of
+                            contemporary businesses. It includes B2B SaaS solutions, B2C mobile applications, and
+                            marketing designs for promotional purposes. We showcase work developed for both early-stage
+                            startups and established enterprises across different stages of their growth.
                         </motion.p>
                     </div>
 
