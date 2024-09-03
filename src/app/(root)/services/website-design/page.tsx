@@ -30,7 +30,26 @@ const WebsiteDesign = () => {
                 />
             </section>
 
-            <GetThings title="Benefits of our Web Design Services" />
+            <GetThings
+                title="Benefits of our Web Design Services"
+                products={[
+                    {
+                        id: 1,
+                        title: 'Get strong web presence',
+                        text: 'Improve your reputation and brand awareness, make your website memorable.',
+                    },
+                    {
+                        id: 2,
+                        title: 'Increase conversions',
+                        text: 'Effectively convert your leads into customers and get higher profits with our website design company.',
+                    },
+                    {
+                        id: 3,
+                        title: 'Improve retention rates',
+                        text: 'Your current customers will value your product and will provide a sustainable source of revenue.',
+                    },
+                ]}
+            />
             <Faqs />
             <Testimonials />
             <Cta />

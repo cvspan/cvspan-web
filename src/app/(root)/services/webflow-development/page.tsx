@@ -10,7 +10,7 @@ import Footer from '@/components/molecules/layout/footer';
 import Faqs from '@/components/molecules/FAQS';
 import Testimonials from '@/components/molecules/Testimonials';
 import Cta from '@/components/molecules/CTA';
-import WhatToExpect from '@/components/molecules/whatToExpect/WhatToExpect';
+
 import GetThings from '@/components/molecules/GetThings';
 
 type Props = {};
@@ -20,6 +20,7 @@ const page = (props: Props) => {
         <>
             <Navbar />
             <Landing
+                bannerImage="/assets/images/headers/services/webflow-developement.svg"
                 Heading={'Webflow Design & Development Services'}
                 subHeading={`As a certified Webflow partner, our developers understand how to create fully responsive and functioning websites that provide an exceptional user experience.`}
             />
@@ -31,7 +32,27 @@ const page = (props: Props) => {
                 description="As a design agency that specializes in mobile app solutions, our offerings are designed to create intuitive, engaging, and high-performing applications that meet the specific needs of your clients and their target users."
             />
 
-            <GetThings title="Benefits of our Design Services" />
+            <GetThings
+                title="Benefits of our Design Services"
+                products={[
+                    {
+                        id: 1,
+                        title: 'Flexible collaboration & fixed monthly rate',
+                        text: 'Once we’ve heard more about your goals and timeline, we’ll start assembling your team',
+                    },
+                    {
+                        id: 2,
+                        title: 'Hiring system with immediate start',
+
+                        text: 'Your new development team will work tirelessly to deliver on your product vision',
+                    },
+                    {
+                        id: 3,
+                        title: 'Work directly with the designer',
+                        text: 'Following release, we’ll easily scale your team to match your product’s success',
+                    },
+                ]}
+            />
             <Faqs />
             <Testimonials />
             <Cta />

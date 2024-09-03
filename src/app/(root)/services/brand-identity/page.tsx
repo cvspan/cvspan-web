@@ -29,7 +29,27 @@ const BrandIdentity = () => {
                 description="As a design agency that specializes in mobile app solutions, our offerings are designed to create intuitive, engaging, and high-performing applications that meet the specific needs of your clients and their target users. "
             />
 
-            <GetThings title="Benefits of our Design Services" />
+            <GetThings
+                title="Benefits of our Brand Design Services"
+                products={[
+                    {
+                        id: 1,
+                        title: 'Improved user retention',
+                        text: 'Reduces the amount of effort needed to continually reach new customers.',
+                    },
+
+                    {
+                        id: 3,
+                        title: 'Higher user satisfaction',
+                        text: 'Leads to higher lifetime value of your clients and a stronger brand reputation.',
+                    },
+                    {
+                        id: 3,
+                        title: 'Increased conversion rates',
+                        text: 'Indicates that a business is effectively converting leads into customers, resulting in higher profits.',
+                    },
+                ]}
+            />
             <Faqs />
             <Testimonials />
             <Cta />
