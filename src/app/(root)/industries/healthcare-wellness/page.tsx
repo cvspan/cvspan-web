@@ -17,6 +17,7 @@ const Page = () => {
         <>
             <Navbar light={false} />
             <Landing
+                bannerImage="/assets/images/headers/industries/healthcare.svg"
                 Heading={'Healthcare design solutions'}
                 subHeading={`Engage our skilled designers to transform your complex healthcare product into an intuitive, straightforward, and effective user experience.`}
             />

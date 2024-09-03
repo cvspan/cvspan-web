@@ -15,7 +15,12 @@ interface SharedFeaturesProps {
     arrayOfFeatures: Feature[];
 }
 
-const SharedFeaturesComponent: React.FC<SharedFeaturesProps> = ({ intro, title, description, arrayOfFeatures }) => {
+const SharedFeaturesComponent: React.FC<SharedFeaturesProps> = ({
+    intro,
+    title,
+    description,
+    arrayOfFeatures = [],
+}) => {
     return (
         <section className="px-[16px] py-[60px] lg:py-[120px]">
             <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-[32px] lg:flex-row">
@@ -24,7 +29,7 @@ const SharedFeaturesComponent: React.FC<SharedFeaturesProps> = ({ intro, title, 
                     className="hidden h-[264px] w-full max-w-[300px] flex-col lg:sticky lg:top-[100px] lg:flex"
                 >
                     <p className="font-eudoxus text-[14px] text-[#484848]">{intro}</p>
-                    <div className="mt-auto w-full">
+                    <div className="mt-[40px] w-full">
                         <Button
                             title="LET'S TALK"
                             rightIconSize="12px"

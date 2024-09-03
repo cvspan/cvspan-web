@@ -17,6 +17,7 @@ const Page = () => {
         <>
             <Navbar light={false} />
             <Landing
+                bannerImage="/assets/images/headers/industries/blockchain.svg"
                 Heading={'Web3 design agency with cutting-edge solutions'}
                 subHeading={`We offer design solutions that simplify your complex blockchain product, making it intuitive, user-friendly, transparent, and trustworthy.`}
             />

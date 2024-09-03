@@ -9,8 +9,8 @@ import Footer from '@/components/molecules/layout/footer';
 import Faqs from '@/components/molecules/FAQS';
 import Testimonials from '@/components/molecules/Testimonials';
 import Cta from '@/components/molecules/CTA';
-import CustomizableDesign from '@/components/molecules/customizableDesign/CustomizableDesign';
 import GetThings from '@/components/molecules/GetThings';
+import { services } from '@/components/molecules/arrayOfFeatures/arrays';
 
 const LandingPage = () => {
     return (
@@ -23,10 +23,10 @@ const LandingPage = () => {
             />
 
             <SharedFeaturesComponent
-                intro="Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo."
-                title="Discover the benefits of professional UIUX design service "
-                arrayOfFeatures={design}
-                description="Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+                intro="Transform your marketing efforts with high-performing landing pages that capture attention, drive conversions, and boost your business growth. Partner with us to design landing pages that deliver measurable results and enhance your digital marketing strategy."
+                title="Landing page design services we offer"
+                description="Your landing page is often the first interaction potential customers have with your brand. A well-designed landing page not only captures attention but also drives conversions by delivering a clear, compelling message and guiding visitors toward a specific action. Our landing page design services are crafted to help you maximize your marketing efforts and achieve your business objectives with high-impact, conversion-optimized pages."
+                arrayOfFeatures={services['landing page'].summary}
             />
             {/* <CustomizableDesign /> */}
             <GetThings

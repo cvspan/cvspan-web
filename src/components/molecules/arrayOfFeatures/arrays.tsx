@@ -430,3 +430,168 @@ export const industries = {
         ],
     },
 };
+
+export const services = {
+    'mobile developemnt': {
+        products: [],
+        summary: [
+            {
+                id: 1,
+                title: 'Custom Mobile App Development',
+                details:
+                    'Whether you need a native app for iOS or Android, or a cross-platform solution, our team of skilled developers will work with you to design and build custom mobile applications tailored to your specific needs. We ensure your app is not only visually appealing but also highly functional and scalable.',
+            },
+            {
+                id: 2,
+                title: 'Cross-Platform Development',
+                details:
+                    'Maximize your reach and minimize development costs with our cross-platform development services. Using frameworks like React Native and Flutter, we build high-performance apps that run seamlessly across multiple platforms, ensuring a consistent user experience on both iOS and Android devices.',
+            },
+            {
+                id: 3,
+                title: 'App Testing',
+                details:
+                    'Ensure your mobile app is free from bugs and performs flawlessly with our comprehensive testing and quality assurance services. We perform rigorous testing across various devices and operating systems to deliver a reliable and smooth user experience.',
+            },
+            {
+                id: 4,
+                title: 'App Maintenance',
+                details:
+                    'Keep your mobile app up-to-date with our ongoing maintenance and support services. We provide regular updates, performance optimizations, and feature enhancements to ensure your app remains competitive and continues to meet user expectations.',
+            },
+        ],
+    },
+
+    'web develpment': {
+        products: [],
+        summary: [
+            {
+                id: 1,
+                title: 'Custom Web Development',
+                details:
+                    'We specialize in building custom websites tailored to your unique business needs. Our developers leverage the latest technologies and frameworks to create websites that are not only visually stunning but also highly functional and optimized for performance.',
+            },
+            {
+                id: 2,
+                title: 'Responsive Design',
+                details:
+                    'Ensure your website looks and functions flawlessly on all devices with our responsive design services. We create adaptive layouts that provide an optimal viewing experience across desktops, tablets, and mobile devices, enhancing user engagement and satisfaction.',
+            },
+            {
+                id: 3,
+                title: 'E-Commerce Development',
+                details:
+                    'Expand your business with a powerful e-commerce platform tailored to your needs. We build secure, user-friendly online stores with features like payment gateway integration, inventory management, and customer management systems, providing a seamless shopping experience for your customers.',
+            },
+            {
+                id: 4,
+                title: 'Website Maintenance',
+                details:
+                    'Keep your website up-to-date and performing at its best with our comprehensive maintenance and support services. We provide regular updates, security patches, performance optimizations, and technical support to ensure your website remains secure and operates smoothly.',
+            },
+        ],
+    },
+
+    'landing page': {
+        products: [],
+        summary: [
+            {
+                id: 1,
+                title: 'Custom Landing Page Design',
+                details:
+                    'We create tailored landing pages that align with your brand identity and business goals. Our design team focuses on creating visually appealing layouts that are easy to navigate, ensuring that your message is clear and compelling.',
+            },
+            {
+                id: 2,
+                title: 'SEO-Friendly Design',
+                details:
+                    'Improve your search engine visibility with our SEO-friendly landing page designs. We use best practices for on-page SEO, including optimized content, meta tags, and fast-loading pages, to help you rank higher and attract more organic traffic.',
+            },
+            {
+                id: 3,
+                title: 'Integration with Marketing Tools',
+                details:
+                    'Streamline your marketing efforts by integrating your landing pages with your existing marketing tools and platforms. We ensure seamless integration with CRM systems, email marketing tools, and analytics platforms to enhance your lead generation and tracking capabilities.',
+            },
+            {
+                id: 4,
+                title: 'CRO',
+                details:
+                    'Our landing pages are strategically designed to convert visitors into leads or customers. We use proven techniques such as compelling headlines, persuasive copy, strong calls to action, and optimized forms to maximize your conversion rates.',
+            },
+        ],
+    },
+    devops: {
+        products: [],
+        summary: [
+            {
+                id: 1,
+                title: 'Monitoring and Logging',
+                details:
+                    'Gain real-time insights into your systems and applications with our advanced monitoring and logging solutions. Proactively identify issues, improve performance, and ensure optimal uptime and reliability.',
+            },
+            {
+                id: 2,
+                title: 'Security and Compliance',
+                details:
+                    'Integrate security into every stage of the DevOps lifecycle. Our services include automated security checks, compliance auditing, and vulnerability management to protect your assets and maintain regulatory compliance.',
+            },
+
+            {
+                id: 3,
+                title: 'Cloud Services and Migration',
+                details:
+                    'Move to the cloud with confidence. We provide end-to-end support for cloud adoption, including strategy, migration, management, and optimization. Maximize the benefits of cloud computing while minimizing risks and costs.',
+            },
+
+            {
+                id: 4,
+                title: 'Infrastructure as Code (IaC)',
+                details:
+                    'Leverage the power of automation by managing your infrastructure with code. Our IaC practices ensure consistency, scalability, and reproducibility across your environments, making your infrastructure more efficient and cost-effective.',
+            },
+        ],
+    },
+
+    webflow: {
+        products: [],
+        summary: [
+            {
+                id: 1,
+                title: 'Custom Design',
+                details:
+                    'Your website will be customised to meet your specific requirements. Webflow allows you to create a personalised website faster than ever before.',
+            },
+            {
+                id: 2,
+                title: 'Third-party Integration',
+                details:
+                    'Want to save time and increase your productivity? Easily integrate your Webflow analytics and CRM applications with our clever integration solution.',
+            },
+            {
+                id: 3,
+                title: 'E-commerce',
+                details:
+                    'Get your payment-secure web store developed with Webflow, which is fast-loading, SEO-friendly, and conversion-ready.',
+            },
+            {
+                id: 4,
+                title: 'Performance Optimization',
+                details:
+                    "Don't let slow loading times undermine your UX strategy. Webflow allows you to optimise your site's performance and provide a smooth experience.",
+            },
+            {
+                id: 5,
+                title: 'SEO Optimization',
+                details:
+                    "Improve your Webflow website's search engine visibility with built-in SEO tools and lightning-fast load times.",
+            },
+            {
+                id: 6,
+                title: 'On-going Maintenance',
+                details:
+                    'Your website should not crash or lag. We ensure that your users have a flawless Webflow experience.',
+            },
+        ],
+    },
+};
