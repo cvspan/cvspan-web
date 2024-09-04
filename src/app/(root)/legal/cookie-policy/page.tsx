@@ -1,5 +1,5 @@
 'use client';
-import Privacy from '@/components/molecules/Privacy-policy/Privacy';
+import Privacy from '@/components/molecules/Cookie-Policy/Privacy';
 import React from 'react';
 
 const page = () => {
