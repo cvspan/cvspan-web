@@ -176,14 +176,14 @@ export const SOCIALS: Social[] = [
 export const ADDRESSES: Address[] = [
     {
         id: 1,
-        region: 'Ukraine, Odesa',
-        address: 'Haharinske Plateau, 5/3',
-        phone: '+38-093-1234-567',
+        region: '86-90 Paul Street, London,',
+        address: 'England, United Kingdom,',
+        phone: 'EC2A 4NE',
     },
     {
         id: 2,
-        region: 'Romania, Bucharest',
-        address: 'Park Herastrau 27',
-        phone: '+40-123-4567-890',
+        region: 'No 6 Udysens Crescent,',
+        address: 'Mabushi, Abuja, Nigeria',
+        phone: '',
     },
 ];
