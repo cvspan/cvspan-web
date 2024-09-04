@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import { ANIMATE_PROPS } from '@/helpers/motion';
 
 import './style.css';
+import Cta from '../CTA';
 
 type Props = {
     pageTitle: string;
@@ -318,7 +319,7 @@ const Privacy = ({ pageTitle }: Props) => {
                     </div>
                 </div>
             </div>
-
+            <Cta />
             <Footer />
         </>
     );
