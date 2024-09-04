@@ -18,6 +18,7 @@ const Page = () => {
         <>
             <Navbar light={false} />
             <Landing
+                bannerImage="/assets/images/headers/industries/alml.svg"
                 Heading={'Expert Designers for AI Products'}
                 subHeading={`We provide design solutions that transform your sophisticated AI product into a digital experience that is transparent, trustworthy, easy to use, and intuitive.`}
             />

@@ -9,7 +9,7 @@ import Footer from '@/components/molecules/layout/footer';
 import Faqs from '@/components/molecules/FAQS';
 import Testimonials from '@/components/molecules/Testimonials';
 import Cta from '@/components/molecules/CTA';
-import CustomizableDesign from '@/components/molecules/customizableDesign/CustomizableDesign';
+
 import GetThings from '@/components/molecules/GetThings';
 
 const Page = () => {
@@ -17,8 +17,9 @@ const Page = () => {
         <>
             <Navbar light={false} />
             <Landing
-                Heading={'Saas'}
-                subHeading={`As a UI/UX design agency, we create successful digital products that combine user needs with business goals. Our human centred design approach makes it happen.`}
+                bannerImage="/assets/images/headers/industries/saas.svg"
+                Heading={'Scale your product with professional SaaS Design'}
+                subHeading={`Our skilled product designers are used to develop fresh SaaS offerings, enhance or revamp current ones, and propel your company forward.`}
             />
 
             <SharedFeaturesComponent

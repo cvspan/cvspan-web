@@ -17,6 +17,7 @@ const GraphicDesign = () => {
         <>
             <Navbar light={false} />
             <Landing
+                bannerImage="/assets/images/headers/services/graphic-design.svg"
                 Heading={'Graphic Design services'}
                 subHeading={`As a graphic design agency, we assist products in reflecting their company values through creative illustrations, icons, and marketing materials.`}
             />
@@ -28,7 +29,26 @@ const GraphicDesign = () => {
                 description="Our graphic design services take a deliberate approach to meeting clients' creative objectives while producing high-quality visuals that successfully communicate their message. This is a detailed description of how a graphic design service could be constructed."
             />
 
-            <GetThings title="Benefits of our Design Services" />
+            <GetThings
+                title="Benefits of our Graphic Design Services"
+                products={[
+                    {
+                        id: 1,
+                        title: 'Build trust & loyalty',
+                        text: 'Professional graphic design builds trust and loyalty among users, establishes trustworthy brand image.',
+                    },
+                    {
+                        id: 2,
+                        title: 'High brand awareness',
+                        text: 'Recognizable graphics will help your product to stay relevant and modern in the ever-changing digital space.',
+                    },
+                    {
+                        id: 3,
+                        title: 'Strengthen your brand',
+                        text: 'Unique and memorable brand helps you to gain competitive advantage and set your brand apart from competitors.',
+                    },
+                ]}
+            />
             <Faqs />
             <Testimonials />
             <Cta />

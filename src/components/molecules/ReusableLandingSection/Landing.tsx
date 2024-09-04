@@ -16,9 +16,10 @@ import Link from 'next/link';
 type Props = {
     Heading: string;
     subHeading: string;
+    bannerImage?: string;
 };
 
-const Landing = ({ Heading, subHeading }: Props) => {
+const Landing = ({ Heading, subHeading, bannerImage = '/assets/images/services_landinf_frame.png' }: Props) => {
     useGSAP(() => {
         SplitType.create('#service_landing_title', { charClass: 'service_landing_title_char' });
 
@@ -77,14 +78,14 @@ const Landing = ({ Heading, subHeading }: Props) => {
 
                     <div className="block lg:hidden">
                         <img
-                            src="/assets/images/services_landinf_frame.png"
+                            src={bannerImage}
                             className="w-full max-w-[300px] object-contain md:max-w-[400px] lg:h-[506px] lg:w-[506px] lg:max-w-[506px]"
                         />
                     </div>
 
                     <motion.div {...ANIMATE_PROPS({ delay: 0.5, from: 'right' })} className="hidden lg:block">
                         <img
-                            src="/assets/images/services_landinf_frame.png"
+                            src={bannerImage}
                             className="w-full max-w-[400px] object-contain lg:h-[506px] lg:w-[506px] lg:max-w-[506px]"
                         />
                     </motion.div>

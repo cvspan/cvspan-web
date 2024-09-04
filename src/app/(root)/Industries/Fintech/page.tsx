@@ -9,7 +9,6 @@ import Footer from '@/components/molecules/layout/footer';
 import Faqs from '@/components/molecules/FAQS';
 import Testimonials from '@/components/molecules/Testimonials';
 import Cta from '@/components/molecules/CTA';
-import CustomizableDesign from '@/components/molecules/customizableDesign/CustomizableDesign';
 import GetThings from '@/components/molecules/GetThings';
 
 const Page = () => {
@@ -17,6 +16,7 @@ const Page = () => {
         <>
             <Navbar light={false} />
             <Landing
+                bannerImage="/assets/images/headers/industries/fintech.svg"
                 Heading={'Our Fintech Design Covers Your Business Goals'}
                 subHeading={`Our skilled designers are employed to simplify complicated items for end consumers. Work together with our fintech UI/UX design team to get excellent outcomes.`}
             />

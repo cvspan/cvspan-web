@@ -9,26 +9,47 @@ import Footer from '@/components/molecules/layout/footer';
 import Faqs from '@/components/molecules/FAQS';
 import Testimonials from '@/components/molecules/Testimonials';
 import Cta from '@/components/molecules/CTA';
-import CustomizableDesign from '@/components/molecules/customizableDesign/CustomizableDesign';
+
 import GetThings from '@/components/molecules/GetThings';
+import { services } from '@/components/molecules/arrayOfFeatures/arrays';
 
 const Page = () => {
     return (
         <>
             <Navbar light={false} />
             <Landing
-                Heading={'Devops'}
-                subHeading={`As a UI/UX design agency, we create successful digital products that combine user needs with business goals. Our human centred design approach makes it happen.`}
+                bannerImage="/assets/images/headers/services/devops.svg"
+                Heading={'DevOps Services'}
+                subHeading={`Optimize the flow of data and information in project development to reduce delivery costs, enhance automation, and accelerate digital transformation efforts.`}
             />
 
             <SharedFeaturesComponent
-                intro="Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo."
-                title="Discover the benefits of professional UIUX design service "
-                arrayOfFeatures={design}
-                description="Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+                intro="Transform your development processes and accelerate your digital transformation with our DevOps services. Partner with us to drive efficiency, innovation, and growth in your organization."
+                title="Scope of our DevOps Services"
+                description="In today's fast-paced digital landscape, organizations need to deliver high-quality software rapidly and reliably. Our comprehensive DevOps services are designed to bridge the gap between development and operations, enabling your teams to work seamlessly together, automate processes, and achieve continuous delivery."
+                arrayOfFeatures={services.devops.summary}
             />
             {/* <CustomizableDesign /> */}
-            <GetThings title="Benefits of our Design Services" />
+            <GetThings
+                title="Benefits of our DevOps Services"
+                products={[
+                    {
+                        id: 1,
+                        title: 'Expertise',
+                        text: 'Our team of seasoned DevOps professionals brings deep experience in implementing best practices across various industries.',
+                    },
+                    {
+                        id: 2,
+                        title: 'Tailored Solutions',
+                        text: 'We understand that every organization is unique, and we customize our services to meet your specific needs and challenges.',
+                    },
+                    {
+                        id: 3,
+                        title: 'Scalability',
+                        text: "Whether you're a startup or a large enterprise, our solutions are designed to scale with your business.",
+                    },
+                ]}
+            />
             <Faqs />
             <Testimonials />
             <Cta />
