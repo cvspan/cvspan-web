@@ -16,7 +16,7 @@ const Homelanding = () => {
                 <div className="mx-auto flex w-full max-w-[1200px] justify-end">
                     <img
                         src="/assets/images/homepage-bottom-background.webp"
-                        className="ml-auto w-[850px] object-contain"
+                        className="mr-[-100px] w-[900px] object-contain"
                     />
                 </div>
             </div>
