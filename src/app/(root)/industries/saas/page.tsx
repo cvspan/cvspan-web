@@ -1,7 +1,7 @@
 'use client';
-import React from 'react';
-import { industries } from '@/components/molecules/arrayOfFeatures/arrays';
+import { design } from '@/components/molecules/arrayOfFeatures/arrays';
 import SharedFeaturesComponent from '@/components/molecules/sharedFeaturesComponent/SharedFeaturesComponent';
+import React from 'react';
 
 import Navbar from '@/components/molecules/layout/navbar';
 import Landing from '@/components/molecules/ReusableLandingSection/Landing';
@@ -17,18 +17,18 @@ const Page = () => {
         <>
             <Navbar light={false} />
             <Landing
-                Heading={'Scale your product with professional SaaS Design'}
-                subHeading={`Our skilled product designers are used to develop fresh SaaS offerings, enhance or revamp current ones, and propel your company forward.`}
+                Heading={'Saas'}
+                subHeading={`As a UI/UX design agency, we create successful digital products that combine user needs with business goals. Our human centred design approach makes it happen.`}
             />
 
             <SharedFeaturesComponent
-                intro="As a SaaS product design agency, we've specialized in developing B2B and B2C web applications, dashboards, mobile-first SaaS, and B2B SaaS websites across various industries. Our experience spans collaboration tools, CRMs, management applications, entertainment, and educational SaaS. Now, we are pushing the boundaries by incorporating AI and machine learning into SaaS web design."
-                title="How we create SaaS products that meet all user requirements "
-                arrayOfFeatures={industries.saas.summary}
-                description="Our SaaS web design company expertly combines user needs and corporate objectives to produce a compelling UX design."
+                intro="Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo."
+                title="Discover the benefits of professional UIUX design service "
+                arrayOfFeatures={design}
+                description="Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
             />
             {/* <CustomizableDesign /> */}
-            <GetThings title="SaaS products that our team can develop" products={industries.saas.products} />
+            <GetThings title="Benefits of our Design Services" />
             <Faqs />
             <Testimonials />
             <Cta />
