@@ -22,7 +22,7 @@ const SharedFeaturesComponent: React.FC<SharedFeaturesProps> = ({
     arrayOfFeatures = [],
 }) => {
     return (
-        <section className="px-[16px] py-[60px] lg:py-[120px]">
+        <section className="overflow-x-hidden px-[16px] py-[60px] lg:py-[120px]">
             <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-[32px] lg:flex-row">
                 <motion.div
                     {...ANIMATE_PROPS({ delay: 0, from: 'left' })}

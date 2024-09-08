@@ -1,11 +1,12 @@
 interface I_ANIMATE_PROPS {
     delay?: number;
     from?: 'top' | 'bottom' | 'left' | 'right';
+    disable?: boolean;
 }
 
 export const ANIMATE_PROPS = (props?: I_ANIMATE_PROPS) => {
+    if (props?.disable) return {};
     const { delay = 0, from = 'bottom' } = props || {};
-
     if (from === 'bottom')
         return {
             initial: { opacity: 0, y: 20 },

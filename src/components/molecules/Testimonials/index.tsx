@@ -15,7 +15,7 @@ function TestimonialsNew() {
 
     return (
         <>
-            <div className="bg-[#0C0C0C] px-5 py-[60px] md:py-[120px]">
+            <div className="overflow-x-hidden bg-[#0C0C0C] px-5 py-[60px] md:py-[120px]">
                 <div className="widow-main">
                     <div className="widow-inner">
                         <div className="mx-auto mb-[32px] flex w-full max-w-[1200px] items-center justify-between sm:mb-[60px]">
