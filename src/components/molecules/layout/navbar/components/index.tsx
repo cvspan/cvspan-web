@@ -119,7 +119,7 @@ export const NavLetsTalkButton = ({ isLight }: { isLight?: boolean }) => {
             <motion.button
                 whileHover="animate"
                 whileTap="animate"
-                className="relative z-[13] flex h-[40px] w-[140px] cursor-pointer items-center justify-between gap-3 overflow-hidden rounded-[32px] px-[16px] py-[8px] text-[14px] leading-[22px] text-white"
+                className="relative z-[13] flex h-[40px] w-full cursor-pointer items-center justify-center gap-3 overflow-hidden rounded-[32px] px-[16px] py-[8px] text-[14px] leading-[22px] text-white sm:w-[140px] sm:justify-between"
             >
                 <motion.span
                     variants={{

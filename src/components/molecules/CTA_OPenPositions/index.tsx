@@ -2,16 +2,21 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ANIMATE_PROPS } from '@/helpers/motion';
 import { useRouter } from 'next/navigation';
+import useWindowSize from '@/hooks/general/useWindowSize';
 
 const CTA_OPenPositions = () => {
     const router = useRouter();
+
+    const { width } = useWindowSize();
+    const smallDevice = width < 900;
+
     return (
         <div
             onClick={() => router.push('/careers/open-position')}
-            className="bg-cta-bg m-auto h-[300px] w-full cursor-[url(/assets/icons/open-position-cursor.svg),_pointer] bg-cover bg-center bg-no-repeat bg-origin-border py-[60px] pb-12 pl-6 pr-6 pt-12 text-white lg:h-[630px] lg:py-[120px]"
+            className="bg-cta-bg m-auto w-full cursor-[url(/assets/icons/open-position-cursor.svg),_pointer] overflow-x-hidden bg-cover bg-center bg-no-repeat bg-origin-border py-[60px] pb-12 pl-6 pr-6 pt-12 text-white lg:h-[630px] lg:py-[120px]"
         >
             <div className="m-auto flex h-full w-full max-w-[1200px] flex-col justify-between gap-[40px] md:flex-row">
-                <motion.div {...ANIMATE_PROPS({ from: 'left' })}>
+                <motion.div {...ANIMATE_PROPS({ disable: smallDevice, from: 'left' })}>
                     <h1
                         className="font-euxodus max-w-[580px] font-medium text-white"
                         style={{ fontSize: 'clamp(3rem, 8.6875vw, 7.5rem)', lineHeight: 1 }}
@@ -20,7 +25,7 @@ const CTA_OPenPositions = () => {
                     </h1>
                 </motion.div>
                 <motion.div
-                    {...ANIMATE_PROPS({ from: 'right' })}
+                    {...ANIMATE_PROPS({ disable: smallDevice, from: 'right' })}
                     className="flex flex-col gap-5 md:items-end md:justify-between lg:justify-between"
                 >
                     <motion.div
