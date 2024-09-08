@@ -73,8 +73,7 @@ const CardsRow = ({ card1, card2 }: { card1?: TCaseStudy; card2?: TCaseStudy }) 
 
 const FeaturedDigitalProducts = () => {
     return (
-        // cursor-[url(/assets/icons/lets-talk-cursor.svg),_pointer]
-        <div className="cursor-[url(/assets/icons/case-study-cursor.png),_pointer] px-5 py-[60px] lg:py-[120px]">
+        <div className="cursor-[url(/assets/icons/case-study-cursor.svg),_pointer] px-5 py-[60px] lg:py-[120px]">
             <div className="mx-auto w-full max-w-[1200px] lg:flex">
                 <div className="mb-[24px] flex h-full w-full flex-row justify-between lg:sticky lg:top-[100px] lg:mb-0 lg:h-[594px] lg:max-w-[384px] lg:flex-col">
                     <div className="lg:max-w-auto max-w-[600px]">
@@ -103,6 +102,7 @@ const FeaturedDigitalProducts = () => {
                                 background="blue"
                                 animateRightIconOnHover
                                 rightIcon="/assets/icons/arrow-top-right-white.svg"
+                                className="cursor-[url(/assets/icons/case-study-cursor.svg),_pointer]"
                             />
                         </Link>
                     </div>

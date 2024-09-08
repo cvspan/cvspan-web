@@ -1,5 +1,5 @@
 .fdp_card {
-    @apply flex h-fit w-full cursor-pointer flex-col overflow-hidden transition-all duration-300 ease-in-out md:h-[594px] md:w-[336px];
+    @apply flex h-fit w-full cursor-[url(/assets/icons/case-study-cursor.svg),_pointer] flex-col overflow-hidden transition-all duration-300 ease-in-out md:h-[594px] md:w-[336px];
 }
 
 .fdp_card_img_wrapper {
