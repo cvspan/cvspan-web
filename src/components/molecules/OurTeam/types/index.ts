@@ -1,7 +1,8 @@
 export type Team = {
-    id: number;
+    id: string;
     name: string;
     linkedin: string;
     avatar: string;
     role: string;
+    bio: string[];
 };

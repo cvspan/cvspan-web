@@ -1,8 +1,8 @@
 'use client';
 import React from 'react';
-
+import App from './App';
 function page() {
-    return <div>page</div>;
+    return <App />;
 }
 
 export default page;

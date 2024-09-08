@@ -13,7 +13,7 @@ const FooterOfficeAddress = () => {
                     <Image src="/assets/images/logo.svg" width={152} height={31} alt="Cvspan logo" />
                 </Link>
                 <div className="mt-6 hidden lg:block">
-                    <h3 className="text-[16px] font-medium text-[#1A1A1A]">Offices</h3>
+                    <h3 className="text-[16px] font-medium text-[#1A1A1A]">Address</h3>
                     <div>
                         <ul className="list-none" role="list">
                             {ADDRESSES.map((address: Address) => (
@@ -92,7 +92,7 @@ const SocialHandles = () => {
         <div className="order-2 flex flex-grow gap-x-4 lg:order-3 lg:justify-end">
             <Link
                 target="_blank"
-                href="/facebook.com/CVSpancom"
+                href="https://facebook.com/CVSpancom"
                 className="relative flex h-8 w-8 items-center overflow-hidden rounded-full bg-[#484848] p-2 opacity-80 hover:opacity-100"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -148,7 +148,7 @@ const SocialHandles = () => {
 
             <Link
                 target="_blank"
-                href="/"
+                href="https://www.linkedin.com/company/mycvspan/"
                 className="relative flex h-8 w-8 items-center overflow-hidden rounded-full bg-[#484848] p-2 opacity-80 hover:opacity-100"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">

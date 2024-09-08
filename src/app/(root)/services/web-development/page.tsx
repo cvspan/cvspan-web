@@ -9,26 +9,47 @@ import Footer from '@/components/molecules/layout/footer';
 import Faqs from '@/components/molecules/FAQS';
 import Testimonials from '@/components/molecules/Testimonials';
 import Cta from '@/components/molecules/CTA';
-import CustomizableDesign from '@/components/molecules/customizableDesign/CustomizableDesign';
+
 import GetThings from '@/components/molecules/GetThings';
+import { services } from '@/components/molecules/arrayOfFeatures/arrays';
 
 const Page = () => {
     return (
         <>
             <Navbar light={false} />
             <Landing
-                Heading={'Web Development'}
+                bannerImage="/assets/images/headers/services/web-development.svg"
+                Heading={'Web Development Services'}
                 subHeading={`As a UI/UX design agency, we create successful digital products that combine user needs with business goals. Our human centred design approach makes it happen.`}
             />
 
             <SharedFeaturesComponent
-                intro="Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo."
-                title="Discover the benefits of professional UIUX design service "
-                arrayOfFeatures={design}
-                description="Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+                intro="Elevate your digital presence with a website that not only looks great but also delivers exceptional performance and functionality. Partner with us to build a web solution that drives growth, engages users, and enhances your brand’s online presence."
+                title="Web Development Services we offer "
+                arrayOfFeatures={services['web develpment'].summary}
+                description="A compelling and effective web presence is essential for businesses to succeed in today’s digital landscape. Our web development services are designed to create robust, scalable, and secure websites that deliver exceptional user experiences and drive business growth. Whether you need a brand-new website, a redesign, or enhancements to your existing site, our team is here to help you achieve your digital goals."
             />
             {/* <CustomizableDesign /> */}
-            <GetThings title="Benefits of our Design Services" />
+            <GetThings
+                title="Benefits of our Web Development Services"
+                products={[
+                    {
+                        id: 1,
+                        title: 'Expert Team',
+                        text: 'Our team of skilled developers, designers, and strategists brings extensive experience in delivering high-quality web solutions across various industries.',
+                    },
+                    {
+                        id: 2,
+                        title: 'Cutting-Edge Technology',
+                        text: 'We stay up-to-date with the latest web development trends and technologies to provide innovative and future-proof solutions.',
+                    },
+                    {
+                        id: 3,
+                        title: 'End-to-End Services',
+                        text: 'From initial concept and design to development, testing, deployment, and ongoing support, we offer comprehensive web development services to meet all your needs.',
+                    },
+                ]}
+            />
             <Faqs />
             <Testimonials />
             <Cta />

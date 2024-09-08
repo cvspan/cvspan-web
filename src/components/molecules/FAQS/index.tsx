@@ -16,29 +16,29 @@ const Faqs = () => {
                     <div className="flex h-full w-full">
                         <Faq
                             id={1}
-                            question="What sets Eco Rocks apart from other jewelry retailers?"
-                            answer="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
+                            question="Do you offer consultations before starting a project?"
+                            answer="Yes, we offer a free initial consultation to discuss your project needs, goals, and vision. This helps us understand how we can best work together and provide a tailored proposal."
                         />
                     </div>
                     <div className="flex h-full w-full">
                         <Faq
                             id={2}
-                            question="What sets Eco Rocks apart from other jewelry retailers?"
-                            answer="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
+                            question="What is your design and development process?"
+                            answer="Our process includes discovery and research, concept development, wireframing and prototyping, design execution, development, quality assurance testing, and final deployment. We work closely with our clients at each stage to ensure their vision is accurately realized."
                         />
                     </div>
                     <div className="flex h-full w-full">
                         <Faq
                             id={3}
-                            question="What sets Eco Rocks apart from other jewelry retailers?"
-                            answer="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
+                            question="Who are your typical clients?"
+                            answer="Our clients range from startups and small businesses to large corporations across various industries, including technology, healthcare, retail, finance, and education."
                         />
                     </div>
                     <div className="flex h-full w-full">
                         <Faq
                             id={4}
-                            question="What sets Eco Rocks apart from other jewelry retailers?"
-                            answer="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
+                            question="How do you manage projects and keep them on schedule?"
+                            answer="We use project management tools to track progress, set milestones, and communicate regularly with clients. This ensures that all tasks are completed on time and that any potential issues are addressed promptly."
                         />
                     </div>
                 </div>

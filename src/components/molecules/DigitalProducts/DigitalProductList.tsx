@@ -18,14 +18,14 @@ export const DigitalProductList = () => {
                     const active = tab.key === current;
                     return (
                         <button
-                            className={`${active ? 'border-b-[#A6F46A] text-[#A6F46A]' : 'border-b-[#484848] text-[#484848]'} mb-[-3px] flex items-center gap-[16px] border-b-[3px] pb-[16px] text-[16px] leading-[24px] md:pb-[24px] md:text-[24px] md:leading-[36px]`}
+                            className={`${active ? 'border-b-[#00FFB2] text-[#00FFB2]' : 'border-b-[#484848] text-[#484848]'} mb-[-3px] flex items-center gap-[16px] border-b-[3px] pb-[16px] text-[16px] leading-[24px] md:pb-[24px] md:text-[24px] md:leading-[36px]`}
                             key={tab?.key}
                             onClick={() => setcurrent(tab?.key)}
                         >
                             <span>{tab?.title}</span>
                             {active ? (
                                 <img
-                                    src="/assets/icons/arrow-bottom-right-green.svg"
+                                    src="/assets/icons/arrow-bottom-right-light-green.svg"
                                     className="hidden h-[16px] w-[16px] sm:block md:h-[20px] md:w-[20px]"
                                 />
                             ) : (

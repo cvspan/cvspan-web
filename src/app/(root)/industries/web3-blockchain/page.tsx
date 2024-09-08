@@ -1,5 +1,5 @@
 'use client';
-import { design } from '@/components/molecules/arrayOfFeatures/arrays';
+import { industries } from '@/components/molecules/arrayOfFeatures/arrays';
 import SharedFeaturesComponent from '@/components/molecules/sharedFeaturesComponent/SharedFeaturesComponent';
 import React from 'react';
 
@@ -17,18 +17,19 @@ const Page = () => {
         <>
             <Navbar light={false} />
             <Landing
-                Heading={'Web3 Blockchain'}
-                subHeading={`As a UI/UX design agency, we create successful digital products that combine user needs with business goals. Our human centred design approach makes it happen.`}
+                bannerImage="/assets/images/headers/industries/blockchain.svg"
+                Heading={'Web3 design agency with cutting-edge solutions'}
+                subHeading={`We offer design solutions that simplify your complex blockchain product, making it intuitive, user-friendly, transparent, and trustworthy.`}
             />
 
             <SharedFeaturesComponent
-                intro="Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo."
-                title="Discover the benefits of professional UIUX design service "
-                arrayOfFeatures={design}
-                description="Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+                intro="Leveraging our expertise in blockchain, decentralized applications, cryptocurrency, and immersive experiences, along with powerful digital design, we assist brands in transforming their customer interactions."
+                title="How we design Web3 products that meet all user requirements "
+                arrayOfFeatures={industries.web3.summary}
+                description="Our mission is to make Web3 accessible to everyday people, build crypto communities, and enable businesses to harness blockchain technology. No matter what blockchain solution you want to introduce, we ensure it resonates with your audience and helps you establish a strong market presence."
             />
             {/* <CustomizableDesign /> */}
-            <GetThings title="Benefits of our Design Services" />
+            <GetThings title="Web3 products that our team can develop" products={industries.web3.products} />
             <Faqs />
             <Testimonials />
             <Cta />

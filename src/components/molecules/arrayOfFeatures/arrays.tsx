@@ -203,3 +203,395 @@ export const graphicDesign = [
             'The appearance of your ebook is one of the most crucial factors determining its success. We understand how to create a cover and content that will attract a large number of readers.',
     },
 ];
+
+export const industries = {
+    'ai-ml': {
+        summary: [
+            {
+                id: 1,
+                title: 'Accessibility',
+                details:
+                    'We prioritize familiarizing users with your product and ensuring interactions are straightforward, aiming to minimize uncertainties.',
+            },
+            {
+                id: 2,
+                title: 'Transparency',
+                details:
+                    'Clearly communicating how data is collected, used, and protected empowers users to maintain control over their personal information..',
+            },
+            {
+                id: 3,
+                title: 'Building Trust',
+                details:
+                    'Artificial Intelligence technologies remain a mystery. We include justifications and illustrations to help your users gain confidence.',
+            },
+            {
+                id: 4,
+                title: 'Improvements ',
+                details:
+                    'Based on the data and insightful feedback from users, we redesign and enhance our AI solutions.',
+            },
+        ],
+        products: [
+            {
+                id: 1,
+                title: 'Education AI',
+                text: 'Our designers are available to share their design knowledge with you for everything from language learning applications to remote learning solutions.',
+            },
+            {
+                id: 2,
+                title: 'AI Chatbots',
+                text: 'Making sure your chatbot has an easy-to-use interface, engages users, and offers helpful support.',
+            },
+            {
+                id: 3,
+                title: 'AI Marketing',
+                text: 'We are here to offer our design experience, whether you need an SEO assistance or a tool for content optimisation.',
+            },
+        ],
+    },
+    fintech: {
+        summary: [
+            {
+                id: 1,
+                title: 'Improved user satisfaction',
+                details:
+                    'The way your users feel when using your product is one of the most crucial factors. Finding and fixing design flaws is essential.',
+            },
+            {
+                id: 2,
+                title: 'Easy to use Products',
+                details:
+                    'Users may find your product to be more complex as it grows in size and as you introduce new features. We take care to make things straightforward and simple.',
+            },
+            {
+                id: 3,
+                title: 'Customer Retention',
+                details:
+                    'Subscriptions that are renewed by loyal customers are the source of your income. User retention is increased by well-designed interfaces.',
+            },
+            {
+                id: 4,
+                title: 'Stand Out',
+                details:
+                    'Make your product distinctive and aesthetically pleasing through design so that customers can quickly tell you apart from the competition.',
+            },
+        ],
+        products: [
+            {
+                id: 1,
+                title: 'Digital Payments',
+                text: 'We make cashless payments easy, safe, and accessible for people of all backgrounds, including novices and tech-savvy folks.',
+            },
+            {
+                id: 2,
+                title: 'Banking platforms',
+                text: 'We support banks in integrating the digital economy and become competitive with established banks, or neobanks.',
+            },
+            {
+                id: 3,
+                title: 'Debt and loan platforms',
+                text: 'developing the UI/UX design, which presents the facts in an appealing, clear, and simple-to-understand visual format.',
+            },
+        ],
+    },
+    health: {
+        summary: [
+            {
+                id: 1,
+                title: 'Prioritizing usability',
+                details:
+                    'We take great care to ensure that your product is user-friendly and suitable for users of all skill levels.',
+            },
+            {
+                id: 2,
+                title: 'Building trust',
+                details:
+                    'Putting the needs of patients and medical professionals first by including users in the research and design process.',
+            },
+            {
+                id: 3,
+                title: 'Keeping scalability',
+                details: 'Because your product will grow and generate larger volumes of data, we optimise performance.',
+            },
+            {
+                id: 4,
+                title: 'Our in-house Design team',
+                details:
+                    'Our designers are fully involved in your procedures and requirements from the moment they start working on your project.',
+            },
+        ],
+        products: [
+            {
+                id: 1,
+                title: 'Health management',
+                text: 'Developing intuitive user interfaces that enable people to efficiently monitor and control their health.',
+            },
+            {
+                id: 2,
+                title: 'Wellness & Fitness',
+                text: 'Turn your target audience into loyal users of your Wellness & Fitness product with human-centric design.',
+            },
+            {
+                id: 3,
+                title: 'Insurance',
+                text: 'Utilise a safe, compliant, data-driven solution to meet high CX requirements while streamlining claim administration and processing.',
+            },
+        ],
+    },
+    web3: {
+        summary: [
+            {
+                id: 1,
+                title: 'Smooth learning process',
+                details:
+                    'The typical point where users might disengage. Our blockchain design agency ensures users are well-acquainted with your product.',
+            },
+            {
+                id: 2,
+                title: 'Transparent operations',
+                details:
+                    'Our designers are aware of the significance of establishing a transparent and safe architecture for financial transactions and data storage.',
+            },
+            {
+                id: 3,
+                title: 'Simplification',
+                details:
+                    "Making your product's design and user experience (UX) simple and intuitive is essential to maintaining a high customer retention rate.",
+            },
+            {
+                id: 4,
+                title: 'Future improvements',
+                details:
+                    'In Web3, everything can change in an instant.  Our crypto design studio considers upcoming developments while designing the piece.',
+            },
+        ],
+        products: [
+            {
+                id: 1,
+                title: 'DEX & CEX',
+                text: 'using expert design to strike a balance between security and accessibility.',
+            },
+            {
+                id: 2,
+                title: 'Crypto Swap',
+                text: 'Our designers will produce a sleek, businesslike look that exudes dependability.',
+            },
+            {
+                id: 3,
+                title: 'Crypto AI',
+                text: 'constructing a bridge of design to connect end users and sophisticated crypto algorithms.',
+            },
+        ],
+    },
+    saas: {
+        summary: [
+            {
+                id: 1,
+                title: 'Improving user satisfaction',
+                details:
+                    'The experience your customers have when using your product is among the most crucial factors. It is essential to identify and address design flaws.',
+            },
+            {
+                id: 2,
+                title: 'Keeping your product easy to use',
+                details:
+                    'Your product may grow more complicated for users as it grows in size and features are added. We take care to maintain simplicity and ease of use.',
+            },
+            {
+                id: 3,
+                title: 'Increasing customer loyalty',
+                details:
+                    'Subscriptions that are renewed by loyal customers are the source of your income. User retention is increased by well-designed interfaces.',
+            },
+            {
+                id: 4,
+                title: 'Distinguishing yourself from rivals',
+                details:
+                    'Make your product distinctive and aesthetically pleasing through design so that customers can quickly tell you apart from the competition.',
+            },
+        ],
+        products: [
+            {
+                id: 1,
+                title: 'СRM, Analytics',
+                text: 'Enhancing the effectiveness of the SaaS sales process through expert design.',
+            },
+            {
+                id: 2,
+                title: 'Automation tools',
+                text: 'Robust automation technologies can expedite user adoption and lower the learning curve.',
+            },
+            {
+                id: 3,
+                title: 'Recruitment, ATS, HRM',
+                text: 'Utilise infographics and simple navigation to expedite the hiring and onboarding processes.',
+            },
+        ],
+    },
+};
+
+export const services = {
+    'mobile developemnt': {
+        products: [],
+        summary: [
+            {
+                id: 1,
+                title: 'Custom Mobile App Development',
+                details:
+                    'Whether you need a native app for iOS or Android, or a cross-platform solution, our team of skilled developers will work with you to design and build custom mobile applications tailored to your specific needs. We ensure your app is not only visually appealing but also highly functional and scalable.',
+            },
+            {
+                id: 2,
+                title: 'Cross-Platform Development',
+                details:
+                    'Maximize your reach and minimize development costs with our cross-platform development services. Using frameworks like React Native and Flutter, we build high-performance apps that run seamlessly across multiple platforms, ensuring a consistent user experience on both iOS and Android devices.',
+            },
+            {
+                id: 3,
+                title: 'App Testing',
+                details:
+                    'Ensure your mobile app is free from bugs and performs flawlessly with our comprehensive testing and quality assurance services. We perform rigorous testing across various devices and operating systems to deliver a reliable and smooth user experience.',
+            },
+            {
+                id: 4,
+                title: 'App Maintenance',
+                details:
+                    'Keep your mobile app up-to-date with our ongoing maintenance and support services. We provide regular updates, performance optimizations, and feature enhancements to ensure your app remains competitive and continues to meet user expectations.',
+            },
+        ],
+    },
+
+    'web develpment': {
+        products: [],
+        summary: [
+            {
+                id: 1,
+                title: 'Custom Web Development',
+                details:
+                    'We specialize in building custom websites tailored to your unique business needs. Our developers leverage the latest technologies and frameworks to create websites that are not only visually stunning but also highly functional and optimized for performance.',
+            },
+            {
+                id: 2,
+                title: 'Responsive Design',
+                details:
+                    'Ensure your website looks and functions flawlessly on all devices with our responsive design services. We create adaptive layouts that provide an optimal viewing experience across desktops, tablets, and mobile devices, enhancing user engagement and satisfaction.',
+            },
+            {
+                id: 3,
+                title: 'E-Commerce Development',
+                details:
+                    'Expand your business with a powerful e-commerce platform tailored to your needs. We build secure, user-friendly online stores with features like payment gateway integration, inventory management, and customer management systems, providing a seamless shopping experience for your customers.',
+            },
+            {
+                id: 4,
+                title: 'Website Maintenance',
+                details:
+                    'Keep your website up-to-date and performing at its best with our comprehensive maintenance and support services. We provide regular updates, security patches, performance optimizations, and technical support to ensure your website remains secure and operates smoothly.',
+            },
+        ],
+    },
+
+    'landing page': {
+        products: [],
+        summary: [
+            {
+                id: 1,
+                title: 'Custom Landing Page Design',
+                details:
+                    'We create tailored landing pages that align with your brand identity and business goals. Our design team focuses on creating visually appealing layouts that are easy to navigate, ensuring that your message is clear and compelling.',
+            },
+            {
+                id: 2,
+                title: 'SEO-Friendly Design',
+                details:
+                    'Improve your search engine visibility with our SEO-friendly landing page designs. We use best practices for on-page SEO, including optimized content, meta tags, and fast-loading pages, to help you rank higher and attract more organic traffic.',
+            },
+            {
+                id: 3,
+                title: 'Integration with Marketing Tools',
+                details:
+                    'Streamline your marketing efforts by integrating your landing pages with your existing marketing tools and platforms. We ensure seamless integration with CRM systems, email marketing tools, and analytics platforms to enhance your lead generation and tracking capabilities.',
+            },
+            {
+                id: 4,
+                title: 'CRO',
+                details:
+                    'Our landing pages are strategically designed to convert visitors into leads or customers. We use proven techniques such as compelling headlines, persuasive copy, strong calls to action, and optimized forms to maximize your conversion rates.',
+            },
+        ],
+    },
+    devops: {
+        products: [],
+        summary: [
+            {
+                id: 1,
+                title: 'Monitoring and Logging',
+                details:
+                    'Gain real-time insights into your systems and applications with our advanced monitoring and logging solutions. Proactively identify issues, improve performance, and ensure optimal uptime and reliability.',
+            },
+            {
+                id: 2,
+                title: 'Security and Compliance',
+                details:
+                    'Integrate security into every stage of the DevOps lifecycle. Our services include automated security checks, compliance auditing, and vulnerability management to protect your assets and maintain regulatory compliance.',
+            },
+
+            {
+                id: 3,
+                title: 'Cloud Services and Migration',
+                details:
+                    'Move to the cloud with confidence. We provide end-to-end support for cloud adoption, including strategy, migration, management, and optimization. Maximize the benefits of cloud computing while minimizing risks and costs.',
+            },
+
+            {
+                id: 4,
+                title: 'Infrastructure as Code (IaC)',
+                details:
+                    'Leverage the power of automation by managing your infrastructure with code. Our IaC practices ensure consistency, scalability, and reproducibility across your environments, making your infrastructure more efficient and cost-effective.',
+            },
+        ],
+    },
+
+    webflow: {
+        products: [],
+        summary: [
+            {
+                id: 1,
+                title: 'Custom Design',
+                details:
+                    'Your website will be customised to meet your specific requirements. Webflow allows you to create a personalised website faster than ever before.',
+            },
+            {
+                id: 2,
+                title: 'Third-party Integration',
+                details:
+                    'Want to save time and increase your productivity? Easily integrate your Webflow analytics and CRM applications with our clever integration solution.',
+            },
+            {
+                id: 3,
+                title: 'E-commerce',
+                details:
+                    'Get your payment-secure web store developed with Webflow, which is fast-loading, SEO-friendly, and conversion-ready.',
+            },
+            {
+                id: 4,
+                title: 'Performance Optimization',
+                details:
+                    "Don't let slow loading times undermine your UX strategy. Webflow allows you to optimise your site's performance and provide a smooth experience.",
+            },
+            {
+                id: 5,
+                title: 'SEO Optimization',
+                details:
+                    "Improve your Webflow website's search engine visibility with built-in SEO tools and lightning-fast load times.",
+            },
+            {
+                id: 6,
+                title: 'On-going Maintenance',
+                details:
+                    'Your website should not crash or lag. We ensure that your users have a flawless Webflow experience.',
+            },
+        ],
+    },
+};

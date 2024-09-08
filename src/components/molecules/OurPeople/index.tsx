@@ -33,13 +33,14 @@ export const OurPeople = () => {
                                 {...ANIMATE_PROPS({ delay: 0, from: 'bottom' })}
                                 className="font-eudoxus text-[18px] font-normal leading-6 text-[#484848] lg:text-lg lg:leading-[26px]"
                             >
-                                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
-                                laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi
-                                architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas
-                                sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione
-                                voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit
-                                amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut
-                                labore et dolore magnam aliquam quaerat voluptatem.
+                                At CVSpan, we believe in the power of a global perspective. As a leading design agency,
+                                we are proud to be part of an international community of talented professionals who
+                                bring diverse ideas, experiences, and creativity to every project. Our remote-first
+                                approach allows us to collaborate with clients and team members from all corners of the
+                                world, fostering an inclusive environment where innovation thrives. Become part of an
+                                international community that values creativity, collaboration, and excellence. Together,
+                                we create impactful designs that make a difference on a global scale. Let’s shape the
+                                future of digital experiences, one project at a time.
                             </motion.div>
                         </div>
 

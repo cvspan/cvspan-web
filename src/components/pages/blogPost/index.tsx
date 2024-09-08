@@ -11,9 +11,7 @@ const BlogPost = () => {
     return (
         <>
             <Navbar light />
-            <div className="mt-[100px] px-4 md:px-6 lg:px-8">
-                <BlogPostLanding />
-            </div>
+            <BlogPostLanding />
             <Summary />
             <CTA_MissAnything />
             <Footer />

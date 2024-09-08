@@ -13,6 +13,7 @@ function Button({
     fullWidth = false,
     animateRightIconOnHover = false,
     onClick = () => null,
+    className,
 }: {
     title: string;
     background?: 'blue' | 'white-no-border' | 'white-with-border' | 'dark' | 'transparent';
@@ -24,6 +25,7 @@ function Button({
     fullWidth?: boolean;
     animateRightIconOnHover?: boolean;
     onClick?: any;
+    className?: string;
 }) {
     const _height = `h-[${height}]`;
     const _background =
@@ -45,7 +47,10 @@ function Button({
         <motion.button
             onClick={onClick}
             whileHover="on_hover"
-            className={`group flex w-auto cursor-pointer items-center justify-center gap-[16px] overflow-hidden rounded-[100px] border-[1px] text-[16px] font-[500] leading-[24px] transition duration-300 ease-in-out ${_fullWidth} ${_background} ${_height} ${_padding}`}
+            className={cn(
+                `group flex w-auto cursor-pointer items-center justify-center gap-[16px] overflow-hidden rounded-[100px] border-[1px] text-[16px] font-[500] leading-[24px] transition duration-300 ease-in-out ${_fullWidth} ${_background} ${_height} ${_padding}`,
+                className,
+            )}
         >
             <span className="font-eudoxus text-inherit">{title}</span>
             {!rightIcon ? null : (

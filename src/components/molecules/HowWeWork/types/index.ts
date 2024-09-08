@@ -3,4 +3,5 @@ export type HowWeWork = {
     index?: number;
     title?: string;
     description?: string;
+    img?: string;
 };
