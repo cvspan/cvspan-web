@@ -21,7 +21,9 @@ export default function Homepage() {
             <Homelanding />
             <Clients />
             <StoriesCard />
-            <DigitalProducts />
+            <div id="HOMEPAGE_DIGITAL_PRODUCTS_TARGET">
+                <DigitalProducts />
+            </div>
             <FactsAndFigures
                 title="Facts & Figures"
                 description={`We have developed over 20 sustainable startup products and assisted more than 100 brands in securing substantial funding, achieving successful acquisitions, and establishing themselves as globally recognized companies.`}

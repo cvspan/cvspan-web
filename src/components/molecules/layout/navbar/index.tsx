@@ -3,8 +3,8 @@ import React from 'react';
 import { NavBrand, NavMenu, NavLetsTalkButton } from './components';
 import { MobileNav } from './components/MobileNav';
 
-function Navbar({ light }: { light?: boolean }) {
-    const [_light, setLight] = React.useState<boolean | false>(light);
+function Navbar({ light = false }: { light?: boolean }) {
+    const [_light, setLight] = React.useState<boolean>(light);
 
     const onNavbarBgChange = () => {
         window.scrollY >= 820 ? setLight(true) : setLight(_light ? true : false);
@@ -16,11 +16,11 @@ function Navbar({ light }: { light?: boolean }) {
             window.removeEventListener('scroll', onNavbarBgChange);
         };
     }, []);
-    // bg-white/90
+
     return (
         <>
             <header
-                className={`${_light ? 'bg-transparent' : 'bg-transparent'} hidden lg:fixed lg:left-0 lg:right-0 lg:top-0 lg:z-50 lg:block`}
+                className={`${_light ? 'relative bg-white/60 invert-0 backdrop-blur-[10px]' : 'bg-transparent'} relative hidden lg:fixed lg:left-0 lg:right-0 lg:top-0 lg:z-50 lg:block`}
             >
                 <div>
                     <section className="flex w-full flex-col justify-center px-5 lg:h-20">
@@ -45,7 +45,7 @@ function Navbar({ light }: { light?: boolean }) {
                                         </button>
                                     </div>
                                     <NavMenu isLight={_light} />
-                                    <NavLetsTalkButton />
+                                    <NavLetsTalkButton isLight={_light} />
                                 </div>
                             </div>
                         </div>

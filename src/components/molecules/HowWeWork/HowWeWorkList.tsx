@@ -7,22 +7,26 @@ const HOWWEWORK: HowWeWork[] = [
         id: 1,
         title: 'Discovery',
         description: 'Once we’ve heard more about your goals and timeline, we’ll start assembling your team',
+        img: '/assets/icons/Discovery.svg',
     },
     {
         id: 2,
         title: 'Staffing',
         description:
             'We’ll send you high-quality candidates for consideration, ensuring a perfect fit for your company',
+        img: '/assets/icons/Staffing.svg',
     },
     {
         id: 3,
         title: 'Kickoff',
         description: 'Your new development team will work tirelessly to deliver on your product vision',
+        img: '/assets/icons/Kickoff.svg',
     },
     {
         id: 4,
         title: 'Ramp up',
         description: 'Following release, we’ll easily scale your team to match your product’s success',
+        img: '/assets/icons/Rampoff.svg',
     },
 ];
 export const HowWeWorkList = () => {

@@ -5,7 +5,7 @@ export const OurTeamHeader = () => {
     const router = useRouter();
     return (
         <div>
-            <div className="flex items-end justify-between">
+            <div className="flex flex-col gap-[32px] lg:flex-row lg:items-end lg:justify-between">
                 <div className="max-w-[565px]">
                     <span>
                         <h2 className="font-eudoxus text-[34px] font-medium leading-[42px] text-black lg:text-5xl lg:leading-[56px]">

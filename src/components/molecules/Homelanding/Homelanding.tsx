@@ -3,8 +3,15 @@ import React from 'react';
 import Button from '../Button';
 import { motion } from 'framer-motion';
 import { ANIMATE_PROPS } from '@/helpers/motion';
+import Link from 'next/link';
 
 const Homelanding = () => {
+    const scrollTo_HOMEPAGE_DIGITAL_PRODUCTS_TARGET = () => {
+        // Select the element you want to scroll to
+        const target = document.getElementById('HOMEPAGE_DIGITAL_PRODUCTS_TARGET');
+        if (target?.scrollIntoView) target.scrollIntoView({ behavior: 'smooth' });
+    };
+
     return (
         <div className="relative h-[110vh] w-full bg-[#0c0c0c] px-5 sm:h-[820px]">
             <div className="absolute left-0 top-0">
@@ -44,8 +51,18 @@ const Homelanding = () => {
                         {...ANIMATE_PROPS({ delay: 0.5 })}
                         className="mx-auto flex w-full max-w-[400px] flex-col justify-center gap-x-[24px] gap-y-[16px] sm:flex-row md:mx-0 md:justify-start"
                     >
-                        <Button background="white-no-border" title="OUR SERVICES" height="56px" fullWidth />
-                        <Button background="transparent" title="GET STARTED" height="56px" fullWidth />
+                        <div className="flex-1">
+                            <Button
+                                background="white-no-border"
+                                title="OUR SERVICES"
+                                height="56px"
+                                fullWidth
+                                onClick={scrollTo_HOMEPAGE_DIGITAL_PRODUCTS_TARGET}
+                            />
+                        </div>
+                        <Link href="/contact" className="flex-1">
+                            <Button background="transparent" title="GET STARTED" height="56px" fullWidth />
+                        </Link>
                     </motion.div>
                 </div>
             </div>

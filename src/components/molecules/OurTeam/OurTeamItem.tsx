@@ -1,12 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { Team } from './types';
 
 import { motion } from 'framer-motion';
 import { ANIMATE_PROPS } from '@/helpers/motion';
 
-import { avatar } from '@/components/exports/images';
+import { cn } from '@/lib/utils';
 
 // export const OurTeamItem = ({ item, index = 0 }: { item: Team; index?: number }) => {
 //     return (
@@ -65,42 +64,63 @@ export const OurTeamItem = ({ item, index = 0 }: { item: Team; index?: number })
     return (
         <motion.div
             {...ANIMATE_PROPS({ delay: 0.2 * index })}
-            className="relative col-span-3 bg-white grayscale transition-all duration-300 ease-in-out hover:grayscale-0"
+            whileHover="on_hover"
+            className="group relative bg-white transition-all duration-300 ease-in-out"
         >
             <div className="aspect-[16/9] bg-[#fafafa]">
-                <div className="relative flex flex-shrink-0 flex-grow justify-center">
-                    <Image
-                        className="w-full object-cover"
-                        src={avatar}
-                        alt={`${item.name} avatar`}
-                        width={230}
-                        height={329}
-                    />
+                <div className="h-[280px] w-full">
+                    <img className="h-full w-full object-cover" src={item?.avatar} alt={`${item.name} avatar`} />
                 </div>
             </div>
             <div className="relative mt-4 flex-grow-0">
                 <div className="flex items-center justify-between">
                     <div className="w-full">
                         <div className="flex items-center justify-between">
-                            <div className="overflow-hidden truncate text-ellipsis whitespace-nowrap font-eudoxus text-2xl font-medium leading-8 text-[#1a1a1a] hover:text-[#1a1aff]">
+                            <div className="overflow-hidden truncate text-ellipsis whitespace-nowrap font-eudoxus text-[18px] font-medium leading-[24px] text-[#1a1a1a] group-hover:text-[#1a1aff] xl:text-[24px] xl:leading-[32px]">
                                 {item.name}
                             </div>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="16"
-                                height="16"
-                                viewBox="0 0 16 16"
-                                fill="none"
-                            >
-                                <path
-                                    fillRule="evenodd"
-                                    clipRule="evenodd"
-                                    d="M0.761905 0L0.729864 2.15472L12.3214 2.15476L0 14.4762L1.52381 16L13.8452 3.67857L13.8453 15.2381L16 15.2381C16 9.65943 16 5.33943 16 0H0.761905Z"
-                                    fill="#1A1A1A"
+                            {/* <img
+                                src="/assets/icons/arrow-up-short-blue.svg"
+                                className="hidden h-[16px] w-[16px] group-hover:block"
+                            />
+                            <img
+                                src="/assets/icons/arrow-up-short-gray.svg"
+                                className="h-[16px] w-[16px] group-hover:hidden"
+                            /> */}
+
+                            <div className="relative h-[16px] w-[16px]">
+                                <motion.img
+                                    initial={{ x: -20, y: 30, opacity: 0 }}
+                                    variants={{
+                                        on_hover: {
+                                            x: 0,
+                                            y: 0,
+                                            opacity: 1,
+                                            transition: { duration: 0.2 },
+                                        },
+                                    }}
+                                    alt="button_icon"
+                                    src="/assets/icons/arrow-up-short-blue.svg"
+                                    className={cn('absolute h-full w-full object-contain', 'hidden group-hover:block')}
                                 />
-                            </svg>
+
+                                <motion.img
+                                    initial={{ x: 0, y: 0, opacity: 1 }}
+                                    variants={{
+                                        on_hover: {
+                                            x: 20,
+                                            y: -30,
+                                            opacity: 0,
+                                            transition: { duration: 0.2 },
+                                        },
+                                    }}
+                                    alt="button_icon"
+                                    src="/assets/icons/arrow-up-short-gray.svg"
+                                    className={cn('absolute h-full w-full object-contain', 'block group-hover:hidden')}
+                                />
+                            </div>
                         </div>
-                        <div className="font-eudoxus text-sm font-normal leading-[22px] text-[#1a1a1a]">
+                        <div className="mt-[0.6px] font-eudoxus text-sm font-normal leading-[22px] text-[#484848]">
                             {item.role}
                         </div>
                     </div>

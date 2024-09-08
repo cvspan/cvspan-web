@@ -4,14 +4,18 @@ import React from 'react';
 import Button from '../Button';
 import { motion } from 'framer-motion';
 import { ANIMATE_PROPS } from '@/helpers/motion';
+import { caseStudies, TCaseStudy } from './data';
 import './style.css';
+import Link from 'next/link';
 
-const SingleCard = () => {
+const SingleCard = ({ card = {} }: { card?: TCaseStudy }) => {
     return (
         <motion.div {...ANIMATE_PROPS({ delay: 0 })} className="fdp_card" whileHover="on_hover">
-            <div className="fdp_card_img_wrapper" />
+            <div className="fdp_card_img_wrapper">
+                <img src={card?.img} className="h-full w-full object-cover" />
+            </div>
             <div className="fdp_card_title_wrapper">
-                <h2 className="fdp_card_title">Insight</h2>
+                <h2 className="fdp_card_title">{card?.title}</h2>
                 {/* <img className="arrow_black h-[22px] w-[22px]" src="/assets/icons/arrow-top-right-black.svg" />
                 <img className="arrow_blue h-[22px] w-[22px]" src="/assets/icons/arrow-top-right-blue.svg" /> */}
 
@@ -52,24 +56,24 @@ const SingleCard = () => {
                 }}
                 className="fdp_card_desc"
             >
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore{' '}
+                {card?.description}
             </motion.h2>
         </motion.div>
     );
 };
 
-const CardsRow = () => {
+const CardsRow = ({ card1, card2 }: { card1?: TCaseStudy; card2?: TCaseStudy }) => {
     return (
         <div className="flex flex-1 flex-col justify-start gap-[32px] gap-y-[40px] md:flex-row md:gap-x-[24px] md:gap-y-[24px] lg:justify-end">
-            <SingleCard />
-            <SingleCard />
+            <SingleCard card={card1} />
+            <SingleCard card={card2} />
         </div>
     );
 };
 
 const FeaturedDigitalProducts = () => {
     return (
+        // cursor-[url(/assets/icons/lets-talk-cursor.svg),_pointer]
         <div className="px-5 py-[60px] lg:py-[120px]">
             <div className="mx-auto w-full max-w-[1200px] lg:flex">
                 <div className="mb-[24px] flex h-full w-full flex-row justify-between lg:sticky lg:top-[100px] lg:mb-0 lg:h-[594px] lg:max-w-[384px] lg:flex-col">
@@ -92,24 +96,26 @@ const FeaturedDigitalProducts = () => {
                     </div>
 
                     <div className="mt-auto hidden lg:block">
-                        <Button
-                            title="SEE ALL CASE STUDIES"
-                            height="56px"
-                            background="blue"
-                            animateRightIconOnHover
-                            rightIcon="/assets/icons/arrow-top-right-white.svg"
-                        />
+                        <Link href="/our-works">
+                            <Button
+                                title="SEE ALL CASE STUDIES"
+                                height="56px"
+                                background="blue"
+                                animateRightIconOnHover
+                                rightIcon="/assets/icons/arrow-top-right-white.svg"
+                            />
+                        </Link>
                     </div>
                 </div>
 
                 <div className="ml-auto">
                     <div className="mx-auto flex h-auto w-full max-w-[1200px] flex-col gap-[24px] lg:mb-[60px] lg:h-[594px] lg:flex-row">
                         <div />
-                        <CardsRow />
+                        <CardsRow card1={caseStudies[0]} card2={caseStudies[1]} />
                     </div>
                     <div className="mx-auto flex h-auto w-full max-w-[1200px] flex-col gap-[24px] md:mb-[180px] md:pt-[60px] lg:mb-[60px] lg:h-[594px] lg:flex-row lg:pt-[60px]">
                         <div />
-                        <CardsRow />
+                        <CardsRow card1={caseStudies[2]} card2={caseStudies[3]} />
                     </div>
                 </div>
             </div>

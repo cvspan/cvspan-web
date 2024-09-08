@@ -1,169 +1,109 @@
 import React from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
 import Footer from '@/components/molecules/layout/footer';
 import Navbar from '@/components/molecules/layout/navbar';
 import Cta from '@/components/molecules/CTA';
-import { avatar } from '@/components/exports/images';
 import { Team } from '@/components/molecules/OurTeam/types';
+import './style.css';
+
+interface SocialLink {
+    key: string;
+    imageUrlInActive: string;
+    imageUrlActive: string;
+}
+
+const socials: SocialLink[] = [
+    {
+        key: 'facebook',
+        imageUrlInActive: '/assets/icons/facebook-light.svg',
+        imageUrlActive: '/assets/icons/facebook-blue.svg',
+    },
+    {
+        key: 'twitter',
+        imageUrlInActive: '/assets/icons/twitter-light.svg',
+        imageUrlActive: '/assets/icons/twitter-blue.svg',
+    },
+    {
+        key: 'instagram',
+        imageUrlInActive: '/assets/icons/instagram-light.svg',
+        imageUrlActive: '/assets/icons/instagram-blue.svg',
+    },
+    {
+        key: 'linkedin',
+        imageUrlInActive: '/assets/icons/linkedin-light.svg',
+        imageUrlActive: '/assets/icons/linkedin-blue.svg',
+    },
+    {
+        key: 'youtube',
+        imageUrlInActive: '/assets/icons/youtube-light.svg',
+        imageUrlActive: '/assets/icons/youtube-blue.svg',
+    },
+];
 
 const EmployeeProfile = ({ team }: { team: Team | undefined }) => {
     return (
-        <div className="bg-white">
-            <div className="mx-auto w-full max-w-[1200px] px-5 pb-24 pt-28">
-                <div className="grid grid-cols-3 space-x-[78px]">
-                    <div className="col-span-1">
-                        <div className="aspect-[16/9] bg-[#fafafa]">
-                            <div className="relative flex flex-shrink-0 flex-grow justify-center">
-                                <Image
-                                    className="w-full object-cover"
-                                    src={avatar}
-                                    alt="avatar"
-                                    width={230}
-                                    height={329}
-                                />
-                            </div>
-                        </div>
-                        <div className="mt-6">
-                            <div className="font-eudoxus text-base font-normal text-[#a3a3a3]">Connect</div>
-                        </div>
-                        <div className="mt-4">
-                            <div className="flex space-x-3">
-                                <Link
-                                    href="/#"
-                                    className="inline-flex h-8 w-8 items-center justify-center rounded-full border-[0.3px] border-solid border-[#1a1a1a] hover:border-[#1a1aff] hover:bg-[#1a1aff]"
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="16"
-                                        height="16"
-                                        viewBox="0 0 16 16"
-                                        fill="black"
-                                    >
-                                        <path d="M11.4758 8.88546L11.8904 6.15536H9.2968V4.38449C9.2968 3.6374 9.65845 2.90876 10.8201 2.90876H12V0.58449C12 0.58449 10.9297 0.400024 9.90685 0.400024C7.76986 0.400024 6.37443 1.70789 6.37443 4.07459V6.15536H4V8.88546H6.37443V15.4857C6.85114 15.5613 7.33881 15.6 7.83562 15.6C8.33242 15.6 8.82009 15.5613 9.2968 15.4857V8.88546H11.4758Z" />
-                                    </svg>
-                                </Link>
-                                <Link
-                                    href="/#"
-                                    className="inline-flex h-8 w-8 items-center justify-center rounded-full border-[0.3px] border-solid border-[#1a1a1a] hover:border-[#1a1aff] hover:bg-[#1a1aff]"
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="16"
-                                        height="16"
-                                        viewBox="0 0 16 16"
-                                        fill="black"
-                                    >
-                                        <path d="M14.0384 4.78714C14.0446 4.92795 14.0446 5.06235 14.0446 5.20315C14.0508 9.47196 10.9144 14.4 5.17895 14.4C3.48731 14.4 1.82655 13.8944 0.400391 12.9472C0.647344 12.9792 0.894298 12.992 1.14125 12.992C2.54271 12.992 3.90713 12.5056 5.01225 11.6032C3.6787 11.5776 2.50567 10.6752 2.0982 9.35676C2.56741 9.45276 3.04897 9.43356 3.50583 9.29916C2.05498 9.00476 1.0116 7.67995 1.00543 6.13755C1.00543 6.12475 1.00543 6.11195 1.00543 6.09915C1.4376 6.34875 1.92533 6.48955 2.41924 6.50235C1.05482 5.55515 0.628823 3.66714 1.45612 2.18874C3.0428 4.21114 5.37651 5.43355 7.88309 5.56795C7.62996 4.44794 7.9757 3.27034 8.78447 2.47674C10.0378 1.25433 12.0134 1.31833 13.1988 2.61754C13.8964 2.47674 14.5694 2.20794 15.1806 1.83034C14.946 2.57914 14.4582 3.21274 13.81 3.61594C14.4274 3.53914 15.0324 3.36634 15.6004 3.11034C15.1806 3.76314 14.6496 4.32634 14.0384 4.78714Z" />
-                                    </svg>
-                                </Link>
-                                <Link
-                                    href="/#"
-                                    className="inline-flex h-8 w-8 items-center justify-center rounded-full border-[0.3px] border-solid border-[#1a1a1a] hover:border-[#1a1aff] hover:bg-[#1a1aff]"
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="16"
-                                        height="16"
-                                        viewBox="0 0 16 16"
-                                        fill="none"
-                                    >
-                                        <g clipPath="url(#clip0_1735_7900)">
-                                            <path d="M8.00001 1.44184C10.1374 1.44184 10.3883 1.45137 11.233 1.48948C12.0143 1.52441 12.4367 1.65462 12.7193 1.76578C13.0941 1.91187 13.3609 2.08337 13.6403 2.36284C13.9198 2.64232 14.0945 2.90909 14.2374 3.28384C14.3454 3.56649 14.4788 3.98888 14.5137 4.77015C14.5518 5.61493 14.5613 5.86582 14.5613 8.00318C14.5613 10.1405 14.5518 10.3914 14.5137 11.2362C14.4788 12.0175 14.3486 12.4399 14.2374 12.7225C14.0913 13.0973 13.9198 13.364 13.6403 13.6435C13.3609 13.923 13.0941 14.0977 12.7193 14.2406C12.4367 14.3486 12.0143 14.4819 11.233 14.5169C10.3883 14.555 10.1374 14.5645 8.00001 14.5645C5.86265 14.5645 5.61175 14.555 4.76697 14.5169C3.98571 14.4819 3.56332 14.3517 3.28067 14.2406C2.90592 14.0945 2.63914 13.923 2.35967 13.6435C2.08019 13.364 1.90552 13.0973 1.76261 12.7225C1.65463 12.4399 1.52124 12.0175 1.48631 11.2362C1.44819 10.3914 1.43867 10.1405 1.43867 8.00318C1.43867 5.86582 1.44819 5.61493 1.48631 4.77015C1.52124 3.98888 1.65145 3.56649 1.76261 3.28384C1.9087 2.90909 2.08019 2.64232 2.35967 2.36284C2.63914 2.08337 2.90592 1.90869 3.28067 1.76578C3.56332 1.6578 3.98571 1.52441 4.76697 1.48948C5.61175 1.44819 5.86582 1.44184 8.00001 1.44184ZM8.00001 0C5.82771 0 5.55459 0.00952759 4.70028 0.047638C3.84915 0.0857483 3.26797 0.22231 2.75983 0.419214C2.23263 0.622469 1.78801 0.898769 1.34339 1.34339C0.89877 1.78801 0.625646 2.23581 0.419214 2.75983C0.222311 3.26796 0.0857484 3.84915 0.047638 4.70345C0.0095276 5.55459 0 5.82771 0 8C0 10.1723 0.0095276 10.4454 0.047638 11.2997C0.0857484 12.1509 0.222311 12.732 0.419214 13.2434C0.62247 13.7705 0.89877 14.2152 1.34339 14.6598C1.78801 15.1044 2.23581 15.3775 2.75983 15.584C3.26797 15.7809 3.84915 15.9174 4.70346 15.9555C5.55777 15.9936 5.82771 16.0032 8.00318 16.0032C10.1786 16.0032 10.4486 15.9936 11.3029 15.9555C12.154 15.9174 12.7352 15.7809 13.2465 15.584C13.7737 15.3807 14.2184 15.1044 14.663 14.6598C15.1076 14.2152 15.3807 13.7674 15.5871 13.2434C15.7841 12.7352 15.9206 12.154 15.9587 11.2997C15.9968 10.4454 16.0064 10.1755 16.0064 8C16.0064 5.82453 15.9968 5.55458 15.9587 4.70028C15.9206 3.84915 15.7841 3.26796 15.5871 2.75665C15.3839 2.22946 15.1076 1.78484 14.663 1.34021C14.2184 0.895594 13.7706 0.622469 13.2465 0.416038C12.7384 0.219135 12.1572 0.0825724 11.3029 0.0444621C10.4454 0.00952759 10.1723 0 8.00001 0Z" />
-                                            <path
-                                                d="M8.00001 1.44184C10.1374 1.44184 10.3883 1.45137 11.233 1.48948C12.0143 1.52441 12.4367 1.65462 12.7193 1.76578C13.0941 1.91187 13.3609 2.08337 13.6403 2.36284C13.9198 2.64232 14.0945 2.90909 14.2374 3.28384C14.3454 3.56649 14.4788 3.98888 14.5137 4.77015C14.5518 5.61493 14.5613 5.86582 14.5613 8.00318C14.5613 10.1405 14.5518 10.3914 14.5137 11.2362C14.4788 12.0175 14.3486 12.4399 14.2374 12.7225C14.0913 13.0973 13.9198 13.364 13.6403 13.6435C13.3609 13.923 13.0941 14.0977 12.7193 14.2406C12.4367 14.3486 12.0143 14.4819 11.233 14.5169C10.3883 14.555 10.1374 14.5645 8.00001 14.5645C5.86265 14.5645 5.61175 14.555 4.76697 14.5169C3.98571 14.4819 3.56332 14.3517 3.28067 14.2406C2.90592 14.0945 2.63914 13.923 2.35967 13.6435C2.08019 13.364 1.90552 13.0973 1.76261 12.7225C1.65463 12.4399 1.52124 12.0175 1.48631 11.2362C1.44819 10.3914 1.43867 10.1405 1.43867 8.00318C1.43867 5.86582 1.44819 5.61493 1.48631 4.77015C1.52124 3.98888 1.65145 3.56649 1.76261 3.28384C1.9087 2.90909 2.08019 2.64232 2.35967 2.36284C2.63914 2.08337 2.90592 1.90869 3.28067 1.76578C3.56332 1.6578 3.98571 1.52441 4.76697 1.48948C5.61175 1.44819 5.86582 1.44184 8.00001 1.44184Z"
-                                                fill="black"
-                                            />
-                                            <path
-                                                d="M8.00019 3.89362C5.73263 3.89362 3.89062 5.73244 3.89062 8.00318C3.89062 10.2739 5.72945 12.1127 8.00019 12.1127C10.2709 12.1127 12.1098 10.2739 12.1098 8.00318C12.1098 5.73244 10.2709 3.89362 8.00019 3.89362ZM8.00019 10.6677C6.52659 10.6677 5.33247 9.47361 5.33247 8.00001C5.33247 6.52641 6.52659 5.33228 8.00019 5.33228C9.47379 5.33228 10.6679 6.52641 10.6679 8.00001C10.6679 9.47361 9.47379 10.6677 8.00019 10.6677Z"
-                                                fill="white"
-                                            />
-                                            <path
-                                                d="M12.2716 4.68757C12.8013 4.68757 13.2307 4.25816 13.2307 3.72846C13.2307 3.19876 12.8013 2.76935 12.2716 2.76935C11.7419 2.76935 11.3125 3.19876 11.3125 3.72846C11.3125 4.25816 11.7419 4.68757 12.2716 4.68757Z"
-                                                fill="white"
-                                            />
-                                        </g>
-                                        <defs>
-                                            <clipPath id="clip0_1735_7900">
-                                                <rect width="16" height="16" fill="white" />
-                                            </clipPath>
-                                        </defs>
-                                    </svg>
-                                </Link>
-
-                                <Link
-                                    href="/#"
-                                    className="inline-flex h-8 w-8 items-center justify-center rounded-full border-[0.3px] border-solid border-[#1a1a1a] hover:border-[#1a1aff] hover:bg-[#1a1aff]"
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="16"
-                                        height="16"
-                                        viewBox="0 0 16 16"
-                                        fill="none"
-                                    >
-                                        <g clipPath="url(#clip0_1735_7902)">
-                                            <path
-                                                d="M14.8189 0H1.18111C0.867861 0 0.567441 0.124438 0.34594 0.34594C0.124438 0.567441 0 0.867861 0 1.18111V14.8189C0 15.1321 0.124438 15.4326 0.34594 15.6541C0.567441 15.8756 0.867861 16 1.18111 16H14.8189C15.1321 16 15.4326 15.8756 15.6541 15.6541C15.8756 15.4326 16 15.1321 16 14.8189V1.18111C16 0.867861 15.8756 0.567441 15.6541 0.34594C15.4326 0.124438 15.1321 0 14.8189 0ZM4.76889 13.63H2.36333V5.98889H4.76889V13.63ZM3.56445 4.93C3.29158 4.92846 3.02528 4.84613 2.79916 4.69339C2.57304 4.54065 2.39723 4.32435 2.29392 4.07179C2.19061 3.81923 2.16443 3.54173 2.21869 3.2743C2.27294 3.00688 2.4052 2.76152 2.59877 2.56919C2.79234 2.37686 3.03854 2.24618 3.30631 2.19364C3.57408 2.1411 3.85141 2.16906 4.1033 2.27399C4.35519 2.37892 4.57036 2.55611 4.72164 2.78321C4.87293 3.01031 4.95355 3.27713 4.95333 3.55C4.95591 3.73269 4.92167 3.91403 4.85267 4.0832C4.78368 4.25238 4.68132 4.40593 4.55171 4.53471C4.42211 4.66349 4.2679 4.76486 4.09828 4.83277C3.92867 4.90068 3.74711 4.93375 3.56445 4.93ZM13.6356 13.6367H11.2311V9.46222C11.2311 8.23111 10.7078 7.85111 10.0322 7.85111C9.31889 7.85111 8.61889 8.38889 8.61889 9.49333V13.6367H6.21333V5.99445H8.52667V7.05333H8.55778C8.79 6.58333 9.60333 5.78 10.8444 5.78C12.1867 5.78 13.6367 6.57667 13.6367 8.91L13.6356 13.6367Z"
-                                                fill="black"
-                                            />
-                                        </g>
-                                        <defs>
-                                            <clipPath id="clip0_1735_7902">
-                                                <rect width="16" height="16" fill="white" />
-                                            </clipPath>
-                                        </defs>
-                                    </svg>
-                                </Link>
-                                <Link
-                                    href="/#"
-                                    className="inline-flex h-8 w-8 items-center justify-center rounded-full border-[0.3px] border-solid border-[#1a1a1a] hover:border-[#1a1aff] hover:bg-[#1a1aff]"
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="16"
-                                        height="12"
-                                        viewBox="0 0 16 12"
-                                        fill="none"
-                                    >
-                                        <path
-                                            d="M15.6704 2.1529C15.4859 1.46757 14.9456 0.927205 14.2602 0.742692C13.0082 0.400024 7.99997 0.400024 7.99997 0.400024C7.99997 0.400024 2.99175 0.400024 1.7397 0.729512C1.06754 0.914025 0.514001 1.46757 0.329488 2.1529C0 3.40495 0 6.00132 0 6.00132C0 6.00132 0 8.61086 0.329488 9.84974C0.514001 10.5351 1.05436 11.0754 1.7397 11.2599C3.00493 11.6026 7.99997 11.6026 7.99997 11.6026C7.99997 11.6026 13.0082 11.6026 14.2602 11.2731C14.9456 11.0886 15.4859 10.5483 15.6704 9.86292C15.9999 8.61086 15.9999 6.0145 15.9999 6.0145C15.9999 6.0145 16.0131 3.40495 15.6704 2.1529Z"
-                                            fill="black"
-                                        />
-                                        <path d="M6.40527 8.4L10.57 6.00133L6.40527 3.60266V8.4Z" fill="white" />
-                                    </svg>
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-span-2">
-                        <div>
-                            <span>
-                                <h1 className="font-pp-mori text-6xl font-semibold leading-[60px]">{team?.name}</h1>
-                                <div>
-                                    <span className="font-eudoxus text-2xl font-medium text-[#a3a3a3]">
-                                        {team?.role}
-                                    </span>
+        <>
+            <div className="scroll_watcher_wrapper">
+                <div className="scroll_watcher"></div>
+            </div>
+            <div className="mt-[60px] bg-white lg:mt-[100px]">
+                <div className="mx-auto w-full max-w-[1200px] px-5 pb-24 pt-28">
+                    <div className="grid-cols-3 md:grid md:space-x-[78px]">
+                        <div className="col-span-1">
+                            <div className="aspect-[16/9] bg-[#fafafa]">
+                                <div className="relative flex flex-shrink-0 flex-grow justify-center">
+                                    <img src={team?.avatar} />
                                 </div>
-                            </span>
-                            <div className="my-[25px] h-px w-full bg-[#f4f4f4]" />
-                            <div className="font-eudoxus text-lg font-normal leading-[26px] text-[#1a1a1a]">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-                                dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                                mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit
-                                voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo
-                                inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim
-                                ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur
-                                magni dolores eos qui ratione voluptatem sequi nesciunt.
+                            </div>
+                            <div className="mt-6">
+                                <div className="font-eudoxus text-base font-normal text-[#a3a3a3]">Connect</div>
+                            </div>
+                            <div className="mt-4 flex items-center gap-[12px]">
+                                {socials.map((item) => {
+                                    return (
+                                        <button key={item?.key} className="group relative h-[32px] w-[32px]">
+                                            <img
+                                                src={item?.imageUrlInActive}
+                                                className="absolute left-0 top-0 h-full w-full transition-all duration-100 ease-in-out group-hover:scale-0"
+                                            />
+
+                                            <img
+                                                src={item?.imageUrlActive}
+                                                className="absolute left-0 top-0 h-full w-full scale-0 transition-all duration-100 ease-in-out group-hover:scale-100"
+                                            />
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                        <div className="col-span-2 mt-[32px] md:mt-0">
+                            <div>
+                                <span>
+                                    <h1 className="font-pp-mori text-6xl font-semibold leading-[60px]">{team?.name}</h1>
+                                    <div>
+                                        <span className="font-eudoxus text-2xl font-medium text-[#a3a3a3]">
+                                            {team?.role}
+                                        </span>
+                                    </div>
+                                </span>
+                                <div className="my-[25px] h-px w-full bg-[#f4f4f4]" />
+                                {Array.isArray(team?.bio)
+                                    ? team.bio.map((bio, index) => {
+                                          return (
+                                              <div
+                                                  key={index}
+                                                  className="mb-[25px] font-eudoxus text-lg font-normal leading-[26px] text-[#1a1a1a]"
+                                              >
+                                                  {bio}
+                                              </div>
+                                          );
+                                      })
+                                    : undefined}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 

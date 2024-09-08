@@ -8,6 +8,13 @@
 
 .fdp_card_desc {
     @apply text-[18px] font-[400] leading-[26px] text-[#484848] md:text-[16px] md:leading-[24px];
+
+    width: 100%;
+    /* this code clamps based on specified lines */
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    display: -webkit-box;
 }
 
 .fdp_card_title {
