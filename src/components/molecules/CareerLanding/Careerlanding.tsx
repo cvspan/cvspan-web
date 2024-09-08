@@ -54,7 +54,7 @@ const Careerlanding = (props: Props) => {
                     </motion.p>
                     <motion.div
                         {...ANIMATE_PROPS({ delay: 0.3 })}
-                        className="mx-auto flex w-full max-w-[400px] justify-center"
+                        className="mx-auto flex w-full max-w-[400px] justify-center pt-2"
                     >
                         <Link href="/careers/open-position">
                             <Button title="JOIN US" fullWidth height="56px" />

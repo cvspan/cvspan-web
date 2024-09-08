@@ -4,7 +4,6 @@ import Button from '@/components/molecules/Button';
 import { motion } from 'framer-motion';
 import { ANIMATE_PROPS } from '@/helpers/motion';
 
-import './index.css';
 import Link from 'next/link';
 export const OurVisionAndMission = () => {
     return (
@@ -42,7 +41,9 @@ export const OurVisionAndMission = () => {
                                 </div>
                             </div>
 
-                            <div className="bike-bg col-span-2"></div>
+                            <div className="col-span-2 flex h-full max-h-[354px] justify-end pt-[40px]">
+                                <img src="/assets/images/workflow.webp" className="h-full" />
+                            </div>
                         </div>
                     </div>
                     <div className="col-span-2 md:col-span-1">
