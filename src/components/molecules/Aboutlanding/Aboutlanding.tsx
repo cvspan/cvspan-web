@@ -41,7 +41,7 @@ const Aboutlanding = (props: Props) => {
     };
 
     return (
-        <div className="relative h-screen bg-[#0c0c0c] md:h-[820px]">
+        <div className="relative h-screen overflow-x-hidden bg-[#0c0c0c] md:h-[820px]">
             <div className="absolute left-0 top-0 z-10">
                 <img src={'/assets/images/haomepage_banner.png'} alt="elipse" />
             </div>

@@ -2,16 +2,21 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ANIMATE_PROPS } from '@/helpers/motion';
 import { useRouter } from 'next/navigation';
+import useWindowSize from '@/hooks/general/useWindowSize';
 
 const Cta = () => {
     const router = useRouter();
+
+    const { width } = useWindowSize();
+    const smallDevice = width < 600;
+
     return (
         <div
             onClick={() => router.push('/contact')}
-            className="bg-cta-bg m-auto w-full cursor-[url(/assets/icons/lets-talk-cursor.svg),_pointer] bg-cover bg-center bg-no-repeat bg-origin-border py-[60px] pb-12 pl-6 pr-6 pt-12 text-white lg:py-[120px]"
+            className="bg-cta-bg m-auto w-full cursor-[url(/assets/icons/lets-talk-cursor.svg),_pointer] overflow-x-hidden bg-cover bg-center bg-no-repeat bg-origin-border py-[60px] pb-12 pl-6 pr-6 pt-12 text-white lg:py-[120px]"
         >
             <div className="m-auto flex h-full w-full max-w-[1200px] flex-col justify-between gap-[40px] md:flex-row">
-                <motion.div {...ANIMATE_PROPS({ from: 'left' })}>
+                <motion.div {...ANIMATE_PROPS({ from: 'left', disable: smallDevice })}>
                     <h1
                         className="font-euxodus font-medium text-white lg:w-[6/12]"
                         style={{ fontSize: 'clamp(3rem, 8.6875vw, 7.5rem)', lineHeight: 1 }}
@@ -20,7 +25,7 @@ const Cta = () => {
                     </h1>
                 </motion.div>
                 <motion.div
-                    {...ANIMATE_PROPS({ from: 'right' })}
+                    {...ANIMATE_PROPS({ from: 'right', disable: smallDevice })}
                     className="flex flex-col gap-5 md:items-end md:justify-between lg:justify-between"
                 >
                     <motion.p className="">

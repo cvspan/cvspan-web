@@ -13,12 +13,11 @@ const Homelanding = () => {
     };
 
     return (
-        <div className="relative h-[110vh] w-full bg-[#0c0c0c] px-5 sm:h-[820px]">
+        <div className="relative h-[110vh] w-full overflow-x-hidden bg-[#0c0c0c] px-5 sm:h-[820px]">
             <div className="absolute left-0 top-0">
                 <img src={'/assets/images/haomepage_banner.png'} alt="elipse" />
             </div>
 
-            {/* <div className="pointer-events-none absolute bottom-0 right-0 h-[750px] w-[620px]"> */}
             <div className="absolute bottom-0 right-0 w-full">
                 <div className="mx-auto flex w-full max-w-[1200px] justify-end">
                     <img
