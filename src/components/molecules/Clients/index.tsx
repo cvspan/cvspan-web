@@ -72,10 +72,10 @@ const Clients = ({ darkMode = false, containerClassName }: { darkMode?: boolean;
         >
             <div className="relative mx-auto w-full max-w-[1200px]">
                 <div
-                    className={`absolute left-0 top-0 z-[133] hidden h-full w-[450px] bg-gradient-to-r ${darkMode ? 'from-[#0C0C0C]' : 'from-[#ffffff]'} md:block`}
+                    className={`absolute left-0 top-0 z-[10] hidden h-full w-[450px] bg-gradient-to-r ${darkMode ? 'from-[#0C0C0C]' : 'from-[#ffffff]'} md:block`}
                 />
                 <div
-                    className={`absolute right-0 top-0 z-[133] hidden h-full w-[450px] bg-gradient-to-l ${darkMode ? 'from-[#0C0C0C]' : 'from-[#ffffff]'} md:block`}
+                    className={`absolute right-0 top-0 z-[10] hidden h-full w-[450px] bg-gradient-to-l ${darkMode ? 'from-[#0C0C0C]' : 'from-[#ffffff]'} md:block`}
                 />
 
                 <Marquee speed={50}>

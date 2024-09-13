@@ -33,7 +33,7 @@ const Careerlanding = (props: Props) => {
     }, {});
 
     return (
-        <div className="relative h-screen bg-[#0c0c0c] md:h-[820px]">
+        <div className="relative h-screen overflow-x-hidden bg-[#0c0c0c] md:h-[820px]">
             <div className="absolute left-0 top-0 z-10">
                 <img src={'/assets/images/haomepage_banner.png'} alt="elipse" />
             </div>
@@ -54,7 +54,7 @@ const Careerlanding = (props: Props) => {
                     </motion.p>
                     <motion.div
                         {...ANIMATE_PROPS({ delay: 0.3 })}
-                        className="mx-auto flex w-full max-w-[400px] justify-center"
+                        className="mx-auto flex w-full max-w-[400px] justify-center pt-2"
                     >
                         <Link href="/careers/open-position">
                             <Button title="JOIN US" fullWidth height="56px" />

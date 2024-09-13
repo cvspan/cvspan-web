@@ -8,8 +8,10 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import SplitType from 'split-type';
 import Clients from '@/components/molecules/Clients';
+import Link from 'next/link';
 
 import './style.css';
+
 type Props = {};
 
 const Aboutlanding = (props: Props) => {
@@ -32,8 +34,14 @@ const Aboutlanding = (props: Props) => {
         };
     }, {});
 
+    const scrollTo_HOMEPAGE_DIGITAL_PRODUCTS_TARGET = () => {
+        // Select the element you want to scroll to
+        const target = document.getElementById('HOMEPAGE_DIGITAL_PRODUCTS_TARGET');
+        if (target?.scrollIntoView) target.scrollIntoView({ behavior: 'smooth' });
+    };
+
     return (
-        <div className="relative h-screen bg-[#0c0c0c] md:h-[820px]">
+        <div className="relative h-screen overflow-x-hidden bg-[#0c0c0c] md:h-[820px]">
             <div className="absolute left-0 top-0 z-10">
                 <img src={'/assets/images/haomepage_banner.png'} alt="elipse" />
             </div>
@@ -56,8 +64,19 @@ const Aboutlanding = (props: Props) => {
                         {...ANIMATE_PROPS({ delay: 0.3 })}
                         className="flex w-full max-w-[400px] flex-col gap-[24px] pt-[10px] md:flex-row"
                     >
-                        <Button title="OUR SERVICES" fullWidth height="56px" background="white-no-border" />
-                        <Button title="GET STARTED" fullWidth height="56px" background="transparent" />
+                        <Link href="/#HOMEPAGE_DIGITAL_PRODUCTS_TARGET" className="flex-1">
+                            <Button
+                                title="OUR SERVICES"
+                                fullWidth
+                                height="56px"
+                                background="white-no-border"
+                                onClick={scrollTo_HOMEPAGE_DIGITAL_PRODUCTS_TARGET}
+                            />
+                        </Link>
+
+                        <Link href="/contact" className="flex-1">
+                            <Button title="GET STARTED" fullWidth height="56px" background="transparent" />
+                        </Link>
                     </motion.div>
                 </div>
 

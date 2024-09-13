@@ -5,7 +5,7 @@ import Rectangle from '../../../../public/assets/images/Rectangle.png';
 const BlogPostLanding = () => {
     return (
         <>
-            <div className="mx-auto w-full max-w-[1200px] pt-10">
+            <div className="mx-auto mt-[100px] w-full max-w-[1200px] px-4 pt-10 md:px-6 lg:px-8">
                 <div>
                     <h1 className="xs:text-[30px] xs:font-[500] font-pp-mori text-[40px] font-[600] leading-tight sm:text-[34px] md:text-[40px] lg:text-[96px]">
                         Top 10 Digital Design Agencies
@@ -36,7 +36,7 @@ const BlogPostLanding = () => {
             <Image
                 src={Rectangle}
                 alt="  alt text"
-                className="mt-5 h-auto w-full overflow-hidden object-cover sm:h-[208px] lg:h-[377px]"
+                className="mt-[60px] h-auto w-full overflow-hidden object-cover sm:h-[208px] lg:h-[377px]"
             />
         </>
     );

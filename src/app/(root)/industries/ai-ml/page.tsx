@@ -1,6 +1,6 @@
 'use client';
 
-import { design } from '@/components/molecules/arrayOfFeatures/arrays';
+import { industries } from '@/components/molecules/arrayOfFeatures/arrays';
 import SharedFeaturesComponent from '@/components/molecules/sharedFeaturesComponent/SharedFeaturesComponent';
 import React from 'react';
 
@@ -10,7 +10,6 @@ import Footer from '@/components/molecules/layout/footer';
 import Faqs from '@/components/molecules/FAQS';
 import Testimonials from '@/components/molecules/Testimonials';
 import Cta from '@/components/molecules/CTA';
-import CustomizableDesign from '@/components/molecules/customizableDesign/CustomizableDesign';
 import GetThings from '@/components/molecules/GetThings';
 
 const Page = () => {
@@ -18,18 +17,19 @@ const Page = () => {
         <>
             <Navbar light={false} />
             <Landing
-                Heading={'AI & ML'}
-                subHeading={`As a UI/UX design agency, we create successful digital products that combine user needs with business goals. Our human centred design approach makes it happen.`}
+                bannerImage="/assets/images/headers/industries/alml.svg"
+                Heading={'Expert Designers for AI Products'}
+                subHeading={`We provide design solutions that transform your sophisticated AI product into a digital experience that is transparent, trustworthy, easy to use, and intuitive.`}
             />
 
             <SharedFeaturesComponent
-                intro="Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo."
-                title="Discover the benefits of professional UIUX design service "
-                arrayOfFeatures={design}
-                description="Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+                intro="AI has gained immense popularity, with startups everywhere integrating it into their offerings. In this landscape, the emphasis has shifted from the technology itself to the unique experiences that set a product apart."
+                title="How we design AI products that cater to user needs "
+                arrayOfFeatures={industries['ai-ml'].summary}
+                description="Our expertise in designing UX for AI and ML firms has refined our understanding of user requirements, allowing us to develop AI solutions that are truly impactful and meaningful."
             />
             {/* <CustomizableDesign /> */}
-            <GetThings title="Benefits of our Design Services" />
+            <GetThings title="AI products that our team can develop" products={industries['ai-ml'].products} />
             <Faqs />
             <Testimonials />
             <Cta />

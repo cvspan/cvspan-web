@@ -9,26 +9,28 @@ import Footer from '@/components/molecules/layout/footer';
 import Faqs from '@/components/molecules/FAQS';
 import Testimonials from '@/components/molecules/Testimonials';
 import Cta from '@/components/molecules/CTA';
-import CustomizableDesign from '@/components/molecules/customizableDesign/CustomizableDesign';
+
 import GetThings from '@/components/molecules/GetThings';
+import { industries } from '@/components/molecules/arrayOfFeatures/arrays';
 
 const Page = () => {
     return (
         <>
             <Navbar light={false} />
             <Landing
-                Heading={'Saas'}
-                subHeading={`As a UI/UX design agency, we create successful digital products that combine user needs with business goals. Our human centred design approach makes it happen.`}
+                bannerImage="/assets/images/headers/industries/saas.svg"
+                Heading={'Scale your product with professional SaaS Design'}
+                subHeading={`Our skilled product designers are used to develop fresh SaaS offerings, enhance or revamp current ones, and propel your company forward.`}
             />
 
             <SharedFeaturesComponent
                 intro="Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo."
                 title="Discover the benefits of professional UIUX design service "
-                arrayOfFeatures={design}
+                arrayOfFeatures={industries.saas.summary}
                 description="Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
             />
             {/* <CustomizableDesign /> */}
-            <GetThings title="Benefits of our Design Services" />
+            <GetThings title="SaaS products that our team can develop" products={industries.saas.products} />
             <Faqs />
             <Testimonials />
             <Cta />

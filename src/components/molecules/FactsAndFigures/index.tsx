@@ -4,6 +4,7 @@ import Button from '@/components/molecules/Button';
 import FactCard from './FactCard';
 import { motion } from 'framer-motion';
 import { ANIMATE_PROPS } from '@/helpers/motion';
+import Link from 'next/link';
 
 const FactsAndFigures = ({
     title = 'Facts & Figures',
@@ -43,16 +44,18 @@ const FactsAndFigures = ({
                             </div>
 
                             <div className="relative w-full max-w-[189px]">
-                                <Button
-                                    title="ABOUT US"
-                                    height="56px"
-                                    fullWidth
-                                    background="transparent"
-                                    rightIconSize="12px"
-                                    rightIcon="/assets/icons/arrow-top-right-white.svg"
-                                    rightIconHover="/assets/icons/arrow-top-right-gray.svg"
-                                    animateRightIconOnHover
-                                />
+                                <Link href="/about">
+                                    <Button
+                                        title="ABOUT US"
+                                        height="56px"
+                                        fullWidth
+                                        background="transparent"
+                                        rightIconSize="12px"
+                                        rightIcon="/assets/icons/arrow-top-right-white.svg"
+                                        rightIconHover="/assets/icons/arrow-top-right-gray.svg"
+                                        animateRightIconOnHover
+                                    />
+                                </Link>
                             </div>
                         </motion.div>
                         <div className="grid gap-6 sm:grid-cols-2 sm:grid-rows-2">

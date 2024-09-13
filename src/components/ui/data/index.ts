@@ -1,0 +1,62 @@
+import { Team } from '@/components/molecules/OurTeam/types';
+export const TEAMS: Team[] = [
+    {
+        id: 'moses-arfo',
+        name: 'Moses Arfo',
+        role: 'Founder & CEO',
+        avatar: '/assets/images/team/moses.png',
+        linkedin: '',
+        bio: [
+            "Hello! I’m Moses Arfo, I'm a UX/UI Design leader who focuses on crafting user experiences and design systems for software, web and mobile products. I’ve been a design leader for more than a decade, overseeing various interdisciplinary teams, fostering relationships with designers and stakeholders in order to develop design approaches that is beneficial to businesses",
+            "I approach both design and leadership with a people-first mindset, developing empathy for the people who create and utilise the products and services I help bring to life. Throughout my career, I've worked with various industries such as Web 3, Fintech, SaaS, Healthcare, AI and ML, leading design teams to develop insight-driven, human-centered",
+        ],
+    },
+    {
+        id: 'tobi-olowu',
+        name: 'Tobi Olowu',
+        role: 'VP Designs',
+        avatar: '/assets/images/team/tobi.png',
+        linkedin: '/',
+        bio: [],
+    },
+    {
+        id: 'charles-eshimokhai',
+        name: 'Charles Eshimokhai',
+        role: 'VP Operations',
+        avatar: '/assets/images/team/charles.png',
+        linkedin: '/',
+        bio: [],
+    },
+    {
+        id: 'josiah-arkson',
+        name: 'Josiah Arkson',
+        role: 'Lead Frontend Developer',
+        avatar: '/assets/images/team/josiah.png',
+        linkedin: '/',
+        bio: [],
+    },
+    {
+        id: 'abdulmateen-bello',
+        name: 'Abdulmateen Bello',
+        role: 'Engineering Manager',
+        avatar: '/assets/images/team/abdulmateen.png',
+        linkedin: '/',
+        bio: [],
+    },
+    {
+        id: 'samuel-ekanem',
+        name: 'Samuel Ekanem',
+        role: 'UIUX Design Lead',
+        avatar: '/assets/images/team/samuel.png',
+        linkedin: '/',
+        bio: [],
+    },
+    {
+        id: 'david-arfo',
+        name: 'David Arfo',
+        role: 'Project Manager',
+        avatar: '',
+        linkedin: '/',
+        bio: [],
+    },
+];
