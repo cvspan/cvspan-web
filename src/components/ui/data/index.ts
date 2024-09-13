@@ -1,4 +1,5 @@
 import { Team } from '@/components/molecules/OurTeam/types';
+
 export const TEAMS: Team[] = [
     {
         id: 'moses-arfo',

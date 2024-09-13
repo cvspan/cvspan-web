@@ -5,14 +5,18 @@ import { TEAMS } from '@/components/ui/data';
 function getRandomItems({ arr = [] }: { arr?: any[] }) {
     if (!Array.isArray(arr)) return [];
 
+    // CREATE A NEW ARRAY SO THAT THE EXISITNG ARRAY IS NOT MUTATED
+    // OR CHANGED
+    const newArray = [...arr];
+
     // Shuffle the array using the Fisher-Yates algorithm
-    for (let i = arr.length - 1; i > 0; i--) {
+    for (let i = newArray.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
+        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
     }
 
     // Return the first 5 items of the shuffled array (or fewer if the array has less than 5 items)
-    return arr.slice(0, 5);
+    return newArray.slice(0, 5);
 }
 
 const GlobalTeam = () => {
