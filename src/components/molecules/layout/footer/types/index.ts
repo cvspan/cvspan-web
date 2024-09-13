@@ -2,6 +2,8 @@ export type THIRD_PARTY_LINK = {
     id: number;
     text: string;
     link: string;
+    comingSoon?: boolean;
+    disabled?: boolean;
 };
 
 export type FooterLink = {

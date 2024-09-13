@@ -2,6 +2,8 @@ export type NavLink = {
     id: number;
     text: string;
     link: string;
+    disabled?: boolean;
+    comingSoon?: boolean;
 };
 
 export type SubNavbarList = {
@@ -9,7 +11,7 @@ export type SubNavbarList = {
     title: string;
     caption: string;
     link: string;
-    icon: string
+    icon: string;
 };
 
 export type NavbarList = {

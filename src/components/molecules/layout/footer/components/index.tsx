@@ -4,6 +4,8 @@ import Image from 'next/image';
 
 import { Address, THIRD_PARTY_LINK, FooterLink } from '../types';
 import { ADDRESSES, FOOTER_LINKS, THIRD_PARTY_LINKS } from '../data';
+import { cn } from '@/lib/utils';
+import ComingSoonBadge from '@/components/molecules/ComingSoonBadge';
 
 const FooterOfficeAddress = () => {
     return (
@@ -43,13 +45,25 @@ const FooterPrimaryLinks = () => {
                         <ul className="mt-6 list-none">
                             {link.links.map((subLink: THIRD_PARTY_LINK) => (
                                 <li className="pt-2" role="listitem" key={subLink.id}>
-                                    <div className="flex">
-                                        <Link
-                                            href={subLink.link}
-                                            className="text-[14px] font-normal text-[#484848] hover:underline"
-                                        >
-                                            {subLink.text}
-                                        </Link>
+                                    <div className="flex items-center gap-[8px]">
+                                        {subLink?.disabled ? (
+                                            <div
+                                                className={cn(
+                                                    'flex cursor-not-allowed items-center text-[14px] font-normal text-[#484848]',
+                                                )}
+                                            >
+                                                <span>{subLink.text}</span>
+                                            </div>
+                                        ) : (
+                                            <Link
+                                                href={subLink.link}
+                                                className={cn('text-[14px] font-normal text-[#484848] hover:underline')}
+                                            >
+                                                {subLink.text}
+                                            </Link>
+                                        )}
+
+                                        {subLink?.comingSoon ? <ComingSoonBadge /> : null}
                                     </div>
                                 </li>
                             ))}

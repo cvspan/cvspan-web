@@ -143,18 +143,24 @@ export const NavLinks: NavLink[] = [
         id: 1,
         text: 'About',
         link: '/about',
+        disabled: false,
+        comingSoon: false,
     },
 
     {
         id: 2,
         text: 'Our Works',
         link: '/',
+        disabled: true,
+        comingSoon: true,
     },
 
     {
         id: 3,
         text: 'Blog',
         link: '/cvspan-blog',
+        disabled: true,
+        comingSoon: true,
     },
 ];
 
