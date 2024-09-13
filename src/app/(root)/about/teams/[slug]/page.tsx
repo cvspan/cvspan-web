@@ -14,6 +14,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return {
         title: employee?.name,
         description: employee?.role,
+        openGraph: {
+            images: [{ width: 600, height: 600, url: employee?.avatar || '', href: employee?.avatar || '' }],
+        },
     };
 }
 
