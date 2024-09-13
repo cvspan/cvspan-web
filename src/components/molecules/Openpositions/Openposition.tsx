@@ -99,7 +99,14 @@ const Openposition = () => {
                     </motion.div>
                     <div className="ml-auto w-full lg:max-w-[800px]">
                         <div className="flex flex-col gap-[20px]">
-                            {jobListings.map((job, index) => (
+                            <div className="flex w-full gap-[12px] rounded-[8px] bg-[#F4F4F4] p-[24px]">
+                                <img src="/assets/icons/info-circle.svg" />
+                                <p className="text-[16px] font-normal leading-[24px] text-[#1A1A1A]">
+                                    We have no positions open at the moment. Check back later
+                                </p>
+                            </div>
+                            {/* PLEASE DONT DELETE */}
+                            {/* {jobListings.map((job, index) => (
                                 <Link className="cursor-pointer" href="/careers/specific-job" key={index}>
                                     <motion.div
                                         {...ANIMATE_PROPS({
@@ -162,7 +169,7 @@ const Openposition = () => {
                                         </div>
                                     </motion.div>
                                 </Link>
-                            ))}
+                            ))} */}
                         </div>
                     </div>
                 </div>

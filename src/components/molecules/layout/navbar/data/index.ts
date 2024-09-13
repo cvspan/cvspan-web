@@ -150,7 +150,7 @@ export const NavLinks: NavLink[] = [
     {
         id: 2,
         text: 'Our Works',
-        link: '/',
+        link: '/our-works',
         disabled: true,
         comingSoon: true,
     },
