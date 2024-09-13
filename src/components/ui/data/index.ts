@@ -12,6 +12,7 @@ export const TEAMS: Team[] = [
             "I approach both design and leadership with a people-first mindset, developing empathy for the people who create and utilise the products and services I help bring to life. Throughout my career, I've worked with various industries such as Web 3, Fintech, SaaS, Healthcare, AI and ML, leading design teams to develop insight-driven, human-centered",
         ],
     },
+
     {
         id: 'tobi-olowu',
         name: 'Tobi Olowu',
@@ -125,8 +126,8 @@ export const TEAMS: Team[] = [
     },
 
     {
-        id: '---',
-        name: '---',
+        id: 'temitope-bademosi',
+        name: 'Temitope Bademosi',
         role: '',
         avatar: '/assets/images/team/unamed-1.jpg',
         linkedin: '/',
@@ -141,6 +142,7 @@ export const TEAMS: Team[] = [
         linkedin: '/',
         bio: [],
     },
+
     {
         id: 'Blessing Simon',
         name: 'Blessing Simon',
