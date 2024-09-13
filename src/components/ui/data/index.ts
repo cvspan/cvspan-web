@@ -46,6 +46,7 @@ export const TEAMS: Team[] = [
         linkedin: '/',
         bio: [],
     },
+
     {
         id: 'abdulmateen-bello',
         name: 'Abdulmateen Bello',
@@ -62,10 +63,6 @@ export const TEAMS: Team[] = [
         linkedin: '/',
         bio: [
             'Samuel Ekanem brings extensive experience as a product designer, boasting over 5 years in the field. Presently he is engaged in eading the design team and product development at Advantage Health Africa while concurrently serving as a UX design mentor at Design Lab and ADPlist.org. Samuel is an active member of the Interaction Design Foundation and holds various design certifications. His enthusiasm centers on crafting captivating and innovative user experiences while refining design processes for maximum efficiency.',
-
-            'A Solution-oriented professional by nature, his background in software development coupled with his interest in human psychology led to his inevitable specialization in the field of UX Research, this in turn, has helped him lead cross-functional teams to the timely and successful delivery of user-centered and market-friendly products.',
-
-            'Outside of work he loves to travel, socialize, read, and Sketch.',
         ],
     },
 
@@ -78,6 +75,10 @@ export const TEAMS: Team[] = [
         linkedin: '/',
         bio: [
             'Franklyn is a certified Agile Project Manager with a BSc in Metallurgical and Materials Engineering. He brings a wealth of expertise as a seasoned ProjectManager, with over a decade of experience in Electronic security, tech-Sales, and healthcare sectors.',
+
+            'A Solution-oriented professional by nature, his background in software development coupled with his interest in human psychology led to his inevitable specialization in the field of UX Research, this in turn, has helped him lead cross-functional teams to the timely and successful delivery of user-centered and market-friendly products.',
+
+            'Outside of work he loves to travel, socialize, read, and Sketch.',
         ],
     },
 
