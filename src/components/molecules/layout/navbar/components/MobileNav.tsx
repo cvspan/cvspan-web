@@ -28,7 +28,7 @@ export const MobileNav = ({ isLight }: { isLight: boolean }) => {
     };
     return (
         <header
-            className={`${menuActive || isLight ? 'bg-white' : 'bg-transparent'} fixed left-0 right-0 top-0 z-50 bg-transparent lg:hidden`}
+            className={`${menuActive || isLight ? 'bg-white/60 invert-0 backdrop-blur-[10px]' : 'bg-transparent'} fixed left-0 right-0 top-0 z-50 bg-transparent lg:hidden`}
         >
             <div>
                 <section className="flex w-full flex-col justify-center gap-y-10">
