@@ -63,11 +63,7 @@ import { cn } from '@/lib/utils';
 export const OurTeamItem = ({ item, index = 0 }: { item: Team; index?: number }) => {
     const hasBio = Array.isArray(item?.bio) && item?.bio?.length ? true : false;
     return (
-        <motion.div
-            {...ANIMATE_PROPS({ delay: 0 })}
-            whileHover="on_hover"
-            className="group relative bg-white transition-all duration-300 ease-in-out"
-        >
+        <motion.div whileHover="on_hover" className="group relative bg-white transition-all duration-300 ease-in-out">
             <div className="aspect-[16/9] bg-[#fafafa]">
                 <div className="h-[280px] w-full overflow-hidden">
                     {!item?.avatar ? null : (
