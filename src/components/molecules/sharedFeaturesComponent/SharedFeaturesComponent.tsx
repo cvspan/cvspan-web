@@ -3,6 +3,7 @@ import SharedFeaturedCard from './sharedFeatureCard/SharedFeaturedCard';
 import Button from '../Button';
 import { motion } from 'framer-motion';
 import { ANIMATE_PROPS } from '@/helpers/motion';
+import Link from 'next/link';
 
 interface Feature {
     title: string;
@@ -22,7 +23,7 @@ const SharedFeaturesComponent: React.FC<SharedFeaturesProps> = ({
     arrayOfFeatures = [],
 }) => {
     return (
-        <section className="overflow-x-hidden px-[16px] py-[60px] lg:py-[120px]">
+        <section className="overflow-x-clip px-[16px] py-[60px] lg:py-[120px]">
             <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-[32px] lg:flex-row">
                 <motion.div
                     {...ANIMATE_PROPS({ delay: 0, from: 'left' })}
@@ -30,14 +31,16 @@ const SharedFeaturesComponent: React.FC<SharedFeaturesProps> = ({
                 >
                     <p className="font-eudoxus text-[14px] text-[#484848]">{intro}</p>
                     <div className="mt-[40px] w-full">
-                        <Button
-                            title="LET'S TALK"
-                            rightIconSize="12px"
-                            rightIcon="/assets/icons/arrow-forward-slant.svg"
-                            height="56px"
-                            fullWidth={true}
-                            animateRightIconOnHover
-                        />
+                        <Link href="/contact">
+                            <Button
+                                title="LET'S TALK"
+                                rightIconSize="12px"
+                                rightIcon="/assets/icons/arrow-forward-slant.svg"
+                                height="56px"
+                                fullWidth={true}
+                                animateRightIconOnHover
+                            />
+                        </Link>
                     </div>
                 </motion.div>
                 <div className="ml-auto w-full lg:max-w-[800px]">

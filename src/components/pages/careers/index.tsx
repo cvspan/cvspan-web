@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 
 import { OurPeople } from '@/components/molecules/OurPeople';
