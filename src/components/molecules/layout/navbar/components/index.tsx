@@ -9,6 +9,7 @@ import { motion } from 'framer-motion';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 
 import '../Navbar.css';
+import { cn } from '@/lib/utils';
 
 export const NavBrand = ({ isLight }: { isLight: boolean }) => {
     return (
@@ -100,15 +101,21 @@ export const NavMenu = ({ isLight }: { isLight: boolean }) => {
                 </div> */}
             </div>
 
-            {NavLinks.map((navLink: NavLink) => (
-                <Link
-                    href={navLink.link}
-                    className={`inline-flex items-center font-eudoxus text-[34px] font-medium leading-[42px] hover:underline lg:text-sm lg:font-normal lg:leading-[22px] ${isLight ? 'text-[#1a1a1a]' : 'text-white'}`}
-                    key={navLink.id}
-                >
-                    {navLink.text}
-                </Link>
-            ))}
+            {NavLinks.map((navLink: NavLink) => {
+                const className = `inline-flex items-center font-eudoxus text-[34px] font-medium leading-[42px] hover:underline lg:text-sm lg:font-normal lg:leading-[22px] ${isLight ? 'text-[#1a1a1a]' : 'text-white'}`;
+
+                if (navLink.disabled)
+                    return (
+                        <div className={cn(className, 'cursor-not-allowed')} key={navLink.id}>
+                            {navLink.text}
+                        </div>
+                    );
+                return (
+                    <Link href={navLink.link} className={className} key={navLink.id}>
+                        {navLink.text}
+                    </Link>
+                );
+            })}
         </div>
     );
 };

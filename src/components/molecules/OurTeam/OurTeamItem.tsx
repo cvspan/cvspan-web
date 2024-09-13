@@ -61,22 +61,25 @@ import { cn } from '@/lib/utils';
 //     );
 // };
 export const OurTeamItem = ({ item, index = 0 }: { item: Team; index?: number }) => {
+    const hasBio = Array.isArray(item?.bio) && item?.bio?.length ? true : false;
     return (
-        <motion.div
-            {...ANIMATE_PROPS({ delay: 0.2 * index })}
-            whileHover="on_hover"
-            className="group relative bg-white transition-all duration-300 ease-in-out"
-        >
+        <motion.div whileHover="on_hover" className="group relative bg-white transition-all duration-300 ease-in-out">
             <div className="aspect-[16/9] bg-[#fafafa]">
-                <div className="h-[280px] w-full">
-                    <img className="h-full w-full object-cover" src={item?.avatar} alt={`${item.name} avatar`} />
+                <div className="h-[280px] w-full overflow-hidden">
+                    {!item?.avatar ? null : (
+                        <img
+                            className="h-full w-full scale-[105%] object-cover transition duration-300 ease-in-out group-hover:scale-[100%]"
+                            src={item?.avatar}
+                            alt={`${item.name} avatar`}
+                        />
+                    )}
                 </div>
             </div>
             <div className="relative mt-4 flex-grow-0">
                 <div className="flex items-center justify-between">
                     <div className="w-full">
                         <div className="flex items-center justify-between">
-                            <div className="overflow-hidden truncate text-ellipsis whitespace-nowrap font-eudoxus text-[18px] font-medium leading-[24px] text-[#1a1a1a] group-hover:text-[#1a1aff] xl:text-[24px] xl:leading-[32px]">
+                            <div className="overflow-hidden truncate text-ellipsis whitespace-nowrap font-eudoxus text-[18px] font-medium leading-[24px] text-[#1a1a1a] group-hover:text-[#1a1aff] xl:text-[20px] xl:leading-[28px]">
                                 {item.name}
                             </div>
                             {/* <img
@@ -88,7 +91,7 @@ export const OurTeamItem = ({ item, index = 0 }: { item: Team; index?: number })
                                 className="h-[16px] w-[16px] group-hover:hidden"
                             /> */}
 
-                            <div className="relative h-[16px] w-[16px]">
+                            <div className={cn('relative h-[16px] w-[16px]', !hasBio ? 'hidden' : '')}>
                                 <motion.img
                                     initial={{ x: -20, y: 30, opacity: 0 }}
                                     variants={{
@@ -126,11 +129,13 @@ export const OurTeamItem = ({ item, index = 0 }: { item: Team; index?: number })
                     </div>
                 </div>
             </div>
-            <Link
-                href={`/about/teams/${item.id}`}
-                aria-label={`${item.name}`}
-                className="absolute left-0 top-0 z-[100] block h-full w-full overflow-hidden whitespace-nowrap bg-transparent outline-none"
-            />
+            {hasBio ? (
+                <Link
+                    href={`/about/teams/${item.id}`}
+                    aria-label={`${item.name}`}
+                    className="absolute left-0 top-0 z-[100] block h-full w-full overflow-hidden whitespace-nowrap bg-transparent outline-none"
+                />
+            ) : null}
         </motion.div>
     );
 };
