@@ -28,11 +28,13 @@ export const MobileNav = ({ isLight }: { isLight: boolean }) => {
     };
     return (
         <header
-            className={`${menuActive || isLight ? 'bg-white/60 invert-0 backdrop-blur-[10px]' : 'bg-transparent'} fixed left-0 right-0 top-0 z-50 bg-transparent lg:hidden`}
+            className={`${menuActive || isLight ? 'bg-white/60 invert-0 backdrop-blur-[10px]' : 'bg-transparent'} fixed left-0 right-0 top-0 z-[999999] bg-transparent lg:hidden`}
         >
             <div>
                 <section className="flex w-full flex-col justify-center gap-y-10">
-                    <div className="sticky top-0 z-30 flex h-20 w-full justify-between p-5">
+                    <div
+                        className={`sticky top-0 z-30 flex h-20 w-full justify-between p-5 ${menuActive ? 'bg-white' : ''}`}
+                    >
                         <Link href="/" className="relative my-auto box-border block text-white">
                             <Image
                                 src={`${menuActive || isLight ? '/assets/images/logo-black.svg' : '/assets/images/logo-transparent.svg'}`}
