@@ -31,7 +31,7 @@ export const ContactForm = () => {
         e.preventDefault();
         setloading(true);
         try {
-            const response = await axios.post('http://localhost:5001/api/v1/website/contact-us/submit', {
+            const response = await axios.post('https://api.arkson.dev/api/v1/website/contact-us/submit', {
                 fullName: formState?.fullName,
                 email: formState?.email || '',
                 message: formState?.message || '',
