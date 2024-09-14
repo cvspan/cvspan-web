@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import Navbar from '@/components/molecules/layout/navbar';
 import Footer from '@/components/molecules/layout/footer';
