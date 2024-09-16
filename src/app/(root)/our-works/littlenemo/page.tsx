@@ -12,7 +12,7 @@ import DesktopScreens from '@/components/molecules/Screens/DesktopScreens';
 
 import ImagePage from '@/components/molecules/Screens/image';
 
-export default function Nemo() {
+export default function LittleNemo() {
     return (
         <>
             <Navbar />

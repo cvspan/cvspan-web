@@ -55,6 +55,6 @@ export const caseStudies: TCaseStudy[] = [
         img: '/assets/images/case-studies/case-6.webp',
         title: 'Little Nemo',
         description: 'Little Nemo Nursery, is a nursery in Tufnell Park Road London, United Kingdom.',
-        link: '/nemo',
+        link: '/littlenemo',
     },
 ];
