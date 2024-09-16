@@ -13,7 +13,7 @@ export const caseStudies: TCaseStudy[] = [
         title: 'Courtz',
         description:
             'Your ultimate destination for hassle-free outdoor tennis court bookings and sports equipment rentals.',
-        link: '',
+        link: '/courtz',
     },
 
     {
@@ -22,7 +22,7 @@ export const caseStudies: TCaseStudy[] = [
         title: 'Neverbare',
         description:
             'NeverBare: A design agency that breaks creative barriers, transforming ideas into captivating visual experiences.',
-        link: '',
+        link: '/neverbare',
     },
 
     {
@@ -31,7 +31,7 @@ export const caseStudies: TCaseStudy[] = [
         title: 'Coastal Loans',
         description:
             'An app that offers personalized mortgage loans based on your credit score and calculates your DTI ratio, ensuring informed decisions.',
-        link: '',
+        link: '/coastalloans',
     },
 
     {
@@ -39,15 +39,15 @@ export const caseStudies: TCaseStudy[] = [
         img: '/assets/images/case-studies/case-4.webp',
         title: 'Phozio',
         description: 'With Phozio, users can discover the best photo and earn money from sharing photos.',
-        link: '',
+        link: '/phozio',
     },
 
     {
         id: '5',
-        img: '/assets/images/case-studies/case-5.webp',
+        img: '/assets/images/case-studies/case-5.png',
         title: 'Lee Deon',
         description: 'A revolutionary app that celebrates acts of kindness within your community.',
-        link: '',
+        link: '/leedeon',
     },
 
     {
@@ -55,6 +55,6 @@ export const caseStudies: TCaseStudy[] = [
         img: '/assets/images/case-studies/case-6.webp',
         title: 'Little Nemo',
         description: 'Little Nemo Nursery, is a nursery in Tufnell Park Road London, United Kingdom.',
-        link: '',
+        link: '/nemo',
     },
 ];

@@ -10,7 +10,7 @@ import Link from 'next/link';
 
 const SingleCard = ({ card = {} }: { card?: TCaseStudy }) => {
     return (
-        <Link href="/our-works/case-study">
+        <Link href={`/our-works/${card.link}`}>
             <motion.div {...ANIMATE_PROPS({ delay: 0 })} className="fdp_card" whileHover="on_hover">
                 <div className="fdp_card_img_wrapper">
                     <img src={card?.img} className="h-full w-full object-cover" />

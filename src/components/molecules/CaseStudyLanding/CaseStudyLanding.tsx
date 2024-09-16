@@ -53,11 +53,6 @@ const CaseStudyLanding: React.FC<Props> = ({ header, paragraph, buttons }) => {
                                 {button}
                             </p>
                         ))}
-                        {/* <p className="w-fit rounded-full bg-white px-3 py-1 text-sm text-black">UI/UX DESIGN</p>
-                        <p className="w-fit rounded-full bg-white px-3 py-1 text-sm text-black">UX STRATEGY</p>
-                        <p className="w-fit rounded-full bg-white px-3 py-1 text-sm text-black">MOBILE DESIGN</p>
-                        <p className="w-fit rounded-full bg-white px-3 py-1 text-sm text-black">3D DESIGN</p>
-                        <p className="w-fit rounded-full bg-white px-3 py-1 text-sm text-black">SEO</p> */}
                     </motion.div>
                 </div>
 
