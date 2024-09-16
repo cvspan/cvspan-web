@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
     title: 'CV Span',
-    description: 'CV Span website',
+    description: 'We Create Awesome Stuff',
 };
 
 export default function RootLayout({

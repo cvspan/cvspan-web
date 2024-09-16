@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import Spinner from '@/components/molecules/Spinner';
 
 function Button({
     title,
@@ -14,6 +15,7 @@ function Button({
     animateRightIconOnHover = false,
     onClick = () => null,
     className,
+    loading,
 }: {
     title: string;
     background?: 'blue' | 'white-no-border' | 'white-with-border' | 'dark' | 'transparent';
@@ -26,6 +28,7 @@ function Button({
     animateRightIconOnHover?: boolean;
     onClick?: any;
     className?: string;
+    loading?: boolean;
 }) {
     const _height = `h-[${height}]`;
     const _background =
@@ -43,6 +46,8 @@ function Button({
 
     const _fullWidth = fullWidth ? 'w-full' : 'self-start';
 
+    const _spinnerColor = background === 'blue' ? '#ffffff' : '#1A1AFF';
+
     return (
         <motion.button
             onClick={onClick}
@@ -53,98 +58,105 @@ function Button({
             )}
         >
             <span className="font-eudoxus text-inherit">{title}</span>
-            {!rightIcon ? null : (
-                <div
-                    className="relative"
-                    style={{
-                        width: rightIconSize,
-                        height: rightIconSize,
-                    }}
-                >
-                    <motion.img
-                        initial={{ x: 0, y: 0, opacity: 1 }}
-                        variants={{
-                            on_hover: !animateRightIconOnHover
-                                ? {}
-                                : {
-                                      x: 20,
-                                      y: -30,
-                                      opacity: 0,
-                                      transition: { duration: 0.2 },
-                                  },
-                        }}
-                        alt="button_icon"
-                        src={rightIcon}
-                        className={cn(
-                            'absolute h-full w-full object-contain',
-                            rightIconHover ? 'block group-hover:hidden' : '',
-                        )}
-                    />
 
-                    {rightIconHover ? (
-                        <motion.img
-                            initial={{ x: 0, y: 0, opacity: 1 }}
-                            variants={{
-                                on_hover: !animateRightIconOnHover
-                                    ? {}
-                                    : {
-                                          x: 20,
-                                          y: -30,
-                                          opacity: 0,
-                                          transition: { duration: 0.2 },
-                                      },
+            {loading ? (
+                <Spinner color={_spinnerColor} />
+            ) : (
+                <>
+                    {!rightIcon ? null : (
+                        <div
+                            className="relative"
+                            style={{
+                                width: rightIconSize,
+                                height: rightIconSize,
                             }}
-                            alt="button_icon"
-                            src={rightIconHover}
-                            className={cn(
-                                'absolute h-full w-full object-contain',
-                                rightIconHover ? 'hidden group-hover:block' : '',
-                            )}
-                        />
-                    ) : null}
+                        >
+                            <motion.img
+                                initial={{ x: 0, y: 0, opacity: 1 }}
+                                variants={{
+                                    on_hover: !animateRightIconOnHover
+                                        ? {}
+                                        : {
+                                              x: 20,
+                                              y: -30,
+                                              opacity: 0,
+                                              transition: { duration: 0.2 },
+                                          },
+                                }}
+                                alt="button_icon"
+                                src={rightIcon}
+                                className={cn(
+                                    'absolute h-full w-full object-contain',
+                                    rightIconHover ? 'block group-hover:hidden' : '',
+                                )}
+                            />
 
-                    <motion.img
-                        initial={{ x: -20, y: 30, opacity: 0 }}
-                        variants={{
-                            on_hover: !animateRightIconOnHover
-                                ? {}
-                                : {
-                                      x: 0,
-                                      y: 0,
-                                      opacity: 1,
-                                      transition: { duration: 0.2 },
-                                  },
-                        }}
-                        alt="button_icon"
-                        src={rightIcon}
-                        className={cn(
-                            'absolute h-full w-full object-contain',
-                            rightIconHover ? 'block group-hover:hidden' : '',
-                        )}
-                    />
+                            {rightIconHover ? (
+                                <motion.img
+                                    initial={{ x: 0, y: 0, opacity: 1 }}
+                                    variants={{
+                                        on_hover: !animateRightIconOnHover
+                                            ? {}
+                                            : {
+                                                  x: 20,
+                                                  y: -30,
+                                                  opacity: 0,
+                                                  transition: { duration: 0.2 },
+                                              },
+                                    }}
+                                    alt="button_icon"
+                                    src={rightIconHover}
+                                    className={cn(
+                                        'absolute h-full w-full object-contain',
+                                        rightIconHover ? 'hidden group-hover:block' : '',
+                                    )}
+                                />
+                            ) : null}
 
-                    {rightIconHover ? (
-                        <motion.img
-                            initial={{ x: -20, y: 30, opacity: 0 }}
-                            variants={{
-                                on_hover: !animateRightIconOnHover
-                                    ? {}
-                                    : {
-                                          x: 0,
-                                          y: 0,
-                                          opacity: 1,
-                                          transition: { duration: 0.2 },
-                                      },
-                            }}
-                            alt="button_icon"
-                            src={rightIconHover}
-                            className={cn(
-                                'absolute h-full w-full object-contain',
-                                rightIconHover ? 'hidden group-hover:block' : '',
-                            )}
-                        />
-                    ) : null}
-                </div>
+                            <motion.img
+                                initial={{ x: -20, y: 30, opacity: 0 }}
+                                variants={{
+                                    on_hover: !animateRightIconOnHover
+                                        ? {}
+                                        : {
+                                              x: 0,
+                                              y: 0,
+                                              opacity: 1,
+                                              transition: { duration: 0.2 },
+                                          },
+                                }}
+                                alt="button_icon"
+                                src={rightIcon}
+                                className={cn(
+                                    'absolute h-full w-full object-contain',
+                                    rightIconHover ? 'block group-hover:hidden' : '',
+                                )}
+                            />
+
+                            {rightIconHover ? (
+                                <motion.img
+                                    initial={{ x: -20, y: 30, opacity: 0 }}
+                                    variants={{
+                                        on_hover: !animateRightIconOnHover
+                                            ? {}
+                                            : {
+                                                  x: 0,
+                                                  y: 0,
+                                                  opacity: 1,
+                                                  transition: { duration: 0.2 },
+                                              },
+                                    }}
+                                    alt="button_icon"
+                                    src={rightIconHover}
+                                    className={cn(
+                                        'absolute h-full w-full object-contain',
+                                        rightIconHover ? 'hidden group-hover:block' : '',
+                                    )}
+                                />
+                            ) : null}
+                        </div>
+                    )}
+                </>
             )}
         </motion.button>
     );

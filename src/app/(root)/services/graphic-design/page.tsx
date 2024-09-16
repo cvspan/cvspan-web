@@ -1,5 +1,5 @@
 'use client';
-import { brandIdentity, graphicDesign } from '@/components/molecules/arrayOfFeatures/arrays';
+import { graphicDesign } from '@/components/molecules/arrayOfFeatures/arrays';
 import SharedFeaturesComponent from '@/components/molecules/sharedFeaturesComponent/SharedFeaturesComponent';
 import React from 'react';
 
@@ -9,7 +9,6 @@ import Footer from '@/components/molecules/layout/footer';
 import Faqs from '@/components/molecules/FAQS';
 import Testimonials from '@/components/molecules/Testimonials';
 import Cta from '@/components/molecules/CTA';
-import WhatToExpect from '@/components/molecules/whatToExpect/WhatToExpect';
 import GetThings from '@/components/molecules/GetThings';
 
 const GraphicDesign = () => {
@@ -18,7 +17,7 @@ const GraphicDesign = () => {
             <Navbar light={false} />
             <Landing
                 bannerImage="/assets/images/headers/services/graphic-design.svg"
-                Heading={'Graphic Design services'}
+                Heading={'Graphic Design Services'}
                 subHeading={`As a graphic design agency, we assist products in reflecting their company values through creative illustrations, icons, and marketing materials.`}
             />
 

@@ -52,7 +52,7 @@ function Navbar({ light = false }: { light?: boolean }) {
                     </section>
                 </div>
             </header>
-            <MobileNav isLight={light} />
+            <MobileNav isLight={_light} />
         </>
     );
 }

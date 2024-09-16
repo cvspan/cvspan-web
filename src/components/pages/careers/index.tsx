@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 
 import { OurPeople } from '@/components/molecules/OurPeople';
@@ -19,9 +20,7 @@ export default function CareersPage() {
             <Careerlanding />
             <FactsAndFigures
                 title="Join a native remote company"
-                description={` CVSpan has been fully remote since day 1. We've grown the team without any geographical
-                                or cultural boundaries. Our business is remote-first in all aspects. We like to
-                                over-communicate, set clear expectations, and shared goals.`}
+                description={`CVSpan has operated as a fully remote organization since its inception, expanding our team without geographical or cultural limitations. Our business is remote-first in every aspect, prioritizing clear communication, well-defined expectations, and shared goals.`}
                 card1Number={80}
                 card2Number={56}
                 card3Number={1}

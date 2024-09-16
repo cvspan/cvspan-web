@@ -1,7 +1,27 @@
 import React from 'react';
 import CustomCountUp from '@/components/molecules/CustomCountUp';
+import { TEAMS } from '@/components/ui/data';
+
+function getRandomItems({ arr = [] }: { arr?: any[] }) {
+    if (!Array.isArray(arr)) return [];
+
+    // CREATE A NEW ARRAY SO THAT THE EXISITNG ARRAY IS NOT MUTATED
+    // OR CHANGED
+    const newArray = [...arr];
+
+    // Shuffle the array using the Fisher-Yates algorithm
+    for (let i = newArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+
+    // Return the first 5 items of the shuffled array (or fewer if the array has less than 5 items)
+    return newArray.slice(0, 5);
+}
 
 const GlobalTeam = () => {
+    const fiveRandomTeamMembers = getRandomItems({ arr: TEAMS });
+
     return (
         <div className="bg-[#0c0c0c] px-5 py-[120px]">
             <div className="m-auto max-w-[1200px]">
@@ -11,11 +31,15 @@ const GlobalTeam = () => {
                             <div className="h-full ps-6 pt-6 lg:ps-10 lg:pt-10">
                                 <div className="flex h-full flex-col">
                                     <div className="flex -space-x-4">
-                                        {Array.from([1, 2, 3, 4, 5], (x) => x).map((item) => (
+                                        {fiveRandomTeamMembers.map((item) => (
                                             <div
                                                 className="h-[70px] w-[70px] overflow-hidden rounded-full border-4 border-[#1a1a1a] bg-[#f4f4f4]"
                                                 key={item}
-                                            ></div>
+                                            >
+                                                {!item?.avatar ? null : (
+                                                    <img src={item?.avatar} className="h-full w-full" />
+                                                )}
+                                            </div>
                                         ))}
                                     </div>
                                     <div className="mb-[22px] mt-[88px] lg:mb-[41px] lg:mt-auto">
