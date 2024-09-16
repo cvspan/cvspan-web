@@ -27,9 +27,9 @@ const TheProcess = (props: Props) => {
     }, {});
 
     return (
-        <div className="bg-[#0A153E]">
+        <div className="bg-[#0A153E] px-5">
             <div className="mx-auto flex h-full w-full max-w-[1200px] flex-col gap-[60px] bg-bottom bg-no-repeat py-[120px]">
-                <h3 className="w-[564px] text-[48px] font-medium leading-[56px] text-white">
+                <h3 className="max-w-[564px] text-[48px] font-medium leading-[56px] text-white">
                     The process of Infinity Product Design
                 </h3>
                 <img src="/assets/images/process.png" alt="" />
