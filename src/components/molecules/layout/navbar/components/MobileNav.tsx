@@ -28,7 +28,7 @@ export const MobileNav = ({ isLight }: { isLight: boolean }) => {
     };
     return (
         <div
-            className={`${menuActive || isLight ? 'bg-white' : 'bg-transparent'} fixed left-0 right-0 top-0 z-[101] lg:hidden`}
+            className={`${menuActive ? 'fixed inset-0 bg-white' : 'bg-transparent'} fixed left-0 right-0 top-0 z-[101] ${isLight && 'left-0 right-0 top-0 bg-white'} lg:hidden`}
         >
             <div className="flex flex-col">
                 <header className="">
