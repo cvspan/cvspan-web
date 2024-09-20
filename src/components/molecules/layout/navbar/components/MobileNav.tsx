@@ -44,7 +44,12 @@ export const MobileNav = ({ isLight }: { isLight: boolean }) => {
                                 className="text-inherit"
                             />
                         </Link>
-                        <button type="button" onClick={onToggleMenu} className={`${menuActive ? 'hidden' : 'block'}`}>
+                        <button
+                            type="button"
+                            aria-label="Open menu"
+                            onClick={onToggleMenu}
+                            className={`${menuActive ? 'hidden' : 'block'}`}
+                        >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="40"
@@ -61,6 +66,7 @@ export const MobileNav = ({ isLight }: { isLight: boolean }) => {
                         <button
                             type="button"
                             onClick={onToggleMenu}
+                            aria-label="Close Menu"
                             className={`${menuActive ? 'visible block opacity-100' : 'invisible hidden opacity-0'}`}
                         >
                             <svg
