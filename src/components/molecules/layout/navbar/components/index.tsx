@@ -131,7 +131,7 @@ export const NavLetsTalkButton = ({ isLight }: { isLight?: boolean }) => {
                 <motion.span
                     variants={{
                         animate: {
-                            color: isLight ? '#1A1AFF' : undefined,
+                            color: isLight ? '#1A1AFF' : '#1A1AFF',
                             fontWeight: isLight ? '500' : undefined,
                         },
                     }}
