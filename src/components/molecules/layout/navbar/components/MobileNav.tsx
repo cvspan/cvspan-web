@@ -28,10 +28,10 @@ export const MobileNav = ({ isLight }: { isLight: boolean }) => {
     };
     return (
         <header
-            className={`${menuActive || isLight ? 'bg-white/60 invert-0 backdrop-blur-[10px]' : 'bg-transparent'} fixed left-0 right-0 top-0 z-[999999] bg-transparent lg:hidden`}
+            className={`${menuActive || isLight ? 'bottom-0 bg-white' : 'bg-transparent'} fixed left-0 right-0 top-0 z-[999999] lg:hidden`}
         >
-            <div>
-                <section className="flex w-full flex-col justify-center gap-y-10">
+            <div className="h-full">
+                <section className="flex h-full w-full flex-col">
                     <div
                         className={`sticky top-0 z-30 flex h-20 w-full justify-between p-5 ${menuActive ? 'bg-white' : ''}`}
                     >
@@ -84,7 +84,7 @@ export const MobileNav = ({ isLight }: { isLight: boolean }) => {
                         </button>
                     </div>
                     <div
-                        className={`${menuActive ? 'visible fixed bottom-0 left-0 right-0 top-[calc(80px-1px)] z-20 flex flex-col gap-y-10 overflow-y-scroll bg-white p-5 opacity-100' : 'invisible hidden opacity-0'}`}
+                        className={`${menuActive ? 'visible flex flex-col gap-y-10 overflow-y-scroll p-5 opacity-100' : 'invisible hidden opacity-0'}`}
                     >
                         <div className="flex flex-col gap-y-6">
                             <div className="border-box">
