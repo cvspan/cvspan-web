@@ -95,7 +95,7 @@ export const NavButtons: NavButton[] = [
         links: [
             {
                 id: 1,
-                title: 'Industries',
+                title: '',
                 list: [
                     {
                         id: 1,
