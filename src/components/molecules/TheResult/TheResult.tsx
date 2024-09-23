@@ -43,12 +43,12 @@ const TheResult = (
     }, {});
 
     return (
-        <div className="mx-auto flex h-full w-full max-w-[1200px] bg-white px-5">
+        <div className="mx-auto flex h-full w-full max-w-[1200px] bg-white">
             <div className="flex flex-col gap-[60px] py-[120px]">
                 <h3 className="w-full max-w-[564px] text-[48px] font-medium leading-[56px] text-[#1A1A1A]">
                     The Result
                 </h3>
-                <div className="flex w-full flex-col items-center gap-5 md:flex-row">
+                <div className="md:gap- flex w-full flex-col items-center gap-5 md:flex-row md:justify-around">
                     <motion.div {...ANIMATE_PROPS({ from: 'bottom', delay: 0 })}>
                         <ResultCard
                             title={'Our Web 3.0 development and design services left most users satisfied.'}

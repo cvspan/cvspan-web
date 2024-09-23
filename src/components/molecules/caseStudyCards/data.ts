@@ -44,7 +44,7 @@ export const caseStudies: TCaseStudy[] = [
 
     {
         id: '5',
-        img: '/assets/images/case-studies/case-5.png',
+        img: '/assets/images/case-studies/case-5.webp',
         title: 'Lee Deon',
         description: 'A revolutionary app that celebrates acts of kindness within your community.',
         link: '/leedeon',
