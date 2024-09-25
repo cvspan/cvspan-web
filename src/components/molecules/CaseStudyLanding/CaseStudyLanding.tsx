@@ -7,9 +7,13 @@ import { useGSAP } from '@gsap/react';
 import SplitType from 'split-type';
 
 import './style.css';
-type Props = {};
+type Props = {
+    header?: string;
+    buttons?: string[];
+    paragraph?: string;
+};
 
-const CaseStudyLanding = (props: Props) => {
+const CaseStudyLanding: React.FC<Props> = ({ header, paragraph, buttons }) => {
     useGSAP(() => {
         SplitType.create('#about_header_title_id', { charClass: 'about_title_char' });
 
@@ -40,23 +44,21 @@ const CaseStudyLanding = (props: Props) => {
                         className="about_header_title w-full text-left font-pp-mori text-[70px] font-[500] leading-[42px] text-white lg:text-[96px] lg:font-[600] lg:leading-[104px]"
                         id="about_header_title_id"
                     >
-                        CVSpan <br />
-                        Tech Agency
+                        {header}
                     </h1>
 
                     <motion.div className="flex w-full flex-row gap-[10px]" {...ANIMATE_PROPS({ delay: 0 })}>
-                        <p className="w-fit rounded-full bg-white px-3 py-1 text-sm text-black">UI/UX DESIGN</p>
-                        <p className="w-fit rounded-full bg-white px-3 py-1 text-sm text-black">UX STRATEGY</p>
-                        <p className="w-fit rounded-full bg-white px-3 py-1 text-sm text-black">MOBILE DESIGN</p>
-                        <p className="w-fit rounded-full bg-white px-3 py-1 text-sm text-black">3D DESIGN</p>
-                        <p className="w-fit rounded-full bg-white px-3 py-1 text-sm text-black">SEO</p>
+                        {buttons?.map((button, index) => (
+                            <p className="w-fit rounded-full bg-white px-3 py-1 text-sm text-black" key={index}>
+                                {button}
+                            </p>
+                        ))}
                     </motion.div>
                 </div>
 
                 <div className="w-full max-w-[390px]">
                     <motion.p className="text-[18px] text-white" {...ANIMATE_PROPS({ delay: 0 })}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                        {paragraph}
                     </motion.p>
                 </div>
             </div>

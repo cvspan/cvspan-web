@@ -151,8 +151,8 @@ export const NavLinks: NavLink[] = [
         id: 2,
         text: 'Our Works',
         link: '/our-works',
-        disabled: true,
-        comingSoon: true,
+        disabled: false,
+        comingSoon: false,
     },
 
     {

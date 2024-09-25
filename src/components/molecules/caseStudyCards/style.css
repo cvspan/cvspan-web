@@ -3,7 +3,7 @@
 }
 
 .fdp_card_img_wrapper {
-    @apply min-h-[300px] w-full flex-1 overflow-hidden bg-[#D9D9D9] transition-all duration-300 ease-in-out md:h-full md:max-w-[336px];
+    @apply min-h-[300px] w-full flex-1 overflow-hidden bg-[#D9D9D9] transition-all duration-300 ease-in-out md:h-full md:max-w-[384px];
 }
 
 .fdp_card_desc {

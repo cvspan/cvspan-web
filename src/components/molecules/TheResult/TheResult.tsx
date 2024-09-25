@@ -48,7 +48,7 @@ const TheResult = (
                 <h3 className="w-full max-w-[564px] text-[48px] font-medium leading-[56px] text-[#1A1A1A]">
                     The Result
                 </h3>
-                <div className="flex w-full flex-row items-center gap-5">
+                <div className="md:gap- flex w-full flex-col items-center gap-5 md:flex-row md:justify-around">
                     <motion.div {...ANIMATE_PROPS({ from: 'bottom', delay: 0 })}>
                         <ResultCard
                             title={'Our Web 3.0 development and design services left most users satisfied.'}
