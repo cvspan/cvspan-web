@@ -102,7 +102,7 @@ export const FOOTER_LINKS: FooterLink[] = [
                 id: 1,
                 text: 'Our works',
                 link: '/our-works',
-                disabled: true,
+                disabled: false,
                 comingSoon: false,
             },
             {

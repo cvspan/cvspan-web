@@ -41,7 +41,7 @@ const OurWorksLanding = (props: Props) => {
             <div className="relative z-20 flex h-full w-full flex-col items-center justify-start px-[10px] pt-[120px] lg:pt-[180px]">
                 <div className="mx-auto flex flex-col items-center justify-center space-y-[24px]">
                     <h1
-                        className="about_header_title w-full max-w-[1200px] text-center font-pp-mori text-[34px] font-[500] leading-[42px] text-white lg:text-[96px] lg:font-[600] lg:leading-[103px]"
+                        className="about_header_title w-full max-w-[1200px] text-center font-pp-mori text-[clamp(40px,calc(96/1200*100vw),96px)] font-[500] leading-[1.1] text-white lg:font-[600]"
                         id="about_header_title_id"
                     >
                         We turn ideas into success stories
@@ -57,7 +57,7 @@ const OurWorksLanding = (props: Props) => {
                         {...ANIMATE_PROPS({ delay: 0.3 })}
                         className="mx-auto flex w-full max-w-[400px] justify-center"
                     >
-                        <Link href="/">
+                        <Link href="/contact">
                             <Button title="BECOME A CLIENT" fullWidth height="56px" />
                         </Link>
                     </motion.div>

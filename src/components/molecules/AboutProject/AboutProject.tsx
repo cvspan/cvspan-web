@@ -9,7 +9,12 @@ import { motion } from 'framer-motion';
 import { ANIMATE_PROPS } from '@/helpers/motion';
 gsap.registerPlugin(ScrollTrigger);
 
-const AboutProject = () => {
+type Props = {
+    solution: string;
+    challenge: string;
+};
+
+const AboutProject: React.FC<Props> = ({ solution, challenge }) => {
     useGSAP(() => {
         const splitTypes = document.querySelectorAll('.reveal-type');
 
@@ -69,13 +74,7 @@ const AboutProject = () => {
                             data-bg-color="#48484830"
                             data-fg-color="#484848"
                         >
-                            Welcome to CVSpan, where creativity and innovation converge to bring your vision to life. As
-                            a forward-thinking design agency, we are dedicated to creating exceptional digital
-                            experiences that engage audiences and drive meaningful results. Our passion for design,
-                            combined with our commitment to excellence, fuels our ability to deliver impactful
-                            solutions. With a team of experts driven by creativity and dedication, we transform ideas
-                            into successful outcomes. We are excited about the opportunity to collaborate with you on
-                            your next project and help achieve your business goals.
+                            {challenge}
                         </p>
                     </div>
 
@@ -88,12 +87,7 @@ const AboutProject = () => {
                             data-bg-color="#48484830"
                             data-fg-color="#484848"
                         >
-                            At our design and development agency, our values are the foundation of everything we do,
-                            influencing both our approach to work and our collaboration with clients. We are dedicated
-                            to delivering outstanding results by upholding a core set of principles that define our
-                            identity and drive our actions: people, awareness, and growth. This value system forms a
-                            cohesive framework where our people, as our most valuable asset, achieve meaningful growth
-                            while staying focused and purposeful.
+                            {solution}
                         </p>
                     </div>
                 </div>

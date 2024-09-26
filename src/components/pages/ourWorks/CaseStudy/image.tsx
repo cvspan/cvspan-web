@@ -1,7 +1,13 @@
-export default function ImagePage() {
+type ImagePageProps = {
+    image: string;
+};
+
+const ImagePage: React.FC<ImagePageProps> = ({ image }) => {
     return (
-        <div className="w-full">
-            <img src="/assets/images/caseImage.png" alt="" />
+        <div className="flex h-fit w-full justify-center">
+            <img src={`/assets/images/screens/${image}`} alt="" />
         </div>
     );
-}
+};
+
+export default ImagePage;
