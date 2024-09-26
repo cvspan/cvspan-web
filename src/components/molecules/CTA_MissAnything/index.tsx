@@ -2,13 +2,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ANIMATE_PROPS } from '@/helpers/motion';
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 
 const CTA_MissAnything = () => {
-    const router = useRouter();
+    // const router = useRouter();
     return (
         <div
-            onClick={() => router.push('/careers/open-position')}
+            // onClick={() => router.push('/careers/open-position')}
             className="bg-cta-bg m-auto h-[300px] w-full bg-cover bg-center bg-no-repeat bg-origin-border py-[60px] pb-12 pl-6 pr-6 pt-12 text-white lg:h-[630px] lg:py-[120px]"
         >
             <div className="m-auto flex h-full w-full max-w-[1200px] flex-col justify-between gap-[40px] md:flex-row">

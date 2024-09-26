@@ -5,7 +5,6 @@ import Footer from '@/components/molecules/layout/footer';
 import Navbar from '@/components/molecules/layout/navbar';
 import Cta from '@/components/molecules/CTA';
 import { Team } from '@/components/molecules/OurTeam/types';
-import './style.css';
 
 interface SocialLink {
     key: string;
@@ -44,9 +43,6 @@ const socials: SocialLink[] = [
 const EmployeeProfile = ({ team }: { team: Team | undefined }) => {
     return (
         <>
-            <div className="scroll_watcher_wrapper">
-                <div className="scroll_watcher"></div>
-            </div>
             <div className="mt-[60px] bg-white lg:mt-[100px]">
                 <div className="mx-auto w-full max-w-[1200px] px-5 pb-24 pt-28">
                     <div className="grid-cols-3 md:grid md:space-x-[78px]">
@@ -112,7 +108,7 @@ const EmployeeProfile = ({ team }: { team: Team | undefined }) => {
 export default function EmployeePage({ team }: { team: Team | undefined }) {
     return (
         <>
-            <Navbar light={true} />
+            <Navbar light={true} showScrollWatcher />
             <EmployeeProfile team={team} />
             <Cta />
             <Footer />

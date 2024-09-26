@@ -9,10 +9,7 @@ import './index.css';
 export default function SpecificJobPage() {
     return (
         <>
-            <div className="scroll_watcher_wrapper">
-                <div className="scroll_watcher"></div>
-            </div>
-            <Navbar light />
+            <Navbar light showScrollWatcher />
             <SpecificJobDetail />
 
             <GlobalTeam />

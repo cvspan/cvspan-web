@@ -6,3 +6,10 @@ export interface ITestimonials {
     descriptionBG: string;
     descriptionSM: string;
 }
+
+export type TBlogCard = {
+    title: string;
+    author: string;
+    time: string;
+    image: string;
+};
