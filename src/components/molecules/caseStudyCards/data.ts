@@ -31,7 +31,7 @@ export const caseStudies: TCaseStudy[] = [
         title: 'Coastal Loans',
         description:
             'An app that offers personalized mortgage loans based on your credit score and calculates your DTI ratio, ensuring informed decisions.',
-        link: '/coastalloans',
+        link: '/coastal-loans',
     },
 
     {
