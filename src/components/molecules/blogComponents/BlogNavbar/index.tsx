@@ -32,12 +32,12 @@ const BlogNavbar = () => {
                             />
                         </div>
                         <div className="flex items-center gap-[32px]">
-                            <div className="flex cursor-pointer items-center gap-[6px]">
+                            <Link href="/blog/dashboard/write" className="flex cursor-pointer items-center gap-[6px]">
                                 <img src="/assets/icons/Write.svg" alt="" />
                                 <span className="font-eudoxus text-[16px] font-[400] leading-[24px] text-[#1a1a1a]">
                                     Write
                                 </span>
-                            </div>
+                            </Link>
 
                             <Dropdown />
                         </div>

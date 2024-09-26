@@ -2,9 +2,6 @@ import React from 'react';
 
 import Link from 'next/link';
 
-import { motion } from 'framer-motion';
-import { ANIMATE_PROPS } from '@/helpers/motion';
-
 import { TBlogCard } from '@/types';
 import { cn } from '@/lib/utils';
 
@@ -92,7 +89,7 @@ const BlogCard = ({ card }: { card?: TBlogCard }) => {
     return (
         <Link className="mb-8 w-full md:mx-0 md:mb-16" href="/blog/blog-post">
             <>
-                <motion.div {...ANIMATE_PROPS({ from: 'bottom' })} className="group overflow-hidden">
+                <div className="group overflow-hidden">
                     <div className="mb-5 h-[220px] w-full scale-100 overflow-hidden object-cover group-hover:scale-100">
                         <img
                             src={card?.image}
@@ -124,7 +121,7 @@ const BlogCard = ({ card }: { card?: TBlogCard }) => {
                             </div>
                         </Link>
                     </div>
-                </motion.div>
+                </div>
             </>
         </Link>
     );
