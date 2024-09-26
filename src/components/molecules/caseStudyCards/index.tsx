@@ -64,9 +64,9 @@ const SingleCard = ({ card = {} }: { card?: TCaseStudy }) => {
     );
 };
 
-const CardsRow = ({ card1, card2, card3 }: { card1?: TCaseStudy; card2?: TCaseStudy; card3?:TCaseStudy }) => {
+const CardsRow = ({ card1, card2, card3 }: { card1?: TCaseStudy; card2?: TCaseStudy; card3?: TCaseStudy }) => {
     return (
-        <div className="flex h-fit flex-1 flex-col items-center justify-center gap-[32px] gap-y-[40px] py-[60px] md:flex-row md:gap-x-[24px] md:gap-y-[24px]">
+        <div className="flex h-fit flex-1 flex-col flex-wrap items-center justify-center gap-[32px] gap-y-[40px] py-[60px] md:flex-row md:gap-x-[24px] md:gap-y-[24px]">
             <SingleCard card={card1} />
             <SingleCard card={card2} />
             <SingleCard card={card3} />
@@ -83,7 +83,7 @@ const CaseStudies = () => {
                         <CardsRow card1={caseStudies[0]} card2={caseStudies[1]} card3={caseStudies[2]} />
                     </div>
                     <div className="flex h-fit w-full max-w-[1200px] flex-col gap-[24px] lg:flex-row">
-                        <CardsRow card1={caseStudies[3]} card2={caseStudies[4]} card3={caseStudies[5]}/>
+                        <CardsRow card1={caseStudies[3]} card2={caseStudies[4]} card3={caseStudies[5]} />
                     </div>
                 </div>
             </div>

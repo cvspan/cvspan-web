@@ -41,7 +41,7 @@ const CaseStudyLanding: React.FC<Props> = ({ header, paragraph, buttons }) => {
             <div className="relative z-20 mx-auto flex h-full w-full max-w-[1200px] flex-col items-center justify-between pt-[120px] md:flex-row md:items-end md:pb-[90px] lg:pt-[180px]">
                 <div className="flex w-full max-w-[742px] flex-col gap-[23px]">
                     <h1
-                        className="about_header_title w-full text-left font-pp-mori text-[70px] font-[500] leading-[42px] text-white lg:text-[96px] lg:font-[600] lg:leading-[104px]"
+                        className="about_header_title w-full text-left font-pp-mori text-[clamp(40px,calc(96/1200*100vw),96px)] font-[500] leading-[1.1] text-white lg:font-[600]"
                         id="about_header_title_id"
                     >
                         {header}
