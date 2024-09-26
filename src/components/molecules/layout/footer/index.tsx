@@ -1,10 +1,11 @@
 import React from 'react';
 import { PrimaryFooter, SecondaryFooter } from './components';
+import { cn } from '@/lib/utils';
 
-function Footer() {
+function Footer({ showBorderTop }: { showBorderTop?: boolean }) {
     return (
-        <footer className="bg-white">
-            <div className="mx-auto w-full max-w-[1200px] px-5 pb-24 pt-28">
+        <footer className={cn('bg-white px-5', showBorderTop ? 'border-t-[1px] border-t-[#D1D1D1]' : '')}>
+            <div className="mx-auto w-full max-w-[1200px] pb-24 pt-28">
                 <div>
                     <div className="flex flex-col">
                         <PrimaryFooter />

@@ -66,7 +66,7 @@ const ResetPassword = (props: Props) => {
                         <div className="flex justify-center">
                             <p className="flex gap-[4px] text-center font-pp-mori text-[14px] font-[400] leading-[22px] text-[#000]">
                                 Remember your Password?
-                                <Link href={'/'}>
+                                <Link href={'/blog/auth/login'}>
                                     <span className="font-[500] text-[#1a1aff]">
                                         {' '}
                                         <span className="font-[500] text-[#1a1aff]"> Sign In</span>

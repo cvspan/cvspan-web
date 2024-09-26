@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React from 'react';
 import Button from '../../Button';
 import Link from 'next/link';
 
@@ -19,7 +19,7 @@ const ForgetPassword = (props: Props) => {
                         <div className="flex w-full cursor-pointer items-center justify-center gap-[12px] rounded-[100px] border-[1px] border-[#d1d1d1] px-[14px] py-[12px]">
                             <img src="/assets/icons/Google.svg" alt="" />
                             <p className="font-pp-mori text-[16px] font-[400] leading-[24px] text-[#000]">
-                                Forgot Password
+                                Sign with Google
                             </p>
                         </div>
                         <div className="flex items-center">
@@ -40,7 +40,7 @@ const ForgetPassword = (props: Props) => {
                         <div className="flex justify-center">
                             <p className="flex gap-[4px] text-center font-pp-mori text-[14px] font-[400] leading-[22px] text-[#000]">
                                 Remember your Password?
-                                <Link href={'/'}>
+                                <Link href={'/blog/auth/login'}>
                                     <span className="font-[500] text-[#1a1aff]"> Sign In</span>
                                 </Link>
                             </p>

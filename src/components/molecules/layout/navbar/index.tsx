@@ -2,8 +2,10 @@
 import React from 'react';
 import { NavBrand, NavMenu, NavLetsTalkButton } from './components';
 import { MobileNav } from './components/MobileNav';
+import { usePathname } from 'next/navigation';
+import './Navbar.css';
 
-function Navbar({ light = false }: { light?: boolean }) {
+function NavbarWrapper({ light = false, showScrollWatcher }: { light?: boolean; showScrollWatcher?: boolean }) {
     const [_light, setLight] = React.useState<boolean>(light);
 
     const onNavbarBgChange = () => {
@@ -17,8 +19,17 @@ function Navbar({ light = false }: { light?: boolean }) {
         };
     }, []);
 
+    const pathname = usePathname();
+    const isBlogPage = typeof pathname === 'string' && pathname.startsWith('/blog') ? true : false;
+
     return (
         <>
+            {showScrollWatcher ? (
+                <div className="scroll_watcher_wrapper">
+                    <div className="scroll_watcher"></div>
+                </div>
+            ) : null}
+
             <header
                 className={`${_light ? 'relative bg-white/60 invert-0 backdrop-blur-[10px]' : 'bg-transparent'} relative hidden lg:fixed lg:left-0 lg:right-0 lg:top-0 lg:z-50 lg:block`}
             >
@@ -44,17 +55,21 @@ function Navbar({ light = false }: { light?: boolean }) {
                                             </svg>
                                         </button>
                                     </div>
-                                    <NavMenu isLight={_light} />
-                                    <NavLetsTalkButton isLight={_light} />
+                                    <NavMenu isLight={_light} isBlogPage={isBlogPage} />
+                                    <NavLetsTalkButton isLight={_light} isBlogPage={isBlogPage} />
                                 </div>
                             </div>
                         </div>
                     </section>
                 </div>
             </header>
-            <MobileNav isLight={_light} />
+            <MobileNav isLight={_light} isBlogPage={isBlogPage} />
         </>
     );
 }
+
+const Navbar = ({ light = false, showScrollWatcher }: { light?: boolean; showScrollWatcher?: boolean }) => {
+    return <NavbarWrapper light={light} showScrollWatcher={showScrollWatcher} />;
+};
 
 export default Navbar;
