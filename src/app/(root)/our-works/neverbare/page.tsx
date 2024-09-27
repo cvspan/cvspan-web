@@ -9,6 +9,7 @@ import TheProcess from '@/components/molecules/TheProcess/TheProcess';
 import TheResult from '@/components/molecules/TheResult/TheResult';
 import MobileScreens from '@/components/molecules/Screens/MobileScreens';
 import DesktopScreens from '@/components/molecules/Screens/DesktopScreens';
+import Visual from '@/components/molecules/CaseVisuals/NeverbareVisual';
 
 import ImagePage from '@/components/molecules/Screens/image';
 
@@ -29,6 +30,7 @@ export default function NeverBare() {
             <TheDesign />
             <DesktopScreens desktopImage="neverbare-desktop" />
             <MobileScreens mobileImage="neverbare-mobile" />
+            <Visual />
             <TheProcess />
             <TheResult />
             <Cta />

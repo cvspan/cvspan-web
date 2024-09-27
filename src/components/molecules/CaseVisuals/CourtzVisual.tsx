@@ -30,15 +30,15 @@ function LeeDeonVisual() {
                 <div className="mx-auto flex h-full w-full max-w-[1200px] flex-col gap-[60px]">
                     <div className="flex max-w-[655px] flex-col gap-5">
                         <h3 className="text-[48px] font-medium text-[#16171B]">Design System</h3>
-                        <motion.p className="text-[18px] font-medium text-[#484848]" {...ANIMATE_PROPS({ delay: 0 })}>
+                        <motion.p className="text-[18px] text-[#484848]" {...ANIMATE_PROPS({ delay: 0 })}>
                             Considering that the platform should have a dark and light theme, we created the design
                             system to shift the ideas to components.
                         </motion.p>
                     </div>
 
                     <div className="flex flex-col flex-wrap gap-10 pb-[56px]">
-                        <div className="flex w-full flex-row flex-wrap justify-between gap-8">
-                            <div className="flex h-[472px] w-[calc(68%-32px)] flex-col items-center justify-between rounded-2xl border-[3px] border-[#D1D1FF] p-[42px]">
+                        <div className="flex w-full flex-row flex-wrap gap-4 md:gap-8">
+                            <div className="flex h-[472px] w-full flex-col items-center justify-between rounded-2xl border-[1px] border-[#0000004D] p-[30px] md:p-[42px] xl:w-[790px]">
                                 <div className="flex h-fit w-full flex-row items-center justify-between font-medium">
                                     <h1 className="text-[36px]">Typography</h1>
                                     <p className="text-[36px]">Inter</p>
@@ -60,41 +60,43 @@ function LeeDeonVisual() {
                                     <p className="text-[16px]">Inter, 14px</p>
                                 </div>
                                 <div className="flex h-fit w-full flex-row items-center justify-between font-medium">
-                                    <h5 className="text-[12px]">Body</h5>
+                                    <h5 className="text-[14px]">Body</h5>
                                     <p className="text-[16px]">Inter, 12px</p>
                                 </div>
                                 <div className="flex h-fit w-full flex-row items-center justify-between font-medium">
-                                    <h6 className="text-[10px]">Small Text</h6>
+                                    <h6 className="text-[14px]">Small Text</h6>
                                     <p className="text-[16px]">Inter, 10px</p>
                                 </div>
                             </div>
 
-                            <div className="flex h-[472px] w-[calc(33.33%-32px)] flex-col rounded-2xl text-lg text-white">
-                                <span className="flex h-[94.4px] w-full items-center justify-center rounded-t-2xl bg-[#E6E8EA] text-[#000000]">
-                                    <p className="text-[32px] font-medium">#E6E8EA</p>
+                            <div className="flex h-[389px] w-[calc(50%-16px)] flex-col rounded-2xl text-lg text-white lg:w-[calc(25%-24px)] xl:h-[472px] xl:w-[378px]">
+                                <span className="flex h-[94.4px] w-full items-center justify-center rounded-t-2xl bg-[#E6E8EA] px-6 text-[#000000]">
+                                    <p className="text-[16px] font-medium lg:text-[32px]">#E6E8EA</p>
                                 </span>
-                                <span className="flex h-[94.4px] w-full items-center justify-center bg-[#ACAEB2]">
-                                    <p className="text-[32px] font-medium">#ACAEB2</p>
+                                <span className="flex h-[94.4px] w-full items-center justify-center bg-[#ACAEB2] px-6">
+                                    <p className="text-[16px] font-medium lg:text-[32px]">#ACAEB2</p>
                                 </span>
-                                <span className="flex h-[94.4px] w-full items-center justify-center bg-[#BABABA]">
-                                    <p className="text-[32px] font-medium">#BABABA</p>
+                                <span className="flex h-[94.4px] w-full items-center justify-center bg-[#BABABA] px-6">
+                                    <p className="text-[16px] font-medium lg:text-[32px]">#BABABA</p>
                                 </span>
-                                <span className="flex h-[94.4px] w-full items-center justify-center bg-[#8E8E8E]">
-                                    <p className="text-[32px] font-medium">#8E8E8E</p>
+                                <span className="flex h-[94.4px] w-full items-center justify-center bg-[#8E8E8E] px-6">
+                                    <p className="text-[16px] font-medium lg:text-[32px]">#8E8E8E</p>
                                 </span>
-                                <span className="flex h-[94.4px] w-full items-center justify-center rounded-b-2xl bg-[#1D2333]">
-                                    <p className="text-[32px] font-medium">#1D2333</p>
+                                <span className="flex h-[94.4px] w-full items-center justify-center rounded-b-2xl bg-[#1D2333] px-6">
+                                    <p className="text-[16px] font-medium lg:text-[32px]">#1D2333</p>
                                 </span>
                             </div>
 
-                            <div className="flex h-[389px] w-[calc(33.33%-32px)] items-end justify-start rounded-2xl bg-[#1D2333] pb-[24px] pl-[40px] text-lg text-[#16171B]">
-                                <p className="text-[32px] font-medium text-white">#1D2333</p>
+                            <div className="flex h-[389px] w-[calc(50%-16px)] items-end justify-center rounded-2xl bg-[#1D2333] px-6 pb-[24px] text-lg text-[#16171B] md:justify-start md:px-[40px] lg:w-[calc(25%-24px)] xl:w-[378px]">
+                                <p className="text-[16px] font-medium text-white lg:text-[32px]">#1D2333</p>
                             </div>
-                            <div className="flex h-[389px] w-[calc(33.33%-32px)] items-end justify-start rounded-2xl border-[1px] border-[#0000004D] bg-[#FFFFFF] pb-[24px] pl-[40px] text-lg text-[#16171B]">
-                                <p className="text-[32px] font-medium">#FFFFFF</p>
+
+                            <div className="flex h-[389px] w-[calc(50%-16px)] items-end justify-center rounded-2xl border-[1px] border-[#0000004D] bg-[#FFFFFF] px-6 pb-[24px] text-lg text-black md:justify-start md:px-[40px] lg:w-[calc(25%-24px)] xl:w-[378px]">
+                                <p className="text-[16px] font-medium lg:text-[32px]">#FFFFFF</p>
                             </div>
-                            <div className="flex h-[389px] w-[calc(33.33%-32px)] items-end justify-start rounded-2xl bg-[#2B64E2] pb-[24px] pl-[40px] text-lg text-white">
-                                <p className="text-[32px] font-medium">#2B64E2</p>
+
+                            <div className="flex h-[389px] w-[calc(50%-16px)] items-end justify-center rounded-2xl bg-[#2B64E2] px-6 pb-[24px] text-lg text-white md:justify-start md:px-[40px] lg:w-[calc(25%-24px)] lg:flex-1 xl:w-[378px]">
+                                <p className="text-[16px] font-medium lg:text-[32px]">#2B64E2</p>
                             </div>
                         </div>
                     </div>

@@ -28,7 +28,7 @@ const TheDesign = (props: Props) => {
 
     return (
         <div>
-            <div className="h-[1000px] bg-[#263959] bg-[url('/assets/images/screens/nb-mockup1.webp')] bg-[length:75%_auto] bg-bottom bg-no-repeat px-5 pt-[93px]">
+            <div className="h-[1000px] bg-[#263959] bg-[url('/assets/images/screens/nb-mockup1.webp')] bg-bottom bg-no-repeat px-5 pt-[93px]">
                 <div className="mx-auto flex h-full w-full max-w-[1200px]">
                     <div className="flex max-w-[600px] flex-col gap-3">
                         <h3 className="text-[48px] font-medium text-white">Mobile Version for Consumers</h3>

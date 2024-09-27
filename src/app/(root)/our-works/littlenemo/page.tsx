@@ -9,6 +9,7 @@ import TheResult from '@/components/molecules/TheResult/TheResult';
 import MobileScreens from '@/components/molecules/Screens/MobileScreens';
 import DesktopScreens from '@/components/molecules/Screens/DesktopScreens';
 import ImagePage from '@/components/molecules/Screens/image';
+import Visual from '@/components/molecules/CaseVisuals/NemoVisuals';
 import Display from './display';
 
 export default function LittleNemo() {
@@ -28,6 +29,7 @@ export default function LittleNemo() {
             <Display />
             <DesktopScreens desktopImage="nemo-desktop" />
             <MobileScreens mobileImage="nemo-mobile" />
+            <Visual />
             <TheProcess />
             <TheResult />
             <Cta />

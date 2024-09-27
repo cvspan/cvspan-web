@@ -30,13 +30,26 @@ function LeeDeonVisual() {
                 <div className="mx-auto flex h-full w-full max-w-[1200px] flex-col gap-[60px]">
                     <div className="flex max-w-[655px] flex-col gap-5">
                         <h3 className="text-[48px] font-medium text-[#16171B]">Design System</h3>
-                        <motion.p className="text-[18px] font-medium text-[#484848]" {...ANIMATE_PROPS({ delay: 0 })}>
+                        <motion.p className="text-[18px] text-[#484848]" {...ANIMATE_PROPS({ delay: 0 })}>
                             Considering that the platform should have a dark and light theme, we created the design
                             system to shift the ideas to components.
                         </motion.p>
                     </div>
 
-                    <div className="flex flex-col flex-wrap gap-10 pb-[56px]">
+                    <div className="flex flex-col gap-8 overflow-x-auto">
+                        <img
+                            src="/assets/images/screens/designSystem.svg"
+                            alt=""
+                            className="w-[150%] max-w-none md:w-full"
+                        />
+                        <img
+                            src="/assets/images/screens/designSystem2.svg"
+                            alt=""
+                            className="w-[150%] max-w-none md:w-full"
+                        />
+                    </div>
+
+                    {/* <div className="flex flex-col flex-wrap gap-10 pb-[56px]">
                         <div className="flex flex-row justify-between gap-8">
                             <div className="flex h-[478px] max-w-[481px] items-start justify-start rounded-2xl bg-[#D3C8FF] py-[30px] pl-[44px] pr-[323px]">
                                 <span className="flex h-full flex-col justify-between py-[10px]">
@@ -133,7 +146,7 @@ function LeeDeonVisual() {
                                 <p>#6745C2</p>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>
