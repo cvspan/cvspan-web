@@ -95,7 +95,7 @@ export const NavButtons: NavButton[] = [
         links: [
             {
                 id: 1,
-                title: 'Industries',
+                title: '',
                 list: [
                     {
                         id: 1,
@@ -138,31 +138,44 @@ export const NavButtons: NavButton[] = [
     },
 ];
 
-export const NavLinks: NavLink[] = [
-    {
-        id: 1,
-        text: 'About',
-        link: '/about',
-        disabled: false,
-        comingSoon: false,
-    },
+export const getNavLinks = ({ isBlogPage }: { isBlogPage?: boolean }): NavLink[] => {
+    return [
+        {
+            id: 1,
+            text: 'About',
+            link: '/about',
+            disabled: false,
+            comingSoon: false,
+        },
+        {
+            id: 2,
+            text: 'Our Works',
+            link: '/our-works',
+            disabled: false,
+            comingSoon: false,
+        },
 
-    {
-        id: 2,
-        text: 'Our Works',
-        link: '/our-works',
-        disabled: false,
-        comingSoon: false,
-    },
-
-    {
-        id: 3,
-        text: 'Blog',
-        link: '/cvspan-blog',
-        disabled: true,
-        comingSoon: true,
-    },
-];
+        ...(isBlogPage
+            ? [
+                  {
+                      id: 3,
+                      text: 'Let’s Talk',
+                      link: '/contact',
+                      disabled: false,
+                      comingSoon: false,
+                  },
+              ]
+            : [
+                  {
+                      id: 3,
+                      text: 'Blog',
+                      link: '/blog',
+                      disabled: true,
+                      comingSoon: true,
+                  },
+              ]),
+    ];
+};
 
 export const NAVBAR_LIST: NavbarList[] = [
     {

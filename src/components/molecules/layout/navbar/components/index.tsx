@@ -1,14 +1,13 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { NavButtons, NavLinks } from '../data';
+import { NavButtons, getNavLinks } from '../data';
 import { NavLink } from '../types';
 import { NavDropDownIndustry, NavDropDownService } from '../NavDropDown';
 import { motion } from 'framer-motion';
 
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 
-import '../Navbar.css';
 import { cn } from '@/lib/utils';
 
 export const NavBrand = ({ isLight }: { isLight: boolean }) => {
@@ -25,7 +24,7 @@ export const NavBrand = ({ isLight }: { isLight: boolean }) => {
     );
 };
 
-export const NavMenu = ({ isLight }: { isLight: boolean }) => {
+export const NavMenu = ({ isLight, isBlogPage }: { isLight: boolean; isBlogPage?: boolean }) => {
     return (
         <div className="flex flex-col gap-y-6 lg:mx-auto lg:flex-row lg:flex-nowrap lg:items-center lg:gap-x-8">
             <div className="border-box group/services relative w-fit lg:static lg:flex lg:h-full lg:max-w-full lg:flex-grow-0">
@@ -101,7 +100,7 @@ export const NavMenu = ({ isLight }: { isLight: boolean }) => {
                 </div> */}
             </div>
 
-            {NavLinks.map((navLink: NavLink) => {
+            {getNavLinks({ isBlogPage }).map((navLink: NavLink) => {
                 const className = `inline-flex items-center font-eudoxus text-[34px] font-medium leading-[42px] hover:underline lg:text-sm lg:font-normal lg:leading-[22px] ${isLight ? 'text-[#1a1a1a]' : 'text-white'}`;
 
                 if (navLink.disabled)
@@ -120,31 +119,35 @@ export const NavMenu = ({ isLight }: { isLight: boolean }) => {
     );
 };
 
-export const NavLetsTalkButton = ({ isLight }: { isLight?: boolean }) => {
+export const NavLetsTalkButton = ({ isLight, isBlogPage }: { isLight?: boolean; isBlogPage?: boolean }) => {
     return (
-        <Link href="/contact">
+        <Link href={isBlogPage ? '/blog/auth/login' : '/contact'}>
             <motion.button
                 whileHover="animate"
                 whileTap="animate"
-                className="relative z-[13] flex h-[40px] w-full cursor-pointer items-center justify-center gap-3 overflow-hidden rounded-[32px] px-[16px] py-[8px] text-[14px] leading-[22px] text-white sm:w-[140px] sm:justify-between"
+                className={cn(
+                    'relative z-[13] flex h-[40px] cursor-pointer items-center justify-center gap-3 overflow-hidden rounded-[32px] px-[16px] py-[8px] text-[14px] leading-[22px] text-white sm:justify-between',
+
+                    isBlogPage ? 'w-full sm:w-[120px]' : 'w-full sm:w-[140px]',
+                )}
             >
                 <motion.span
                     variants={{
                         animate: {
-                            color: isLight ? '#1A1AFF' : undefined,
+                            color: isLight ? '#1A1AFF' : '#ffffff',
                             fontWeight: isLight ? '500' : undefined,
                         },
                     }}
                     className="relative z-[2] text-inherit"
                 >
-                    LET{"'"}S TALK
+                    {isBlogPage ? 'WRITE' : <>LET{"'"}S TALK</>}
                 </motion.span>
 
                 <img src="/assets/icons/pen-white.svg" className="relative z-[3]" />
                 <motion.span
                     variants={{
                         animate: {
-                            x: '69%',
+                            x: isBlogPage ? '63%' : '69%',
                         },
                     }}
                     className="absolute left-0 top-0 z-[1] h-full w-full rounded-[32px] bg-[#1A1AFF]"

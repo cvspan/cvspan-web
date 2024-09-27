@@ -48,7 +48,7 @@ const Aboutlanding = (props: Props) => {
             <div className="relative z-20 flex h-full w-full flex-col items-center justify-start px-[10px] pt-[120px] lg:pt-[180px]">
                 <div className="mx-auto flex flex-col items-center justify-center space-y-[24px]">
                     <h1
-                        className="about_header_title w-full max-w-[1200px] text-center font-pp-mori text-[34px] font-[500] leading-[42px] text-white lg:text-[70px] lg:font-[600] lg:leading-[78px]"
+                        className="about_header_title w-full max-w-[1200px] text-center font-pp-mori text-[clamp(40px,calc(72/1200*100vw),72px)] font-[500] leading-[1.1] text-white lg:font-[600]"
                         id="about_header_title_id"
                     >
                         We provide innovative design solutions & expert talents

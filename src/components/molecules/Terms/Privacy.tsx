@@ -6,7 +6,6 @@ import Footer from '@/components/molecules/layout/footer';
 import { motion } from 'framer-motion';
 import { ANIMATE_PROPS } from '@/helpers/motion';
 
-import './style.css';
 import Cta from '../CTA';
 
 type Props = {
@@ -16,12 +15,9 @@ type Props = {
 const Privacy = ({ pageTitle }: Props) => {
     return (
         <>
-            <Navbar light />
+            <Navbar light showScrollWatcher />
 
             <div className="">
-                <div className="scroll_watcher_wrapper">
-                    <div className="scroll_watcher"></div>
-                </div>
                 <div className="mx-auto w-[335px] space-y-[60px] pt-[120px] lg:w-[1200px]">
                     <motion.div {...ANIMATE_PROPS()} className="w-full">
                         <h1 className="font-pp-mori text-[34px] font-[500] leading-[42px] text-[#1A1A1A] lg:text-[96px] lg:font-semibold lg:leading-[103.68px]">
