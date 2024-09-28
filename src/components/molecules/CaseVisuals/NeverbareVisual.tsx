@@ -52,14 +52,14 @@ function NeverBareVisual() {
                                 <p>#F1F5F9</p>
                             </div>
                         </div>
-                        <div className="flex w-full flex-col gap-[48px] md:flex-row">
+                        <div className="flex w-full flex-col gap-10 md:flex-row lg:gap-[48px]">
                             <div className="flex h-[406px] w-full flex-1 items-start justify-start rounded-2xl border-[2px] border-[#1B576F8A] pl-[44px] pt-[94px] md:w-[calc(50%-14px)] lg:w-fit xl:pr-[323px]">
                                 <span className="flex flex-col gap-[46px]">
                                     <p className="text-[18px]">typography</p>
                                     <p className="text-[64px] font-semibold">Aeonik</p>
                                 </span>
                             </div>
-                            <div className="mt-10 flex h-[406px] w-full flex-col items-start justify-center gap-[45px] rounded-2xl bg-[#EEF1F9] px-[43px] py-[60px] md:w-[calc(50%-14px)] md:justify-between lg:max-w-[565px]">
+                            <div className="flex h-[406px] w-full flex-col items-start justify-center gap-[45px] rounded-2xl bg-[#EEF1F9] px-[43px] py-[60px] md:mt-10 md:w-[calc(50%-14px)] md:justify-between lg:max-w-[565px]">
                                 <div className="flex h-fit w-full flex-col gap-[4px] md:max-w-[450px]">
                                     <p className="text-[18px]">alphabet</p>
                                     <p className="break-words text-[32px] font-semibold leading-[54px]">

@@ -27,7 +27,7 @@ function NemoVisual() {
 
     return (
         <div>
-            <div className="h-fit bg-white bg-bottom bg-no-repeat px-5 pb-[56px] pt-[120px]">
+            <div className="h-fit bg-white bg-bottom bg-no-repeat px-5 py-[120px]">
                 <div className="mx-auto flex h-full w-full max-w-[1200px] flex-col gap-[60px]">
                     <div className="flex max-w-[655px] flex-col gap-5">
                         <h3 className="text-[48px] font-medium text-[#16171B]">Visual Style</h3>

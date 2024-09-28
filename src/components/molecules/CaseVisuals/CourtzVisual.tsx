@@ -37,7 +37,7 @@ function LeeDeonVisual() {
                     </div>
 
                     <div className="flex flex-col flex-wrap gap-10 pb-[56px]">
-                        <div className="flex w-full flex-row flex-wrap gap-4 md:gap-8">
+                        <div className="flex w-full flex-row flex-wrap justify-center gap-4 md:gap-8">
                             <div className="flex h-[472px] w-full flex-col items-center justify-between rounded-2xl border-[1px] border-[#0000004D] p-[30px] md:p-[42px] xl:w-[790px]">
                                 <div className="flex h-fit w-full flex-row items-center justify-between font-medium">
                                     <h1 className="text-[36px]">Typography</h1>
