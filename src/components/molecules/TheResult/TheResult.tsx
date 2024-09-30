@@ -43,13 +43,13 @@ const TheResult = (
     }, {});
 
     return (
-        <div className="mx-auto flex h-full w-full max-w-[1200px] bg-white">
-            <div className="flex flex-col gap-[60px] py-[120px]">
+        <div className="flex h-full w-full bg-white px-5">
+            <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-[60px] py-[120px]">
                 <h3 className="w-full max-w-[564px] text-[48px] font-medium leading-[56px] text-[#1A1A1A]">
                     The Result
                 </h3>
-                <div className="flex w-full flex-row items-center gap-5">
-                    <motion.div {...ANIMATE_PROPS({ from: 'bottom', delay: 0 })}>
+                <div className="flex w-full flex-col flex-wrap items-center gap-5 md:flex-row md:flex-nowrap">
+                    <motion.div {...ANIMATE_PROPS({ from: 'bottom', delay: 0 })} className="w-full md:w-fit">
                         <ResultCard
                             title={'Our Web 3.0 development and design services left most users satisfied.'}
                             rate={card1Number}
@@ -58,7 +58,7 @@ const TheResult = (
                         />
                     </motion.div>
 
-                    <motion.div {...ANIMATE_PROPS({ from: 'bottom', delay: 0 })}>
+                    <motion.div {...ANIMATE_PROPS({ from: 'bottom', delay: 0 })} className="w-full md:w-fit">
                         <ResultCard
                             title={'Arounda’s efforts helped Infinity retain a significant portion of users.'}
                             rate={card2Number}
@@ -67,7 +67,7 @@ const TheResult = (
                         />
                     </motion.div>
 
-                    <motion.div {...ANIMATE_PROPS({ from: 'bottom', delay: 0 })}>
+                    <motion.div {...ANIMATE_PROPS({ from: 'bottom', delay: 0 })} className="w-full md:w-fit">
                         <ResultCard
                             title={'As seen in our crypto case study, a new mobile app is what users want the most.'}
                             rate={card3Number}

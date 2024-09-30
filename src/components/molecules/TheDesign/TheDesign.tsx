@@ -28,15 +28,20 @@ const TheDesign = (props: Props) => {
 
     return (
         <div>
-            <div className="h-[1000px] bg-[#194DC9] bg-[url('/assets/images/caseLargeImage.png')] bg-bottom bg-no-repeat pt-[93px]">
-                <div className="mx-auto flex h-full w-full max-w-[1200px]">
+            <div className="h-fit bg-[#263959] px-5 pt-[93px]">
+                <div className="mx-auto flex h-fit w-full max-w-[1200px] flex-col gap-10">
                     <div className="flex max-w-[600px] flex-col gap-3">
-                        <h3 className="text-[48px] font-medium text-white">Graphic Design</h3>
+                        <h3 className="text-[48px] font-medium text-white">Mobile Version for Consumers</h3>
                         <motion.p className="text-[18px] font-medium text-white" {...ANIMATE_PROPS({ delay: 0 })}>
-                            Our specialists enriched Infinity with captivating illustrations beyond our Web 3
-                            development work. These visuals facilitated the user experience and added uniqueness to the
-                            app’s brand identity.
+                            We followed an extensive process involving competitor research, UX strategy development, and
+                            the creation of user flow, app flow, and wireframes for this particular user segment. Based
+                            on the existing Mine’d application, our team delivered a seamless mobile experience tailored
+                            to the unique needs of Consumers.
                         </motion.p>
+                    </div>
+
+                    <div className="flex w-full items-center justify-center">
+                        <img src="/assets/images/screens/nb-mockup1.webp" alt="" className="w-full" />
                     </div>
                 </div>
             </div>

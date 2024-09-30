@@ -13,9 +13,9 @@ interface ResultCardProps {
 
 const ResultCard: React.FC<ResultCardProps> = ({ title, rate, description, after, before, duration = 4 }) => {
     return (
-        <div className="bg-cod-gray flex h-full max-w-[339px] cursor-pointer flex-col justify-between gap-14 rounded-3xl bg-[#F4F4F4] p-6">
+        <div className="bg-cod-gray flex h-[256px] w-full cursor-pointer flex-col justify-between rounded-3xl bg-[#F4F4F4] p-6 md:max-w-[386px]">
             <p className="overflow-hidden font-eudoxus text-[#767676]">{title}</p>
-            <div>
+            <div className="">
                 <h2
                     className="bg-gradient-to-r font-pp-mori font-semibold"
                     style={{

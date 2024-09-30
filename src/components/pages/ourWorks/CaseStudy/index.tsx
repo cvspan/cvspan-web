@@ -6,6 +6,8 @@ import CaseStudyLanding from '@/components/molecules/CaseStudyLanding/CaseStudyL
 import TheDesign from '@/components/molecules/TheDesign/TheDesign';
 import TheProcess from '@/components/molecules/TheProcess/TheProcess';
 import TheResult from '@/components/molecules/TheResult/TheResult';
+import MobileScreens from '@/components/molecules/Screens/MobileScreens';
+import DesktopScreens from '@/components/molecules/Screens/DesktopScreens';
 
 import ImagePage from './image';
 
@@ -14,8 +16,10 @@ export default function CaseStudy() {
         <>
             <Navbar />
             <CaseStudyLanding />
-            <ImagePage />
+            <ImagePage image="phozio" />
             <AboutProject />
+            <DesktopScreens />
+            <MobileScreens />
             <TheDesign />
             <TheProcess />
             <TheResult />

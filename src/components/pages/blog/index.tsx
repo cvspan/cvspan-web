@@ -1,20 +1,25 @@
-import Cta from '@/components/molecules/CTA';
-import Homelanding from '@/components/molecules/Homelanding/Homelanding';
-import BlogCard from '@/components/molecules/blogCards';
-import Footer from '@/components/molecules/layout/footer';
-import Navbar from '@/components/molecules/layout/navbar';
-import React from 'react';
+'use client';
 
-const Blog = () => {
+import React from 'react';
+import Bloglanding from '@/components/molecules/blogComponents/Bloglanding/Bloglanding';
+
+import Navbar from '@/components/molecules/layout/navbar';
+import Footer from '@/components/molecules/layout/footer';
+
+import CTA_MissAnything from '@/components/molecules/CTA_MissAnything';
+import BlogCards from '@/components/molecules/blogComponents/BlogCards';
+
+const BlogPage = () => {
     return (
         <>
-            <Navbar light />
-            <Homelanding />
-            <BlogCard />
-            <Cta />
+            <Navbar light={false} />
+
+            <Bloglanding />
+            <BlogCards />
+            <CTA_MissAnything />
             <Footer />
         </>
     );
 };
 
-export default Blog;
+export default BlogPage;

@@ -10,55 +10,57 @@ import Link from 'next/link';
 
 const SingleCard = ({ card = {} }: { card?: TCaseStudy }) => {
     return (
-        <motion.div {...ANIMATE_PROPS({ delay: 0 })} className="fdp_card" whileHover="on_hover">
-            <div className="fdp_card_img_wrapper">
-                <img src={card?.img} className="h-full w-full object-cover" />
-            </div>
-            <div className="fdp_card_title_wrapper">
-                <h2 className="fdp_card_title">{card?.title}</h2>
-                {/* <img className="arrow_black h-[22px] w-[22px]" src="/assets/icons/arrow-top-right-black.svg" />
+        <Link href={card?.link || '/'} className="cursor-[url(/assets/icons/case-study-cursor.svg),_pointer]">
+            <motion.div {...ANIMATE_PROPS({ delay: 0 })} className="fdp_card" whileHover="on_hover">
+                <div className="fdp_card_img_wrapper">
+                    <img src={card?.img} className="h-full w-full object-cover" />
+                </div>
+                <div className="fdp_card_title_wrapper">
+                    <h2 className="fdp_card_title">{card?.title}</h2>
+                    {/* <img className="arrow_black h-[22px] w-[22px]" src="/assets/icons/arrow-top-right-black.svg" />
                 <img className="arrow_blue h-[22px] w-[22px]" src="/assets/icons/arrow-top-right-blue.svg" /> */}
 
-                <motion.img
-                    initial={{ x: 0, y: 0, opacity: 1 }}
-                    variants={{
-                        on_hover: {
-                            x: 20,
-                            y: -30,
-                            opacity: 0,
-                            transition: { duration: 0.2 },
-                        },
-                    }}
-                    src="/assets/icons/arrow-top-right-black.svg"
-                    className="arrow_black h-[22px] w-[22px]"
-                />
+                    <motion.img
+                        initial={{ x: 0, y: 0, opacity: 1 }}
+                        variants={{
+                            on_hover: {
+                                x: 20,
+                                y: -30,
+                                opacity: 0,
+                                transition: { duration: 0.2 },
+                            },
+                        }}
+                        src="/assets/icons/arrow-top-right-black.svg"
+                        className="arrow_black h-[22px] w-[22px]"
+                    />
 
-                <motion.img
-                    initial={{ x: -20, y: 30, opacity: 0 }}
+                    <motion.img
+                        initial={{ x: -20, y: 30, opacity: 0 }}
+                        variants={{
+                            on_hover: {
+                                x: 0,
+                                y: 0,
+                                opacity: 1,
+                                transition: { duration: 0.2 },
+                            },
+                        }}
+                        src="/assets/icons/arrow-top-right-blue.svg"
+                        className="arrow_blue h-[22px] w-[22px]"
+                    />
+                </div>
+                <motion.h2
                     variants={{
                         on_hover: {
-                            x: 0,
-                            y: 0,
-                            opacity: 1,
-                            transition: { duration: 0.2 },
+                            opacity: 0,
+                            height: 0,
                         },
                     }}
-                    src="/assets/icons/arrow-top-right-blue.svg"
-                    className="arrow_blue h-[22px] w-[22px]"
-                />
-            </div>
-            <motion.h2
-                variants={{
-                    on_hover: {
-                        opacity: 0,
-                        height: 0,
-                    },
-                }}
-                className="fdp_card_desc"
-            >
-                {card?.description}
-            </motion.h2>
-        </motion.div>
+                    className="fdp_card_desc"
+                >
+                    {card?.description}
+                </motion.h2>
+            </motion.div>
+        </Link>
     );
 };
 

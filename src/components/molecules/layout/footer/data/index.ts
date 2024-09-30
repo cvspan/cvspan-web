@@ -102,7 +102,7 @@ export const FOOTER_LINKS: FooterLink[] = [
                 id: 1,
                 text: 'Our works',
                 link: '/our-works',
-                disabled: true,
+                disabled: false,
                 comingSoon: false,
             },
             {
@@ -115,7 +115,7 @@ export const FOOTER_LINKS: FooterLink[] = [
             {
                 id: 3,
                 text: 'Blog',
-                link: '/cvspan-blog',
+                link: '/blog',
                 disabled: true,
                 comingSoon: true,
             },

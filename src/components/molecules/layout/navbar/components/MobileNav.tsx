@@ -3,12 +3,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { NavLetsTalkButton } from '.';
 
-import { NavButtons, NavLinks } from '../data';
+import { NavButtons, getNavLinks } from '../data';
 import { NavLink } from '../types';
 import { NavWithDropDown } from './NavWithDropDown';
 import { NavWithoutDropDown } from './NavWithoutDropDown';
 
-export const MobileNav = ({ isLight }: { isLight: boolean }) => {
+export const MobileNav = ({ isLight, isBlogPage }: { isLight: boolean; isBlogPage?: boolean }) => {
     const [menuActive, setMenuActive] = useState<boolean>(false);
 
     const onToggleMenu = () => {
@@ -85,11 +85,11 @@ export const MobileNav = ({ isLight }: { isLight: boolean }) => {
                                     <NavWithDropDown title={navbutton.text} buttons={navbutton.links} key={i} />
                                 ))}
 
-                                {NavLinks.map((navLink: NavLink, i: number) => (
+                                {getNavLinks({ isBlogPage }).map((navLink: NavLink, i: number) => (
                                     <NavWithoutDropDown key={i} navLink={navLink} />
                                 ))}
                             </div>
-                            <NavLetsTalkButton />
+                            <NavLetsTalkButton isBlogPage={isBlogPage} />
                         </div>
                     </div>
                 )}
