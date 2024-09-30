@@ -34,12 +34,12 @@ const CaseStudyLanding: React.FC<Props> = ({ header, paragraph, buttons }) => {
     }, {});
 
     return (
-        <div className="relative h-screen bg-[#0c0c0c] md:h-[679px]">
+        <div className="relative flex h-screen items-end justify-end bg-[#0c0c0c] px-5 md:h-[679px]">
             <div className="absolute left-0 top-0 z-10">
                 <img src={'/assets/images/haomepage_banner.png'} alt="elipse" />
             </div>
-            <div className="relative z-20 mx-auto flex h-full w-full max-w-[1200px] flex-col items-center justify-between pt-[120px] md:flex-row md:items-end md:pb-[90px] lg:pt-[180px]">
-                <div className="flex w-full max-w-[742px] flex-col gap-[23px]">
+            <div className="relative z-20 mx-auto flex h-fit w-full max-w-[1200px] flex-col items-end gap-[23px] pb-[90px] pt-[120px] lg:h-full lg:flex-row lg:items-end lg:justify-between lg:pt-[180px]">
+                <div className="flex h-fit w-full flex-col gap-[23px] lg:max-w-[742px]">
                     <h1
                         className="about_header_title w-full text-left font-pp-mori text-[clamp(40px,calc(96/1200*100vw),96px)] font-[500] leading-[1.1] text-white lg:font-[600]"
                         id="about_header_title_id"
@@ -47,7 +47,7 @@ const CaseStudyLanding: React.FC<Props> = ({ header, paragraph, buttons }) => {
                         {header}
                     </h1>
 
-                    <motion.div className="flex w-full flex-row gap-[10px]" {...ANIMATE_PROPS({ delay: 0 })}>
+                    <motion.div className="flex w-full flex-row flex-wrap gap-[10px]" {...ANIMATE_PROPS({ delay: 0 })}>
                         {buttons?.map((button, index) => (
                             <p className="w-fit rounded-full bg-white px-3 py-1 text-sm text-black" key={index}>
                                 {button}
@@ -56,8 +56,11 @@ const CaseStudyLanding: React.FC<Props> = ({ header, paragraph, buttons }) => {
                     </motion.div>
                 </div>
 
-                <div className="w-full max-w-[390px]">
-                    <motion.p className="text-[18px] text-white" {...ANIMATE_PROPS({ delay: 0 })}>
+                <div className="flex w-full justify-start lg:w-fit lg:justify-end">
+                    <motion.p
+                        className="max-w-[507px] text-[18px] font-normal text-white"
+                        {...ANIMATE_PROPS({ delay: 0 })}
+                    >
                         {paragraph}
                     </motion.p>
                 </div>

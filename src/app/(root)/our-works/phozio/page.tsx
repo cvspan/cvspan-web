@@ -1,4 +1,5 @@
 'use client';
+import React from 'react';
 import Navbar from '@/components/molecules/layout/navbar';
 import Footer from '@/components/molecules/layout/footer';
 import Cta from '@/components/molecules/CTA';
@@ -18,7 +19,7 @@ export default function Phozio() {
             <Navbar />
             <CaseStudyLanding
                 header="Phozio"
-                paragraph="--"
+                paragraph=""
                 buttons={['UI/UX DESIGN', 'UX STRATEGY', 'MOBILE DESIGN', '3D DESIGN', 'SEO']}
             />
             <ImagePage image="phozio" />
