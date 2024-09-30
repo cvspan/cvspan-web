@@ -135,8 +135,12 @@ const Dropdown: React.FC<dropdownProps> = ({ placeholder, values }) => {
             <DropdownMenu>
                 <DropdownMenuTrigger className="w-full outline-none">
                     <button type="button" className="w-full">
-                        <div className="w-full rounded-[8px] border-[1px] border-[#838383] bg-transparent p-3 text-left font-eudoxus text-[16px] font-[400] leading-[24px] text-[#838383]">
+                        <div className="flex w-full items-center justify-between rounded-[8px] border-[1px] border-[#838383] bg-transparent p-3 text-left font-eudoxus text-[16px] font-[400] leading-[24px] text-[#838383]">
                             {placeholder}
+
+                            <span className="">
+                                <img src="/assets/icons/Cheveron.svg" alt="" className="" />
+                            </span>
                         </div>
                     </button>
                 </DropdownMenuTrigger>
