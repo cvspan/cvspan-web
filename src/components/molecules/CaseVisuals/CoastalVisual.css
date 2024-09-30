@@ -1,0 +1,19 @@
+.coastal-image-container {
+    /* Selecting scrollbar elements */
+    ::-webkit-scrollbar {
+        height: 2px;
+        width: 100%;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        @apply bg-[#111111] dark:bg-[#ffffff];
+    }
+
+    ::-webkit-scrollbar-track {
+        @apply w-full bg-[#e7dede] dark:bg-[#4E4E4E];
+    }
+
+    ::-webkit-scrollbar-button {
+        @apply w-full bg-[#4E4E4E];
+    }
+}

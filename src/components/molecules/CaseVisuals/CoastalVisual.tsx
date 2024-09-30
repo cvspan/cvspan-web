@@ -1,8 +1,11 @@
+import React from 'react';
 import { motion } from 'framer-motion';
 import { ANIMATE_PROPS } from '@/helpers/motion';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import SplitType from 'split-type';
+
+import './CoastalVisual.css';
 
 function CoastalVisual() {
     useGSAP(() => {
@@ -25,35 +28,46 @@ function CoastalVisual() {
     }, {});
 
     return (
-        <div className="flex h-fit items-center justify-center bg-white bg-bottom bg-no-repeat pb-[56px] pt-[120px]">
-            <div className="flex h-full w-full flex-col gap-[60px]">
-                <div className="flex h-full w-full flex-col gap-[60px] px-5">
-                    <div className="mx-auto flex w-full max-w-[1200px]">
-                        <div className="flex max-w-[655px] flex-col gap-5">
-                            <h3 className="text-[48px] font-medium text-[#16171B]">Visual Style Guide Creation</h3>
-                            <motion.p className="text-[18px] text-[#484848]" {...ANIMATE_PROPS({ delay: 0 })}>
-                                As part of our project with Gradwork, we created a visual style guide that established a
-                                consistent visual language for the brand. It includes a carefully selected color
-                                palette, typography, and other visual elements that help to create a distinct and
-                                memorable brand identity.
-                            </motion.p>
+        <div className="overflow-x-hidden">
+            <div className="flex h-fit items-center justify-center bg-bottom bg-no-repeat pb-[56px] pt-[120px]">
+                <div className="flex h-full w-full flex-col gap-[60px]">
+                    <div className="flex h-full w-full flex-col gap-[60px] px-5">
+                        <div className="mx-auto flex w-full max-w-[1200px]">
+                            <div className="flex max-w-[655px] flex-col gap-5">
+                                <h3 className="text-[48px] font-medium text-[#16171B]">Visual Style Guide Creation</h3>
+                                <motion.p className="text-[18px] text-[#484848]" {...ANIMATE_PROPS({ delay: 0 })}>
+                                    As part of our project with Gradwork, we created a visual style guide that
+                                    established a consistent visual language for the brand. It includes a carefully
+                                    selected color palette, typography, and other visual elements that help to create a
+                                    distinct and memorable brand identity.
+                                </motion.p>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div className="flex w-full items-center justify-start overflow-x-auto lg:justify-center lg:overflow-hidden">
-                    <div className="w-screen max-w-[1400px]">
-                        <div className="flex items-center justify-start bg-white pl-5 md:w-full lg:ml-auto lg:w-[1350px] xl:ml-auto xl:justify-end 2xl:pl-0">
+                    {/* <div className="coastal-image-container overflow-x-auto">
+                    <div className="mx-auto w-screen max-w-[1200px] bg-red-300">
+                        <div className="flex items-center justify-start bg-white md:w-full lg:ml-auto lg:w-[1200px] xl:ml-auto xl:justify-end">
                             <img
-                                src="/assets/images/screens/coastal-svg-visual.svg"
+                                src="/assets/images/screens/coastal-svg-visual-new.svg"
                                 alt=""
                                 className="h-[350px] w-fit max-w-none md:h-fit md:max-w-full lg:min-w-[1000px] xl:max-w-[1280px]"
                             />
                         </div>
                     </div>
-                </div>
+                </div> */}
 
-                {/* <div className="ml-[80px] flex h-fit flex-row gap-6">
+                    <div className="coastal-image-container overflow-x-auto max-[1230px]:pl-5">
+                        <div className="mx-auto w-full max-w-[1200px]">
+                            <img
+                                src="/assets/images/screens/coastal-svg-visual-new.svg"
+                                alt=""
+                                className="h-fit w-fit min-w-[120%] max-w-none"
+                            />
+                        </div>
+                    </div>
+
+                    {/* <div className="ml-[80px] flex h-fit flex-row gap-6">
                     <div className="flex flex-col gap-6">
                         <div className="flex h-[208px] flex-col items-start justify-between rounded-2xl border-[1px] border-[#0000004D] bg-white py-[30px] pl-[30px] pr-[196px]">
                             <p className="text-lg font-semibold">Heading Font</p>
@@ -107,6 +121,7 @@ function CoastalVisual() {
                         </div>
                     </div>
                 </div> */}
+                </div>
             </div>
         </div>
     );
