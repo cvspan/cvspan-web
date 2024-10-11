@@ -4,6 +4,8 @@ import { Inter } from 'next/font/google';
 import NextTopLoader from 'nextjs-toploader';
 import FullScreenAnimatedLoader from '@/components/molecules/FullScreenAnimatedLoader';
 import { Toaster } from '@/components/ui/sonner';
+import GoogleAnalyticsScript from '@/utils/google-analytics-script';
+
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -21,6 +23,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={inter.className}>
+                <GoogleAnalyticsScript />
                 <FullScreenAnimatedLoader />
                 <NextTopLoader color="#0A1EB9" height={3} />
                 {children}
