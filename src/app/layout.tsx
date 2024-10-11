@@ -6,13 +6,22 @@ import NextTopLoader from 'nextjs-toploader';
 import FullScreenAnimatedLoader from '@/components/molecules/FullScreenAnimatedLoader';
 import { Toaster } from '@/components/ui/sonner';
 
+import site_metadata from '@/utils/site-metadata';
+
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-    title: 'CV Span',
-    description: 'We Create Awesome Stuff',
+    title: site_metadata?.home?.siteName,
+    description: site_metadata?.home?.description,
+    openGraph: {
+        title: site_metadata?.home?.siteName,
+        description: site_metadata?.home?.description,
+        url: site_metadata?.home?.url,
+        siteName: site_metadata?.home?.siteName,
+        images: site_metadata?.home?.images,
+    },
 };
 
 export default function RootLayout({
