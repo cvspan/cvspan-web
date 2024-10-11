@@ -1,10 +1,10 @@
 import React from 'react';
 import type { Metadata } from 'next';
+import { GoogleAnalytics } from '@next/third-parties/google';
 import { Inter } from 'next/font/google';
 import NextTopLoader from 'nextjs-toploader';
 import FullScreenAnimatedLoader from '@/components/molecules/FullScreenAnimatedLoader';
 import { Toaster } from '@/components/ui/sonner';
-import GoogleAnalyticsScript from '@/utils/google-analytics-script';
 
 import './globals.css';
 
@@ -23,7 +23,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={inter.className}>
-                <GoogleAnalyticsScript />
+                <GoogleAnalytics gaId="G-2L2X0K8Q5F" />
                 <FullScreenAnimatedLoader />
                 <NextTopLoader color="#0A1EB9" height={3} />
                 {children}
