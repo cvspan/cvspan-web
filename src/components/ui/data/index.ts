@@ -128,7 +128,7 @@ export const TEAMS: Team[] = [
     {
         id: 'temitope-bademosi',
         name: 'Temitope Bademosi',
-        role: '',
+        role: 'UI/UX Design Intern',
         avatar: '/assets/images/team/unamed-1.jpg',
         linkedin: '/',
         bio: [],
