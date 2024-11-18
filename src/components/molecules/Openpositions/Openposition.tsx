@@ -21,6 +21,7 @@ const Openposition = () => {
             experience: '1-2 Years Experience',
             location: 'Remote Worldwide',
             arrowSrc: '/assets/icons/arrow-top-right-gray.svg',
+            link: 'front-end',
         },
         {
             title: 'Graphic Designer',
@@ -29,6 +30,7 @@ const Openposition = () => {
             experience: '1-2 Years Experience',
             location: 'Remote Worldwide',
             arrowSrc: '/assets/icons/arrow-top-right-gray.svg',
+            link: 'front-end',
         },
         {
             title: 'Human Resources (HR)',
@@ -37,6 +39,7 @@ const Openposition = () => {
             experience: '1-2 Years Experience',
             location: 'Remote Worldwide',
             arrowSrc: '/assets/icons/arrow-top-right-gray.svg',
+            link: 'front-end',
         },
         {
             title: 'Social Media Manager',
@@ -45,6 +48,7 @@ const Openposition = () => {
             experience: '1-2 Years Experience',
             location: 'Remote Worldwide',
             arrowSrc: '/assets/icons/arrow-top-right-gray.svg',
+            link: 'front-end',
         },
         {
             title: 'Marketing Manager',
@@ -53,6 +57,7 @@ const Openposition = () => {
             experience: '1-2 Years Experience',
             location: 'Nigeria or Remote',
             arrowSrc: '/assets/icons/arrow-top-right-gray.svg',
+            link: 'front-end',
         },
         {
             title: 'SEO Manager',
@@ -61,6 +66,7 @@ const Openposition = () => {
             experience: '1-2 Years Experience',
             location: 'Nigeria or Remote',
             arrowSrc: '/assets/icons/arrow-top-right-gray.svg',
+            link: 'front-end',
         },
         {
             title: 'Volunteers',
@@ -69,6 +75,7 @@ const Openposition = () => {
             experience: '0-2 Years Experience',
             location: 'Nigeria or Remote',
             arrowSrc: '/assets/icons/arrow-top-right-gray.svg',
+            link: 'front-end',
         },
     ];
 
@@ -123,7 +130,7 @@ const Openposition = () => {
                             </div> */}
                             {/* PLEASE DONT DELETE */}
                             {jobListings.map((job, index) => (
-                                <Link className="cursor-pointer" href="/careers/specific-job" key={index}>
+                                <Link className="cursor-pointer" href={`/careers/${job.link}`} key={index}>
                                     <motion.div
                                         {...ANIMATE_PROPS({
                                             delay: 0.05 * index,

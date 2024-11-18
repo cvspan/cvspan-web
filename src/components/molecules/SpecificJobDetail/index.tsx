@@ -42,12 +42,25 @@ export const SpecificJobDetail = () => {
                             <div className="mb-[16px]">
                                 <motion.div
                                     {...ANIMATE_PROPS({ delay: 0, from: 'bottom' })}
+                                    className="mb-4 font-eudoxus text-[24px] font-medium leading-[32px] text-[#1a1a1a]"
+                                >
+                                    About Us
+                                </motion.div>
+                                <motion.div
+                                    {...ANIMATE_PROPS({ delay: 0, from: 'bottom' })}
                                     className="mb-4 font-eudoxus text-base font-normal text-[#484848]"
                                 >
                                     Fireart is an experience design & technology partner to clients large and small. We
                                     believe that great ideas are only as good as how well they perform. Our passion is
                                     for pushing the boundaries of our ideas within the limits of what’s possible. We are
                                     not satisfied until we are achieving industry-leading results in the market.
+                                </motion.div>
+
+                                <motion.div
+                                    {...ANIMATE_PROPS({ delay: 0, from: 'bottom' })}
+                                    className="mb-4 font-eudoxus text-[24px] font-medium leading-[32px] text-[#1a1a1a]"
+                                >
+                                    Position Overview
                                 </motion.div>
                                 <motion.div {...ANIMATE_PROPS({ delay: 0, from: 'bottom' })}>
                                     Fireart studio is looking for a UX Consultant who will be the coherent chain between
@@ -60,7 +73,7 @@ export const SpecificJobDetail = () => {
                                     {...ANIMATE_PROPS({ delay: 0, from: 'bottom' })}
                                     className="mb-4 font-eudoxus text-[24px] font-medium leading-[32px] text-[#1a1a1a]"
                                 >
-                                    You are a great fit if you have…
+                                    Responsibilities
                                 </motion.div>
                                 <ul className="list-inside list-disc pl-2 font-eudoxus text-base font-normal text-[#484848]">
                                     <motion.li {...ANIMATE_PROPS({ delay: 0, from: 'bottom' })}>
@@ -97,7 +110,7 @@ export const SpecificJobDetail = () => {
                                     {...ANIMATE_PROPS({ delay: 0, from: 'bottom' })}
                                     className="mb-4 font-eudoxus text-[24px] font-medium leading-[32px] text-[#1a1a1a]"
                                 >
-                                    What will you do:
+                                    Preferred Qualifications
                                 </motion.div>
 
                                 <motion.div
@@ -117,7 +130,7 @@ export const SpecificJobDetail = () => {
                                     {...ANIMATE_PROPS({ delay: 0, from: 'bottom' })}
                                     className="mb-4 font-eudoxus text-[24px] font-medium leading-[32px] text-[#1a1a1a]"
                                 >
-                                    What we offer
+                                    What You’ll Gain
                                 </motion.div>
                                 <ul className="list-inside list-disc pl-2 font-eudoxus text-base font-normal text-[#484848]">
                                     <motion.li {...ANIMATE_PROPS({ delay: 0, from: 'bottom' })}>
