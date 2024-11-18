@@ -9,10 +9,6 @@ import Link from 'next/link';
 import useWindowSize from '@/hooks/general/useWindowSize';
 
 const Openposition = () => {
-    const [selected, setSelected] = useState<string>('All');
-
-    const buttons: string[] = ['All', 'Design', 'Development', 'Marketing', 'Business Development', 'Product'];
-
     const jobListings = [
         {
             title: 'Front End Developer',
@@ -22,6 +18,7 @@ const Openposition = () => {
             location: 'Remote Worldwide',
             arrowSrc: '/assets/icons/arrow-top-right-gray.svg',
             link: 'front-end',
+            department: 'Development',
         },
         {
             title: 'Graphic Designer',
@@ -30,7 +27,8 @@ const Openposition = () => {
             experience: '1-2 Years Experience',
             location: 'Remote Worldwide',
             arrowSrc: '/assets/icons/arrow-top-right-gray.svg',
-            link: 'front-end',
+            link: 'graphic-designer',
+            department: 'Design',
         },
         {
             title: 'Human Resources (HR)',
@@ -39,7 +37,8 @@ const Openposition = () => {
             experience: '1-2 Years Experience',
             location: 'Remote Worldwide',
             arrowSrc: '/assets/icons/arrow-top-right-gray.svg',
-            link: 'front-end',
+            link: 'human-resources',
+            department: 'Management',
         },
         {
             title: 'Social Media Manager',
@@ -48,7 +47,8 @@ const Openposition = () => {
             experience: '1-2 Years Experience',
             location: 'Remote Worldwide',
             arrowSrc: '/assets/icons/arrow-top-right-gray.svg',
-            link: 'front-end',
+            link: 'social-media-manager',
+            department: 'Business Development',
         },
         {
             title: 'Marketing Manager',
@@ -57,7 +57,8 @@ const Openposition = () => {
             experience: '1-2 Years Experience',
             location: 'Nigeria or Remote',
             arrowSrc: '/assets/icons/arrow-top-right-gray.svg',
-            link: 'front-end',
+            link: 'marketing-manager',
+            department: 'Marketing',
         },
         {
             title: 'SEO Manager',
@@ -66,7 +67,8 @@ const Openposition = () => {
             experience: '1-2 Years Experience',
             location: 'Nigeria or Remote',
             arrowSrc: '/assets/icons/arrow-top-right-gray.svg',
-            link: 'front-end',
+            link: 'seo-manager',
+            department: 'Development',
         },
         {
             title: 'Volunteers',
@@ -75,9 +77,25 @@ const Openposition = () => {
             experience: '0-2 Years Experience',
             location: 'Nigeria or Remote',
             arrowSrc: '/assets/icons/arrow-top-right-gray.svg',
-            link: 'front-end',
+            link: 'volunteers',
+            department: 'Project',
         },
     ];
+
+    const [selected, setSelected] = useState<string>('All');
+
+    const buttons: string[] = [
+        'All',
+        'Design',
+        'Development',
+        'Marketing',
+        'Business Development',
+        'Project',
+        'Management',
+    ];
+
+    const filteredListings =
+        selected === 'All' ? jobListings : jobListings.filter((job) => job.department === selected);
 
     const { width } = useWindowSize();
     const smallDevice = width < 900;
@@ -129,7 +147,8 @@ const Openposition = () => {
                                 </p>
                             </div> */}
                             {/* PLEASE DONT DELETE */}
-                            {jobListings.map((job, index) => (
+
+                            {filteredListings.map((job, index) => (
                                 <Link className="cursor-pointer" href={`/careers/${job.link}`} key={index}>
                                     <motion.div
                                         {...ANIMATE_PROPS({
