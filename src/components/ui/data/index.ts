@@ -40,15 +40,6 @@ export const TEAMS: Team[] = [
     },
 
     {
-        id: 'josiah-arkson',
-        name: 'Josiah Arkson',
-        role: 'Snr. Front-end Engineer',
-        avatar: '/assets/images/team/josiah.jpg',
-        linkedin: '/',
-        bio: [],
-    },
-
-    {
         id: 'abdulmateen-bello',
         name: 'Abdulmateen Bello',
         role: 'Engineering Manager',
@@ -121,6 +112,15 @@ export const TEAMS: Team[] = [
         name: 'Samson Lawal Deji',
         role: 'Front-end Engineer (Intern)',
         avatar: '/assets/images/team/samson-lawal.jpg',
+        linkedin: '/',
+        bio: [],
+    },
+
+    {
+        id: 'josiah-arkson',
+        name: 'Josiah Arkson',
+        role: 'Snr. Front-end Engineer',
+        avatar: '/assets/images/team/josiah.jpg',
         linkedin: '/',
         bio: [],
     },
