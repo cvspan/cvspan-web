@@ -11,36 +11,42 @@ const cards: TBlogCard[] = [
         author: 'Moses Arfo',
         time: '3 mins read',
         image: '/assets/images/Rectangle.png',
+        blogMiniText: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremq',
     },
     {
         title: 'What is design research?',
         author: 'Moses Arfo',
         time: '3 mins read',
         image: '/assets/images/card2.png',
+        blogMiniText: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremq',
     },
     {
         title: 'UX Research for an NFT platform – Metastaq',
         author: 'Moses Arfo',
         time: '3 mins read',
         image: '/assets/images/card3.png',
+        blogMiniText: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremq',
     },
     {
         title: 'UX Research for an NFT platform – Metastaq',
         author: 'Moses Arfo',
         time: '3 mins read',
         image: '/assets/images/Rectangle.png',
+        blogMiniText: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremq',
     },
     {
         title: 'UX Research for an NFT platform – Metastaq',
         author: 'Moses Arfo',
         time: '3 mins read',
         image: '/assets/images/Rectangle.png',
+        blogMiniText: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremq',
     },
     {
         title: 'UX Research for an NFT platform – Metastaq',
         author: 'Moses Arfo',
         time: '3 mins read',
         image: '/assets/images/Rectangle.png',
+        blogMiniText: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremq',
     },
 
     {
@@ -48,12 +54,14 @@ const cards: TBlogCard[] = [
         author: 'Moses Arfo',
         time: '3 mins read',
         image: '/assets/images/Rectangle.png',
+        blogMiniText: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremq',
     },
     {
         title: 'UX Research for an NFT platform – Metastaq',
         author: 'Moses Arfo',
         time: '3 mins read',
         image: '/assets/images/Rectangle.png',
+        blogMiniText: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremq',
     },
 ];
 
