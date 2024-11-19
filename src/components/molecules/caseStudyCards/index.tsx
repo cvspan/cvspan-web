@@ -64,12 +64,29 @@ const SingleCard = ({ card = {} }: { card?: TCaseStudy }) => {
     );
 };
 
-const CardsRow = ({ card1, card2, card3 }: { card1?: TCaseStudy; card2?: TCaseStudy; card3?: TCaseStudy }) => {
+const CardsRow = ({
+    card1,
+    card2,
+    card3,
+    card4,
+    card5,
+    card6,
+}: {
+    card1?: TCaseStudy;
+    card2?: TCaseStudy;
+    card3?: TCaseStudy;
+    card4?: TCaseStudy;
+    card5?: TCaseStudy;
+    card6?: TCaseStudy;
+}) => {
     return (
         <div className="flex h-fit flex-1 flex-col flex-wrap items-center justify-center gap-[32px] gap-y-[40px] py-[60px] md:flex-row md:gap-x-[24px] md:gap-y-[24px]">
             <SingleCard card={card1} />
             <SingleCard card={card2} />
             <SingleCard card={card3} />
+            <SingleCard card={card4} />
+            <SingleCard card={card5} />
+            <SingleCard card={card6} />
         </div>
     );
 };
@@ -78,13 +95,20 @@ const CaseStudies = () => {
     return (
         <div className="cursor-[url(/assets/icons/case-study-cursor.svg),_pointer] px-5 py-[60px]">
             <div className="mx-auto w-full max-w-[1200px] lg:flex">
-                <div className="h-fit w-full">
+                <div className="flex h-fit w-full flex-col gap-[24px]">
                     <div className="flex h-fit w-full max-w-[1200px] flex-col gap-[24px] lg:flex-row">
-                        <CardsRow card1={caseStudies[0]} card2={caseStudies[1]} card3={caseStudies[2]} />
+                        <CardsRow
+                            card1={caseStudies[0]}
+                            card2={caseStudies[1]}
+                            card3={caseStudies[2]}
+                            card4={caseStudies[3]}
+                            card5={caseStudies[4]}
+                            card6={caseStudies[5]}
+                        />
                     </div>
-                    <div className="flex h-fit w-full max-w-[1200px] flex-col gap-[24px] lg:flex-row">
-                        <CardsRow card1={caseStudies[3]} card2={caseStudies[4]} card3={caseStudies[5]} />
-                    </div>
+                    {/* <div className="flex h-fit w-full max-w-[1200px] flex-col gap-[24px] lg:flex-row">
+                        <CardsRow />
+                    </div> */}
                 </div>
             </div>
         </div>
