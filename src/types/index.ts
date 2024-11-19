@@ -12,4 +12,5 @@ export type TBlogCard = {
     author: string;
     time: string;
     image: string;
+    blogMiniText: string,
 };

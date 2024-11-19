@@ -41,11 +41,11 @@ const Aboutlanding = (props: Props) => {
     };
 
     return (
-        <div className="relative h-screen overflow-x-hidden bg-[#0c0c0c] md:h-[820px]">
+        <div className="relative h-[812px] overflow-x-hidden bg-[#0c0c0c] md:h-[820px]">
             <div className="absolute left-0 top-0 z-10">
                 <img src={'/assets/images/haomepage_banner.png'} alt="elipse" />
             </div>
-            <div className="relative z-20 flex h-full w-full flex-col items-center justify-start px-[10px] pt-[120px] lg:pt-[180px]">
+            <div className="relative z-20 flex h-full w-full flex-col items-center justify-start px-[10px] pt-[140px] md:pt-[120px] lg:pt-[180px]">
                 <div className="mx-auto flex flex-col items-center justify-center space-y-[24px]">
                     <h1
                         className="about_header_title w-full max-w-[1200px] text-center font-pp-mori text-[clamp(40px,calc(72/1200*100vw),72px)] font-[500] leading-[1.1] text-white lg:font-[600]"
