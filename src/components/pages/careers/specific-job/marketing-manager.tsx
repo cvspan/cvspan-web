@@ -1,5 +1,5 @@
 import React from 'react';
-import { SpecificJobDetail } from '@/components/molecules/SpecificJobDetail';
+import { MarketingManager } from '@/components/molecules/SpecificJobDetail/marketing-manager';
 import GlobalTeam from '@/components/molecules/GlobalTeam';
 
 import Navbar from '@/components/molecules/layout/navbar';
@@ -10,8 +10,7 @@ export default function SpecificJobPage() {
     return (
         <>
             <Navbar light showScrollWatcher />
-            <SpecificJobDetail />
-
+            <MarketingManager />
             <GlobalTeam />
             <Footer />
         </>
