@@ -37,7 +37,7 @@ const Openposition = () => {
             experience: '1-2 Years Experience',
             location: 'Remote Worldwide',
             arrowSrc: '/assets/icons/arrow-top-right-gray.svg',
-            link: 'human-resources',
+            link: 'human-resource',
             department: 'Management',
         },
         {

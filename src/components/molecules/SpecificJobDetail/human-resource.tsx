@@ -1,17 +1,40 @@
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Button from '@/components/molecules/Button';
 import { motion } from 'framer-motion';
 import { ANIMATE_PROPS } from '@/helpers/motion';
 import Link from 'next/link';
 
-export const HumanResources = () => {
+export const HumanResource = () => {
+    const parentRef = useRef<HTMLDivElement>(null);
+    const stickyRef = useRef<HTMLDivElement>(null);
+    const [isAtBottom, setIsAtBottom] = useState(false);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                // setIsAtBottom(entry.isIntersecting);
+                setIsAtBottom(true);
+            },
+            {
+                root: null,
+                threshold: 1.0,
+            },
+        );
+        if (parentRef.current) {
+            const target = parentRef.current.lastElementChild;
+            if (target) observer.observe(target);
+
+            return () => observer.disconnect();
+        }
+    }, []);
+
     return (
         <>
-            <section className="px-[16px] py-[60px] lg:py-[120px]">
-                <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-[32px] lg:flex-row">
+            <section className="py-[60px] lg:py-[120px]">
+                <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-[32px] px-[16px] lg:flex-row">
                     <motion.div
                         {...ANIMATE_PROPS({ delay: 0, from: 'left' })}
-                        className="flex h-auto w-full max-w-full flex-col lg:sticky lg:top-[100px] lg:h-[264px] lg:max-w-[200px]"
+                        className="hidden h-auto w-full max-w-full flex-col lg:sticky lg:top-[100px] lg:flex lg:h-[264px] lg:max-w-[200px]"
                     >
                         <Link href="https://docs.google.com/forms/d/e/1FAIpQLScy7EGMxpBYdlCDvw0pxi4XK4k8Cpaa1DRdizuMFYu3uw_vsg/viewform">
                             <Button
@@ -24,7 +47,7 @@ export const HumanResources = () => {
                             />
                         </Link>
                     </motion.div>
-                    <div className="ml-auto w-full lg:max-w-[800px]">
+                    <div className="ml-auto w-full pt-[60px] lg:max-w-[800px]">
                         <div className="flex flex-col gap-[20px]">
                             <div className="mb-[32px]">
                                 <motion.div
@@ -129,7 +152,7 @@ export const HumanResources = () => {
                                     Requirements
                                 </motion.div>
 
-                                <ul className="list-inside list-disc pl-2 font-eudoxus text-base font-normal text-[#484848]">
+                                <ul className="ml-3 list-outside list-disc pl-2 font-eudoxus text-base font-normal text-[#484848]">
                                     <motion.li {...ANIMATE_PROPS({ delay: 0, from: 'bottom' })}>
                                         Current student or recent graduate in Human Resources, Business Administration,
                                         Psychology, or a related field.
@@ -161,7 +184,7 @@ export const HumanResources = () => {
                                     Preferred Qualifications
                                 </motion.div>
 
-                                <ul className="list-inside list-disc pl-2 font-eudoxus text-base font-normal text-[#484848]">
+                                <ul className="ml-3 list-outside list-disc pl-2 font-eudoxus text-base font-normal text-[#484848]">
                                     <motion.li {...ANIMATE_PROPS({ delay: 0, from: 'bottom' })}>
                                         Prior internship or relevant experience in HR, recruitment, or administration.
                                     </motion.li>
@@ -182,7 +205,7 @@ export const HumanResources = () => {
                                 >
                                     What You’ll Gain
                                 </motion.div>
-                                <ul className="list-inside list-disc pl-2 font-eudoxus text-base font-normal text-[#484848]">
+                                <ul className="ml-3 list-outside list-disc pl-2 font-eudoxus text-base font-normal text-[#484848]">
                                     <motion.li {...ANIMATE_PROPS({ delay: 0, from: 'bottom' })}>
                                         Hands-on experience in various HR functions within a creative agency.
                                     </motion.li>
@@ -201,6 +224,22 @@ export const HumanResources = () => {
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <div
+                    className={`sticky bottom-0 left-0 right-0 z-50 mt-[60px] w-full bg-white p-4 lg:hidden ${!isAtBottom ? 'border-t border-[#D1D1D1]' : 'border-none'}`}
+                    ref={stickyRef}
+                >
+                    <Link href="https://docs.google.com/forms/d/e/1FAIpQLScy7EGMxpBYdlCDvw0pxi4XK4k8Cpaa1DRdizuMFYu3uw_vsg/viewform">
+                        <Button
+                            fullWidth
+                            height="56px"
+                            title="APPLY HERE"
+                            rightIcon={'/assets/images/arrowUp.svg'}
+                            animateRightIconOnHover
+                            rightIconSize="24px"
+                        />
+                    </Link>
                 </div>
             </section>
         </>
