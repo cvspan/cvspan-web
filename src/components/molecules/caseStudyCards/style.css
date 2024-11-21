@@ -7,7 +7,7 @@
 }
 
 .fdp_card_desc {
-    @apply text-[18px] font-[400] leading-[26px] text-[#484848] md:text-[16px] md:leading-[24px];
+    @apply text-[18px] font-[400] leading-[26px] text-[#484848] h-[72px] md:text-[16px] md:leading-[24px];
 }
 
 .fdp_card_title {

@@ -4,11 +4,6 @@ import BlogCards from '@/components/molecules/blogComponents/BlogCards';
 import ProfileData from './profileData';
 import Navbar from '@/components/molecules/layout/navbar';
 
-{
-    /* <BlogCards />
-                    <ProfileData /> */
-}
-
 const Profile = () => {
     return (
         <div>

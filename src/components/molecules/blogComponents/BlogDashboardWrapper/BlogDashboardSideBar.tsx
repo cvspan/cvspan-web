@@ -1,12 +1,16 @@
+import React from 'react';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import React from 'react';
+import { TUserType } from '@/types/blog';
+import { count } from 'console';
 
 interface NavigationItem {
     image: string;
     link: string;
     title: string;
+    user_type: TUserType[];
+    count?: number;
 }
 
 export const blogSideBarItems: NavigationItem[] = [
@@ -14,21 +18,46 @@ export const blogSideBarItems: NavigationItem[] = [
         image: '/assets/icons/my-posts.svg',
         link: '/blog/dashboard/my-posts',
         title: 'My Posts',
+        user_type: ['author'],
+        count: 5,
+    },
+
+    {
+        image: '/assets/icons/my-posts.svg',
+        link: '/blog/dashboard/all-posts',
+        title: 'All Posts',
+        user_type: ['admin'],
+        count: 0,
     },
     {
         image: '/assets/icons/profile.svg',
         link: '/blog/dashboard/profile',
         title: 'Profile',
+        user_type: ['admin', 'author'],
+        count: 0,
     },
+
+    {
+        image: '/assets/icons/profile.svg',
+        link: '/blog/dashboard/authors',
+        title: 'Authors',
+        user_type: ['admin', 'author'],
+        count: 0,
+    },
+
     {
         image: '/assets/icons/settings.svg',
         link: '/blog/dashboard/settings',
         title: 'Settings',
+        user_type: ['admin', 'author'],
+        count: 0,
     },
     {
         image: '/assets/icons/logout.svg',
         link: '/blog/auth/login',
         title: 'Logout',
+        user_type: ['admin', 'author'],
+        count: 0,
     },
 ];
 
@@ -50,6 +79,15 @@ function BlogDashboardSideBar() {
                         >
                             <img src={item?.image} className="h-[16px] w-[16px]" />{' '}
                             <span className="text-[14px] leading-[22px] text-[#1A1A1A]">{item?.title}</span>
+                            {(item?.count || 0) > 0 ? (
+                                <div>
+                                    <div className="flex h-[24px] w-[24px] items-center justify-center rounded-full bg-[#B40000]">
+                                        <span className="text-[11px] text-white">
+                                            {(item?.count || 0) > 99 ? '99+' : item?.count}
+                                        </span>
+                                    </div>
+                                </div>
+                            ) : undefined}
                         </Link>
                     );
                 })}
