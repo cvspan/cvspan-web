@@ -46,7 +46,7 @@ export const SocialMediaManager = () => {
                             />
                         </Link>
                     </motion.div>
-                    <div className="ml-auto w-full pt-[60px] lg:max-w-[800px]">
+                    <div className="ml-auto w-full pt-[60px] lg:max-w-[800px] lg:pt-0">
                         <div className="flex flex-col gap-[20px]">
                             <div className="mb-[32px]">
                                 <motion.div
@@ -230,7 +230,7 @@ export const SocialMediaManager = () => {
                     className={`sticky bottom-0 left-0 right-0 z-50 mt-[60px] w-full bg-white p-4 lg:hidden ${!isAtBottom ? 'border-t-[1px] border-[#D1D1D1]' : ''}`}
                     ref={stickyRef}
                 >
-                        <Link href="https://docs.google.com/forms/d/e/1FAIpQLSdK6oNHNz8AwRP3OetweAQVnUnfa7g1QZHUNZ1L6Eit1vJL2Q/viewform">
+                    <Link href="https://docs.google.com/forms/d/e/1FAIpQLSdK6oNHNz8AwRP3OetweAQVnUnfa7g1QZHUNZ1L6Eit1vJL2Q/viewform">
                         <Button
                             fullWidth
                             height="56px"

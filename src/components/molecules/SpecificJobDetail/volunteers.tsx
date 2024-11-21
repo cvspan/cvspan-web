@@ -46,7 +46,7 @@ export const Volunteers = () => {
                             />
                         </Link>
                     </motion.div>
-                    <div className="ml-auto w-full pt-[60px] lg:max-w-[800px]">
+                    <div className="ml-auto w-full pt-[60px] lg:max-w-[800px] lg:pt-0">
                         <div className="flex flex-col gap-[20px]">
                             <div className="mb-[32px]">
                                 <motion.div
