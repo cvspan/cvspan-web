@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
-import MarketingManagerPage from '@/components/pages/careers/specific-job/marketing-manager';
+import VolunteerPage from '@/components/pages/careers/specific-job/volunteers';
 
 export default function SpecificJob() {
-    return <MarketingManagerPage />;
+    return <VolunteerPage />;
 }

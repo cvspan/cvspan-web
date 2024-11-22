@@ -1,5 +1,5 @@
 import React from 'react';
-import { HumanResources } from '@/components/molecules/SpecificJobDetail/human-resources';
+import { HumanResource } from '@/components/molecules/SpecificJobDetail/human-resource';
 import GlobalTeam from '@/components/molecules/GlobalTeam';
 
 import Navbar from '@/components/molecules/layout/navbar';
@@ -10,7 +10,7 @@ export default function SpecificJobPage() {
     return (
         <>
             <Navbar light showScrollWatcher />
-            <HumanResources />
+            <HumanResource />
             <GlobalTeam />
             <Footer />
         </>
