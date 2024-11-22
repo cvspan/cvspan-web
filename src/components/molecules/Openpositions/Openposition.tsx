@@ -9,52 +9,93 @@ import Link from 'next/link';
 import useWindowSize from '@/hooks/general/useWindowSize';
 
 const Openposition = () => {
-    const [selected, setSelected] = useState<string>('All');
-
-    const buttons: string[] = ['All', 'Design', 'Development', 'Marketing', 'Business Development', 'Product'];
-
     const jobListings = [
         {
-            title: 'Project Manager',
+            title: 'Front End Developer',
             language: 'English',
-            level: 'Senior',
-            experience: '2 Years Experience',
-            location: 'Nigeria or Remote',
+            level: 'Internship',
+            experience: '1-2 Years Experience',
+            location: 'Remote Worldwide',
             arrowSrc: '/assets/icons/arrow-top-right-gray.svg',
+            link: 'front-end',
+            department: 'Development',
         },
         {
-            title: 'Senior React Developer',
+            title: 'Graphic Designer',
             language: 'English',
-            level: 'Senior',
-            experience: '2 Years Experience',
-            location: 'Nigeria or Remote',
+            level: 'Internship',
+            experience: '1-2 Years Experience',
+            location: 'Remote Worldwide',
             arrowSrc: '/assets/icons/arrow-top-right-gray.svg',
+            link: 'graphic-designer',
+            department: 'Design',
         },
         {
-            title: 'Technical Consultant',
+            title: 'Human Resources (HR)',
             language: 'English',
-            level: 'Senior',
-            experience: '2 Years Experience',
-            location: 'Nigeria or Remote',
+            level: 'Internship',
+            experience: '1-2 Years Experience',
+            location: 'Remote Worldwide',
             arrowSrc: '/assets/icons/arrow-top-right-gray.svg',
+            link: 'human-resource',
+            department: 'Management',
         },
         {
-            title: 'Lead Node.js Developer',
+            title: 'Social Media Manager',
             language: 'English',
-            level: 'Senior',
-            experience: '2 Years Experience',
-            location: 'Nigeria or Remote',
+            level: 'Internship',
+            experience: '1-2 Years Experience',
+            location: 'Remote Worldwide',
             arrowSrc: '/assets/icons/arrow-top-right-gray.svg',
+            link: 'social-media-manager',
+            department: 'Business Development',
         },
         {
-            title: 'Design Consultant',
+            title: 'Marketing Manager',
             language: 'English',
-            level: 'Senior',
-            experience: '2 Years Experience',
+            level: 'Internship',
+            experience: '1-2 Years Experience',
             location: 'Nigeria or Remote',
             arrowSrc: '/assets/icons/arrow-top-right-gray.svg',
+            link: 'marketing-manager',
+            department: 'Marketing',
+        },
+        {
+            title: 'SEO Manager',
+            language: 'English',
+            level: 'Internship',
+            experience: '1-2 Years Experience',
+            location: 'Nigeria or Remote',
+            arrowSrc: '/assets/icons/arrow-top-right-gray.svg',
+            link: 'seo-manager',
+            department: 'Development',
+        },
+        {
+            title: 'Volunteers',
+            language: 'English',
+            level: 'Volunteering',
+            experience: '0-2 Years Experience',
+            location: 'Nigeria or Remote',
+            arrowSrc: '/assets/icons/arrow-top-right-gray.svg',
+            link: 'volunteers',
+            department: 'Project',
         },
     ];
+
+    const [selected, setSelected] = useState<string>('All');
+
+    const buttons: string[] = [
+        'All',
+        'Design',
+        'Development',
+        'Marketing',
+        'Business Development',
+        'Project',
+        'Management',
+    ];
+
+    const filteredListings =
+        selected === 'All' ? jobListings : jobListings.filter((job) => job.department === selected);
 
     const { width } = useWindowSize();
     const smallDevice = width < 900;
@@ -99,15 +140,16 @@ const Openposition = () => {
                     </motion.div>
                     <div className="ml-auto w-full lg:max-w-[800px]">
                         <div className="flex flex-col gap-[20px]">
-                            <div className="flex w-full gap-[12px] rounded-[8px] bg-[#F4F4F4] p-[24px]">
+                            {/* <div className="flex w-full gap-[12px] rounded-[8px] bg-[#F4F4F4] p-[24px]">
                                 <img src="/assets/icons/info-circle.svg" />
                                 <p className="text-[16px] font-normal leading-[24px] text-[#1A1A1A]">
                                     We have no positions open at the moment. Check back later
                                 </p>
-                            </div>
+                            </div> */}
                             {/* PLEASE DONT DELETE */}
-                            {/* {jobListings.map((job, index) => (
-                                <Link className="cursor-pointer" href="/careers/specific-job" key={index}>
+
+                            {filteredListings.map((job, index) => (
+                                <Link className="cursor-pointer" href={`/careers/${job.link}`} key={index}>
                                     <motion.div
                                         {...ANIMATE_PROPS({
                                             delay: 0.05 * index,
@@ -169,7 +211,7 @@ const Openposition = () => {
                                         </div>
                                     </motion.div>
                                 </Link>
-                            ))} */}
+                            ))}
                         </div>
                     </div>
                 </div>
