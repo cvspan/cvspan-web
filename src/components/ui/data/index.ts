@@ -12,15 +12,14 @@ export const TEAMS: Team[] = [
             "I approach both design and leadership with a people-first mindset, developing empathy for the people who create and utilise the products and services I help bring to life. Throughout my career, I've worked with various industries such as Web 3, Fintech, SaaS, Healthcare, AI and ML, leading design teams to develop insight-driven, human-centered",
         ],
     },
-
-    {
-        id: 'tobi-olowu',
-        name: 'Tobi Olowu',
-        role: 'VP Designs',
-        avatar: '/assets/images/team/tobi-olowu.jpg',
-        linkedin: '/',
-        bio: [],
-    },
+    // {
+    //     id: 'tobi-olowu',
+    //     name: 'Tobi Olowu',
+    //     role: 'VP Designs',
+    //     avatar: '/assets/images/team/tobi-olowu.jpg',
+    //     linkedin: '/',
+    //     bio: [],
+    // },
     {
         id: 'charles-eshimokhai',
         name: 'Charles Eshimokhai',
@@ -134,23 +133,23 @@ export const TEAMS: Team[] = [
         bio: [],
     },
 
-    {
-        id: 'Omotoyosi Adebayo',
-        name: 'Omotoyosi Adebayo',
-        role: 'UI/UX Designer',
-        avatar: '/assets/images/team/omotoyosi-adebayo.jpg',
-        linkedin: '/',
-        bio: [],
-    },
+    // {
+    //     id: 'Omotoyosi Adebayo',
+    //     name: 'Omotoyosi Adebayo',
+    //     role: 'UI/UX Designer',
+    //     avatar: '/assets/images/team/omotoyosi-adebayo.jpg',
+    //     linkedin: '/',
+    //     bio: [],
+    // },
 
-    {
-        id: 'Blessing Simon',
-        name: 'Blessing Simon',
-        role: 'Social Media Manager',
-        avatar: '/assets/images/team/blessing-simon.jpg',
-        linkedin: '/',
-        bio: [],
-    },
+    // {
+    //     id: 'Blessing Simon',
+    //     name: 'Blessing Simon',
+    //     role: 'Social Media Manager',
+    //     avatar: '/assets/images/team/blessing-simon.jpg',
+    //     linkedin: '/',
+    //     bio: [],
+    // },
     {
         id: 'Afniki Aruwa',
         name: 'Afniki Aruwa',
