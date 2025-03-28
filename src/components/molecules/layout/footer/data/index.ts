@@ -112,22 +112,31 @@ export const FOOTER_LINKS: FooterLink[] = [
                 disabled: false,
                 comingSoon: false,
             },
+
             {
                 id: 3,
-                text: 'Blog',
-                link: '/blog',
-                disabled: true,
-                comingSoon: true,
+                text: 'Tech School',
+                link: 'https://learn.cvspan.com',
+                disabled: false,
+                comingSoon: false,
             },
+
             {
                 id: 4,
+                text: 'Blog',
+                link: 'https://blog.cvspan.com',
+                disabled: false,
+                comingSoon: false,
+            },
+            {
+                id: 5,
                 text: 'Contact Us',
                 link: '/contact',
                 disabled: false,
                 comingSoon: false,
             },
             {
-                id: 5,
+                id: 6,
                 text: 'Careers',
                 link: '/careers',
                 disabled: false,
