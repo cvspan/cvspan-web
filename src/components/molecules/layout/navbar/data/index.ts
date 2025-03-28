@@ -169,11 +169,19 @@ export const getNavLinks = ({ isBlogPage }: { isBlogPage?: boolean }): NavLink[]
                   {
                       id: 3,
                       text: 'Blog',
-                      link: '/blog',
-                      disabled: true,
-                      comingSoon: true,
+                      link: 'https://read.cvspan.com',
+                      disabled: false,
+                      comingSoon: false,
                   },
               ]),
+
+        {
+            id: 4,
+            text: 'Community',
+            link: 'https://community.cvspan.com/',
+            disabled: false,
+            comingSoon: false,
+        },
     ];
 };
 
