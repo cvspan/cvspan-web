@@ -38,13 +38,14 @@ function LeeDeonVisual() {
 
                     <div className="flex flex-col flex-wrap gap-10 pb-[56px]">
                         <div className="flex w-full flex-row flex-wrap justify-center gap-4 md:gap-8">
-                            <div className="flex h-[472px] w-full flex-col items-center justify-between rounded-2xl border-[1px] border-[#0000004D] p-[30px] md:p-[42px] xl:w-[790px]">
+                            <div className="flex h-[472px] w-full flex-col items-center justify-between rounded-xl border-[1px] border-[#0000004D] p-[30px] md:p-[42px] xl:w-[790px]">
                                 <div className="flex h-fit w-full flex-row items-center justify-between font-medium">
-                                    <h1 className="text-[36px]">Typography</h1>
+                                    {/* Type-scale specimen label, not a document heading. */}
+                                    <p className="text-[36px]">Typography</p>
                                     <p className="text-[36px]">Inter</p>
                                 </div>
                                 <div className="flex h-fit w-full flex-row items-center justify-between font-medium">
-                                    <h1 className="text-[36px]">Heading H1</h1>
+                                    <p className="text-[36px]">Heading H1</p>
                                     <p className="text-[16px]">Inter, 46px</p>
                                 </div>
                                 <div className="flex h-fit w-full flex-row items-center justify-between font-medium">
@@ -69,8 +70,8 @@ function LeeDeonVisual() {
                                 </div>
                             </div>
 
-                            <div className="flex h-[389px] w-[calc(50%-16px)] flex-col rounded-2xl text-lg text-white lg:w-[calc(25%-24px)] xl:h-[472px] xl:w-[378px]">
-                                <span className="flex h-[94.4px] w-full items-center justify-center rounded-t-2xl bg-[#E6E8EA] px-6 text-[#000000]">
+                            <div className="flex h-[389px] w-[calc(50%-16px)] flex-col rounded-xl text-lg text-white lg:w-[calc(25%-24px)] xl:h-[472px] xl:w-[378px]">
+                                <span className="flex h-[94.4px] w-full items-center justify-center rounded-t-xl bg-[#E6E8EA] px-6 text-[#000000]">
                                     <p className="text-[16px] font-medium lg:text-[32px]">#E6E8EA</p>
                                 </span>
                                 <span className="flex h-[94.4px] w-full items-center justify-center bg-[#ACAEB2] px-6">
@@ -82,20 +83,20 @@ function LeeDeonVisual() {
                                 <span className="flex h-[94.4px] w-full items-center justify-center bg-[#8E8E8E] px-6">
                                     <p className="text-[16px] font-medium lg:text-[32px]">#8E8E8E</p>
                                 </span>
-                                <span className="flex h-[94.4px] w-full items-center justify-center rounded-b-2xl bg-[#1D2333] px-6">
+                                <span className="flex h-[94.4px] w-full items-center justify-center rounded-b-xl bg-[#1D2333] px-6">
                                     <p className="text-[16px] font-medium lg:text-[32px]">#1D2333</p>
                                 </span>
                             </div>
 
-                            <div className="flex h-[389px] w-[calc(50%-16px)] items-end justify-center rounded-2xl bg-[#1D2333] px-6 pb-[24px] text-lg text-[#16171B] md:justify-start md:px-[40px] lg:w-[calc(25%-24px)] xl:w-[378px]">
+                            <div className="flex h-[389px] w-[calc(50%-16px)] items-end justify-center rounded-xl bg-[#1D2333] px-6 pb-[24px] text-lg text-[#16171B] md:justify-start md:px-[40px] lg:w-[calc(25%-24px)] xl:w-[378px]">
                                 <p className="text-[16px] font-medium text-white lg:text-[32px]">#1D2333</p>
                             </div>
 
-                            <div className="flex h-[389px] w-[calc(50%-16px)] items-end justify-center rounded-2xl border-[1px] border-[#0000004D] bg-[#FFFFFF] px-6 pb-[24px] text-lg text-black md:justify-start md:px-[40px] lg:w-[calc(25%-24px)] xl:w-[378px]">
+                            <div className="flex h-[389px] w-[calc(50%-16px)] items-end justify-center rounded-xl border-[1px] border-[#0000004D] bg-[#FFFFFF] px-6 pb-[24px] text-lg text-black md:justify-start md:px-[40px] lg:w-[calc(25%-24px)] xl:w-[378px]">
                                 <p className="text-[16px] font-medium lg:text-[32px]">#FFFFFF</p>
                             </div>
 
-                            <div className="flex h-[389px] w-[calc(50%-16px)] items-end justify-center rounded-2xl bg-[#2B64E2] px-6 pb-[24px] text-lg text-white md:justify-start md:px-[40px] lg:w-[calc(25%-24px)] lg:flex-1 xl:w-[378px]">
+                            <div className="flex h-[389px] w-[calc(50%-16px)] items-end justify-center rounded-xl bg-[#2B64E2] px-6 pb-[24px] text-lg text-white md:justify-start md:px-[40px] lg:w-[calc(25%-24px)] lg:flex-1 xl:w-[378px]">
                                 <p className="text-[16px] font-medium lg:text-[32px]">#2B64E2</p>
                             </div>
                         </div>

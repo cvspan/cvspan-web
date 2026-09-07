@@ -36,7 +36,7 @@ const CaseStudyLanding: React.FC<Props> = ({ header, paragraph, buttons }) => {
     return (
         <div className="relative flex h-screen items-end justify-end bg-[#0c0c0c] px-5 md:h-[679px]">
             <div className="absolute left-0 top-0 z-10">
-                <img src={'/assets/images/haomepage_banner.png'} alt="elipse" />
+                <img src={'/assets/images/homepage_banner.png'} alt="elipse" />
             </div>
             <div className="relative z-20 mx-auto flex h-fit w-full max-w-[1200px] flex-col items-end gap-[23px] pb-[90px] pt-[120px] lg:h-full lg:flex-row lg:items-end lg:justify-between lg:pt-[180px]">
                 <div className="flex h-fit w-full flex-col gap-[23px] lg:max-w-[742px]">

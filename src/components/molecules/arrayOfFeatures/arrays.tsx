@@ -227,7 +227,7 @@ export const industries = {
             },
             {
                 id: 4,
-                title: 'Improvements ',
+                title: 'Improvements',
                 details:
                     'Based on the data and insightful feedback from users, we redesign and enhance our AI solutions.',
             },

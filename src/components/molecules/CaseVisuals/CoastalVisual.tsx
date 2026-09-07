@@ -69,7 +69,7 @@ function CoastalVisual() {
 
                     {/* <div className="ml-[80px] flex h-fit flex-row gap-6">
                     <div className="flex flex-col gap-6">
-                        <div className="flex h-[208px] flex-col items-start justify-between rounded-2xl border-[1px] border-[#0000004D] bg-white py-[30px] pl-[30px] pr-[196px]">
+                        <div className="flex h-[208px] flex-col items-start justify-between rounded-xl border-[1px] border-[#0000004D] bg-white py-[30px] pl-[30px] pr-[196px]">
                             <p className="text-lg font-semibold">Heading Font</p>
                             <div className="w-[290px] text-left">
                                 <p className="mt-2 text-sm">
@@ -79,7 +79,7 @@ function CoastalVisual() {
                             </div>
                         </div>
 
-                        <div className="flex h-[208px] flex-col items-start justify-between rounded-2xl bg-violet-100 py-[30px] pl-[30px]">
+                        <div className="flex h-[208px] flex-col items-start justify-between rounded-xl bg-violet-100 py-[30px] pl-[30px]">
                             <div className="flex flex-col gap-2 text-left">
                                 <p className="text-sm">Regular</p>
                                 <p className="text-sm font-medium">Medium</p>
@@ -89,7 +89,7 @@ function CoastalVisual() {
                         </div>
                     </div>
 
-                    <div className="flex h-[440px] w-[250px] items-end justify-start rounded-2xl bg-[#3D3E70] pb-[30px] pl-[30px] text-white">
+                    <div className="flex h-[440px] w-[250px] items-end justify-start rounded-xl bg-[#3D3E70] pb-[30px] pl-[30px] text-white">
                         <div className="flex flex-col gap-4 text-[14px]">
                             <p>#3D3E70</p>
                             <p>American Blue</p>
@@ -97,7 +97,7 @@ function CoastalVisual() {
                     </div>
 
                     <div className="flex flex-1 flex-col gap-6">
-                        <div className="items-START flex h-[208px] w-full items-end justify-start rounded-l-2xl bg-[#FB774F] py-[30px] pl-[30px] text-white">
+                        <div className="items-START flex h-[208px] w-full items-end justify-start rounded-l-xl bg-[#FB774F] py-[30px] pl-[30px] text-white">
                             <div className="flex flex-col gap-4 text-[14px] text-black">
                                 <p>#FB774F</p>
                                 <p>Coral</p>
@@ -105,14 +105,14 @@ function CoastalVisual() {
                         </div>
 
                         <div className="flex flex-row gap-6">
-                            <div className="flex h-[208px] w-[250px] items-end justify-start rounded-2xl bg-[#1F1F1F] p-6 text-white">
+                            <div className="flex h-[208px] w-[250px] items-end justify-start rounded-xl bg-[#1F1F1F] p-6 text-white">
                                 <div className="flex flex-col gap-4 text-[14px]">
                                     <p>#1F1F1F</p>
                                     <p>Eerie Black</p>
                                 </div>
                             </div>
 
-                            <div className="flex h-[208px] flex-1 items-end justify-start rounded-l-2xl border-[1px] border-[#0000004D] bg-white p-6">
+                            <div className="flex h-[208px] flex-1 items-end justify-start rounded-l-xl border-[1px] border-[#0000004D] bg-white p-6">
                                 <div className="flex flex-col gap-4 text-[14px] text-black">
                                     <p>#FFFFFF</p>
                                     <p>White</p>

@@ -13,9 +13,9 @@ const BlogSettings = (props: Props) => {
         <div className="flex h-full items-center justify-center">
             <div className="w-[350px] space-y-[24px]">
                 <div className="space-y-[16px]">
-                    <h1 className="font-pp-mori text-[16px] font-[500] leading-[24px] text-[#1a1a1a]">
+                    <h3 className="font-pp-mori text-[16px] font-[500] leading-[24px] text-[#1a1a1a]">
                         Change Password
-                    </h1>
+                    </h3>
                     <div className="relative w-full">
                         <input
                             type="text"

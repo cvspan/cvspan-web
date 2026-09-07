@@ -1,13 +1,8 @@
-'use client';
-import Privacy from '@/components/molecules/Cookie-Policy/Privacy';
 import React from 'react';
 
-const page = () => {
-    return (
-        <>
-            <Privacy pageTitle={'Cookies Policy'} />
-        </>
-    );
-};
+import LegalPage from '@/components/molecules/legal/LegalPage';
+import { COOKIE_POLICY } from '@/components/molecules/legal/content/cookie-policy';
 
-export default page;
+export default function Page() {
+    return <LegalPage document={COOKIE_POLICY} />;
+}

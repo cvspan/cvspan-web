@@ -10,7 +10,7 @@ export const OurVisionAndMission = () => {
         <div className="px-5 py-[60px] lg:py-[120px]">
             <div className="m-auto max-w-[1200px]">
                 <div className="grid grid-cols-2 gap-5 lg:grid-cols-2 lg:gap-6">
-                    <div className="col-span-2 rounded-3xl bg-[#f5f5f5] px-5 lg:px-0">
+                    <div className="col-span-2 rounded-xl bg-[#f5f5f5] px-5 lg:px-0">
                         <div className="grid min-h-[354px] grid-cols-2 overflow-hidden lg:ml-[40.5px] lg:grid-cols-3">
                             <div className="col-span-2 flex w-full flex-col gap-y-8 pt-6 lg:col-span-1 lg:my-10">
                                 <motion.div
@@ -42,12 +42,18 @@ export const OurVisionAndMission = () => {
                             </div>
 
                             <div className="col-span-2 flex h-full max-h-[354px] justify-end pt-[40px]">
-                                <img src="/assets/images/workflow.webp" className="h-full" />
+                                <img
+                                    src="/assets/images/workflow.webp"
+                                    className="h-full"
+                                    alt=""
+                                    loading="lazy"
+                                    decoding="async"
+                                />
                             </div>
                         </div>
                     </div>
                     <div className="col-span-2 md:col-span-1">
-                        <div className="rounded-3xl bg-[#f5f5f5]">
+                        <div className="rounded-xl bg-[#f5f5f5]">
                             <div className="p-6 lg:p-10">
                                 <motion.div
                                     {...ANIMATE_PROPS({ delay: 0 })}
@@ -67,7 +73,7 @@ export const OurVisionAndMission = () => {
                         </div>
                     </div>
                     <div className="col-span-2 md:col-span-1">
-                        <div className="h-full rounded-3xl bg-[#f5f5f5]">
+                        <div className="h-full rounded-xl bg-[#f5f5f5]">
                             <div className="p-6 lg:p-10">
                                 <motion.div
                                     {...ANIMATE_PROPS({ delay: 0 })}

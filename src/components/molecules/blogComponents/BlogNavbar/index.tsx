@@ -26,6 +26,7 @@ const BlogNavbar = () => {
                             </div>
                             <input
                                 type="text"
+                                aria-label="Search"
                                 placeholder="Search"
                                 className="w-full bg-transparent font-eudoxus text-[16px] font-[400] leading-[24px] outline-none placeholder:font-eudoxus placeholder:text-[16px] placeholder:font-[400] placeholder:leading-[24px]"
                             />

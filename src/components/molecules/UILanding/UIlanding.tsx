@@ -13,7 +13,7 @@ const UIlanding = ({
     return (
         <div className="relative h-[820px] bg-[#0c0c0c]">
             <div className="absolute left-0 top-0">
-                <img src={'/assets/images/haomepage_banner.png'} alt="elipse" />
+                <img src={'/assets/images/homepage_banner.png'} alt="elipse" />
             </div>
             <div className="flex h-full w-full flex-col items-center justify-center space-y-6">
                 <div className="flex w-[1200px] items-center justify-between gap-32">

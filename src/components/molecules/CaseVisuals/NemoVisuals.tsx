@@ -39,7 +39,7 @@ function NemoVisual() {
                     </div>
 
                     <div className="flex flex-row flex-wrap gap-4">
-                        <div className="flex w-full flex-1 items-center justify-center rounded-2xl bg-[#30BDFF] px-[86px] py-[17px] lg:w-fit">
+                        <div className="flex w-full flex-1 items-center justify-center rounded-xl bg-[#30BDFF] px-[86px] py-[17px] lg:w-fit">
                             <div className="flex h-[260px] w-[260px] items-center justify-center rounded-full bg-white md:h-[418px] md:w-[418px]">
                                 <p>#30BDFF</p>
                             </div>
@@ -47,12 +47,12 @@ function NemoVisual() {
                         <div className="flex w-full flex-1 flex-col flex-wrap gap-4 md:w-fit">
                             {/* jknvsjhkdfvkfv */}
                             <div className="flex w-full flex-row gap-4">
-                                <div className="flex flex-1 items-center justify-center rounded-2xl bg-[#FF672A] px-10 py-[16px] md:h-fit md:w-fit md:px-[49px]">
+                                <div className="flex flex-1 items-center justify-center rounded-xl bg-[#FF672A] px-10 py-[16px] md:h-fit md:w-fit md:px-[49px]">
                                     <div className="flex aspect-square w-[140px] items-center justify-center rounded-full bg-white md:h-[186px] md:w-[191px]">
                                         <p>#FF672A</p>
                                     </div>
                                 </div>
-                                <div className="flex flex-1 items-center justify-center rounded-2xl bg-[#5D6C7C] px-10 py-[16px] md:h-fit md:w-fit md:px-[49px]">
+                                <div className="flex flex-1 items-center justify-center rounded-xl bg-[#5D6C7C] px-10 py-[16px] md:h-fit md:w-fit md:px-[49px]">
                                     <div className="flex aspect-square w-[140px] items-center justify-center rounded-full bg-white md:h-[186px] md:w-[191px]">
                                         <p>#5D6C7C</p>
                                     </div>
@@ -60,12 +60,12 @@ function NemoVisual() {
                             </div>
 
                             <div className="flex w-full flex-row gap-4">
-                                <div className="flex flex-1 items-center justify-center rounded-2xl bg-[#F1C932] px-10 py-[16px] md:h-fit md:w-fit md:px-[49px]">
+                                <div className="flex flex-1 items-center justify-center rounded-xl bg-[#F1C932] px-10 py-[16px] md:h-fit md:w-fit md:px-[49px]">
                                     <div className="flex aspect-square w-[140px] items-center justify-center rounded-full bg-white md:h-[186px] md:w-[191px]">
                                         <p>#F1C932</p>
                                     </div>
                                 </div>
-                                <div className="flex flex-1 items-center justify-center rounded-2xl bg-[#EEF1F9] px-10 py-[16px] md:h-fit md:w-fit md:px-[49px]">
+                                <div className="flex flex-1 items-center justify-center rounded-xl bg-[#EEF1F9] px-10 py-[16px] md:h-fit md:w-fit md:px-[49px]">
                                     <div className="flex aspect-square w-[140px] items-center justify-center rounded-full bg-white md:h-[186px] md:w-[191px]">
                                         <p>#EEF1F9</p>
                                     </div>
@@ -80,5 +80,3 @@ function NemoVisual() {
 }
 
 export default NemoVisual;
-                           
-                     

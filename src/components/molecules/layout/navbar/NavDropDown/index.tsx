@@ -3,151 +3,155 @@ import Link from 'next/link';
 import { NavbarList, SubNavbarList } from '../types';
 import { motion } from 'framer-motion';
 
+/**
+ * Shared shell for both mega menus.
+ *
+ * `overflow-hidden` lets the rounded corners clip the blue panel cleanly, so
+ * the two halves can never disagree about their radius. The hairline border
+ * gives the white surface a defined edge that a soft shadow alone cannot.
+ */
+const MenuSurface = ({ children, className = '' }: { children: React.ReactNode; className?: string }) => (
+    // Positioning is handled by the trigger's HoverCardContent (aligned to the
+    // menu item, offset 200px left), so this is just the surface itself.
+    <div
+        className={`z-[1000] max-w-full overflow-hidden rounded-xl bg-white shadow-menu ring-1 ring-[rgba(16,24,40,0.06)] ${className}`}
+    >
+        {children}
+    </div>
+);
+
+/** One service/industry entry. */
+const MenuItem = ({ item }: { item: SubNavbarList }) => (
+    <li>
+        <Link
+            href={item.link}
+            className="group/item -mx-3 flex items-center gap-x-4 rounded-xl px-3 py-2.5 transition-colors duration-150 hover:bg-[#F5F6FF] focus-visible:bg-[#F5F6FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1A1AFF]/40"
+        >
+            {/* No fill behind the icon: these glyphs are a pale #D1D1FF drawn for a
+                white surface, so any grey tint behind them destroys the contrast. */}
+            <span className="flex h-[44px] w-[44px] flex-shrink-0 items-center justify-center">
+                <img
+                    src={item.icon}
+                    alt=""
+                    className="max-h-[36px] max-w-[36px] object-contain"
+                    loading="lazy"
+                    decoding="async"
+                />
+            </span>
+
+            <span className="min-w-0">
+                <span className="block font-eudoxus text-base font-medium leading-tight text-[#1a1a1a] transition-colors duration-150 group-hover/item:text-[#1A1AFF]">
+                    {item.title}
+                </span>
+                <span className="mt-1 hidden font-eudoxus text-xs leading-snug text-[#767676] lg:block">
+                    {item.caption}
+                </span>
+            </span>
+        </Link>
+    </li>
+);
+
+/** One labelled column of entries. */
+const MenuColumn = ({ group }: { group: NavbarList }) => (
+    <div>
+        {group.title ? (
+            // Navigation label, deliberately not a heading: the menu renders
+            // above the page's <h1> and should not sit in the document outline.
+            <p className="mb-5 font-eudoxus text-xs font-medium uppercase tracking-[0.08em] text-[#a3a3a3]">
+                {group.title}
+            </p>
+        ) : null}
+        <ul className="grid list-none gap-y-1">
+            {group.list.map((item: SubNavbarList) => (
+                <MenuItem key={item.id} item={item} />
+            ))}
+        </ul>
+    </div>
+);
+
+// Type is scaled to the 250px card: at the previous 40px/30px sizes the heading
+// broke to four lines and "LET'S TALK" wrapped onto two.
 const LetsTalk = () => (
-    <div className="h-full">
-        <div className="bg relative flex h-full flex-col rounded-r-3xl py-[37px] pe-[25px] ps-[37px]">
-            <div className="flex flex-col gap-y-1">
-                <h1 className={'leding-[56px] max-w-[350px] font-eudoxus text-5xl font-extrabold text-white'}>
-                    HAVE AN IDEA IN MIND
-                </h1>
+    <div className="bg relative flex h-full flex-col justify-between p-8">
+        <div className="flex flex-col gap-y-3">
+            <p className="font-eudoxus text-[26px] font-extrabold leading-[1.15] text-white">HAVE AN IDEA IN MIND</p>
 
-                <div className={'font-eudoxus text-lg font-normal text-white'}>
-                    Let`s create amazing digital experiences together
-                </div>
-            </div>
-
-            <Link href={'/contact'} className="mt-auto">
-                <motion.button
-                    whileHover="on_hover"
-                    className="group inline-flex flex-shrink-0 items-center gap-x-[40px] font-eudoxus text-[34px] leading-[42px] text-white"
-                >
-                    <motion.h4 className="text-[34px] leading-[42px] group-hover:text-white/80">LET’S TALK</motion.h4>
-
-                    <motion.img
-                        initial={{ x: '-30px', y: 30, opacity: 0 }}
-                        variants={{
-                            on_hover: {
-                                x: 0,
-                                y: 0,
-                                opacity: 1,
-                            },
-                        }}
-                        src="/assets/icons/arrow-up-big-white.svg"
-                        className="hidden h-[40px] w-[40px] group-hover:block"
-                    />
-
-                    <motion.img
-                        initial={{ x: 0, y: 0, opacity: 1 }}
-                        variants={{
-                            on_hover: {
-                                x: 30,
-                                y: -30,
-                                opacity: 0,
-                            },
-                        }}
-                        src="/assets/icons/arrow-up-big-white.svg"
-                        className="h-[40px] w-[40px] group-hover:hidden"
-                    />
-                </motion.button>
-            </Link>
+            <p className="font-eudoxus text-sm font-normal leading-relaxed text-white/80">
+                Let’s create amazing digital experiences together
+            </p>
         </div>
+
+        <Link href={'/contact'} className="mt-auto inline-block">
+            <motion.span
+                whileHover="on_hover"
+                initial="rest"
+                className="group inline-flex items-center gap-x-3 whitespace-nowrap font-eudoxus text-[21px] leading-[28px] text-white"
+            >
+                <span className="transition-colors duration-150 group-hover:text-white/80">LET’S TALK</span>
+
+                <span className="relative block h-[26px] w-[26px] flex-shrink-0">
+                    <motion.img
+                        variants={{ rest: { x: 0, y: 0, opacity: 1 }, on_hover: { x: 24, y: -24, opacity: 0 } }}
+                        transition={{ duration: 0.25, ease: 'easeOut' }}
+                        src="/assets/icons/arrow-up-big-white.svg"
+                        className="absolute inset-0 h-full w-full"
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                    />
+                    <motion.img
+                        variants={{ rest: { x: -24, y: 24, opacity: 0 }, on_hover: { x: 0, y: 0, opacity: 1 } }}
+                        transition={{ duration: 0.25, ease: 'easeOut' }}
+                        src="/assets/icons/arrow-up-big-white.svg"
+                        className="absolute inset-0 h-full w-full"
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                    />
+                </span>
+            </motion.span>
+        </Link>
     </div>
 );
 
 export const NavDropDownService = ({ links }: { links: NavbarList[] }) => {
+    // 970px total = 720 for the links (40 padding + 300 + 40 gap + 300 + 40 padding)
+    // alongside a fixed 250px CTA. The CTA is the only fixed track, so the two link
+    // columns resolve to exactly 300px each and shrink together on narrower screens
+    // rather than clipping.
     return (
-        <div
-            className="lg:grid lg:auto-cols-auto lg:grid-cols-12 lg:gap-x-[33px] lg:rounded-3xl lg:bg-white"
-            style={{
-                boxShadow: 'rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px',
-                zIndex: '1000',
-            }}
-        >
-            <div className="lg:col-span-7">
-                <div className="py-[37px] lg:rounded-l-[24px] lg:ps-[40px]">
-                    <div className="grid gap-y-10 lg:gap-x-[60px]">
-                        {links.map((navList: NavbarList) => (
-                            <div key={navList.id} className="row-start-1">
-                                <h2 className="font-eudoxus text-lg text-[#a3a3a3]">{navList.title}</h2>
-                                <div className="mt-8 grid gap-y-4 lg:gap-y-8">
-                                    {navList.list.map((list: SubNavbarList) => (
-                                        <div key={list.id} className="group">
-                                            <Link href={list.link} className="flex gap-x-6">
-                                                <div className="flex h-[50px] w-[50px] items-center justify-center rounded-full">
-                                                    <img src={list.icon} alt="" />
-                                                </div>
-                                                <span>
-                                                    <div className="font-eudoxus text-base font-medium text-[#1a1a1a] group-hover:text-[#1A1AFF]">
-                                                        {list.title}
-                                                    </div>
-                                                    <div className="text-slate-[#1a1a1a] hidden font-eudoxus text-xs lg:block">
-                                                        {list.caption}
-                                                    </div>
-                                                </span>
-                                            </Link>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
+        <MenuSurface className="lg:grid lg:w-[970px] lg:grid-cols-[1fr_250px]">
+            <div>
+                <div className="grid gap-x-10 gap-y-10 p-10 lg:grid-cols-2">
+                    {links.map((group: NavbarList) => (
+                        <MenuColumn key={group.id} group={group} />
+                    ))}
                 </div>
             </div>
-            <div className="hidden lg:col-span-5 lg:block">
+
+            <div className="hidden lg:block">
                 <LetsTalk />
             </div>
-        </div>
+        </MenuSurface>
     );
 };
 
 export const NavDropDownIndustry = ({ links }: { links: NavbarList[] }) => {
+    // One column of industries, so 630px = 40 + 300 + 40 padding, plus the same
+    // fixed 250px CTA used by the services menu.
     return (
-        <div>
+        <MenuSurface className="grid w-[630px] grid-cols-[1fr_250px]">
             <div>
-                <div
-                    className="grid auto-cols-auto grid-cols-4 rounded-3xl bg-white"
-                    style={{
-                        boxShadow: 'rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px',
-                        zIndex: '1000',
-                    }}
-                >
-                    <div className="col-span-2 pe-[80px]">
-                        <div className="lg:rounded-l-[24px] lg:bg-white lg:py-[37px] lg:ps-[40px]">
-                            <div className="grid gap-y-10 lg:gap-x-14">
-                                {links.map((navList: NavbarList) => (
-                                    <div key={navList.id} className={`cvspan-nav-link lg:row-start-1`}>
-                                        <h2 className="font-eudoxus text-lg text-[#a3a3a3]">{navList.title}</h2>
-                                        <div className="mt-8 grid gap-y-4 lg:gap-y-8">
-                                            {navList.list.map((list: SubNavbarList) => (
-                                                <div key={list.id} className="group">
-                                                    <Link href={list.link} className="flex gap-x-6">
-                                                        <div className="flex h-[50px] w-[50px] items-center justify-center rounded-full">
-                                                            <img src={list.icon} alt="" />
-                                                        </div>
-                                                        <span>
-                                                            <div
-                                                                className={`cvspan-nav-title font-eudoxus text-base font-medium text-[#1a1a1a] group-hover:text-[#1A1AFF]`}
-                                                            >
-                                                                {list.title}
-                                                            </div>
-                                                            <div className="hidden font-eudoxus text-xs text-[#1a1a1a] lg:block">
-                                                                {list.caption}
-                                                            </div>
-                                                        </span>
-                                                    </Link>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-span-2 block">
-                        <LetsTalk />
-                    </div>
+                <div className="grid gap-y-10 p-10">
+                    {links.map((group: NavbarList) => (
+                        <MenuColumn key={group.id} group={group} />
+                    ))}
                 </div>
             </div>
-        </div>
+
+            <div className="block">
+                <LetsTalk />
+            </div>
+        </MenuSurface>
     );
 };

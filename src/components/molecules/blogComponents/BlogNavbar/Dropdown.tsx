@@ -16,11 +16,11 @@ const Dropdown = () => {
         <div>
             <DropdownMenu>
                 <DropdownMenuTrigger className="outline-none">
-                    <button>
+                    <button type="button" aria-label="Open account menu">
                         <img src="/assets/images/profile_picture.png" alt="" className="size-[40px] md:size-[50px]" />
                     </button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="mt-[5px] rounded-[12px] p-4">
+                <DropdownMenuContent className="mt-[5px] rounded-xl p-4">
                     <DropdownMenuLabel>
                         <div className="space-y-3">
                             <h1 className="font-gordita text-[16px] font-medium capitalize leading-[24px] text-[#000] dark:text-[#ffffff]">
@@ -38,7 +38,7 @@ const Dropdown = () => {
                             <Link key={item?.title} href={item?.link}>
                                 <DropdownMenuItem>
                                     <div className="flex items-center gap-2">
-                                        <img src={item?.image} />
+                                        <img src={item?.image} alt="" loading="lazy" decoding="async" />
                                         <span>
                                             <p className="font-gordita text-[16px] font-normal leading-[24px]">
                                                 {item?.title}

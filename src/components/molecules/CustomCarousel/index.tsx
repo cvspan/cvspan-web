@@ -25,7 +25,7 @@ const CustomCarousel = ({
 
                         return (
                             <div
-                                className={`${selectedIndex === index ? '' : 'opacity-45'} relative flex h-[340px] w-[280px] shrink-0 flex-grow-0 flex-col items-start gap-[24px] rounded-[15px] p-[16px] md:h-[364px] md:w-[659px] md:gap-[32px] md:p-[24px] xl:p-[40px]`}
+                                className={`${selectedIndex === index ? '' : 'opacity-45'} gradient-border flex h-[340px] w-[280px] shrink-0 flex-grow-0 flex-col items-start gap-[24px] rounded-xl p-[16px] md:h-[364px] md:w-[659px] md:gap-[32px] md:p-6 xl:p-[40px]`}
                                 key={item?.id}
                                 // style={{
                                 //     border: '1px solid',
@@ -34,26 +34,13 @@ const CustomCarousel = ({
                                 //         'linear-gradient(to right, rgba(104, 104, 104, 1), rgba(39, 39, 39, 1), rgba(39, 39, 39, 1),rgba(104, 104, 104)',
                                 // }}
                             >
-                                {/* <img
-                                    src={
-                                        hasLongerDescription
-                                            ? '/assets/images/border-faq-lg.svg'
-                                            : '/assets/images/border-faq-bg.svg'
-
-                                    }
-                                    className="absolute left-0 top-0 hidden h-full w-full md:block"
-                                /> */}
-
                                 <img
-                                    src={'/assets/images/border-faq-lg.svg'}
-                                    className="absolute left-0 top-0 hidden h-full w-full md:block"
+                                    src={'/assets/icons/green-quote.svg'}
+                                    className="w-[20px] md:w-[37px]"
+                                    alt=""
+                                    loading="lazy"
+                                    decoding="async"
                                 />
-                                <img
-                                    src="/assets/images/border-faq-sm.svg"
-                                    className="absolute left-0 top-0 block h-full w-full md:hidden"
-                                />
-
-                                <img src={'/assets/icons/green-quote.svg'} className="w-[20px] md:w-[37px]" />
 
                                 <div className="hidden w-full overflow-hidden md:block">
                                     <p className="w-full text-ellipsis text-left text-[16px] leading-[26px] text-[#D1D1D1]">
@@ -69,7 +56,13 @@ const CustomCarousel = ({
 
                                 <div className="flex w-full flex-row items-center justify-center gap-[16px] md:justify-start">
                                     <div className="h-[40px] w-[40px] overflow-hidden rounded-full bg-[#D9D9D9] md:h-[60px] md:w-[60px]">
-                                        <img src={item?.avatar} className="h-full w-full" />
+                                        <img
+                                            src={item?.avatar}
+                                            className="h-full w-full"
+                                            alt=""
+                                            loading="lazy"
+                                            decoding="async"
+                                        />
                                     </div>
                                     <div>
                                         <p className="text-[16px] font-[500] leading-[24px] text-[#ffffff]">

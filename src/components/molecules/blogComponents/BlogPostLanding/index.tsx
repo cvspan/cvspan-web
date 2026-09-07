@@ -15,9 +15,10 @@ const BlogPostLanding = () => {
                             <Link href="/blog/author/profile" className="flex items-center gap-3 hover:underline">
                                 <div className="h-12 w-12 rounded-full bg-[#D9D9D9] md:h-[48px] md:w-[48px]"></div>
                                 <div className="flex flex-col">
-                                    <h1 className="font-eudoxus text-sm font-[400] leading-5 md:text-base">
+                                    {/* Author byline, not a page heading — the post title above is the <h1>. */}
+                                    <span className="font-eudoxus text-sm font-[400] leading-5 md:text-base">
                                         Moses Arfo
-                                    </h1>
+                                    </span>
                                     <span className="font-eudoxus text-xs font-[400] leading-[20px] text-[#A3A3A3] md:text-sm">
                                         Founder & CEO
                                     </span>
@@ -37,7 +38,7 @@ const BlogPostLanding = () => {
             </div>
 
             <img
-                src={'/assets/images/Rectangle.png'}
+                src={'/assets/images/Rectangle-1200w.webp'}
                 alt="  alt text"
                 className="mt-[60px] h-auto w-full overflow-hidden object-cover sm:h-[208px] lg:h-[377px]"
             />

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { ANIMATE_PROPS } from '@/helpers/motion';
 import { useRouter } from 'next/navigation';
 import useWindowSize from '@/hooks/general/useWindowSize';
+import HoverCursor from '@/components/molecules/HoverCursor';
 
 const Cta = () => {
     const router = useRouter();
@@ -11,30 +12,36 @@ const Cta = () => {
     const smallDevice = width < 600;
 
     return (
-        <div
-            onClick={() => router.push('/contact')}
-            className="bg-cta-bg m-auto w-full cursor-[url(/assets/icons/lets-talk-cursor.svg),_pointer] overflow-x-hidden bg-cover bg-center bg-no-repeat bg-origin-border py-[60px] pb-12 pl-6 pr-6 pt-12 text-white lg:py-[120px]"
+        <HoverCursor
+            icon="/assets/icons/lets-talk-cursor.svg"
+            className="bg-cta-bg m-auto w-full overflow-x-hidden bg-cover bg-center bg-no-repeat bg-origin-border py-[60px] pb-12 pl-6 pr-6 pt-12 text-white lg:py-[120px]"
         >
-            <div className="m-auto flex h-full w-full max-w-[1200px] flex-col justify-between gap-[40px] md:flex-row">
+            <div
+                onClick={() => router.push('/contact')}
+                data-cursor-target
+                className="m-auto flex h-full w-full max-w-[1200px] flex-col justify-between gap-[40px] md:flex-row"
+            >
                 <motion.div {...ANIMATE_PROPS({ from: 'left', disable: smallDevice })}>
-                    <h1
+                    {/* Section heading, not the page topic — this CTA renders on ~27 pages,
+                        so an <h1> here would give every one of them a duplicate top-level heading. */}
+                    <h2
                         className="font-euxodus font-medium text-white lg:w-[6/12]"
                         style={{ fontSize: 'clamp(3rem, 8.6875vw, 7.5rem)', lineHeight: 1 }}
                     >
                         Have a project in mind?
-                    </h1>
+                    </h2>
                 </motion.div>
                 <motion.div
                     {...ANIMATE_PROPS({ from: 'right', disable: smallDevice })}
                     className="flex flex-col gap-5 md:items-end md:justify-between lg:justify-between"
                 >
                     <motion.p className="">
-                        Let us know about your project idea! If the vibe for the collaboration isn't right, we're happy
-                        to provide you with insightful information that might be useful.
+                        Let us know about your project idea! If the vibe for the collaboration isn&apos;t right,
+                        we&apos;re happy to provide you with insightful information that might be useful.
                     </motion.p>
                     <motion.div
                         whileHover="on_hover"
-                        className="group mt-[100px] flex cursor-[url(/assets/icons/lets-talk-cursor.svg),_pointer] items-center justify-between gap-5 self-end lg:mt-[0px] lg:self-end lg:justify-self-end"
+                        className="group mt-[100px] flex items-center justify-between gap-5 self-end lg:mt-[0px] lg:self-end lg:justify-self-end"
                     >
                         <motion.h4 className="text-[34px] leading-[42px] group-hover:text-white/80">
                             LET’S TALK
@@ -51,6 +58,9 @@ const Cta = () => {
                             }}
                             src="/assets/icons/arrow-up-big-white.svg"
                             className="hidden h-[40px] w-[40px] group-hover:block"
+                            alt=""
+                            loading="lazy"
+                            decoding="async"
                         />
 
                         <motion.img
@@ -64,11 +74,14 @@ const Cta = () => {
                             }}
                             src="/assets/icons/arrow-up-big-white.svg"
                             className="h-[40px] w-[40px] group-hover:hidden"
+                            alt=""
+                            loading="lazy"
+                            decoding="async"
                         />
                     </motion.div>
                 </motion.div>
             </div>
-        </div>
+        </HoverCursor>
     );
 };
 

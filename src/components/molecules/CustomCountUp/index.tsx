@@ -12,7 +12,7 @@ const CustomCountUp = ({ end = 0, duration = 3 }: { end?: number; duration?: num
                 const entry = entries[0];
                 if (entry.isIntersecting) {
                     setIsVisible(true);
-                    observer.unobserve(componentRef?.current);
+                    if (componentRef.current) observer.unobserve(componentRef.current);
                 }
             },
             {

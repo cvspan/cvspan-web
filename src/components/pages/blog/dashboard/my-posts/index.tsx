@@ -5,7 +5,7 @@ import React from 'react';
 import BlogDashboardWrapper from '@/components/molecules/blogComponents/BlogDashboardWrapper';
 import MyBlogCards from '@/components/molecules/blogComponents/MyBlogCards';
 
-const BlogDashboardAllPosts = () => {
+const BlogDashboardMyPosts = () => {
     return (
         <>
             <BlogDashboardWrapper title="My Posts">
@@ -15,4 +15,4 @@ const BlogDashboardAllPosts = () => {
     );
 };
 
-export default BlogDashboardAllPosts;
+export default BlogDashboardMyPosts;

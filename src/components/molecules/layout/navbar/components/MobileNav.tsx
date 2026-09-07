@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
+import { useSurfaceTheme } from '../hooks/useSurfaceTheme';
 import Link from 'next/link';
 import Image from 'next/image';
 import { NavLetsTalkButton } from '.';
@@ -11,6 +12,13 @@ import { NavWithoutDropDown } from './NavWithoutDropDown';
 export const MobileNav = ({ isLight, isBlogPage }: { isLight: boolean; isBlogPage?: boolean }) => {
     const [menuActive, setMenuActive] = useState<boolean>(false);
 
+    // Matches the desktop bar: read the section behind and invert to suit.
+    const barRef = useRef<HTMLDivElement>(null);
+    const { mode, scrolled } = useSurfaceTheme(barRef, isLight ? 'light' : 'dark');
+
+    // The open menu is a solid white sheet, so it always reads as light.
+    const onLight = menuActive || mode === 'light';
+
     const onToggleMenu = () => {
         document.body.classList.toggle('fixed');
         document.body.classList.toggle('w-full');
@@ -18,7 +26,14 @@ export const MobileNav = ({ isLight, isBlogPage }: { isLight: boolean; isBlogPag
     };
     return (
         <div
-            className={`${menuActive ? 'fixed inset-0 bg-white' : 'bg-transparent'} fixed left-0 right-0 top-0 z-[101] ${isLight && 'left-0 right-0 top-0 bg-white'} lg:hidden`}
+            ref={barRef}
+            className={`${
+                menuActive
+                    ? 'fixed inset-0 bg-white'
+                    : scrolled
+                      ? `backdrop-blur-xl ${onLight ? 'bg-white/[0.08]' : 'bg-black/[0.08]'}`
+                      : 'bg-transparent'
+            } fixed left-0 right-0 top-0 z-[101] transition-colors duration-300 lg:hidden`}
         >
             <div className="flex flex-col">
                 <header className="">
@@ -27,7 +42,7 @@ export const MobileNav = ({ isLight, isBlogPage }: { isLight: boolean; isBlogPag
                             <div className={`flex h-20 w-full justify-between p-5`}>
                                 <Link href="/" className="relative my-auto box-border block text-white">
                                     <Image
-                                        src={`${menuActive || isLight ? '/assets/images/logo-black.svg' : '/assets/images/logo-transparent.svg'}`}
+                                        src={`${onLight ? '/assets/images/logo-black.svg' : '/assets/images/logo-transparent.svg'}`}
                                         width={152}
                                         height={31}
                                         alt="Cvspan logo"
@@ -38,7 +53,9 @@ export const MobileNav = ({ isLight, isBlogPage }: { isLight: boolean; isBlogPag
                                     type="button"
                                     aria-label="Open menu"
                                     onClick={onToggleMenu}
-                                    className={`${menuActive ? 'hidden' : 'block'}`}
+                                    // p/-m pair lifts the 40px icon to a 44px touch target
+                                    // without changing where it sits.
+                                    className={`${menuActive ? 'hidden' : 'block'} -m-0.5 p-0.5`}
                                 >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -49,7 +66,7 @@ export const MobileNav = ({ isLight, isBlogPage }: { isLight: boolean; isBlogPag
                                     >
                                         <path
                                             d="M5 7.5H35V11.25H5V7.5ZM5 18.125H35V21.875H5V18.125ZM5 28.75H35V32.5H5V28.75Z"
-                                            fill={`${menuActive || isLight ? '#1a1a1a' : 'white'}`}
+                                            fill={`${onLight ? '#1a1a1a' : 'white'}`}
                                         />
                                     </svg>
                                 </button>

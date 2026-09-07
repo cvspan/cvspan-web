@@ -30,4 +30,3 @@ export interface INotification {
 }
 
 export interface Post {}
-export interface Post {}

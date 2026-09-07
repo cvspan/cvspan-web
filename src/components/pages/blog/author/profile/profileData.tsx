@@ -10,9 +10,9 @@ const ProfileData = () => {
 
                 <div className="space-y-[20px]">
                     <div className="space-y-[4px]">
-                        <h5 className="font-eudoxus text-[24px] font-[500] leading-[32px] text-[#1a1a1a]">
+                        <h1 className="font-eudoxus text-[24px] font-[500] leading-[32px] text-[#1a1a1a]">
                             Moses Arfo
-                        </h5>
+                        </h1>
                         <p className="font-eudoxus text-[14px] font-[400] leading-[22px] text-[#484848]">
                             UIUX Designer
                         </p>

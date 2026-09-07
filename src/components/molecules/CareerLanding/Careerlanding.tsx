@@ -35,7 +35,7 @@ const Careerlanding = (props: Props) => {
     return (
         <div className="relative h-screen overflow-x-hidden bg-[#0c0c0c] md:h-[820px]">
             <div className="absolute left-0 top-0 z-10">
-                <img src={'/assets/images/haomepage_banner.png'} alt="elipse" />
+                <img src={'/assets/images/homepage_banner.png'} alt="elipse" />
             </div>
             <div className="relative z-20 flex h-full w-full flex-col items-center justify-start px-[10px] pt-[120px] lg:pt-[180px]">
                 <div className="mx-auto flex flex-col items-center justify-center space-y-[24px]">

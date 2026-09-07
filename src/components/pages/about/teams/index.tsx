@@ -9,9 +9,10 @@ import { TEAMS } from '@/components/ui/data';
 const HeroHeader = () => {
     return (
         <div className="mx-auto max-w-[1132px]">
-            <div className="text-center font-pp-mori text-6xl font-medium leading-[64px] text-[#1a1a1a]">
+            {/* Page's primary heading — was a plain div, leaving the page with no <h1>. */}
+            <h1 className="text-center font-pp-mori text-6xl font-medium leading-[64px] text-[#1a1a1a]">
                 We have a wealth of skills and experience from diverse backgrounds.
-            </div>
+            </h1>
             <div className="mt-6">
                 <div className="mx-auto max-w-[510px]">
                     <div className="text-center font-eudoxus text-lg font-normal leading-[26px] text-[#484848]">

@@ -11,9 +11,9 @@ import { cn } from '@/lib/utils';
 //     return (
 //         <motion.div
 //             {...ANIMATE_PROPS({ delay: 0.2 * index })}
-//             className="relative col-span-4 rounded-3xl bg-[#fafafa] grayscale transition-all duration-300 ease-in-out hover:grayscale-0"
+//             className="relative col-span-4 rounded-xl bg-[#fafafa] grayscale transition-all duration-300 ease-in-out hover:grayscale-0"
 //         >
-//             <img src="/assets/images/team_card_bg.jpg" className="absolute left-0 top-0 h-full w-full" />
+//             <img src="/assets/images/team_card_bg.jpg" className="absolute left-0 top-0 h-full w-full" alt="" loading="lazy" decoding="async" />
 //             <div className="aspect-[16/9]">
 //                 <div className="relative z-10 ms-8 mt-8 flex-grow-0">
 //                     <div className="flex items-center justify-between">
@@ -84,12 +84,10 @@ export const OurTeamItem = ({ item, index = 0 }: { item: Team; index?: number })
                             </div>
                             {/* <img
                                 src="/assets/icons/arrow-up-short-blue.svg"
-                                className="hidden h-[16px] w-[16px] group-hover:block"
-                            />
+                                className="hidden h-[16px] w-[16px] group-hover:block" alt="" loading="lazy" decoding="async" />
                             <img
                                 src="/assets/icons/arrow-up-short-gray.svg"
-                                className="h-[16px] w-[16px] group-hover:hidden"
-                            /> */}
+                                className="h-[16px] w-[16px] group-hover:hidden" alt="" loading="lazy" decoding="async" /> */}
 
                             <div className={cn('relative h-[16px] w-[16px]', !hasBio ? 'hidden' : '')}>
                                 <motion.img

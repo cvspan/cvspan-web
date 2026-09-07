@@ -49,12 +49,12 @@ export const Frontend = () => {
                     <div className="ml-auto w-full pt-[60px] lg:max-w-[800px] lg:pt-0">
                         <div className="flex flex-col gap-[20px]">
                             <div className="mb-[32px]">
-                                <motion.div
+                                <motion.h1
                                     {...ANIMATE_PROPS({ delay: 0, from: 'bottom' })}
                                     className="mb-3 font-pp-mori text-[34px] font-semibold leading-[42px] text-[#1a1a1a] lg:text-[60px] lg:leading-[64px]"
                                 >
                                     Front-End Developer (Intern)
-                                </motion.div>
+                                </motion.h1>
                                 <motion.span
                                     {...ANIMATE_PROPS({ delay: 0, from: 'bottom' })}
                                     className="font-eudoxus text-[24px] font-medium leading-[32px] text-[#1a1aff]"

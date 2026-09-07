@@ -6,10 +6,12 @@ import { services } from './data';
 const tabs = [
     { title: 'Design Services', key: 'design' },
     { title: 'Development Services', key: 'development' },
-];
+] as const;
+
+type TabKey = (typeof tabs)[number]['key'];
 
 export const DigitalProductList = () => {
-    const [current, setcurrent] = React.useState<'design' | 'development'>('design');
+    const [current, setcurrent] = React.useState<TabKey>('design');
 
     return (
         <div className="">
@@ -27,11 +29,17 @@ export const DigitalProductList = () => {
                                 <img
                                     src="/assets/icons/arrow-bottom-right-light-green.svg"
                                     className="hidden h-[16px] w-[16px] sm:block md:h-[20px] md:w-[20px]"
+                                    alt=""
+                                    loading="lazy"
+                                    decoding="async"
                                 />
                             ) : (
                                 <img
                                     src="/assets/icons/arrow-top-right-gray.svg"
                                     className="hidden h-[16px] w-[16px] sm:block md:h-[20px] md:w-[20px]"
+                                    alt=""
+                                    loading="lazy"
+                                    decoding="async"
                                 />
                             )}
                         </button>

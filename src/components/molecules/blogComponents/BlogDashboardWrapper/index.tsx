@@ -15,7 +15,7 @@ const BlogDashboardWrapper = ({ children, title }: { children: React.ReactNode; 
                 <div className="mx-auto mt-[60px] flex h-full min-h-[50vh] w-full max-w-[1200px] lg:mt-20">
                     <BlogDashboardSideBar />
                     <div className="flex-1 px-[20px] py-[30px] lg:py-[50px]">
-                        {title ? <h2 className="mb-[32px] text-[24px] font-[500] text-[#1A1A1A]">{title}</h2> : null}
+                        {title ? <h1 className="mb-[32px] text-[24px] font-[500] text-[#1A1A1A]">{title}</h1> : null}
                         {children}
                     </div>
                 </div>

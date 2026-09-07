@@ -1,25 +1,36 @@
 import React from 'react';
 import type { Metadata } from 'next';
+import JsonLd from '@/components/seo/JsonLd';
+import { buildMetadata } from '@/lib/seo/metadata';
+import { breadcrumbSchema, buildGraph, serviceSchema } from '@/lib/seo/structured-data';
 
-export const metadata: Metadata = {
-    title: 'Mobile Developement Services | CVSpan',
+export const metadata: Metadata = buildMetadata({
+    title: 'Mobile App Development Services',
     description:
-        'As a UI/UX design agency, we create successful digital products that combine user needs with business goals. Our human centred design approach makes it happen.',
-    openGraph: {
-        images: [
-            {
-                width: 600,
-                height: 600,
-                url: '/assets/images/headers/industries/mobile-design.svg',
-            },
-        ],
-    },
-};
+        'Native iOS, Android and cross-platform app development. We build reliable, high-performance mobile products from first prototype through to store launch.',
+    path: '/services/mobile-development',
+});
 
-export default function RootLayout({
-    children,
-}: Readonly<{
-    children: React.ReactNode;
-}>) {
-    return <>{children}</>;
+export default function Layout({ children }: Readonly<{ children: React.ReactNode }>) {
+    const graph = buildGraph([
+        serviceSchema({
+            name: 'Mobile App Development Services',
+            description:
+                'Native iOS, Android and cross-platform app development. We build reliable, high-performance mobile products from first prototype through to store launch.',
+            path: '/services/mobile-development',
+            serviceType: 'Mobile App Development',
+        }),
+        breadcrumbSchema([
+            { name: 'Home', path: '/' },
+            { name: 'Services', path: '/services' },
+            { name: 'Mobile Development', path: '/services/mobile-development' },
+        ]),
+    ]);
+
+    return (
+        <>
+            <JsonLd data={graph} />
+            {children}
+        </>
+    );
 }

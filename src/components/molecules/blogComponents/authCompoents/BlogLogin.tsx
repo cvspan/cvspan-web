@@ -11,9 +11,9 @@ const BlogLogin = () => {
             <div className="flex h-full w-full items-center justify-center">
                 <div className="w-full max-w-[453px] space-y-[40px]">
                     <div className="">
-                        <h3 className="text-center font-eudoxus text-[48px] font-[500] leading-[56px] text-[#1a1a1a]">
+                        <h1 className="text-center font-eudoxus text-[48px] font-[500] leading-[56px] text-[#1a1a1a]">
                             Welcome back.
-                        </h3>
+                        </h1>
                     </div>
                     <div className="space-y-[16px]">
                         <button className="flex w-full cursor-not-allowed items-center justify-center gap-[12px] rounded-[100px] border-[1px] border-[#d1d1d1] px-[14px] py-[12px]">
@@ -31,6 +31,7 @@ const BlogLogin = () => {
                             <input
                                 type="text"
                                 className="paceholder:font-[400] w-full rounded-[8px] border-[1px] border-[#838383] bg-transparent p-3 font-eudoxus text-[16px] font-[400] leading-[24px] text-[#838383] outline-none placeholder:font-eudoxus placeholder:text-[16px] placeholder:leading-[24px] placeholder:text-[#838383]"
+                                aria-label="Email Address"
                                 placeholder="Email Address"
                             />
                             <div className="relative w-full">
@@ -69,13 +70,13 @@ const BlogLogin = () => {
                         </div>
                     </div>
                     <p className="text-center text-[14px] font-[400] leading-[22px] text-[#767676]">
-                        Click “Sign in” to agree to CVSpan’s
+                        Click “Sign in” to agree to&nbsp;CVSpan’s
                         <Link href={'/'} className="underline">
-                             Terms of Service 
+                            &nbsp;Terms of Service&nbsp;
                         </Link>
-                        and acknowledge that CVSpan’s 
+                        and acknowledge that&nbsp;CVSpan’s&nbsp;
                         <Link href={'/'} className="underline">
-                            Privacy Policy 
+                            Privacy Policy&nbsp;
                         </Link>
                         applies to you.
                     </p>

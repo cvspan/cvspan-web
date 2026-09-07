@@ -7,6 +7,7 @@ import CaseStudyLanding from '@/components/molecules/CaseStudyLanding/CaseStudyL
 import VisualDesign from '@/components/molecules/CaseVisuals/CoastalVisual';
 import TheProcess from '@/components/molecules/TheProcess/TheProcess';
 import TheResult from '@/components/molecules/TheResult/TheResult';
+import { CASE_STUDY_RESULTS } from '@/components/molecules/TheResult/data';
 import MobileScreens from '@/components/molecules/Screens/MobileScreens';
 import ImagePage from '@/components/molecules/Screens/image';
 import Mockup from '@/components/molecules/Screens/Mockup';
@@ -29,7 +30,7 @@ export default function CoastalLoans() {
             <MobileScreens mobileImage="coastal-mobile" />
             <VisualDesign />
             <TheProcess />
-            <TheResult />
+            <TheResult results={CASE_STUDY_RESULTS['coastal-loans']} />
             <Cta />
             <Footer />
         </>

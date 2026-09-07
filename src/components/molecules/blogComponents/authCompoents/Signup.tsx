@@ -33,6 +33,7 @@ const Signup = (props: Props) => {
                             <input
                                 type="text"
                                 className="paceholder:font-[400] w-full rounded-[8px] border-[1px] border-[#838383] bg-transparent p-3 font-eudoxus text-[16px] font-[400] leading-[24px] text-[#838383] outline-none placeholder:font-eudoxus placeholder:text-[16px] placeholder:leading-[24px] placeholder:text-[#838383]"
+                                aria-label="Email Address"
                                 placeholder="Email Address "
                             />
                             <div className="relative w-full">
@@ -68,13 +69,13 @@ const Signup = (props: Props) => {
                         </div>
                     </div>
                     <p className="text-center text-[14px] font-[400] leading-[22px] text-[#767676]">
-                        Click “Sign in” to agree to Medium’s
+                        Click “Sign in” to agree to&nbsp;CVSpan’s
                         <Link href={'/'} className="underline">
-                             Terms of Service 
+                            &nbsp;Terms of Service&nbsp;
                         </Link>
-                        and acknowledge that Medium’s 
+                        and acknowledge that&nbsp;CVSpan’s&nbsp;
                         <Link href={'/'} className="underline">
-                            Privacy Policy 
+                            Privacy Policy&nbsp;
                         </Link>
                         applies to you.
                     </p>

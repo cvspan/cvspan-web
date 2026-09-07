@@ -48,7 +48,7 @@ export const FOOTER_LINKS: FooterLink[] = [
             },
             {
                 id: 3,
-                text: 'Webflow Devlopment',
+                text: 'Webflow Development',
                 link: '/services/webflow-development',
             },
             {
@@ -80,7 +80,7 @@ export const FOOTER_LINKS: FooterLink[] = [
             {
                 id: 3,
                 text: 'Healthcare & Wellness',
-                link: '/industries/healthcare-welness',
+                link: '/industries/healthcare-wellness',
             },
             {
                 id: 4,
@@ -100,7 +100,7 @@ export const FOOTER_LINKS: FooterLink[] = [
         links: [
             {
                 id: 1,
-                text: 'Our works',
+                text: 'Our Works',
                 link: '/our-works',
                 disabled: false,
                 comingSoon: false,

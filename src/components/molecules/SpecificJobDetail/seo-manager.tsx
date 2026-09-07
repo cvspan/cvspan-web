@@ -49,12 +49,12 @@ export const SEOManager = () => {
                     <div className="ml-auto w-full pt-[60px] lg:max-w-[800px] lg:pt-0">
                         <div className="flex flex-col gap-[20px]">
                             <div className="mb-[32px]">
-                                <motion.div
+                                <motion.h1
                                     {...ANIMATE_PROPS({ delay: 0, from: 'bottom' })}
                                     className="mb-3 font-pp-mori text-[34px] font-semibold leading-[42px] text-[#1a1a1a] lg:text-[60px] lg:leading-[64px]"
                                 >
                                     SEO Manager (Intern)
-                                </motion.div>
+                                </motion.h1>
                                 <motion.span
                                     {...ANIMATE_PROPS({ delay: 0, from: 'bottom' })}
                                     className="font-eudoxus text-[24px] font-medium leading-[32px] text-[#1a1aff]"
@@ -75,7 +75,7 @@ export const SEOManager = () => {
                                     className="mb-4 font-eudoxus text-base font-normal text-[#484848]"
                                 >
                                     CVSpan is a Creative as a Service (CaaS) agency, dedicated to delivering top-tier
-                                    design and marketing solutions that elevate our clients' brand presence. As we
+                                    design and marketing solutions that elevate our clients&apos; brand presence. As we
                                     expand our digital reach, we’re looking for a motivated SEO Manager Intern to join
                                     our team. This role offers a unique opportunity to learn from experienced
                                     professionals and gain valuable skills in search engine optimization within a
@@ -137,8 +137,8 @@ export const SEOManager = () => {
                                         drive organic traffic.
                                     </motion.li>
                                     <motion.li {...ANIMATE_PROPS({ delay: 0, from: 'bottom' })}>
-                                        <b>Competitor Analysis:</b> Conduct research on competitors' SEO strategies and
-                                        identify gaps or opportunities that can be leveraged.
+                                        <b>Competitor Analysis:</b> Conduct research on competitors&apos; SEO strategies
+                                        and identify gaps or opportunities that can be leveraged.
                                     </motion.li>
                                 </ul>
                             </div>

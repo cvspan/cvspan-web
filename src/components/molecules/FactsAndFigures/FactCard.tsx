@@ -13,7 +13,7 @@ interface FactCardProps {
 
 const FactCard: React.FC<FactCardProps> = ({ id, rate, description, after, before, duration = 4 }) => {
     return (
-        <div className="bg-cod-gray flex h-full cursor-pointer flex-col justify-between gap-14 rounded-3xl bg-[#1A1A1A] p-6">
+        <div className="bg-cod-gray flex h-full cursor-pointer flex-col justify-between gap-14 rounded-xl bg-[#1A1A1A] p-6">
             <p className="overflow-hidden font-eudoxus text-[#484848]">{id}</p>
             <div>
                 <h2

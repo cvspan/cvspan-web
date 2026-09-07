@@ -51,16 +51,16 @@ function LeeDeonVisual() {
 
                     {/* <div className="flex flex-col flex-wrap gap-10 pb-[56px]">
                         <div className="flex flex-row justify-between gap-8">
-                            <div className="flex h-[478px] max-w-[481px] items-start justify-start rounded-2xl bg-[#D3C8FF] py-[30px] pl-[44px] pr-[323px]">
+                            <div className="flex h-[478px] max-w-[481px] items-start justify-start rounded-xl bg-[#D3C8FF] py-[30px] pl-[44px] pr-[323px]">
                                 <span className="flex h-full flex-col justify-between py-[10px]">
                                     <p className="font-serif text-[40px] font-semibold">Typography</p>
                                     <p className="font-serif text-[40px] font-semibold">Aeonik</p>
                                 </span>
                             </div>
 
-                            <div className="flex h-[478px] w-full flex-1 flex-col items-center justify-between rounded-2xl border-[3px] border-[#D1D1FF] p-[42px]">
+                            <div className="flex h-[478px] w-full flex-1 flex-col items-center justify-between rounded-xl border-[3px] border-[#D1D1FF] p-[42px]">
                                 <div className="flex h-fit w-full flex-row items-end justify-between leading-[45px]">
-                                    <h1 className="text-[40px] font-medium">Heading H1</h1>
+                                    <p className="text-[40px] font-medium">Heading H1</p>
                                     <div className="flex flex-row items-end justify-end gap-1 leading-[13px]">
                                         <hr className="w-[150px] border-[1px] border-[#B1B2B2] border-opacity-[0.2]" />{' '}
                                         <p className="text-[16px] font-semibold">
@@ -123,14 +123,14 @@ function LeeDeonVisual() {
                         </div>
 
                         <div className="flex w-full flex-row justify-between">
-                            <div className="flex h-[389px] w-[276px] items-end justify-start rounded-2xl bg-[#311A91] pb-[24px] pl-[40px] text-lg text-white">
+                            <div className="flex h-[389px] w-[276px] items-end justify-start rounded-xl bg-[#311A91] pb-[24px] pl-[40px] text-lg text-white">
                                 <p>#311A91</p>
                             </div>
-                            <div className="flex h-[389px] w-[276px] items-end justify-start rounded-2xl bg-[#F5F5F5] pb-[24px] pl-[40px] text-lg text-[#16171B]">
+                            <div className="flex h-[389px] w-[276px] items-end justify-start rounded-xl bg-[#F5F5F5] pb-[24px] pl-[40px] text-lg text-[#16171B]">
                                 <p>#F5F5F5</p>
                             </div>
-                            <div className="flex h-[389px] w-[276px] flex-col rounded-2xl pb-[24px] text-lg text-white">
-                                <span className="h-[43px] w-full rounded-t-2xl bg-[#f5f5f5]"> </span>
+                            <div className="flex h-[389px] w-[276px] flex-col rounded-xl pb-[24px] text-lg text-white">
+                                <span className="h-[43px] w-full rounded-t-xl bg-[#f5f5f5]"> </span>
                                 <span className="h-[43px] w-full bg-[#D2D3D3]"> </span>
                                 <span className="h-[43px] w-full bg-[#B1B2B2]"> </span>
                                 <span className="h-[43px] w-full bg-[#9173E1]"> </span>
@@ -138,11 +138,11 @@ function LeeDeonVisual() {
                                 <span className="h-[43px] w-full bg-[#5B36BD]"> </span>
                                 <span className="h-[43px] w-full bg-[#3C22A7]"> </span>
 
-                                <span className="flex h-[86px] w-full items-end justify-start rounded-b-2xl bg-[#311A91] pb-[24px] pl-[40px]">
+                                <span className="flex h-[86px] w-full items-end justify-start rounded-b-xl bg-[#311A91] pb-[24px] pl-[40px]">
                                     <p>#311A91</p>
                                 </span>
                             </div>
-                            <div className="flex h-[389px] w-[276px] items-end justify-start rounded-2xl bg-[#6745C2] pb-[24px] pl-[40px] text-lg text-white">
+                            <div className="flex h-[389px] w-[276px] items-end justify-start rounded-xl bg-[#6745C2] pb-[24px] pl-[40px] text-lg text-white">
                                 <p>#6745C2</p>
                             </div>
                         </div>

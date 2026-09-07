@@ -39,7 +39,7 @@ function NeverBareVisual() {
 
                     <div className="flex flex-col flex-wrap gap-10 pb-[56px]">
                         <div className="flex w-full flex-row">
-                            <div className="flex w-1/4 items-end justify-center rounded-l-2xl bg-[#1B576F] px-3 pb-[24px] pt-[160px] text-sm text-white md:justify-start md:px-[40px] md:text-lg">
+                            <div className="flex w-1/4 items-end justify-center rounded-l-xl bg-[#1B576F] px-3 pb-[24px] pt-[160px] text-sm text-white md:justify-start md:px-[40px] md:text-lg">
                                 <p>#1B576F</p>
                             </div>
                             <div className="px:-3 flex w-1/4 items-end justify-center bg-[#EDF6FF] pb-[24px] pt-[160px] text-sm text-[#16171B] md:justify-start md:px-[40px] md:text-lg">
@@ -48,18 +48,18 @@ function NeverBareVisual() {
                             <div className="px:-3 flex w-1/4 items-end justify-center bg-[#5D6C7C] pb-[24px] pt-[160px] text-sm text-white md:justify-start md:px-[40px] md:text-lg">
                                 <p>#5D6C7C</p>
                             </div>
-                            <div className="flex w-1/4 items-end justify-center rounded-r-2xl bg-[#F1F5F9] px-3 pb-[24px] pt-[160px] text-sm text-[#16171B] md:justify-start md:px-[40px] md:text-lg">
+                            <div className="flex w-1/4 items-end justify-center rounded-r-xl bg-[#F1F5F9] px-3 pb-[24px] pt-[160px] text-sm text-[#16171B] md:justify-start md:px-[40px] md:text-lg">
                                 <p>#F1F5F9</p>
                             </div>
                         </div>
                         <div className="flex w-full flex-col gap-10 md:flex-row lg:gap-[48px]">
-                            <div className="flex h-[406px] w-full flex-1 items-start justify-start rounded-2xl border-[2px] border-[#1B576F8A] pl-[44px] pt-[94px] md:w-[calc(50%-14px)] lg:w-fit xl:pr-[323px]">
+                            <div className="flex h-[406px] w-full flex-1 items-start justify-start rounded-xl border-[2px] border-[#1B576F8A] pl-[44px] pt-[94px] md:w-[calc(50%-14px)] lg:w-fit xl:pr-[323px]">
                                 <span className="flex flex-col gap-[46px]">
                                     <p className="text-[18px]">typography</p>
                                     <p className="text-[64px] font-semibold">Aeonik</p>
                                 </span>
                             </div>
-                            <div className="flex h-[406px] w-full flex-col items-start justify-center gap-[45px] rounded-2xl bg-[#EEF1F9] px-[43px] py-[60px] md:mt-10 md:w-[calc(50%-14px)] md:justify-between lg:max-w-[565px]">
+                            <div className="flex h-[406px] w-full flex-col items-start justify-center gap-[45px] rounded-xl bg-[#EEF1F9] px-[43px] py-[60px] md:mt-10 md:w-[calc(50%-14px)] md:justify-between lg:max-w-[565px]">
                                 <div className="flex h-fit w-full flex-col gap-[4px] md:max-w-[450px]">
                                     <p className="text-[18px]">alphabet</p>
                                     <p className="break-words text-[32px] font-semibold leading-[54px]">

@@ -7,18 +7,25 @@ import { ANIMATE_PROPS } from '@/helpers/motion';
 import { caseStudies, TCaseStudy } from './data';
 import './style.css';
 import Link from 'next/link';
+import HoverCursor from '@/components/molecules/HoverCursor';
 
 const SingleCard = ({ card = {} }: { card?: TCaseStudy }) => {
     return (
-        <Link href={card?.link || '/'} className="cursor-[url(/assets/icons/case-study-cursor.svg),_pointer]">
+        <Link href={card?.link || '/'} data-cursor-target>
             <motion.div {...ANIMATE_PROPS({ delay: 0 })} className="fdp_card" whileHover="on_hover">
                 <div className="fdp_card_img_wrapper">
-                    <img src={card?.img} className="h-full w-full object-cover" />
+                    <img
+                        src={card?.img}
+                        alt={card?.title ? `${card.title} — CVSpan case study` : ''}
+                        loading="lazy"
+                        decoding="async"
+                        className="h-full w-full object-cover"
+                    />
                 </div>
                 <div className="fdp_card_title_wrapper">
                     <h2 className="fdp_card_title">{card?.title}</h2>
-                    {/* <img className="arrow_black h-[22px] w-[22px]" src="/assets/icons/arrow-top-right-black.svg" />
-                <img className="arrow_blue h-[22px] w-[22px]" src="/assets/icons/arrow-top-right-blue.svg" /> */}
+                    {/* <img className="arrow_black h-[22px] w-[22px]" src="/assets/icons/arrow-top-right-black.svg" alt="" loading="lazy" decoding="async" />
+                <img className="arrow_blue h-[22px] w-[22px]" src="/assets/icons/arrow-top-right-blue.svg" alt="" loading="lazy" decoding="async" /> */}
 
                     <motion.img
                         initial={{ x: 0, y: 0, opacity: 1 }}
@@ -32,6 +39,9 @@ const SingleCard = ({ card = {} }: { card?: TCaseStudy }) => {
                         }}
                         src="/assets/icons/arrow-top-right-black.svg"
                         className="arrow_black h-[22px] w-[22px]"
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
                     />
 
                     <motion.img
@@ -46,6 +56,9 @@ const SingleCard = ({ card = {} }: { card?: TCaseStudy }) => {
                         }}
                         src="/assets/icons/arrow-top-right-blue.svg"
                         className="arrow_blue h-[22px] w-[22px]"
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
                     />
                 </div>
                 <motion.h2
@@ -75,7 +88,7 @@ const CardsRow = ({ card1, card2 }: { card1?: TCaseStudy; card2?: TCaseStudy }) 
 
 const FeaturedDigitalProducts = () => {
     return (
-        <div className="cursor-[url(/assets/icons/case-study-cursor.svg),_pointer] px-5 py-[60px] lg:py-[120px]">
+        <HoverCursor icon="/assets/icons/case-study-cursor.svg" className="px-5 py-[60px] lg:py-[120px]">
             <div className="mx-auto w-full max-w-[1200px] lg:flex">
                 <div className="mb-[24px] flex h-full w-full flex-row justify-between lg:sticky lg:top-[100px] lg:mb-0 lg:h-[594px] lg:max-w-[384px] lg:flex-col">
                     <div className="lg:max-w-auto max-w-[600px]">
@@ -104,7 +117,6 @@ const FeaturedDigitalProducts = () => {
                                 background="blue"
                                 animateRightIconOnHover
                                 rightIcon="/assets/icons/arrow-top-right-white.svg"
-                                className="cursor-[url(/assets/icons/case-study-cursor.svg),_pointer]"
                             />
                         </Link>
                     </div>
@@ -121,7 +133,7 @@ const FeaturedDigitalProducts = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </HoverCursor>
     );
 };
 

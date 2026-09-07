@@ -49,12 +49,12 @@ export const SocialMediaManager = () => {
                     <div className="ml-auto w-full pt-[60px] lg:max-w-[800px] lg:pt-0">
                         <div className="flex flex-col gap-[20px]">
                             <div className="mb-[32px]">
-                                <motion.div
+                                <motion.h1
                                     {...ANIMATE_PROPS({ delay: 0, from: 'bottom' })}
                                     className="mb-3 font-pp-mori text-[34px] font-semibold leading-[42px] text-[#1a1a1a] lg:text-[60px] lg:leading-[64px]"
                                 >
                                     Social Media Manager (Intern)
-                                </motion.div>
+                                </motion.h1>
                                 <motion.span
                                     {...ANIMATE_PROPS({ delay: 0, from: 'bottom' })}
                                     className="font-eudoxus text-[24px] font-medium leading-[32px] text-[#1a1aff]"
@@ -98,7 +98,7 @@ export const SocialMediaManager = () => {
                                     We are seeking a Social Media Intern to assist our team in managing and creating
                                     content for various social media platforms. This role will involve content planning,
                                     community engagement, and analytics tracking, with the goal of enhancing CVSpan’s
-                                    online presence and supporting our brand's voice. The ideal candidate is
+                                    online presence and supporting our brand&apos;s voice. The ideal candidate is
                                     enthusiastic about social media, has a keen eye for design, and understands current
                                     trends in the digital marketing space.
                                 </motion.div>

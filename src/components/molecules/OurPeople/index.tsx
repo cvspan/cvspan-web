@@ -47,36 +47,54 @@ export const OurPeople = () => {
                         <div className="h-auto w-full flex-row gap-[24px] lg:flex lg:h-[478px]">
                             <motion.div
                                 {...ANIMATE_PROPS({ delay: 0, from: 'bottom' })}
-                                className="mb-[24px] h-[229px] flex-1 shrink-0 overflow-hidden rounded-[24px] bg-red-600 lg:mb-0 lg:h-full"
+                                className="mb-[24px] h-[229px] flex-1 shrink-0 overflow-hidden rounded-xl bg-red-600 lg:mb-0 lg:h-full"
                             >
-                                <img src="/assets/images/our-people-1.png" className="h-full w-full object-cover" />
+                                <img
+                                    src="/assets/images/our-people-1.png"
+                                    className="h-full w-full object-cover"
+                                    alt=""
+                                    loading="lazy"
+                                    decoding="async"
+                                />
                             </motion.div>
                             <div className="flex h-[250px] flex-1 flex-col gap-[24px] md:h-[400px] lg:h-full">
-                                <div className="flex h-full flex-1 gap-[24px] overflow-hidden rounded-[24px]">
+                                <div className="flex h-full flex-1 gap-[24px] overflow-hidden rounded-xl">
                                     <motion.div
                                         {...ANIMATE_PROPS({ delay: 0, from: 'bottom' })}
-                                        className="flex-1 overflow-hidden rounded-[24px] bg-blue-500"
+                                        className="flex-1 overflow-hidden rounded-xl bg-blue-500"
                                     >
                                         <img
                                             src="/assets/images/our-people-2.png"
                                             className="h-full w-full object-cover"
+                                            alt=""
+                                            loading="lazy"
+                                            decoding="async"
                                         />
                                     </motion.div>
                                     <motion.div
                                         {...ANIMATE_PROPS({ delay: 0, from: 'bottom' })}
-                                        className="flex-1 overflow-hidden rounded-[24px] bg-blue-500"
+                                        className="flex-1 overflow-hidden rounded-xl bg-blue-500"
                                     >
                                         <img
                                             src="/assets/images/our-people-3.png"
                                             className="h-full w-full object-cover"
+                                            alt=""
+                                            loading="lazy"
+                                            decoding="async"
                                         />
                                     </motion.div>
                                 </div>
                                 <motion.div
                                     {...ANIMATE_PROPS({ delay: 0, from: 'bottom' })}
-                                    className="h-full flex-1 overflow-hidden rounded-[24px]"
+                                    className="h-full flex-1 overflow-hidden rounded-xl"
                                 >
-                                    <img src="/assets/images/our-people-4.png" className="h-full w-full object-cover" />
+                                    <img
+                                        src="/assets/images/our-people-4.png"
+                                        className="h-full w-full object-cover"
+                                        alt=""
+                                        loading="lazy"
+                                        decoding="async"
+                                    />
                                 </motion.div>
                             </div>
                         </div>

@@ -7,6 +7,7 @@ import CaseStudyLanding from '@/components/molecules/CaseStudyLanding/CaseStudyL
 import DesignSystem from '@/components/molecules/CaseVisuals/LeeDeonVisual';
 import TheProcess from '@/components/molecules/TheProcess/TheProcess';
 import TheResult from '@/components/molecules/TheResult/TheResult';
+import { CASE_STUDY_RESULTS } from '@/components/molecules/TheResult/data';
 import MobileScreens from '@/components/molecules/Screens/MobileScreens';
 import ImagePage from '@/components/molecules/Screens/image';
 
@@ -27,7 +28,7 @@ export default function LeeDeon() {
             <MobileScreens mobileImage="leedeon-mobile" />
             <DesignSystem />
             <TheProcess />
-            <TheResult />
+            <TheResult results={CASE_STUDY_RESULTS['leedeon']} />
             <Cta />
             <Footer />
         </>

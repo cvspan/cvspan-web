@@ -36,7 +36,7 @@ const OurWorksLanding = (props: Props) => {
     return (
         <div className="relative h-screen overflow-x-hidden bg-[#0c0c0c] md:h-[820px]">
             <div className="absolute left-0 top-0 z-10">
-                <img src={'/assets/images/haomepage_banner.png'} alt="elipse" />
+                <img src={'/assets/images/homepage_banner.png'} alt="elipse" />
             </div>
             <div className="relative z-20 flex h-full w-full flex-col items-center justify-start px-[10px] pt-[120px] lg:pt-[180px]">
                 <div className="mx-auto flex flex-col items-center justify-center space-y-[24px]">
@@ -50,8 +50,8 @@ const OurWorksLanding = (props: Props) => {
                         {...ANIMATE_PROPS({ delay: 0 })}
                         className="w-full max-w-[615px] text-center font-eudoxus text-[16px] font-[400] leading-[24px] text-white lg:text-[18px] lg:leading-[26px]"
                     >
-                        We've helped startups, tech companies, and Fortune 500 firms succeed and achieve their goals.
-                        Let's make your project the next big success.
+                        We&apos;ve helped startups, tech companies, and Fortune 500 firms succeed and achieve their
+                        goals. Let&apos;s make your project the next big success.
                     </motion.p>
                     <motion.div
                         {...ANIMATE_PROPS({ delay: 0.3 })}

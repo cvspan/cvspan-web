@@ -1,25 +1,36 @@
 import React from 'react';
 import type { Metadata } from 'next';
+import JsonLd from '@/components/seo/JsonLd';
+import { buildMetadata } from '@/lib/seo/metadata';
+import { breadcrumbSchema, buildGraph, serviceSchema } from '@/lib/seo/structured-data';
 
-export const metadata: Metadata = {
-    title: 'Mobile App Design Services | CVSpan',
+export const metadata: Metadata = buildMetadata({
+    title: 'Mobile App Design Services',
     description:
-        'Is your app design losing you users? They struggle with poor user experience and strange pop-ups. You need to act quickly before they erase it permanently. We can resolve this for you.',
-    openGraph: {
-        images: [
-            {
-                width: 600,
-                height: 600,
-                url: '/assets/images/headers/industries/mobile-design.svg',
-            },
-        ],
-    },
-};
+        'Is your app design losing users to poor experience and confusing flows? Our mobile designers craft intuitive iOS and Android interfaces that keep people coming back.',
+    path: '/services/mobile-design',
+});
 
-export default function RootLayout({
-    children,
-}: Readonly<{
-    children: React.ReactNode;
-}>) {
-    return <>{children}</>;
+export default function Layout({ children }: Readonly<{ children: React.ReactNode }>) {
+    const graph = buildGraph([
+        serviceSchema({
+            name: 'Mobile App Design Services',
+            description:
+                'Is your app design losing users to poor experience and confusing flows? Our mobile designers craft intuitive iOS and Android interfaces that keep people coming back.',
+            path: '/services/mobile-design',
+            serviceType: 'Mobile App Design',
+        }),
+        breadcrumbSchema([
+            { name: 'Home', path: '/' },
+            { name: 'Services', path: '/services' },
+            { name: 'Mobile Design', path: '/services/mobile-design' },
+        ]),
+    ]);
+
+    return (
+        <>
+            <JsonLd data={graph} />
+            {children}
+        </>
+    );
 }

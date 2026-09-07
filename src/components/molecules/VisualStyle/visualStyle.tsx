@@ -37,31 +37,31 @@ function VisualStyle() {
                         </motion.p>
                     </div>
                     {/* <div className="flex flex-row flex-wrap gap-4">
-                        <div className="flex w-fit items-center justify-center rounded-2xl bg-[#30BDFF] px-[86px] py-[17px]">
+                        <div className="flex w-fit items-center justify-center rounded-xl bg-[#30BDFF] px-[86px] py-[17px]">
                             <div className="flex h-[418px] w-[418px] items-center justify-center rounded-full bg-white">
                                 <p>#30BDFF</p>
                             </div>
                         </div>
                         <div className="flex flex-col flex-wrap gap-4">
                             <div className="flex flex-row gap-4">
-                                <div className="flex h-fit w-fit items-center justify-center rounded-2xl bg-[#FF672A] px-[49px] py-[16px]">
+                                <div className="flex h-fit w-fit items-center justify-center rounded-xl bg-[#FF672A] px-[49px] py-[16px]">
                                     <div className="flex h-[186px] w-[191px] items-center justify-center rounded-full bg-white">
                                         <p>#FF672A</p>
                                     </div>
                                 </div>
-                                <div className="flex h-fit w-fit items-center justify-center rounded-2xl bg-[#5D6C7C] px-[49px] py-[16px]">
+                                <div className="flex h-fit w-fit items-center justify-center rounded-xl bg-[#5D6C7C] px-[49px] py-[16px]">
                                     <div className="flex h-[186px] w-[191px] items-center justify-center rounded-full bg-white">
                                         <p>#5D6C7C</p>
                                     </div>
                                 </div>
                             </div>
                             <div className="flex flex-row gap-4">
-                                <div className="flex h-fit w-fit items-center justify-center rounded-2xl bg-[#F1C932] px-[49px] py-[16px]">
+                                <div className="flex h-fit w-fit items-center justify-center rounded-xl bg-[#F1C932] px-[49px] py-[16px]">
                                     <div className="flex h-[186px] w-[191px] items-center justify-center rounded-full bg-white">
                                         <p>#F1C932</p>
                                     </div>
                                 </div>
-                                <div className="flex h-fit w-fit items-center justify-center rounded-2xl bg-[#EEF1F9] px-[49px] py-[16px]">
+                                <div className="flex h-fit w-fit items-center justify-center rounded-xl bg-[#EEF1F9] px-[49px] py-[16px]">
                                     <div className="flex h-[186px] w-[191px] items-center justify-center rounded-full bg-white">
                                         <p>#EEF1F9</p>
                                     </div>
@@ -72,7 +72,7 @@ function VisualStyle() {
 
                     <div className="flex flex-col flex-wrap gap-10 pb-[56px]">
                         <div className="flex flex-row">
-                            <div className="flex w-1/4 items-end justify-start rounded-l-2xl bg-[#1B576F] pb-[24px] pl-[40px] pt-[160px] text-lg text-white">
+                            <div className="flex w-1/4 items-end justify-start rounded-l-xl bg-[#1B576F] pb-[24px] pl-[40px] pt-[160px] text-lg text-white">
                                 <p>#1B576F</p>
                             </div>
                             <div className="flex w-1/4 items-end justify-start bg-[#EDF6FF] pb-[24px] pl-[40px] pt-[160px] text-lg text-[#16171B]">
@@ -81,18 +81,18 @@ function VisualStyle() {
                             <div className="flex w-1/4 items-end justify-start bg-[#5D6C7C] pb-[24px] pl-[40px] pt-[160px] text-lg text-white">
                                 <p>#5D6C7C</p>
                             </div>
-                            <div className="flex w-1/4 items-end justify-start rounded-r-2xl bg-[#F1F5F9] pb-[24px] pl-[40px] pt-[160px] text-lg text-[#16171B]">
+                            <div className="flex w-1/4 items-end justify-start rounded-r-xl bg-[#F1F5F9] pb-[24px] pl-[40px] pt-[160px] text-lg text-[#16171B]">
                                 <p>#F1F5F9</p>
                             </div>
                         </div>
                         <div className="flex flex-row justify-between">
-                            <div className="flex h-[406px] w-fit items-start justify-start rounded-2xl border-[2px] border-[#1B576F8A] pl-[44px] pr-[323px] pt-[94px]">
+                            <div className="flex h-[406px] w-fit items-start justify-start rounded-xl border-[2px] border-[#1B576F8A] pl-[44px] pr-[323px] pt-[94px]">
                                 <span className="flex flex-col gap-[46px]">
                                     <p className="text-18px]">typography</p>
                                     <p className="text-[64px] font-semibold">Aeonik</p>
                                 </span>
                             </div>
-                            <div className="bg-[#EEF1F9} mt-10 flex h-[406px] w-[565px] flex-col items-start justify-between gap-[45px] rounded-2xl bg-[#EEF1F9] px-[43px] py-[60px]">
+                            <div className="bg-[#EEF1F9} mt-10 flex h-[406px] w-[565px] flex-col items-start justify-between gap-[45px] rounded-xl bg-[#EEF1F9] px-[43px] py-[60px]">
                                 <div className="flex h-fit max-w-[450px] flex-col gap-[4px]">
                                     <p className="text-[18px]">alphabet</p>
                                     <p className="break-words text-[32px] font-semibold leading-[54px]">

@@ -4,7 +4,7 @@ import React from 'react';
 
 import BlogDashboardWrapper from '@/components/molecules/blogComponents/BlogDashboardWrapper';
 import BlogTabs from '@/components/molecules/blogComponents/BlogTabs';
-const BlogDashboardMyPosts = () => {
+const BlogDashboardAllPosts = () => {
     const [selected, setselected] = React.useState('1');
 
     const onPressTab = ({ tabId = '' }: { tabId?: string }) => {
@@ -12,7 +12,7 @@ const BlogDashboardMyPosts = () => {
     };
     return (
         <>
-            <BlogDashboardWrapper title="My Posts">
+            <BlogDashboardWrapper title="All Posts">
                 <BlogTabs
                     selectedTabId={selected}
                     onPressTab={onPressTab}
@@ -27,4 +27,4 @@ const BlogDashboardMyPosts = () => {
     );
 };
 
-export default BlogDashboardMyPosts;
+export default BlogDashboardAllPosts;

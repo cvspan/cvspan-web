@@ -4,86 +4,98 @@
 
 @font-face {
     font-family: 'PP Mori';
-    src: url('../../public/assets/fonts/PP_Mori/PPMori-Extralight.otf') format('opentype');
+    src: url('../../public/assets/fonts/PP_Mori/PPMori-Extralight.woff2') format('woff2');
     font-weight: 300;
     font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
     font-family: 'PP Mori';
-    src: url('../../public/assets/fonts/PP_Mori/PPMori-ExtralightItalic.otf') format('opentype');
+    src: url('../../public/assets/fonts/PP_Mori/PPMori-ExtralightItalic.woff2') format('woff2');
     font-weight: 300;
     font-style: italic;
+    font-display: swap;
 }
 
 @font-face {
     font-family: 'PP Mori';
-    src: url('../../public/assets/fonts/PP_Mori/PPMori-Regular.otf') format('opentype');
+    src: url('../../public/assets/fonts/PP_Mori/PPMori-Regular.woff2') format('woff2');
     font-weight: 400;
     font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
     font-family: 'PP Mori';
-    src: url('../../public/assets/fonts/PP_Mori/PPMori-RegularItalic.otf') format('opentype');
+    src: url('../../public/assets/fonts/PP_Mori/PPMori-RegularItalic.woff2') format('woff2');
     font-weight: 400;
     font-style: italic;
+    font-display: swap;
 }
 
 @font-face {
     font-family: 'PP Mori';
-    src: url('../../public/assets/fonts/PP_Mori/PPMori-SemiBold.otf') format('opentype');
+    src: url('../../public/assets/fonts/PP_Mori/PPMori-SemiBold.woff2') format('woff2');
     font-weight: 600;
     font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
     font-family: 'PP Mori';
-    src: url('../../public/assets/fonts/PP_Mori/PPMori-SemiBoldItalic.otf') format('opentype');
+    src: url('../../public/assets/fonts/PP_Mori/PPMori-SemiBoldItalic.woff2') format('woff2');
     font-weight: 600;
     font-style: italic;
+    font-display: swap;
 }
 
 @font-face {
     font-family: 'Eudoxus';
-    src: url('../../public/assets/fonts/Eudoxus/EudoxusSans-ExtraLight-BF659b6cb1e7092.ttf') format('opentype');
+    src: url('../../public/assets/fonts/Eudoxus/EudoxusSans-ExtraLight-BF659b6cb1e7092.woff2') format('woff2');
     font-weight: 200;
     font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
     font-family: 'Eudoxus';
-    src: url('../../public/assets/fonts/Eudoxus/EudoxusSans-Light-BF659b6cb2036b5.ttf') format('opentype');
+    src: url('../../public/assets/fonts/Eudoxus/EudoxusSans-Light-BF659b6cb2036b5.woff2') format('woff2');
     font-weight: 300;
     font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
     font-family: 'Eudoxus';
-    src: url('../../public/assets/fonts/Eudoxus/EudoxusSans-Regular-BF659b6cb1d4714.ttf') format('opentype');
+    src: url('../../public/assets/fonts/Eudoxus/EudoxusSans-Regular-BF659b6cb1d4714.woff2') format('woff2');
     font-weight: 400;
     font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
     font-family: 'Eudoxus';
-    src: url('../../public/assets/fonts/Eudoxus/EudoxusSans-Medium-BF659b6cb1c14cb.ttf') format('opentype');
+    src: url('../../public/assets/fonts/Eudoxus/EudoxusSans-Medium-BF659b6cb1c14cb.woff2') format('woff2');
     font-weight: 500;
     font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
     font-family: 'Eudoxus';
-    src: url('../../public/assets/fonts/Eudoxus/EudoxusSans-Bold-BF659b6cb1408e5.ttf') format('opentype');
+    src: url('../../public/assets/fonts/Eudoxus/EudoxusSans-Bold-BF659b6cb1408e5.woff2') format('woff2');
     font-weight: 700;
     font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
     font-family: 'Eudoxus';
-    src: url('../../public/assets/fonts/Eudoxus/EudoxusSans-ExtraBold-BF659b6cb1b96c9.ttf') format('opentype');
+    src: url('../../public/assets/fonts/Eudoxus/EudoxusSans-ExtraBold-BF659b6cb1b96c9.woff2') format('woff2');
     font-weight: 800;
     font-style: normal;
+    font-display: swap;
 }
 
 @layer base {
@@ -127,4 +139,98 @@ body {
     background: url(/assets/images/cta-bg-blur.webp);
     background-size: cover;
     background-position: center;
+}
+
+/*
+ * Hides the native pointer over elements handled by the HoverCursor follower,
+ * so the animated badge is the only cursor visible on those targets.
+ */
+.hover-cursor-area [data-cursor-target],
+.hover-cursor-area [data-cursor-target] * {
+    cursor: none;
+}
+
+/*
+ * 1px gradient border, matching the grey stroke the border-*.svg assets used.
+ * All seven of those files carried the same vertical ramp, so one rule replaces
+ * every one of them.
+ *
+ * Drawn on a pseudo-element and masked so only the 1px ring paints, which keeps
+ * the card interior transparent. Unlike the SVGs it scales to any card size,
+ * inherits the element's radius, and costs no extra request.
+ */
+:root {
+    --gradient-border: linear-gradient(180deg, #272727 0%, #686868 43%, #686868 64%, #272727 100%);
+}
+
+.gradient-border,
+.gradient-border-hover {
+    position: relative;
+}
+
+.gradient-border::before,
+.gradient-border-hover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    padding: 1px;
+    border-radius: inherit;
+    background: var(--gradient-border);
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+
+/* Reveal on hover only, replacing a show/hide swap of the SVG. */
+.gradient-border-hover::before {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.gradient-border-hover:hover::before {
+    opacity: 1;
+}
+
+/*
+ * Labels for the globe markers.
+ *
+ * cobe 2 places a 1px anchor element at each marker's screen position carrying
+ * `anchor-name: --cobe-<id>`, and writes `--cobe-visible-<id>` on :root while
+ * that marker is on the near side of the globe. A label therefore only has to
+ * point at the anchor and read that property to follow the marker round.
+ *
+ * The whole thing is behind @supports because anchor positioning is Chromium
+ * only for now. Without the gate the anchor() rules would be dropped while the
+ * opacity still resolved, leaving the labels stacked in the top left corner.
+ */
+.cobe-marker-label {
+    display: none;
+}
+
+@supports (anchor-name: --cobe-support-probe) {
+    .cobe-marker-label {
+        display: block;
+        position: absolute;
+        /* Below the pin, not above it. The visible part of the globe sits right
+           under the card's heading, so a label above its marker collided with
+           the copy. */
+        top: anchor(bottom);
+        left: anchor(center);
+        translate: -50% 0;
+        margin-top: 10px;
+        padding: 4px 9px;
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        border-radius: 6px;
+        background: #1a1a1a;
+        color: #ffffff;
+        font-size: 12px;
+        line-height: 16px;
+        white-space: nowrap;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+    }
 }

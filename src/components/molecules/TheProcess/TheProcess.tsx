@@ -126,7 +126,13 @@ const Process = ({
 
                 {item?.hasCVSpanIcon ? (
                     <div className="absolute left-0 top-[calc(-60px-17px)] flex w-full items-center justify-center max-[900px]:hidden">
-                        <img src="/assets/icons/logo-blue-rounded.svg" className="h-[60px] w-[60px]" />
+                        <img
+                            src="/assets/icons/logo-blue-rounded.svg"
+                            className="h-[60px] w-[60px]"
+                            alt=""
+                            loading="lazy"
+                            decoding="async"
+                        />
                     </div>
                 ) : null}
             </motion.div>

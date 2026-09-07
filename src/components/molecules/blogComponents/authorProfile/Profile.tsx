@@ -27,9 +27,9 @@ const Profile: React.FC<Props> = (props) => {
                                 className="w-[124px] rounded-full"
                             />
                             <div className="space-y-1">
-                                <h1 className="font-pp-mori text-[24px] font-[500] leading-[32px] text-[#1a1a1a]">
+                                <h2 className="font-pp-mori text-[24px] font-[500] leading-[32px] text-[#1a1a1a]">
                                     Moses Arfo
-                                </h1>
+                                </h2>
                                 <p className="font-pp-mori text-[14px] font-[400] leading-[22px] text-[#484848]">
                                     UIUX Designer
                                 </p>

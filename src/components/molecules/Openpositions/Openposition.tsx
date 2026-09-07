@@ -141,7 +141,7 @@ const Openposition = () => {
                     <div className="ml-auto w-full lg:max-w-[800px]">
                         <div className="flex flex-col gap-[20px]">
                             {/* <div className="flex w-full gap-[12px] rounded-[8px] bg-[#F4F4F4] p-[24px]">
-                                <img src="/assets/icons/info-circle.svg" />
+                                <img src="/assets/icons/info-circle.svg" alt="" loading="lazy" decoding="async" />
                                 <p className="text-[16px] font-normal leading-[24px] text-[#1A1A1A]">
                                     We have no positions open at the moment. Check back later
                                 </p>

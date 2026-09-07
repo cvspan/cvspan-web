@@ -13,12 +13,12 @@ const CTA_MissAnything = () => {
         >
             <div className="m-auto flex h-full w-full max-w-[1200px] flex-col justify-between gap-[40px] md:flex-row">
                 <motion.div {...ANIMATE_PROPS({ from: 'left' })}>
-                    <h1
+                    <h2
                         className="font-euxodus max-w-[580px] font-medium text-white"
                         style={{ fontSize: 'clamp(3rem, 8.6875vw, 7.5rem)', lineHeight: 1 }}
                     >
                         Don’t miss anything
-                    </h1>
+                    </h2>
                 </motion.div>
                 <motion.div
                     {...ANIMATE_PROPS({ from: 'right' })}
@@ -43,6 +43,9 @@ const CTA_MissAnything = () => {
                             }}
                             src="/assets/icons/arrow-up-big-white.svg"
                             className="hidden h-[40px] w-[40px] group-hover:block"
+                            alt=""
+                            loading="lazy"
+                            decoding="async"
                         />
 
                         <motion.img
@@ -56,6 +59,9 @@ const CTA_MissAnything = () => {
                             }}
                             src="/assets/icons/arrow-up-big-white.svg"
                             className="h-[24px] w-[24px] group-hover:hidden lg:h-[40px] lg:w-[40px]"
+                            alt=""
+                            loading="lazy"
+                            decoding="async"
                         />
                     </motion.div>
                 </motion.div>

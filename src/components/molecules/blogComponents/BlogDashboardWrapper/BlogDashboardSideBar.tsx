@@ -77,7 +77,13 @@ function BlogDashboardSideBar() {
                                 active ? 'bg-[#F4F4F4]' : '',
                             )}
                         >
-                            <img src={item?.image} className="h-[16px] w-[16px]" />{' '}
+                            <img
+                                src={item?.image}
+                                className="h-[16px] w-[16px]"
+                                alt=""
+                                loading="lazy"
+                                decoding="async"
+                            />{' '}
                             <span className="text-[14px] leading-[22px] text-[#1A1A1A]">{item?.title}</span>
                             {(item?.count || 0) > 0 ? (
                                 <div>

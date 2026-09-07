@@ -42,7 +42,7 @@ const Landing = ({ Heading, subHeading, bannerImage = '/assets/images/services_l
     return (
         <div className="relative bg-[#0c0c0c] px-[16px] pb-[100px] lg:h-[820px] lg:pb-0">
             <div className="absolute left-0 top-0 z-10">
-                <img src={'/assets/images/haomepage_banner.png'} alt="elipse" />
+                <img src={'/assets/images/homepage_banner.png'} alt="elipse" />
             </div>
             <div className="flex h-full w-full flex-col items-center justify-center space-y-6">
                 <div className="mt-[100px] flex w-full max-w-[1200px] flex-col-reverse items-center justify-between lg:mt-0 lg:flex-row">
@@ -80,6 +80,9 @@ const Landing = ({ Heading, subHeading, bannerImage = '/assets/images/services_l
                         <img
                             src={bannerImage}
                             className="w-full max-w-[300px] object-contain md:max-w-[400px] lg:h-[506px] lg:w-[506px] lg:max-w-[506px]"
+                            alt=""
+                            loading="lazy"
+                            decoding="async"
                         />
                     </div>
 
@@ -87,6 +90,9 @@ const Landing = ({ Heading, subHeading, bannerImage = '/assets/images/services_l
                         <img
                             src={bannerImage}
                             className="w-full max-w-[400px] object-contain lg:h-[506px] lg:w-[506px] lg:max-w-[506px]"
+                            alt=""
+                            loading="lazy"
+                            decoding="async"
                         />
                     </motion.div>
                 </div>

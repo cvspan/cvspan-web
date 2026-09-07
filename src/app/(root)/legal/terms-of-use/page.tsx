@@ -1,13 +1,8 @@
-'use client';
-import Privacy from '@/components/molecules/Terms/Privacy';
 import React from 'react';
 
-const page = () => {
-    return (
-        <>
-            <Privacy pageTitle={'Terms and conditions'} />
-        </>
-    );
-};
+import LegalPage from '@/components/molecules/legal/LegalPage';
+import { TERMS_OF_USE } from '@/components/molecules/legal/content/terms-of-use';
 
-export default page;
+export default function Page() {
+    return <LegalPage document={TERMS_OF_USE} />;
+}

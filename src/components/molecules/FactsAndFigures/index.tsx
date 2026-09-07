@@ -31,9 +31,15 @@ const FactsAndFigures = ({
                     <section className="m-auto grid w-full gap-x-6 gap-y-6 text-white md:grid-cols-2">
                         <motion.div
                             // {...ANIMATE_PROPS({ from: 'bottom' })}
-                            className="w-12/12 z-1 relative mb-8 flex h-full w-full flex-col items-start gap-y-8 rounded-3xl bg-gradient-to-r from-[#000032] to-[#1919d6] bg-cover bg-center bg-no-repeat bg-origin-border p-[24px] md:p-[40px]"
+                            className="w-12/12 z-1 relative mb-8 flex h-full w-full flex-col items-start gap-y-8 rounded-xl bg-gradient-to-r from-[#000032] to-[#1919d6] bg-cover bg-center bg-no-repeat bg-origin-border p-6 md:p-[40px]"
                         >
-                            <img src={containerBackground} className="absolute left-0 top-0 h-full w-full" />
+                            <img
+                                src={containerBackground}
+                                className="absolute left-0 top-0 h-full w-full"
+                                alt=""
+                                loading="lazy"
+                                decoding="async"
+                            />
                             <div className="relative z-20 flex flex-col gap-y-4">
                                 <h2 className="font-pp-mori text-[34px] font-semibold leading-[42px] md:text-[60px] md:leading-[64px]">
                                     {title}

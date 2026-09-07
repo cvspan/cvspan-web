@@ -21,7 +21,7 @@ const EditModal: React.FC<EditModalProps> = ({ toggleState, toggleTab }) => {
                     : 'hidden opacity-0'
             }
         >
-            <div className="relative h-[1000px] max-h-[90vh] w-[368px] space-y-6 overflow-y-auto rounded-[12px] bg-white p-6">
+            <div className="relative h-[1000px] max-h-[90vh] w-[368px] space-y-6 overflow-y-auto rounded-xl bg-white p-6">
                 {/* Header */}
                 <div className="flex items-center">
                     <p className="flex-1 text-center font-pp-mori text-[16px] font-[500] leading-[24px] text-[#1a1a1a]">
@@ -60,6 +60,7 @@ const EditModal: React.FC<EditModalProps> = ({ toggleState, toggleTab }) => {
                     <input
                         type="text"
                         className="w-full rounded-[8px] border-[1px] border-[#838383] bg-transparent p-3 font-eudoxus text-[16px] font-[400] leading-[24px] text-[#838383] outline-none placeholder:font-eudoxus placeholder:text-[16px] placeholder:font-[400] placeholder:leading-[24px] placeholder:text-[#838383]"
+                        aria-label="First Name"
                         placeholder="First Name"
                     />
                 </div>
@@ -67,6 +68,7 @@ const EditModal: React.FC<EditModalProps> = ({ toggleState, toggleTab }) => {
                     <input
                         type="text"
                         className="w-full rounded-[8px] border-[1px] border-[#838383] bg-transparent p-3 font-eudoxus text-[16px] font-[400] leading-[24px] text-[#838383] outline-none placeholder:font-eudoxus placeholder:text-[16px] placeholder:font-[400] placeholder:leading-[24px] placeholder:text-[#838383]"
+                        aria-label="Last Name"
                         placeholder="Last Name"
                     />
                 </div>
@@ -81,6 +83,7 @@ const EditModal: React.FC<EditModalProps> = ({ toggleState, toggleTab }) => {
                     <textarea
                         cols={15}
                         className="w-full rounded-[8px] border-[1px] border-[#838383] bg-transparent p-3 font-eudoxus text-[16px] font-[400] leading-[24px] text-[#838383] outline-none placeholder:font-eudoxus placeholder:text-[16px] placeholder:font-[400] placeholder:leading-[24px] placeholder:text-[#838383]"
+                        aria-label="Short Description"
                         placeholder="Short Description"
                     />
                 </div>
@@ -88,6 +91,7 @@ const EditModal: React.FC<EditModalProps> = ({ toggleState, toggleTab }) => {
                     <input
                         type="email"
                         className="w-full rounded-[8px] border-[1px] border-[#838383] bg-transparent p-3 font-eudoxus text-[16px] font-[400] leading-[24px] text-[#838383] outline-none placeholder:font-eudoxus placeholder:text-[16px] placeholder:font-[400] placeholder:leading-[24px] placeholder:text-[#838383]"
+                        aria-label="Email"
                         placeholder="Email"
                     />
                 </div>
@@ -95,6 +99,7 @@ const EditModal: React.FC<EditModalProps> = ({ toggleState, toggleTab }) => {
                     <input
                         type="url"
                         className="w-full rounded-[8px] border-[1px] border-[#838383] bg-transparent p-3 font-eudoxus text-[16px] font-[400] leading-[24px] text-[#838383] outline-none placeholder:font-eudoxus placeholder:text-[16px] placeholder:font-[400] placeholder:leading-[24px] placeholder:text-[#838383]"
+                        aria-label="Link"
                         placeholder="Link"
                     />
                 </div>
@@ -102,6 +107,7 @@ const EditModal: React.FC<EditModalProps> = ({ toggleState, toggleTab }) => {
                     <input
                         type="text"
                         className="w-full rounded-[8px] border-[1px] border-[#838383] bg-transparent p-3 font-eudoxus text-[16px] font-[400] leading-[24px] text-[#838383] outline-none placeholder:font-eudoxus placeholder:text-[16px] placeholder:font-[400] placeholder:leading-[24px] placeholder:text-[#838383]"
+                        aria-label="Location"
                         placeholder="Location"
                     />
                 </div>
@@ -144,7 +150,7 @@ const Dropdown: React.FC<dropdownProps> = ({ placeholder, values }) => {
                         </div>
                     </button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="mt-[5px] rounded-[12px] p-4">
+                <DropdownMenuContent className="mt-[5px] rounded-xl p-4">
                     {values.map((value, index) => (
                         <DropdownMenuItem key={index}>
                             <p className="font-gordita text-[16px] font-normal leading-[24px]">{value}</p>

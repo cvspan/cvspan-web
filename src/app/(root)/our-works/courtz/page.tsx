@@ -6,6 +6,7 @@ import AboutProject from '@/components/molecules/AboutProject/AboutProject';
 import CaseStudyLanding from '@/components/molecules/CaseStudyLanding/CaseStudyLanding';
 import TheProcess from '@/components/molecules/TheProcess/TheProcess';
 import TheResult from '@/components/molecules/TheResult/TheResult';
+import { CASE_STUDY_RESULTS } from '@/components/molecules/TheResult/data';
 import MobileScreens from '@/components/molecules/Screens/MobileScreens';
 import ImagePage from '@/components/molecules/Screens/image';
 import DesignSystem from '@/components/molecules/CaseVisuals/CourtzVisual';
@@ -29,7 +30,7 @@ export default function Courtz() {
             <MobileScreens mobileImage="courtz-mobile" />
             <DesignSystem />
             <TheProcess />
-            <TheResult />
+            <TheResult results={CASE_STUDY_RESULTS['courtz']} />
             <Cta />
             <Footer />
         </>

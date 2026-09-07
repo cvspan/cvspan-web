@@ -10,7 +10,7 @@ const cards: TBlogCard[] = [
         title: 'Top 10 Digital Design Agencies',
         author: 'Moses Arfo',
         time: '3 mins read',
-        image: '/assets/images/Rectangle.png',
+        image: '/assets/images/Rectangle-1200w.webp',
         blogMiniText: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremq',
     },
     {
@@ -31,21 +31,21 @@ const cards: TBlogCard[] = [
         title: 'UX Research for an NFT platform – Metastaq',
         author: 'Moses Arfo',
         time: '3 mins read',
-        image: '/assets/images/Rectangle.png',
+        image: '/assets/images/Rectangle-1200w.webp',
         blogMiniText: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremq',
     },
     {
         title: 'UX Research for an NFT platform – Metastaq',
         author: 'Moses Arfo',
         time: '3 mins read',
-        image: '/assets/images/Rectangle.png',
+        image: '/assets/images/Rectangle-1200w.webp',
         blogMiniText: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremq',
     },
     {
         title: 'UX Research for an NFT platform – Metastaq',
         author: 'Moses Arfo',
         time: '3 mins read',
-        image: '/assets/images/Rectangle.png',
+        image: '/assets/images/Rectangle-1200w.webp',
         blogMiniText: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremq',
     },
 
@@ -53,14 +53,14 @@ const cards: TBlogCard[] = [
         title: 'UX Research for an NFT platform – Metastaq',
         author: 'Moses Arfo',
         time: '3 mins read',
-        image: '/assets/images/Rectangle.png',
+        image: '/assets/images/Rectangle-1200w.webp',
         blogMiniText: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremq',
     },
     {
         title: 'UX Research for an NFT platform – Metastaq',
         author: 'Moses Arfo',
         time: '3 mins read',
-        image: '/assets/images/Rectangle.png',
+        image: '/assets/images/Rectangle-1200w.webp',
         blogMiniText: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremq',
     },
 ];
@@ -122,7 +122,7 @@ const BlogCard = ({ card }: { card?: TBlogCard }) => {
                         <Link href="/blog/author/profile" className="flex items-center gap-3 hover:underline">
                             <div className="h-[48px] w-[48px] rounded-full bg-[#D9D9D9]"></div>
                             <div className="flex flex-col">
-                                <h1 className="font-eudoxus text-[16px] font-[400] leading-5">{card?.author}</h1>
+                                <span className="font-eudoxus text-[16px] font-[400] leading-5">{card?.author}</span>
                                 <span className="font-eudoxus text-[12px] font-[400] leading-[20px] text-[#A3A3A3]">
                                     Founder & CEO
                                 </span>

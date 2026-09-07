@@ -8,6 +8,7 @@ import CaseStudyLanding from '@/components/molecules/CaseStudyLanding/CaseStudyL
 // import TheDesign from '@/components/molecules/TheDesign/TheDesign';
 import TheProcess from '@/components/molecules/TheProcess/TheProcess';
 import TheResult from '@/components/molecules/TheResult/TheResult';
+import { CASE_STUDY_RESULTS } from '@/components/molecules/TheResult/data';
 import MobileScreens from '@/components/molecules/Screens/MobileScreens';
 // import DesktopScreens from '@/components/molecules/Screens/DesktopScreens';
 
@@ -29,7 +30,7 @@ export default function Phozio() {
             />
             <MobileScreens mobileImage="phozio-mobile" />
             <TheProcess />
-            <TheResult />
+            <TheResult results={CASE_STUDY_RESULTS['phozio']} />
             <Cta />
             <Footer />
         </>

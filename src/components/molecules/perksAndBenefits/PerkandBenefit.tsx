@@ -9,12 +9,7 @@ interface PerkAndBenefitProps {
 
 const PerkandBenefit: React.FC<PerkAndBenefitProps> = ({ id, title, explanation }) => {
     return (
-        <div className="relative flex h-[276px] w-full flex-col justify-center gap-[12px] rounded-3xl border-[1px] border-[#272727] p-[24px] max-[1217px]:scale-95 md:w-[384px] md:border-transparent">
-            <img
-                src="/assets/images/border-perks-benefits.svg"
-                className="absolute left-0 top-0 hidden h-full w-full md:block"
-            />
-
+        <div className="gradient-border flex h-[276px] w-full flex-col justify-center gap-[12px] rounded-xl p-6 max-[1217px]:scale-95 md:w-[384px]">
             <h2 className="font-pp-mori-semibold text- perks_gradient_text1 text-[60px] font-semibold leading-[64px] max-[1180px]:text-[50px] max-[1180px]:leading-[56px]">
                 {id}
             </h2>

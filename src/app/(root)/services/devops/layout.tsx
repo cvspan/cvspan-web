@@ -1,25 +1,36 @@
 import React from 'react';
 import type { Metadata } from 'next';
+import JsonLd from '@/components/seo/JsonLd';
+import { buildMetadata } from '@/lib/seo/metadata';
+import { breadcrumbSchema, buildGraph, serviceSchema } from '@/lib/seo/structured-data';
 
-export const metadata: Metadata = {
-    title: 'DevOps Services | CVSpan',
+export const metadata: Metadata = buildMetadata({
+    title: 'DevOps & QA Engineering Services',
     description:
-        'Optimize the flow of data and information in project development to reduce delivery costs, enhance automation, and accelerate digital transformation efforts.',
-    openGraph: {
-        images: [
-            {
-                width: 600,
-                height: 600,
-                url: '/assets/images/headers/industries/devops.svg',
-            },
-        ],
-    },
-};
+        'Optimise the flow of information across project delivery to reduce costs, enhance automation and accelerate digital transformation, backed by rigorous QA.',
+    path: '/services/devops',
+});
 
-export default function RootLayout({
-    children,
-}: Readonly<{
-    children: React.ReactNode;
-}>) {
-    return <>{children}</>;
+export default function Layout({ children }: Readonly<{ children: React.ReactNode }>) {
+    const graph = buildGraph([
+        serviceSchema({
+            name: 'DevOps & QA Engineering Services',
+            description:
+                'Optimise the flow of information across project delivery to reduce costs, enhance automation and accelerate digital transformation, backed by rigorous QA.',
+            path: '/services/devops',
+            serviceType: 'DevOps',
+        }),
+        breadcrumbSchema([
+            { name: 'Home', path: '/' },
+            { name: 'Services', path: '/services' },
+            { name: 'DevOps', path: '/services/devops' },
+        ]),
+    ]);
+
+    return (
+        <>
+            <JsonLd data={graph} />
+            {children}
+        </>
+    );
 }

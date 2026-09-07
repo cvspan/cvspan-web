@@ -7,7 +7,7 @@ const AcievmentItem = ({ src, title, index }: { src?: string; title?: string; in
     return (
         <motion.div
             {...ANIMATE_PROPS({ delay: 0.1 * index })}
-            className="font-eudoxus flex w-[220px] flex-col items-center gap-[22px]"
+            className="flex w-[220px] flex-col items-center gap-[22px] font-eudoxus"
         >
             <img src={src} alt="behance" className="w-[135px]" />
             <span className="w-full max-w-[120px] text-center text-[16px] font-[500] leading-[24px]">{title}</span>
@@ -26,7 +26,7 @@ const Achievements = () => {
                     >
                         Our Achievements
                     </motion.h3>
-                    <div className="font-eudoxus flex w-full flex-wrap items-center justify-center gap-[20px] gap-y-[40px] text-black">
+                    <div className="flex w-full flex-wrap items-center justify-center gap-[20px] gap-y-[40px] font-eudoxus text-black">
                         <AcievmentItem index={0} src={'/assets/icons/behance.svg'} title="28 Behance Galleries" />
                         <AcievmentItem index={1} src={'/assets/icons/clutch.svg'} title="5.0 Ratings on Clutch" />
                         <AcievmentItem index={2} src={'/assets/icons/dribble.svg'} title="Top 3 on Dribble" />

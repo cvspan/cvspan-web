@@ -16,7 +16,9 @@ type Props = {
 
 const AboutProject: React.FC<Props> = ({ solution, challenge }) => {
     useGSAP(() => {
-        const splitTypes = document.querySelectorAll('.reveal-type');
+        // Typed as HTMLElement so `dataset` is available and SplitType accepts the
+        // node; querySelectorAll returns plain Elements otherwise.
+        const splitTypes = document.querySelectorAll<HTMLElement>('.reveal-type');
 
         splitTypes.forEach((char, i) => {
             const bg = char?.dataset?.bgColor;

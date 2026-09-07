@@ -15,13 +15,24 @@ const Homelanding = () => {
     return (
         <div className="relative h-[110vh] w-full overflow-x-hidden bg-[#0c0c0c] px-5 sm:h-[820px]">
             <div className="absolute left-0 top-0">
-                <img src={'/assets/images/haomepage_banner.png'} alt="elipse" />
+                {/* Decorative hero backdrop, and the likely LCP element — eager + high
+                    priority so it is not deprioritised behind other requests. */}
+                <img
+                    src={'/assets/images/homepage_banner.png'}
+                    alt=""
+                    loading="eager"
+                    fetchPriority="high"
+                    decoding="async"
+                />
             </div>
 
             <div className="absolute bottom-0 right-0 w-full">
                 <div className="mx-auto flex w-full max-w-[1200px] justify-end">
                     <img
                         src="/assets/images/homepage-bottom-background.webp"
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
                         className="mr-[-100px] w-[900px] object-contain"
                     />
                 </div>

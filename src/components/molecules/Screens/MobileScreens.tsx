@@ -1,5 +1,7 @@
 import React from 'react';
 
+import ScreenImage from './ScreenImage';
+
 type ImagePageProps = {
     mobileImage: string;
 };
@@ -15,7 +17,7 @@ const MobileScreens: React.FC<ImagePageProps> = ({ mobileImage }) => {
                 </div>
 
                 <div className="flex h-[1080px] w-full justify-center">
-                    <img src={`/assets/images/screens/${mobileImage}.webp`} alt="" className="object-cover" />
+                    <ScreenImage image={mobileImage} className="object-cover" />
                 </div>
             </div>
         </div>

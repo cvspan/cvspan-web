@@ -15,9 +15,9 @@ const ResetPassword = (props: Props) => {
             <div className="flex h-full w-full items-center justify-center">
                 <div className="w-[453px] space-y-[40px]">
                     <div className="">
-                        <h3 className="text-center font-eudoxus text-[42px] font-[500] leading-[54px] text-[#1a1a1a]">
+                        <h1 className="text-center font-eudoxus text-[42px] font-[500] leading-[54px] text-[#1a1a1a]">
                             Create New Password
-                        </h3>
+                        </h1>
                     </div>
                     <div className="space-y-[16px]">
                         <div className="w-full space-y-[16px]">
@@ -76,13 +76,13 @@ const ResetPassword = (props: Props) => {
                         </div>
                     </div>
                     <p className="text-center text-[14px] font-[400] leading-[22px] text-[#767676]">
-                        Click “Sign in” to agree to Medium’s
+                        Click “Sign in” to agree to&nbsp;CVSpan’s
                         <Link href={'/'} className="underline">
-                             Terms of Service 
+                            &nbsp;Terms of Service&nbsp;
                         </Link>
-                        and acknowledge that Medium’s 
+                        and acknowledge that&nbsp;CVSpan’s&nbsp;
                         <Link href={'/'} className="underline">
-                            Privacy Policy 
+                            Privacy Policy&nbsp;
                         </Link>
                         applies to you.
                     </p>

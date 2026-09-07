@@ -1,18 +1,15 @@
-'use client';
-
-import React, { useEffect } from 'react';
-import './style.css';
-
+/**
+ * The full screen loader is switched off.
+ *
+ * It previously carried a `return null` above its markup, so the JSX, the state
+ * and the timer below it never ran but still shipped on every page. The intent
+ * is preserved here as a deliberate no-op rather than dead code.
+ *
+ * To bring it back, restore this file from git and remove the early return —
+ * the markup and `style.css` are still in history.
+ */
 function FullScreenAnimatedLoader() {
-    const [cs, set_cs] = React.useState('');
-
-    useEffect(() => {
-        setTimeout(() => {
-            set_cs('fs_container_hide');
-        }, 500);
-    }, []);
     return null;
-    return <div className={`fs_container ${cs}`}></div>;
 }
 
 export default FullScreenAnimatedLoader;

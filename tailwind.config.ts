@@ -32,6 +32,28 @@ const config = {
                 'pp-mori': 'var(--font-pp-mori)',
                 eudoxus: 'var(--font-eudoxus)',
             },
+
+            transitionTimingFunction: {
+                /**
+                 * Decelerating curve used for anything that opens, expands or
+                 * follows the pointer: fast to start, settling gently rather
+                 * than stopping dead. Named rather than written inline so the
+                 * accordion, cursor and hover states cannot drift apart.
+                 */
+                fluid: 'cubic-bezier(0.22, 1, 0.36, 1)',
+            },
+
+            boxShadow: {
+                /**
+                 * Elevation for floating surfaces such as the mega menu.
+                 *
+                 * Three stacked layers instead of one heavy drop: a hairline
+                 * contact edge, a soft mid spread, and a wide ambient shadow.
+                 * The tint is a desaturated navy rather than pure black, which
+                 * reads much softer against white than rgba(0,0,0,.25) did.
+                 */
+                menu: '0 1px 2px rgba(16, 24, 40, 0.04), 0 8px 24px -6px rgba(16, 24, 40, 0.10), 0 28px 56px -12px rgba(16, 24, 40, 0.14)',
+            },
         },
     },
     plugins: [require('tailwindcss-animate')],

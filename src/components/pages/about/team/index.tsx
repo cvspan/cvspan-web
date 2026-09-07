@@ -49,7 +49,10 @@ const EmployeeProfile = ({ team }: { team: Team | undefined }) => {
                         <div className="col-span-1">
                             <div className="aspect-[16/9] bg-[#fafafa]">
                                 <div className="relative flex flex-shrink-0 flex-grow justify-center">
-                                    <img src={team?.avatar} />
+                                    <img
+                                        src={team?.avatar}
+                                        alt={team?.name ? `${team.name}, ${team?.role ?? 'CVSpan team member'}` : ''}
+                                    />
                                 </div>
                             </div>
                             <div className="mt-6">
@@ -58,14 +61,22 @@ const EmployeeProfile = ({ team }: { team: Team | undefined }) => {
                             <div className="mt-4 flex items-center gap-[12px]">
                                 {socials.map((item) => {
                                     return (
-                                        <button key={item?.key} className="group relative h-[32px] w-[32px]">
+                                        <button
+                                            key={item?.key}
+                                            type="button"
+                                            aria-label={`${team?.name ?? 'Team member'} on ${item?.key}`}
+                                            className="group relative h-[32px] w-[32px]"
+                                        >
+                                            {/* Decorative: the button already carries the accessible name. */}
                                             <img
                                                 src={item?.imageUrlInActive}
+                                                alt=""
                                                 className="absolute left-0 top-0 h-full w-full transition-all duration-100 ease-in-out group-hover:scale-0"
                                             />
 
                                             <img
                                                 src={item?.imageUrlActive}
+                                                alt=""
                                                 className="absolute left-0 top-0 h-full w-full scale-0 transition-all duration-100 ease-in-out group-hover:scale-100"
                                             />
                                         </button>

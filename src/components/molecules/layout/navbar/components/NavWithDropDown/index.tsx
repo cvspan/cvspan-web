@@ -1,12 +1,16 @@
 import React from 'react';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { NavbarList, SubNavbarList } from '../../types';
 import Link from 'next/link';
 
 const NavWithDropDown = ({ title, buttons }: { title: string; buttons: NavbarList[] }) => {
     const ref = useRef<HTMLDivElement>(null);
+    // The panel is shown by toggling a class, so the open state is mirrored here
+    // purely to report it through aria-expanded.
+    const [expanded, setExpanded] = useState(false);
     const onToggle = () => {
         ref.current?.classList.toggle('hidden');
+        setExpanded((open) => !open);
     };
     return (
         <div className="border-box">
@@ -14,6 +18,7 @@ const NavWithDropDown = ({ title, buttons }: { title: string; buttons: NavbarLis
                 <button
                     onClick={onToggle}
                     type="button"
+                    aria-expanded={expanded}
                     className={
                         'inline-flex flex-grow items-center font-eudoxus text-[34px] font-medium leading-[42px] text-[#1a1a1a] lg:text-sm lg:font-normal lg:leading-[22px]'
                     }

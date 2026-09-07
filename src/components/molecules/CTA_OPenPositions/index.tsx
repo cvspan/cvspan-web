@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { ANIMATE_PROPS } from '@/helpers/motion';
 import { useRouter } from 'next/navigation';
 import useWindowSize from '@/hooks/general/useWindowSize';
+import HoverCursor from '@/components/molecules/HoverCursor';
 
 const CTA_OPenPositions = () => {
     const router = useRouter();
@@ -11,18 +12,22 @@ const CTA_OPenPositions = () => {
     const smallDevice = width < 900;
 
     return (
-        <div
-            onClick={() => router.push('/careers/open-position')}
-            className="bg-cta-bg m-auto w-full cursor-[url(/assets/icons/open-position-cursor.svg),_pointer] overflow-x-hidden bg-cover bg-center bg-no-repeat bg-origin-border py-[60px] pb-12 pl-6 pr-6 pt-12 text-white lg:h-[630px] lg:py-[120px]"
+        <HoverCursor
+            icon="/assets/icons/open-position-cursor.svg"
+            className="bg-cta-bg m-auto w-full overflow-x-hidden bg-cover bg-center bg-no-repeat bg-origin-border py-[60px] pb-12 pl-6 pr-6 pt-12 text-white lg:h-[630px] lg:py-[120px]"
         >
-            <div className="m-auto flex h-full w-full max-w-[1200px] flex-col justify-between gap-[40px] md:flex-row">
+            <div
+                onClick={() => router.push('/careers/open-position')}
+                data-cursor-target
+                className="m-auto flex h-full w-full max-w-[1200px] flex-col justify-between gap-[40px] md:flex-row"
+            >
                 <motion.div {...ANIMATE_PROPS({ disable: smallDevice, from: 'left' })}>
-                    <h1
+                    <h2
                         className="font-euxodus max-w-[580px] font-medium text-white"
                         style={{ fontSize: 'clamp(3rem, 8.6875vw, 7.5rem)', lineHeight: 1 }}
                     >
                         Open Positions
-                    </h1>
+                    </h2>
                 </motion.div>
                 <motion.div
                     {...ANIMATE_PROPS({ disable: smallDevice, from: 'right' })}
@@ -30,7 +35,7 @@ const CTA_OPenPositions = () => {
                 >
                     <motion.div
                         whileHover="on_hover"
-                        className="group mt-[100px] flex cursor-[url(/assets/icons/open-position-cursor.svg),_pointer] items-center justify-between gap-5 self-end lg:mt-[0px] lg:self-end lg:justify-self-end"
+                        className="group mt-[100px] flex items-center justify-between gap-5 self-end lg:mt-[0px] lg:self-end lg:justify-self-end"
                     >
                         <motion.h4 className="text-[24px] leading-[42px] group-hover:text-white/80 lg:text-[34px]">
                             APPLY NOW
@@ -47,6 +52,9 @@ const CTA_OPenPositions = () => {
                             }}
                             src="/assets/icons/arrow-up-big-white.svg"
                             className="hidden h-[40px] w-[40px] group-hover:block"
+                            alt=""
+                            loading="lazy"
+                            decoding="async"
                         />
 
                         <motion.img
@@ -60,11 +68,14 @@ const CTA_OPenPositions = () => {
                             }}
                             src="/assets/icons/arrow-up-big-white.svg"
                             className="h-[24px] w-[24px] group-hover:hidden lg:h-[40px] lg:w-[40px]"
+                            alt=""
+                            loading="lazy"
+                            decoding="async"
                         />
                     </motion.div>
                 </motion.div>
             </div>
-        </div>
+        </HoverCursor>
     );
 };
 

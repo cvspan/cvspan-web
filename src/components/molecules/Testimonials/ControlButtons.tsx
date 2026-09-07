@@ -53,6 +53,9 @@ const ControlButtons = ({ emblaApi }: { emblaApi?: any }) => {
                     <img
                         src="/assets/icons/circled-arrow-right-white.svg"
                         className="h-[70px] w-[70px] rotate-[180deg] object-contain"
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
                     />
                 </motion.button>
             </motion.div>
@@ -75,7 +78,7 @@ const ControlButtons = ({ emblaApi }: { emblaApi?: any }) => {
                     }}
                     className="h-[70px] w-[70px] object-contain disabled:opacity-25"
                 >
-                    <img src="/assets/icons/circled-arrow-right-white.svg" />
+                    <img src="/assets/icons/circled-arrow-right-white.svg" alt="" loading="lazy" decoding="async" />
                 </motion.button>
             </motion.div>
         </div>

@@ -9,7 +9,7 @@ import ComingSoonBadge from '@/components/molecules/ComingSoonBadge';
 
 const FooterOfficeAddress = () => {
     return (
-        <div className="col-span-2">
+        <div className="col-span-2 lg:col-span-1">
             <div>
                 <Link href="/" className="relative box-border block">
                     <Image src="/assets/images/logo.svg" width={152} height={31} alt="Cvspan logo" />
@@ -37,10 +37,10 @@ const FooterOfficeAddress = () => {
 
 const FooterPrimaryLinks = () => {
     return (
-        <div className="col-span-2 lg:col-span-4">
-            <ul className="grid list-none grid-cols-4 gap-5 md:gap-x-8" role="list">
+        <div className="col-span-2 lg:col-span-1">
+            <ul className="grid list-none grid-cols-2 gap-5 md:gap-x-8 lg:grid-cols-4" role="list">
                 {FOOTER_LINKS.map((link: FooterLink) => (
-                    <li key={link.id} className="col-span-2 place-self-start lg:row-start-1" role="listitem">
+                    <li key={link.id} role="listitem">
                         <h3 className="text-[16px] font-medium text-[#1A1A1A]">{link.text}</h3>
                         <ul className="mt-6 list-none">
                             {link.links.map((subLink: THIRD_PARTY_LINK) => (
@@ -57,7 +57,12 @@ const FooterPrimaryLinks = () => {
                                         ) : (
                                             <Link
                                                 href={subLink.link}
-                                                className={cn('text-[14px] font-normal text-[#484848] hover:underline')}
+                                                // py/-my pair grows the touch area into the gap between
+                                                // rows without moving anything: the text was only 21px
+                                                // tall, below the 24px WCAG 2.5.8 minimum.
+                                                className={cn(
+                                                    '-my-1 inline-block py-1 text-[14px] font-normal text-[#484848] hover:underline',
+                                                )}
                                             >
                                                 {subLink.text}
                                             </Link>
@@ -77,25 +82,24 @@ const FooterPrimaryLinks = () => {
 
 const FooterThirdPartyLinks = () => {
     return (
-        <ul className="order-1 list-none lg:order-2">
-            <div className="flex flex-row gap-x-4">
-                {THIRD_PARTY_LINKS.map((link: THIRD_PARTY_LINK) => (
-                    <li key={link.id}>
-                        <div className="flex-shrink-0 flex-grow">
-                            <Link href={link?.link} className="text-[14px] font-normal text-[#484848] underline">
-                                {link.text}
-                            </Link>
-                        </div>
-                    </li>
-                ))}
-            </div>
+        <ul className="order-2 flex list-none flex-row gap-x-4" role="list">
+            {THIRD_PARTY_LINKS.map((link: THIRD_PARTY_LINK) => (
+                <li key={link.id}>
+                    <Link
+                        href={link?.link}
+                        className="-my-1 inline-block py-1 text-[14px] font-normal text-[#484848] underline"
+                    >
+                        {link.text}
+                    </Link>
+                </li>
+            ))}
         </ul>
     );
 };
 
 export const PrimaryFooter = () => {
     return (
-        <div className="grid-cols-span-4 grid auto-cols-fr gap-y-[35px] lg:grid-cols-6">
+        <div className="grid auto-cols-fr gap-y-[35px] lg:grid-cols-[30%_70%]">
             <FooterOfficeAddress />
             <FooterPrimaryLinks />
         </div>
@@ -103,9 +107,10 @@ export const PrimaryFooter = () => {
 };
 const SocialHandles = () => {
     return (
-        <div className="order-2 flex flex-grow gap-x-4 lg:order-3 lg:justify-end">
+        <div className="order-3 flex flex-grow gap-x-4 lg:justify-end">
             <Link
                 target="_blank"
+                rel="noopener noreferrer"
                 href="https://www.linkedin.com/company/cvspanofficial"
                 className="relative flex h-8 w-8 items-center overflow-hidden rounded-full bg-[#484848] p-2 opacity-80 hover:opacity-100"
             >
@@ -119,11 +124,12 @@ const SocialHandles = () => {
 
             <Link
                 target="_blank"
+                rel="noopener noreferrer"
                 href="https://www.instagram.com/cvspanofficial"
                 className="relative flex h-8 w-8 items-center overflow-hidden rounded-full bg-[#484848] p-2 opacity-80 hover:opacity-100"
             >
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g clip-path="url(#clip0_4606_3510)">
+                    <g clipPath="url(#clip0_4606_3510)">
                         <path
                             d="M8.00001 1.44184C10.1374 1.44184 10.3883 1.45137 11.233 1.48948C12.0143 1.52441 12.4367 1.65462 12.7193 1.76578C13.0941 1.91187 13.3609 2.08337 13.6403 2.36284C13.9198 2.64232 14.0945 2.90909 14.2374 3.28384C14.3454 3.56649 14.4788 3.98888 14.5137 4.77015C14.5518 5.61493 14.5613 5.86582 14.5613 8.00318C14.5613 10.1405 14.5518 10.3914 14.5137 11.2362C14.4788 12.0175 14.3486 12.4399 14.2374 12.7225C14.0913 13.0973 13.9198 13.364 13.6403 13.6435C13.3609 13.923 13.0941 14.0977 12.7193 14.2406C12.4367 14.3486 12.0143 14.4819 11.233 14.5169C10.3883 14.555 10.1374 14.5645 8.00001 14.5645C5.86265 14.5645 5.61175 14.555 4.76697 14.5169C3.98571 14.4819 3.56332 14.3517 3.28067 14.2406C2.90592 14.0945 2.63914 13.923 2.35967 13.6435C2.08019 13.364 1.90552 13.0973 1.76261 12.7225C1.65463 12.4399 1.52124 12.0175 1.48631 11.2362C1.44819 10.3914 1.43867 10.1405 1.43867 8.00318C1.43867 5.86582 1.44819 5.61493 1.48631 4.77015C1.52124 3.98888 1.65145 3.56649 1.76261 3.28384C1.9087 2.90909 2.08019 2.64232 2.35967 2.36284C2.63914 2.08337 2.90592 1.90869 3.28067 1.76578C3.56332 1.6578 3.98571 1.52441 4.76697 1.48948C5.61175 1.44819 5.86582 1.44184 8.00001 1.44184ZM8.00001 0C5.82771 0 5.55459 0.00952759 4.70028 0.047638C3.84915 0.0857483 3.26797 0.22231 2.75983 0.419214C2.23263 0.622469 1.78801 0.898769 1.34339 1.34339C0.89877 1.78801 0.625646 2.23581 0.419214 2.75983C0.222311 3.26796 0.0857484 3.84915 0.047638 4.70345C0.0095276 5.55459 0 5.82771 0 8C0 10.1723 0.0095276 10.4454 0.047638 11.2997C0.0857484 12.1509 0.222311 12.732 0.419214 13.2434C0.62247 13.7705 0.89877 14.2152 1.34339 14.6598C1.78801 15.1044 2.23581 15.3775 2.75983 15.584C3.26797 15.7809 3.84915 15.9174 4.70346 15.9555C5.55777 15.9936 5.82771 16.0032 8.00318 16.0032C10.1786 16.0032 10.4486 15.9936 11.3029 15.9555C12.154 15.9174 12.7352 15.7809 13.2465 15.584C13.7737 15.3807 14.2184 15.1044 14.663 14.6598C15.1076 14.2152 15.3807 13.7674 15.5871 13.2434C15.7841 12.7352 15.9206 12.154 15.9587 11.2997C15.9968 10.4454 16.0064 10.1755 16.0064 8C16.0064 5.82453 15.9968 5.55458 15.9587 4.70028C15.9206 3.84915 15.7841 3.26796 15.5871 2.75665C15.3839 2.22946 15.1076 1.78484 14.663 1.34021C14.2184 0.895594 13.7706 0.622469 13.2465 0.416038C12.7384 0.219135 12.1572 0.0825724 11.3029 0.0444621C10.4454 0.00952759 10.1723 0 8.00001 0Z"
                             fill="white"
@@ -151,6 +157,7 @@ const SocialHandles = () => {
 
             <Link
                 target="_blank"
+                rel="noopener noreferrer"
                 href="https://www.facebook.com/CVSpanOfficial"
                 className="relative flex h-8 w-8 items-center overflow-hidden rounded-full bg-[#484848] p-2 opacity-80 hover:opacity-100"
             >
@@ -164,13 +171,14 @@ const SocialHandles = () => {
 
             <Link
                 target="_blank"
+                rel="noopener noreferrer"
                 href="https://x.com/Cvspanofficial"
                 className="relative flex h-8 w-8 items-center overflow-hidden rounded-full bg-[#484848] p-2 opacity-80 hover:opacity-100"
             >
                 <svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
+                        fillRule="evenodd"
+                        clipRule="evenodd"
                         d="M5.74142 0H0.185547L6.77281 8.70099L0.606948 16H3.45576L8.11925 10.4795L12.2602 15.9492H17.8161L11.0374 6.99536L11.0494 7.0108L16.886 0.101605H14.0372L9.7028 5.23251L5.74142 0ZM3.2523 1.52382H4.98193L14.7494 14.4254H13.0197L3.2523 1.52382Z"
                         fill="white"
                     />
@@ -179,6 +187,7 @@ const SocialHandles = () => {
 
             <Link
                 target="_blank"
+                rel="noopener noreferrer"
                 href="https://www.tiktok.com/@cvspanofficial"
                 className="relative flex h-8 w-8 items-center overflow-hidden rounded-full bg-[#484848] p-2 opacity-80 hover:opacity-100"
             >
@@ -192,6 +201,7 @@ const SocialHandles = () => {
 
             <Link
                 target="_blank"
+                rel="noopener noreferrer"
                 href="https://www.youtube.com/@cvspantv"
                 className="relative flex h-8 w-8 items-center overflow-hidden rounded-full bg-[#484848] p-2 opacity-80 hover:opacity-100"
             >
@@ -210,7 +220,7 @@ export const SecondaryFooter = () => {
     return (
         <div>
             <div className="flex flex-col gap-y-8 md:items-center lg:flex-row">
-                <div className="order-3 mr-8 lg:order-1">
+                <div className="order-1 lg:mr-8">
                     <div className="text-[14px] font-normal text-[#484848]">© 2024 CVSpan. All rights reserved.</div>
                 </div>
                 <FooterThirdPartyLinks />

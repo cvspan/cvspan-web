@@ -1,3 +1,5 @@
+import ScreenImage from './ScreenImage';
+
 type ImagePageProps = {
     desktopImage: string;
 };
@@ -13,7 +15,7 @@ const DesktopScreens: React.FC<ImagePageProps> = ({ desktopImage }) => {
                 </div>
 
                 <div className="flex h-[1080px] w-full justify-center">
-                    <img src={`/assets/images/screens/${desktopImage}.webp`} alt="" className="object-cover" />
+                    <ScreenImage image={desktopImage} className="object-cover" />
                 </div>
             </div>
         </div>

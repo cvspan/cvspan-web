@@ -15,7 +15,7 @@ const cards: TBlogCard[] = [
         title: 'Top 10 Digital Design Agencies',
         author: 'Moses Arfo',
         time: '3 mins read',
-        image: '/assets/images/Rectangle.png',
+        image: '/assets/images/Rectangle-1200w.webp',
         blogMiniText: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremq',
     },
     {
@@ -36,21 +36,21 @@ const cards: TBlogCard[] = [
         title: 'UX Research for an NFT platform – Metastaq',
         author: 'Moses Arfo',
         time: '3 mins read',
-        image: '/assets/images/Rectangle.png',
+        image: '/assets/images/Rectangle-1200w.webp',
         blogMiniText: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremq',
     },
     {
         title: 'UX Research for an NFT platform – Metastaq',
         author: 'Moses Arfo',
         time: '3 mins read',
-        image: '/assets/images/Rectangle.png',
+        image: '/assets/images/Rectangle-1200w.webp',
         blogMiniText: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremq',
     },
     {
         title: 'UX Research for an NFT platform – Metastaq',
         author: 'Moses Arfo',
         time: '3 mins read',
-        image: '/assets/images/Rectangle.png',
+        image: '/assets/images/Rectangle-1200w.webp',
         blogMiniText: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremq',
     },
 
@@ -58,7 +58,7 @@ const cards: TBlogCard[] = [
         title: 'UX Research for an NFT platform – Metastaq',
         author: 'Moses Arfo',
         time: '3 mins read',
-        image: '/assets/images/Rectangle.png',
+        image: '/assets/images/Rectangle-1200w.webp',
         blogMiniText: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremq',
     },
     {
@@ -90,9 +90,9 @@ const MyBlogCard = ({ card }: { card?: TBlogCard }) => {
             </div>
             <div className="space-y-2">
                 <div className="flex items-center gap-1">
-                    <h1 className="font-pp-mori text-[16px] font-[500] leading-[24px] text-[#1a1a1a]">
+                    <h3 className="font-pp-mori text-[16px] font-[500] leading-[24px] text-[#1a1a1a]">
                         Top 10 Digital Design Agencies
-                    </h1>
+                    </h3>
                     <span className="">
                         <img src="/assets/icons/arrow_top_right_black.svg" alt="" className="h-[9px] w-[9px]" />
                     </span>
@@ -103,7 +103,7 @@ const MyBlogCard = ({ card }: { card?: TBlogCard }) => {
                 </p>
                 <div className="flex items-center justify-between">
                     <p className="font-pp-mori text-[12px] font-[400] leading-[20px] text-[#1a1a1a]">
-                        Published on  <span className="font-[500]">Aug 9, 2024</span> · 4 min read
+                        Published&nbsp;on&nbsp; <span className="font-[500]">Aug 9, 2024</span> · 4 min read
                     </p>
                     <span className="">
                         <Dropdown />
@@ -123,7 +123,7 @@ const Dropdown = () => {
                         <img src="/assets/icons/menu-dots.svg" alt="" />
                     </button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="mt-[5px] rounded-[12px] p-4">
+                <DropdownMenuContent className="mt-[5px] rounded-xl p-4">
                     <DropdownMenuItem>
                         <div className="">
                             <p className="font-gordita text-[16px] font-normal leading-[24px]">Edit</p>

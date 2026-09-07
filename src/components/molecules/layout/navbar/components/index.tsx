@@ -53,10 +53,15 @@ export const NavMenu = ({ isLight, isBlogPage }: { isLight: boolean; isBlogPage?
                                 </svg>
                             </button>
                         </HoverCardTrigger>
+                        {/* Anchored to the trigger and pulled 200px left of it.
+                            collisionPadding still keeps it on screen on narrow desktops. */}
                         <HoverCardContent
                             side={'bottom'}
-                            sideOffset={20}
-                            className="m-0 ml-[100px] h-[500px] w-[1100px] border-none bg-white/0 p-0"
+                            align="start"
+                            alignOffset={-200}
+                            sideOffset={16}
+                            collisionPadding={20}
+                            className="m-0 h-auto w-auto border-none bg-transparent p-0 shadow-none"
                         >
                             <NavDropDownService links={NavButtons[0].links} />
                         </HoverCardContent>
@@ -89,7 +94,15 @@ export const NavMenu = ({ isLight, isBlogPage }: { isLight: boolean; isBlogPage?
                                 </svg>
                             </button>
                         </HoverCardTrigger>
-                        <HoverCardContent sideOffset={20} className="m-0 h-[500px] w-[800] border-none bg-white/0 p-0">
+                        {/* Same 200px-left anchoring as the services menu. */}
+                        <HoverCardContent
+                            side={'bottom'}
+                            align="start"
+                            alignOffset={-200}
+                            sideOffset={16}
+                            collisionPadding={20}
+                            className="m-0 h-auto w-auto border-none bg-transparent p-0 shadow-none"
+                        >
                             <NavDropDownIndustry links={NavButtons[1].links} />
                         </HoverCardContent>
                     </HoverCard>
@@ -143,7 +156,13 @@ export const NavLetsTalkButton = ({ isLight, isBlogPage }: { isLight?: boolean; 
                     {isBlogPage ? 'WRITE' : <>LET{"'"}S TALK</>}
                 </motion.span>
 
-                <img src="/assets/icons/pen-white.svg" className="relative z-[3]" />
+                <img
+                    src="/assets/icons/pen-white.svg"
+                    className="relative z-[3]"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                />
                 <motion.span
                     variants={{
                         animate: {
