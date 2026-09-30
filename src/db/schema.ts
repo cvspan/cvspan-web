@@ -1,6 +1,7 @@
 import { relations } from "drizzle-orm";
 import {
   boolean,
+  customType,
   date,
   integer,
   pgEnum,
@@ -10,6 +11,13 @@ import {
   uniqueIndex,
   uuid,
 } from "drizzle-orm/pg-core";
+
+/** Postgres bytea, so uploads live with the data rather than a second service. */
+const bytea = customType<{ data: Buffer; notNull: true; default: false }>({
+  dataType() {
+    return "bytea";
+  },
+});
 
 /* ------------------------------------------------------------------ Enums */
 
@@ -285,6 +293,16 @@ export const messages = pgTable("messages", {
 });
 
 /* ----------------------------------------------------------------- Website */
+
+export const media = pgTable("media", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  filename: text("filename").notNull(),
+  contentType: text("content_type").notNull(),
+  size: integer("size").notNull(),
+  data: bytea("data").notNull(),
+  uploadedById: uuid("uploaded_by_id").references(() => users.id, { onDelete: "set null" }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
 
 export const categories = pgTable("categories", {
   id: uuid("id").primaryKey().defaultRandom(),

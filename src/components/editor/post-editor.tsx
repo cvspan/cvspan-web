@@ -2,14 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import {
-  RiAddLine,
-  RiCloseLine,
-  RiImageLine,
-  RiPriceTag3Line,
-} from "@remixicon/react";
+import { RiAddLine, RiCloseLine, RiPriceTag3Line } from "@remixicon/react";
 import { Button } from "@/components/ui/button";
 import { RichTextEditor } from "./rich-text";
+import { CoverField } from "./cover-field";
 import { savePost } from "@/app/actions/website";
 import { cn } from "@/lib/utils";
 
@@ -101,45 +97,6 @@ function TagField({ initial, suggestions }: { initial: string[]; suggestions: st
   );
 }
 
-function CoverField({ initialUrl, initialAlt }: { initialUrl: string; initialAlt: string }) {
-  const [url, setUrl] = useState(initialUrl);
-
-  return (
-    <div className="flex flex-col gap-2">
-      {url ? (
-        // eslint-disable-next-line @next/next/no-img-element -- arbitrary remote URLs, no loader configured
-        <img
-          src={url}
-          alt=""
-          className="border-line aspect-[16/9] w-full rounded-lg border object-cover"
-        />
-      ) : (
-        <div className="border-line text-muted flex aspect-[16/9] w-full items-center justify-center rounded-lg border border-dashed">
-          <span className="flex flex-col items-center gap-1 text-caption">
-            <RiImageLine size={24} aria-hidden />
-            Paste an image URL
-          </span>
-        </div>
-      )}
-      <input
-        name="coverImageUrl"
-        value={url}
-        onChange={(event) => setUrl(event.target.value)}
-        placeholder="https://…/cover.jpg"
-        aria-label="Cover image URL"
-        className={inputClass}
-      />
-      <input
-        name="coverAlt"
-        defaultValue={initialAlt}
-        placeholder="Describe the image for screen readers"
-        aria-label="Cover image alt text"
-        className={inputClass}
-      />
-    </div>
-  );
-}
-
 export function PostEditor({
   post,
   categories,
@@ -158,7 +115,7 @@ export function PostEditor({
     <form action={savePost} className="bg-app fixed inset-0 z-50 flex flex-col overflow-y-auto">
       {post.id ? <input type="hidden" name="id" value={post.id} /> : null}
 
-      <header className="border-line bg-card sticky top-0 z-20 flex items-center gap-3 border-b px-4 py-3 lg:px-6">
+      <header className="border-line bg-card sticky top-0 z-20 flex shrink-0 items-center gap-3 border-b px-4 py-3 lg:px-6">
         <Link
           href="/blog"
           aria-label="Close editor"
@@ -192,19 +149,19 @@ export function PostEditor({
       </header>
 
       <div className="mx-auto grid w-full max-w-450 flex-1 gap-6 p-4 lg:grid-cols-[minmax(0,1fr)_20rem] lg:p-6">
-        <div className="border-line bg-card overflow-hidden rounded-lg border">
+        <div className="border-line bg-card flex flex-col overflow-hidden rounded-lg border">
           <input
             name="title"
             defaultValue={post.title}
             required
             placeholder="Post title"
             aria-label="Post title"
-            className="text-primary placeholder:text-muted w-full bg-transparent px-4 pt-6 pb-2 text-h4 font-semibold outline-none sm:px-6"
+            className="text-primary placeholder:text-muted w-full shrink-0 bg-transparent px-4 pt-6 pb-2 text-h4 font-semibold outline-none sm:px-6"
           />
           <RichTextEditor name="body" defaultValue={post.body} onStats={setStats} />
         </div>
 
-        <aside className="flex flex-col gap-4">
+        <aside className="flex flex-col gap-4 lg:sticky lg:top-24 lg:self-start">
           <section className="border-line bg-card rounded-lg border p-4">
             <h2 className="text-primary mb-3 text-body font-semibold">Cover image</h2>
             <CoverField

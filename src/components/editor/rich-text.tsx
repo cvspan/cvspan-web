@@ -85,7 +85,7 @@ function Toolbar({ editor }: { editor: Editor }) {
   };
 
   return (
-    <div className="border-line bg-card sticky top-16 z-10 flex flex-wrap items-center gap-0.5 border-b px-4 py-2">
+    <div className="border-line bg-card flex shrink-0 flex-wrap items-center gap-0.5 border-b px-4 py-2">
       <ToolbarButton
         icon={RiBold}
         label="Bold"
@@ -225,8 +225,8 @@ export function RichTextEditor({
     content: defaultValue,
     editorProps: {
       attributes: {
-        class:
-          "prose-cvspan min-h-100 max-w-none px-4 py-6 focus:outline-none sm:px-6",
+        /** Tall by default, so a click anywhere in the blank area lands in the text. */
+        class: "prose-cvspan min-h-[60vh] max-w-none px-4 py-6 focus:outline-none sm:px-6",
       },
     },
     onUpdate: ({ editor }) => {
@@ -236,9 +236,14 @@ export function RichTextEditor({
   });
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-1 flex-col">
       {editor ? <Toolbar editor={editor} /> : null}
-      <EditorContent editor={editor} />
+      <div
+        className="flex flex-1 cursor-text flex-col"
+        onClick={() => editor?.chain().focus("end").run()}
+      >
+        <EditorContent editor={editor} className="flex-1" />
+      </div>
       <input type="hidden" name={name} value={editor?.getHTML() ?? defaultValue} readOnly />
     </div>
   );
