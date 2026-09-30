@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Script from "next/script";
+import { cookies } from "next/headers";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
@@ -17,26 +17,23 @@ export const metadata: Metadata = {
   description: "Company-wide management portal for CVSpan teams, members and programmes.",
 };
 
-/** Applies the stored theme before paint so dark mode never flashes. */
-const themeScript = `
-try {
-  var stored = localStorage.getItem('cvspan-theme');
-  var dark = stored ? stored === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
-  if (dark) document.documentElement.classList.add('dark');
-} catch (e) {}
-`;
+export const THEME_COOKIE = "cvspan-theme";
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  /**
+   * The chosen theme is a cookie, so the class is already on the HTML the
+   * server sends — no inline script, no flash. With no cookie we leave the
+   * class off and `color-scheme: light dark` follows the operating system.
+   */
+  const store = await cookies();
+  const choice = store.get(THEME_COOKIE)?.value;
+  const themeClass = choice === "dark" ? "dark" : choice === "light" ? "light" : "";
+
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} font-sans antialiased`}>
-        <Script id="cvspan-theme" strategy="beforeInteractive">
-          {themeScript}
-        </Script>
-        {children}
-      </body>
+    <html lang="en" className={themeClass}>
+      <body className={`${inter.variable} font-sans antialiased`}>{children}</body>
     </html>
   );
 }

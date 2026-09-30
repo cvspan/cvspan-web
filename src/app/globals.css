@@ -56,87 +56,56 @@
   --cv-error-4: #cc0000;
   --cv-error-5: #990000;
 
-  /* Semantic — Light */
-  --surface-app: var(--cv-n1);
-  --surface-card: var(--cv-white);
-  --surface-raised: var(--cv-n1);
-  --surface-accent-soft: var(--cv-p1);
-  --surface-overlay: var(--cv-white);
+  /* ------------------------------------------------------------------
+     Semantic tokens. light-dark() resolves against color-scheme, so the
+     OS preference works with no JavaScript and an explicit choice is a
+     single class on <html>. No inline script, so no flash either.
+     ------------------------------------------------------------------ */
+  color-scheme: light dark;
 
-  --text-primary: var(--cv-black);
-  --text-secondary: var(--cv-n5);
-  --text-muted: var(--cv-n4);
-  --text-accent: var(--cv-primary);
+  --surface-app: light-dark(var(--cv-n1), var(--cv-ink));
+  --surface-card: light-dark(var(--cv-white), var(--cv-black));
+  --surface-raised: light-dark(var(--cv-n1), var(--cv-hairline));
+  --surface-accent-soft: light-dark(var(--cv-p1), var(--cv-p10));
+  --surface-overlay: light-dark(var(--cv-white), var(--cv-black));
+  --text-primary: light-dark(var(--cv-black), var(--cv-white));
+  --text-secondary: light-dark(var(--cv-n5), var(--cv-n2));
+  --text-muted: light-dark(var(--cv-n4), var(--cv-n3));
+  --text-accent: light-dark(var(--cv-primary), var(--cv-p4));
   --text-on-accent: var(--cv-white);
-
-  --border-default: var(--cv-n2);
-  --border-strong: var(--cv-n3);
+  --border-default: light-dark(var(--cv-n2), var(--cv-hairline));
+  --border-strong: light-dark(var(--cv-n3), var(--cv-n5));
   --border-input: var(--cv-n4);
-  --border-accent: var(--cv-primary);
-  --border-focus-ring: var(--cv-p3);
-
+  --border-accent: light-dark(var(--cv-primary), var(--cv-p5));
+  --border-focus-ring: light-dark(var(--cv-p3), var(--cv-p5));
   --accent-primary: var(--cv-primary);
-  --accent-primary-hover: var(--cv-p6);
-
-  --status-success-surface: var(--cv-success-1);
-  --status-success-border: var(--cv-success-2);
-  --status-success-text: var(--cv-success-5);
-  --status-warning-surface: var(--cv-warning-1);
-  --status-warning-border: var(--cv-warning-2);
-  --status-warning-text: var(--cv-warning-5);
-  --status-error-surface: var(--cv-error-1);
-  --status-error-border: var(--cv-error-2);
-  --status-error-text: var(--cv-error-5);
-
-  /* Sidebar — brand-filled, like Tabler's coloured navbar */
-  --sidebar-bg: var(--cv-primary);
+  --accent-primary-hover: light-dark(var(--cv-p6), var(--cv-p5));
+  --status-success-surface: light-dark(var(--cv-success-1), #0d2812);
+  --status-success-border: light-dark(var(--cv-success-2), var(--cv-success-5));
+  --status-success-text: light-dark(var(--cv-success-5), var(--cv-success-2));
+  --status-warning-surface: light-dark(var(--cv-warning-1), #302411);
+  --status-warning-border: light-dark(var(--cv-warning-2), var(--cv-warning-5));
+  --status-warning-text: light-dark(var(--cv-warning-5), var(--cv-warning-2));
+  --status-error-surface: light-dark(var(--cv-error-1), #300a0a);
+  --status-error-border: light-dark(var(--cv-error-2), var(--cv-error-4));
+  --status-error-text: light-dark(var(--cv-error-5), var(--cv-error-2));
+  --sidebar-bg: light-dark(var(--cv-primary), var(--cv-black));
   --sidebar-text: var(--cv-white);
-  --sidebar-muted: color-mix(in srgb, var(--cv-white) 65%, transparent);
-  --sidebar-active-bg: color-mix(in srgb, var(--cv-white) 16%, transparent);
-  --sidebar-hover-bg: color-mix(in srgb, var(--cv-white) 10%, transparent);
-  --sidebar-border: color-mix(in srgb, var(--cv-white) 14%, transparent);
+  --sidebar-muted: light-dark(color-mix(in srgb, var(--cv-white) 65%, transparent), var(--cv-n3));
+  --sidebar-active-bg: light-dark(color-mix(in srgb, var(--cv-white) 16%, transparent), color-mix(in srgb, var(--cv-primary) 30%, transparent));
+  --sidebar-hover-bg: light-dark(color-mix(in srgb, var(--cv-white) 10%, transparent), color-mix(in srgb, var(--cv-white) 8%, transparent));
+  --sidebar-border: light-dark(color-mix(in srgb, var(--cv-white) 14%, transparent), var(--cv-hairline));
 
   --radius-control: 8px;
 }
 
+/* An explicit choice wins over the OS setting. */
+.light {
+  color-scheme: light;
+}
+
 .dark {
-  --surface-app: var(--cv-ink);
-  --surface-card: var(--cv-black);
-  --surface-raised: var(--cv-hairline);
-  --surface-accent-soft: var(--cv-p10);
-  --surface-overlay: var(--cv-black);
-
-  --text-primary: var(--cv-white);
-  --text-secondary: var(--cv-n2);
-  --text-muted: var(--cv-n3);
-  --text-accent: var(--cv-p4);
-  --text-on-accent: var(--cv-white);
-
-  --border-default: var(--cv-hairline);
-  --border-strong: var(--cv-n5);
-  --border-input: var(--cv-n4);
-  --border-accent: var(--cv-p5);
-  --border-focus-ring: var(--cv-p5);
-
-  --accent-primary: var(--cv-primary);
-  --accent-primary-hover: var(--cv-p5);
-
-  --status-success-surface: #0d2812;
-  --status-success-border: var(--cv-success-5);
-  --status-success-text: var(--cv-success-2);
-  --status-warning-surface: #302411;
-  --status-warning-border: var(--cv-warning-5);
-  --status-warning-text: var(--cv-warning-2);
-  --status-error-surface: #300a0a;
-  --status-error-border: var(--cv-error-4);
-  --status-error-text: var(--cv-error-2);
-
-  --sidebar-bg: var(--cv-black);
-  --sidebar-text: var(--cv-white);
-  --sidebar-muted: var(--cv-n3);
-  --sidebar-active-bg: color-mix(in srgb, var(--cv-primary) 30%, transparent);
-  --sidebar-hover-bg: color-mix(in srgb, var(--cv-white) 8%, transparent);
-  --sidebar-border: var(--cv-hairline);
+  color-scheme: dark;
 }
 
 /* ------------------------------------------------------------------
@@ -201,6 +170,15 @@
   --text-tiny--line-height: 18px;
 }
 
+/* An explicit choice wins over the OS setting. */
+.light {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
 body {
   background: var(--surface-app);
   color: var(--text-primary);
@@ -208,11 +186,29 @@ body {
   line-height: 22px;
 }
 
+/* An explicit choice wins over the OS setting. */
+.light {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
 /* Consistent focus treatment, matching the Figma components */
 :where(a, button, input, textarea, select, [tabindex]):focus-visible {
   outline: 3px solid var(--border-focus-ring);
   outline-offset: 1px;
   border-radius: 8px;
+}
+
+/* An explicit choice wins over the OS setting. */
+.light {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
 }
 
 /* ------------------------------------------------------------------
@@ -226,8 +222,26 @@ body {
   line-height: 30px;
 }
 
+/* An explicit choice wins over the OS setting. */
+.light {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
 .prose-cvspan > * + * {
   margin-top: 1em;
+}
+
+/* An explicit choice wins over the OS setting. */
+.light {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
 }
 
 .prose-cvspan h2 {
@@ -237,11 +251,29 @@ body {
   margin-top: 1.6em;
 }
 
+/* An explicit choice wins over the OS setting. */
+.light {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
 .prose-cvspan h3 {
   font-size: 18px;
   line-height: 26px;
   font-weight: 600;
   margin-top: 1.4em;
+}
+
+/* An explicit choice wins over the OS setting. */
+.light {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
 }
 
 .prose-cvspan a {
@@ -250,21 +282,66 @@ body {
   text-underline-offset: 2px;
 }
 
+/* An explicit choice wins over the OS setting. */
+.light {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
 .prose-cvspan ul,
 .prose-cvspan ol {
   padding-left: 1.4em;
+}
+
+/* An explicit choice wins over the OS setting. */
+.light {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
 }
 
 .prose-cvspan ul {
   list-style: disc;
 }
 
+/* An explicit choice wins over the OS setting. */
+.light {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
 .prose-cvspan ol {
   list-style: decimal;
 }
 
+/* An explicit choice wins over the OS setting. */
+.light {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
 .prose-cvspan li + li {
   margin-top: 0.3em;
+}
+
+/* An explicit choice wins over the OS setting. */
+.light {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
 }
 
 .prose-cvspan blockquote {
@@ -272,6 +349,15 @@ body {
   padding-left: 1em;
   color: var(--text-secondary);
   font-style: italic;
+}
+
+/* An explicit choice wins over the OS setting. */
+.light {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
 }
 
 .prose-cvspan pre {
@@ -283,9 +369,27 @@ body {
   line-height: 22px;
 }
 
+/* An explicit choice wins over the OS setting. */
+.light {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
 .prose-cvspan code {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 0.9em;
+}
+
+/* An explicit choice wins over the OS setting. */
+.light {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
 }
 
 .prose-cvspan img {
@@ -293,10 +397,28 @@ body {
   max-width: 100%;
 }
 
+/* An explicit choice wins over the OS setting. */
+.light {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
 .prose-cvspan hr {
   border: 0;
   border-top: 1px solid var(--border-default);
   margin: 2em 0;
+}
+
+/* An explicit choice wins over the OS setting. */
+.light {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
 }
 
 /* Tiptap's empty-document placeholder */
