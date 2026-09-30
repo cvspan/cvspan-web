@@ -1,34 +1,61 @@
+import Link from "next/link";
 import { RiAddLine, RiArrowRightSLine, RiCheckLine, RiCloseLine } from "@remixicon/react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader } from "@/components/ui/card";
 import { Progress } from "@/components/ui/chart";
 import { PageHeader } from "@/components/ui/page-header";
-import { SparkStat } from "@/components/ui/stat-card";
 import { Table, Td, Thead, Tr } from "@/components/ui/table";
 import { KpiBars } from "@/components/portal/kpi-bars";
 import {
-  approvals,
-  barAssignments,
-  kpiTrend,
-  sparkAttendance,
-  sparkTaskCompletion,
-  tasks,
-  teamMembers,
-} from "@/lib/mock-data";
+  getApprovalsFor,
+  getDirectReports,
+  getKpiTrend,
+  getLatestKpi,
+  getTasksForTeam,
+  getTeamKpiAverage,
+} from "@/db/queries";
+import { employmentLabels, formatMonth, initials, relativeDays } from "@/lib/format";
+import { taskTone } from "@/lib/tone";
 
-export function ManagerDashboard() {
-  const ungraded = teamMembers.filter((member) => !member.graded).length;
-  const overdue = tasks.filter((task) => task.status === "Overdue").length;
+export async function ManagerDashboard({
+  user,
+}: {
+  user: { id: string; name: string };
+}) {
+  const [reports, approvals, teamTasks, average, trend] = await Promise.all([
+    getDirectReports(user.id),
+    getApprovalsFor(user.id),
+    getTasksForTeam(user.id),
+    getTeamKpiAverage(user.id),
+    getKpiTrend(user.id),
+  ]);
+
+  const scores = await Promise.all(
+    reports.map(async (report) => ({
+      report,
+      kpi: (await getLatestKpi(report.id))?.score ?? 0,
+      openTasks: teamTasks.filter(
+        (task) => task.assigneeId === report.id && task.status !== "done",
+      ).length,
+    })),
+  );
+
+  const overdue = teamTasks.filter(
+    (task) => task.status !== "done" && task.dueAt && new Date(task.dueAt) < new Date(),
+  );
+  const ungraded = scores.filter((row) => row.kpi === 0);
 
   return (
     <>
       <PageHeader
-        pretitle="Design team"
+        pretitle="Manage"
         title="Team dashboard"
         actions={
           <>
-            <Button variant="secondary">Start grading</Button>
+            <Link href="/team">
+              <Button variant="secondary">Start grading</Button>
+            </Link>
             <Button>
               <RiAddLine size={18} aria-hidden />
               Assign task
@@ -38,39 +65,28 @@ export function ManagerDashboard() {
       />
 
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <SparkStat
-          label="Team KPI average"
-          value="81%"
-          delta="+3%"
-          tone="success"
-          spark={kpiTrend.map((point) => point.score)}
-          kind="line"
-          period="Last 6 months"
-        />
-        <SparkStat
-          label="Tasks completed"
-          value="34"
-          delta="+12%"
-          tone="success"
-          spark={sparkTaskCompletion}
-          kind="line"
-        />
-        <SparkStat
-          label="Team attendance"
-          value="92%"
-          delta="-1%"
-          tone="error"
-          spark={sparkAttendance}
-          kind="line"
-        />
-        <SparkStat
-          label="Grading submitted"
-          value={`${teamMembers.length - ungraded}/${teamMembers.length}`}
-          delta={ungraded > 0 ? `${ungraded} left` : "Complete"}
-          tone={ungraded > 0 ? "warning" : "success"}
-          spark={barAssignments}
-          kind="bar"
-        />
+        {[
+          { label: "Team size", value: String(reports.length), caption: "direct reports" },
+          { label: "Team KPI average", value: `${average}%`, caption: "latest cycle" },
+          {
+            label: "Open tasks",
+            value: String(teamTasks.filter((task) => task.status !== "done").length),
+            caption: `${overdue.length} overdue`,
+          },
+          {
+            label: "Waiting on you",
+            value: String(approvals.length),
+            caption: "approvals queued",
+          },
+        ].map((tile) => (
+          <Card key={tile.label} className="p-5">
+            <p className="text-muted text-tiny font-semibold tracking-wide uppercase">
+              {tile.label}
+            </p>
+            <p className="text-primary mt-1 text-h5 font-semibold">{tile.value}</p>
+            <p className="text-muted mt-1 text-caption">{tile.caption}</p>
+          </Card>
+        ))}
       </section>
 
       <section className="grid gap-4 xl:grid-cols-3">
@@ -78,44 +94,46 @@ export function ManagerDashboard() {
           <CardHeader
             title="My team"
             action={
-              <Button variant="ghost" size="sm">
-                Open team page
-                <RiArrowRightSLine size={16} aria-hidden />
-              </Button>
+              <Link href="/team">
+                <Button variant="ghost" size="sm">
+                  Open team page
+                  <RiArrowRightSLine size={16} aria-hidden />
+                </Button>
+              </Link>
             }
           />
           <Table>
             <Thead columns={["Member", "Type", "KPI", "Open tasks", "This cycle"]} />
             <tbody>
-              {teamMembers.map((member) => (
-                <Tr key={member.id}>
+              {scores.map(({ report, kpi, openTasks }) => (
+                <Tr key={report.id}>
                   <Td>
                     <span className="flex items-center gap-2.5">
                       <span className="bg-accent-soft text-accent flex size-8 shrink-0 items-center justify-center rounded-full text-tiny font-semibold">
-                        {member.initials}
+                        {initials(report.name)}
                       </span>
                       <span className="min-w-0">
                         <span className="text-primary block truncate font-semibold">
-                          {member.name}
+                          {report.name}
                         </span>
                         <span className="text-muted block truncate text-tiny">
-                          {member.jobTitle}
+                          {report.jobTitle}
                         </span>
                       </span>
                     </span>
                   </Td>
                   <Td>
-                    <Badge>{member.employmentType}</Badge>
+                    <Badge>{employmentLabels[report.employmentType]}</Badge>
                   </Td>
                   <Td className="w-40">
                     <span className="text-primary mb-1 block text-caption font-semibold">
-                      {member.kpi}%
+                      {kpi > 0 ? `${kpi}%` : "Not graded"}
                     </span>
-                    <Progress value={member.kpi} label={`${member.name} KPI score`} />
+                    <Progress value={kpi} label={`${report.name} KPI score`} />
                   </Td>
-                  <Td>{member.openTasks}</Td>
+                  <Td>{openTasks}</Td>
                   <Td>
-                    {member.graded ? (
+                    {kpi > 0 ? (
                       <Badge tone="success">Graded</Badge>
                     ) : (
                       <Button size="sm">Grade</Button>
@@ -130,71 +148,96 @@ export function ManagerDashboard() {
         <Card>
           <CardHeader
             title="Waiting on you"
-            action={<Badge tone="warning">{approvals.length}</Badge>}
+            action={<Badge tone={approvals.length > 0 ? "warning" : "success"}>{approvals.length}</Badge>}
           />
           <ul>
-            {approvals.map((item) => (
-              <li
-                key={item.id}
-                className="border-line flex items-start gap-3 border-b px-5 py-3 last:border-b-0"
-              >
-                <span className="bg-accent-soft text-accent flex size-8 shrink-0 items-center justify-center rounded-full text-tiny font-semibold">
-                  {item.initials}
-                </span>
-                <span className="min-w-0 flex-1">
-                  <span className="text-primary block text-body font-semibold">{item.kind}</span>
-                  <span className="text-muted block truncate text-tiny">
-                    {item.who} · {item.detail}
+            {approvals.length === 0 ? (
+              <li className="text-muted px-5 py-4 text-body">Nothing to approve.</li>
+            ) : (
+              approvals.map((item) => (
+                <li
+                  key={item.id}
+                  className="border-line flex items-start gap-3 border-b px-5 py-3 last:border-b-0"
+                >
+                  <span className="bg-accent-soft text-accent flex size-8 shrink-0 items-center justify-center rounded-full text-tiny font-semibold">
+                    {initials(item.requestedBy ?? "??")}
                   </span>
-                </span>
-                <span className="flex gap-1">
-                  <button
-                    type="button"
-                    aria-label={`Approve ${item.kind} from ${item.who}`}
-                    className="text-success-text hover:bg-success-surface flex size-8 cursor-pointer items-center justify-center rounded-lg transition-colors"
-                  >
-                    <RiCheckLine size={18} aria-hidden />
-                  </button>
-                  <button
-                    type="button"
-                    aria-label={`Decline ${item.kind} from ${item.who}`}
-                    className="text-error-text hover:bg-error-surface flex size-8 cursor-pointer items-center justify-center rounded-lg transition-colors"
-                  >
-                    <RiCloseLine size={18} aria-hidden />
-                  </button>
-                </span>
-              </li>
-            ))}
+                  <span className="min-w-0 flex-1">
+                    <span className="text-primary block text-body font-semibold capitalize">
+                      {item.kind.replace("_", " ")}
+                    </span>
+                    <span className="text-muted block truncate text-tiny">
+                      {item.requestedBy} · {item.detail}
+                    </span>
+                  </span>
+                  <span className="flex gap-1">
+                    <button
+                      type="button"
+                      aria-label={`Approve ${item.kind} from ${item.requestedBy}`}
+                      className="text-success-text hover:bg-success-surface flex size-8 cursor-pointer items-center justify-center rounded-lg transition-colors"
+                    >
+                      <RiCheckLine size={18} aria-hidden />
+                    </button>
+                    <button
+                      type="button"
+                      aria-label={`Decline ${item.kind} from ${item.requestedBy}`}
+                      className="text-error-text hover:bg-error-surface flex size-8 cursor-pointer items-center justify-center rounded-lg transition-colors"
+                    >
+                      <RiCloseLine size={18} aria-hidden />
+                    </button>
+                  </span>
+                </li>
+              ))
+            )}
           </ul>
         </Card>
       </section>
 
       <section className="grid gap-4 xl:grid-cols-3">
         <Card className="xl:col-span-2">
-          <CardHeader title="Team KPI trend" action={<Badge>Last 6 months</Badge>} />
-          <KpiBars data={kpiTrend} />
+          <CardHeader title="Team tasks at risk" action={<Badge tone="error">{overdue.length}</Badge>} />
+          <ul>
+            {overdue.length === 0 ? (
+              <li className="text-muted px-5 py-4 text-body">Nothing overdue.</li>
+            ) : (
+              overdue.map((task) => (
+                <li
+                  key={task.id}
+                  className="border-line flex items-center gap-3 border-b px-5 py-3 last:border-b-0"
+                >
+                  <span className="min-w-0 flex-1">
+                    <span className="text-primary block truncate text-body font-semibold">
+                      {task.title}
+                    </span>
+                    <span className="text-muted block text-tiny">
+                      {task.assigneeName} · due {relativeDays(task.dueAt)}
+                    </span>
+                  </span>
+                  <Badge tone={taskTone(task.status, task.dueAt)}>Overdue</Badge>
+                </li>
+              ))
+            )}
+          </ul>
         </Card>
 
         <Card>
-          <CardHeader title="Attention needed" />
-          <ul className="p-5 pt-4">
-            <li className="border-line flex items-center justify-between gap-3 border-b py-2.5">
-              <span className="text-secondary text-body">Overdue tasks</span>
-              <Badge tone={overdue > 0 ? "error" : "success"}>{overdue}</Badge>
-            </li>
-            <li className="border-line flex items-center justify-between gap-3 border-b py-2.5">
-              <span className="text-secondary text-body">Grading not submitted</span>
-              <Badge tone={ungraded > 0 ? "warning" : "success"}>{ungraded}</Badge>
-            </li>
-            <li className="border-line flex items-center justify-between gap-3 border-b py-2.5">
-              <span className="text-secondary text-body">Attendance below 85%</span>
-              <Badge tone="warning">1</Badge>
-            </li>
-            <li className="flex items-center justify-between gap-3 py-2.5">
-              <span className="text-secondary text-body">Probation reviews due</span>
-              <Badge>2</Badge>
-            </li>
-          </ul>
+          <CardHeader title="Your own KPI trend" />
+          {trend.length > 0 ? (
+            <KpiBars
+              data={trend.map((point) => ({
+                month: formatMonth(point.periodStart),
+                score: point.score,
+              }))}
+            />
+          ) : (
+            <p className="text-muted px-5 py-6 text-body">No scores recorded yet.</p>
+          )}
+          {ungraded.length > 0 ? (
+            <p className="text-muted border-line border-t px-5 py-3 text-caption">
+              {ungraded.length} team member{ungraded.length === 1 ? "" : "s"} still need grading
+              this cycle.
+            </p>
+          ) : null}
         </Card>
       </section>
     </>

@@ -1,35 +1,50 @@
 "use client";
 
-import { createContext, useCallback, useContext, useState } from "react";
+import { createContext, useContext } from "react";
 import type { Role } from "@/lib/roles";
 
-type RoleContextValue = { role: Role; setRole: (role: Role) => void };
+export type SessionUser = {
+  id: string;
+  name: string;
+  email: string;
+  initials: string;
+  /** The role currently being rendered (a preview for super admins). */
+  role: Role;
+  /** The role actually held by the signed-in user. */
+  realRole: Role;
+  jobTitle: string;
+  employmentType: string;
+};
 
-const RoleContext = createContext<RoleContextValue>({
-  role: "member",
-  setRole: () => {},
-});
+type RoleContextValue = {
+  user: SessionUser;
+  /** The role the portal is being rendered as; equals the real role unless previewing. */
+  role: Role;
+  canSwitch: boolean;
+};
+
+const RoleContext = createContext<RoleContextValue | null>(null);
 
 /**
- * Holds the role the portal is being viewed as. Until auth lands this is a
- * preview switch; afterwards the signed-in user's role seeds it and the
- * switcher is limited to super admins.
+ * Seeds the viewing role from the signed-in user. Super admins can preview the
+ * portal as a lower role, which only affects what this browser renders.
  */
-export function RoleProvider({ children }: { children: React.ReactNode }) {
-  const [role, setRoleState] = useState<Role>("member");
-
-  const setRole = useCallback((next: Role) => {
-    setRoleState(next);
-    try {
-      localStorage.setItem("cvspan-role", next);
-    } catch {
-      // Storage can be unavailable; the switch still applies for this visit.
-    }
-  }, []);
-
-  return <RoleContext value={{ role, setRole }}>{children}</RoleContext>;
+export function RoleProvider({
+  user,
+  children,
+}: {
+  user: SessionUser;
+  children: React.ReactNode;
+}) {
+  return (
+    <RoleContext value={{ user, role: user.role, canSwitch: user.realRole === "super_admin" }}>
+      {children}
+    </RoleContext>
+  );
 }
 
 export function useRole() {
-  return useContext(RoleContext);
+  const value = useContext(RoleContext);
+  if (!value) throw new Error("useRole must be used inside RoleProvider");
+  return value;
 }

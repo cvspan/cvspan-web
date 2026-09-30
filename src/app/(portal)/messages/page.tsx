@@ -3,9 +3,27 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
-import { conversation, threads } from "@/lib/mock-data";
+import { getMessages, getThreadsFor } from "@/db/queries";
+import { formatTime, initials, relativeDays } from "@/lib/format";
+import { requireUser } from "@/lib/session";
 
-export default function MessagesPage() {
+export default async function MessagesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ thread?: string }>;
+}) {
+  const user = await requireUser();
+  const { thread: requested } = await searchParams;
+
+  const threads = await getThreadsFor(user.id);
+  const activeId = requested ?? threads[0]?.id;
+  const messages = activeId ? await getMessages(activeId) : [];
+  const active = threads.find((thread) => thread.id === activeId);
+  const otherName =
+    active?.name ??
+    messages.find((message) => message.senderId !== user.id)?.senderName ??
+    "Conversation";
+
   return (
     <>
       <PageHeader
@@ -21,69 +39,80 @@ export default function MessagesPage() {
 
       <div className="grid gap-4 lg:grid-cols-3">
         <Card className="lg:col-span-1">
-          <ul>
-            {threads.map((thread, index) => (
-              <li key={thread.id}>
-                <button
-                  type="button"
-                  className={`border-line hover:bg-raised flex w-full cursor-pointer items-center gap-3 border-b px-5 py-3 text-left transition-colors ${
-                    index === 0 ? "bg-accent-soft" : ""
-                  }`}
-                >
-                  <span className="bg-accent-soft text-accent flex size-9 shrink-0 items-center justify-center rounded-full text-caption font-semibold">
-                    {thread.initials}
-                  </span>
-                  <span className="min-w-0 flex-1">
-                    <span className="text-primary block truncate text-body font-semibold">
-                      {thread.name}
+          {threads.length === 0 ? (
+            <p className="text-muted px-5 py-8 text-center text-body">No conversations yet.</p>
+          ) : (
+            <ul>
+              {threads.map((thread) => (
+                <li key={thread.id}>
+                  <a
+                    href={`/messages?thread=${thread.id}`}
+                    className={`border-line hover:bg-raised flex w-full items-center gap-3 border-b px-5 py-3 text-left transition-colors ${
+                      thread.id === activeId ? "bg-accent-soft" : ""
+                    }`}
+                  >
+                    <span className="bg-accent-soft text-accent flex size-9 shrink-0 items-center justify-center rounded-full text-caption font-semibold">
+                      {initials(thread.name ?? "Direct message")}
                     </span>
-                    <span className="text-muted block truncate text-tiny">{thread.preview}</span>
-                  </span>
-                  <span className="flex shrink-0 flex-col items-end gap-1">
-                    <span className="text-muted text-tiny">{thread.when}</span>
-                    {thread.unread > 0 ? <Badge tone="accent">{thread.unread}</Badge> : null}
-                  </span>
-                </button>
-              </li>
-            ))}
-          </ul>
+                    <span className="min-w-0 flex-1">
+                      <span className="text-primary block truncate text-body font-semibold">
+                        {thread.name ?? "Direct message"}
+                      </span>
+                      <span className="text-muted block truncate text-tiny">
+                        {thread.lastMessage ?? "No messages yet"}
+                      </span>
+                    </span>
+                    <span className="text-muted shrink-0 text-tiny">
+                      {thread.lastAt ? relativeDays(thread.lastAt) : ""}
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
         </Card>
 
         <Card className="flex flex-col lg:col-span-2">
           <header className="border-line flex items-center gap-3 border-b px-5 py-3">
             <span className="bg-accent-soft text-accent flex size-9 items-center justify-center rounded-full text-caption font-semibold">
-              AO
+              {initials(otherName)}
             </span>
-            <span>
-              <span className="text-primary block text-body font-semibold">Ada Obi</span>
-              <span className="text-muted block text-tiny">Design Lead · online</span>
+            <span className="min-w-0 flex-1">
+              <span className="text-primary block truncate text-body font-semibold">
+                {otherName}
+              </span>
+              <span className="text-muted block text-tiny">
+                {messages.length} message{messages.length === 1 ? "" : "s"}
+              </span>
             </span>
+            {active?.name ? <Badge>Group</Badge> : null}
           </header>
 
-          <ul className="flex flex-1 flex-col gap-3 p-5">
-            {conversation.map((message, index) => (
-              <li
-                key={index}
-                className={message.from === "me" ? "flex justify-end" : "flex justify-start"}
-              >
-                <span
-                  className={`max-w-[75%] rounded-lg px-4 py-2.5 ${
-                    message.from === "me"
-                      ? "bg-brand text-on-accent"
-                      : "bg-raised text-primary"
-                  }`}
-                >
-                  <span className="block text-body">{message.text}</span>
+          <ul className="flex min-h-60 flex-1 flex-col gap-3 p-5">
+            {messages.map((message) => {
+              const mine = message.senderId === user.id;
+              return (
+                <li key={message.id} className={mine ? "flex justify-end" : "flex justify-start"}>
                   <span
-                    className={`mt-1 block text-tiny ${
-                      message.from === "me" ? "text-on-accent/70" : "text-muted"
+                    className={`max-w-[75%] rounded-lg px-4 py-2.5 ${
+                      mine ? "bg-brand text-on-accent" : "bg-raised text-primary"
                     }`}
                   >
-                    {message.when}
+                    {!mine ? (
+                      <span className="text-muted mb-0.5 block text-tiny font-semibold">
+                        {message.senderName}
+                      </span>
+                    ) : null}
+                    <span className="block text-body">{message.body}</span>
+                    <span
+                      className={`mt-1 block text-tiny ${mine ? "text-on-accent/70" : "text-muted"}`}
+                    >
+                      {formatTime(message.createdAt)}
+                    </span>
                   </span>
-                </span>
-              </li>
-            ))}
+                </li>
+              );
+            })}
           </ul>
 
           <div className="border-line flex items-center gap-2 border-t p-3">

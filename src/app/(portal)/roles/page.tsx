@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
 import { Table, Td, Thead, Tr } from "@/components/ui/table";
-import { people } from "@/lib/mock-data";
+import { getPeople } from "@/db/queries";
 import { ROLES, roleLabels, type Role } from "@/lib/roles";
 
 const capabilities: { area: string; allowed: Role[] }[] = [
@@ -21,20 +21,14 @@ const capabilities: { area: string; allowed: Role[] }[] = [
   { area: "Manage integrations and view the audit log", allowed: ["super_admin"] },
 ];
 
-/** Who holds each role today; seeded from the directory until auth lands. */
-const holders: Record<Role, string[]> = {
-  super_admin: ["Seyi Bankole"],
-  admin: ["Kemi Lawal"],
-  manager: ["Ada Obi", "Tunde Ke", "Ngozi Uche"],
-  member: people
-    .filter(
-      (person) =>
-        !["Seyi Bankole", "Kemi Lawal", "Ada Obi", "Tunde Ke", "Ngozi Uche"].includes(person.name),
-    )
-    .map((person) => person.name),
-};
+export default async function RolesPage() {
+  const people = await getPeople();
 
-export default function RolesPage() {
+  /** Who holds each role today, straight from the directory. */
+  const holders = Object.fromEntries(
+    ROLES.map((role) => [role, people.filter((person) => person.role === role).map((p) => p.name)]),
+  ) as Record<Role, string[]>;
+
   return (
     <>
       <PageHeader

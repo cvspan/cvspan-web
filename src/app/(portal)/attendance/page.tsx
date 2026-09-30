@@ -2,25 +2,35 @@ import { RiCalendarLine, RiTimeLine } from "@remixicon/react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader } from "@/components/ui/card";
-import { Progress, Sparkline } from "@/components/ui/chart";
+import { Progress } from "@/components/ui/chart";
 import { PageHeader } from "@/components/ui/page-header";
 import { Table, Td, Thead, Tr } from "@/components/ui/table";
+import { getAttendanceFor, getAttendanceRate, getLeaveFor } from "@/db/queries";
 import {
-  attendanceMonth,
-  leaveRequests,
-  sparkAttendance,
-  type AttendanceKind,
-  type Tone,
-} from "@/lib/mock-data";
+  attendanceLabels,
+  formatDay,
+  formatTime,
+  formatWeekday,
+  hoursBetween,
+} from "@/lib/format";
+import { requireUser } from "@/lib/session";
+import { attendanceTone, statusTone } from "@/lib/tone";
 
-const kindTone: Record<AttendanceKind, Tone> = {
-  "On site": "success",
-  Remote: "accent",
-  Leave: "warning",
-  Absent: "error",
-};
+export default async function AttendancePage() {
+  const user = await requireUser();
+  const [days, rate, leave] = await Promise.all([
+    getAttendanceFor(user.id, 14),
+    getAttendanceRate(user.id),
+    getLeaveFor(user.id),
+  ]);
 
-export default function AttendancePage() {
+  const today = days[0];
+  const openNow = today && today.clockIn && !today.clockOut;
+  const leaveTaken = leave
+    .filter((request) => request.status === "approved")
+    .reduce((sum, request) => sum + request.days, 0);
+  const pendingLeave = leave.filter((request) => request.status === "pending").length;
+
   return (
     <>
       <PageHeader
@@ -34,7 +44,7 @@ export default function AttendancePage() {
             </Button>
             <Button>
               <RiTimeLine size={18} aria-hidden />
-              Clock out
+              {openNow ? "Clock out" : "Clock in"}
             </Button>
           </>
         }
@@ -45,37 +55,44 @@ export default function AttendancePage() {
           <div className="flex h-full flex-col justify-between gap-6 p-6">
             <div>
               <p className="text-muted text-tiny font-semibold tracking-wide uppercase">
-                Clocked in today
+                {openNow ? "Clocked in today" : "Last clock-in"}
               </p>
-              <p className="text-primary mt-1 text-h4 font-semibold">08:52</p>
+              <p className="text-primary mt-1 text-h4 font-semibold">
+                {formatTime(today?.clockIn ?? null)}
+              </p>
               <p className="text-secondary mt-1 text-body">
-                On site · 6h 14m so far · target 8h
+                {today ? attendanceLabels[today.kind] : "No record"} ·{" "}
+                {openNow ? "in progress" : hoursBetween(today?.clockIn, today?.clockOut)}
               </p>
             </div>
-            <Progress value={78} label="Hours worked today" />
+            <Progress value={openNow ? 78 : 100} label="Hours worked today" />
           </div>
-        </Card>
-
-        <Card>
-          <div className="p-5">
-            <p className="text-muted text-tiny font-semibold tracking-wide uppercase">
-              This month
-            </p>
-            <p className="text-primary mt-2 text-h4 font-semibold">96%</p>
-            <p className="text-muted mt-1 text-caption">21 of 22 working days</p>
-          </div>
-          <Sparkline points={sparkAttendance} label="Attendance over 12 weeks" />
         </Card>
 
         <Card>
           <div className="flex h-full flex-col gap-3 p-5">
             <p className="text-muted text-tiny font-semibold tracking-wide uppercase">
-              Leave balance
+              Attendance rate
             </p>
-            <p className="text-primary text-h4 font-semibold">14 days</p>
-            <p className="text-muted text-caption">6 taken · 1 pending approval</p>
+            <p className="text-primary text-h4 font-semibold">{rate}%</p>
+            <p className="text-muted text-caption">Across recorded working days</p>
             <div className="mt-auto">
-              <Progress value={30} tone="success" label="Leave used" />
+              <Progress value={rate} tone={rate >= 90 ? "success" : "brand"} label="Attendance rate" />
+            </div>
+          </div>
+        </Card>
+
+        <Card>
+          <div className="flex h-full flex-col gap-3 p-5">
+            <p className="text-muted text-tiny font-semibold tracking-wide uppercase">
+              Leave taken
+            </p>
+            <p className="text-primary text-h4 font-semibold">{leaveTaken} days</p>
+            <p className="text-muted text-caption">
+              {pendingLeave} pending approval
+            </p>
+            <div className="mt-auto">
+              <Progress value={(leaveTaken / 20) * 100} tone="success" label="Leave used" />
             </div>
           </div>
         </Card>
@@ -83,21 +100,21 @@ export default function AttendancePage() {
 
       <section className="grid gap-4 xl:grid-cols-3">
         <Card className="xl:col-span-2">
-          <CardHeader title="Recent days" action={<Badge>September</Badge>} />
+          <CardHeader title="Recent days" action={<Badge>{days.length} records</Badge>} />
           <Table>
             <Thead columns={["Day", "Type", "Clock in", "Clock out", "Hours"]} />
             <tbody>
-              {attendanceMonth.map((entry) => (
-                <Tr key={entry.day}>
+              {days.map((entry) => (
+                <Tr key={entry.id}>
                   <Td className="text-primary font-semibold whitespace-nowrap">
-                    {entry.weekday} {entry.day}
+                    {formatWeekday(entry.day)} {formatDay(entry.day)}
                   </Td>
                   <Td>
-                    <Badge tone={kindTone[entry.kind]}>{entry.kind}</Badge>
+                    <Badge tone={attendanceTone(entry.kind)}>{attendanceLabels[entry.kind]}</Badge>
                   </Td>
-                  <Td>{entry.clockIn}</Td>
-                  <Td>{entry.clockOut}</Td>
-                  <Td>{entry.hours}</Td>
+                  <Td>{formatTime(entry.clockIn)}</Td>
+                  <Td>{formatTime(entry.clockOut)}</Td>
+                  <Td>{hoursBetween(entry.clockIn, entry.clockOut)}</Td>
                 </Tr>
               ))}
             </tbody>
@@ -105,30 +122,33 @@ export default function AttendancePage() {
         </Card>
 
         <Card>
-          <CardHeader title="Leave requests" />
-          <ul>
-            {leaveRequests.map((request) => (
-              <li
-                key={request.id}
-                className="border-line flex items-center gap-3 border-b px-5 py-3 last:border-b-0"
-              >
-                <span className="bg-accent-soft text-accent flex size-8 shrink-0 items-center justify-center rounded-full text-tiny font-semibold">
-                  {request.initials}
-                </span>
-                <span className="min-w-0 flex-1">
-                  <span className="text-primary block truncate text-body font-semibold">
-                    {request.type}
+          <CardHeader title="My leave requests" />
+          {leave.length === 0 ? (
+            <p className="text-muted px-5 py-6 text-body">No requests yet.</p>
+          ) : (
+            <ul>
+              {leave.map((request) => (
+                <li
+                  key={request.id}
+                  className="border-line flex items-center gap-3 border-b px-5 py-3 last:border-b-0"
+                >
+                  <span className="min-w-0 flex-1">
+                    <span className="text-primary block truncate text-body font-semibold">
+                      {request.type}
+                    </span>
+                    <span className="text-muted block text-tiny">
+                      {request.startDate}
+                      {request.endDate !== request.startDate ? ` – ${request.endDate}` : ""} ·{" "}
+                      {request.days} day{request.days > 1 ? "s" : ""}
+                    </span>
                   </span>
-                  <span className="text-muted block text-tiny">
-                    {request.dates} · {request.days} day{request.days > 1 ? "s" : ""}
-                  </span>
-                </span>
-                <Badge tone={request.status === "Approved" ? "success" : "warning"}>
-                  {request.status}
-                </Badge>
-              </li>
-            ))}
-          </ul>
+                  <Badge tone={statusTone(request.status)} className="capitalize">
+                    {request.status}
+                  </Badge>
+                </li>
+              ))}
+            </ul>
+          )}
         </Card>
       </section>
     </>

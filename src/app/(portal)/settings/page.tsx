@@ -2,7 +2,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
-import { currentUser } from "@/lib/mock-data";
+import { requireUser } from "@/lib/session";
+import { getUserById } from "@/db/queries";
 
 const notificationRows = [
   { label: "Task assigned to me", email: true, inApp: true },
@@ -13,7 +14,10 @@ const notificationRows = [
   { label: "Weekly digest", email: false, inApp: false },
 ];
 
-export default function SettingsPage() {
+export default async function SettingsPage() {
+  const session = await requireUser();
+  const account = await getUserById(session.id);
+
   return (
     <>
       <PageHeader
@@ -29,28 +33,28 @@ export default function SettingsPage() {
             <label className="flex flex-col gap-1.5">
               <span className="text-primary text-body font-semibold">Full name</span>
               <input
-                defaultValue={currentUser.name}
+                defaultValue={session.name}
                 className="border-line-input text-primary h-11 rounded-lg border bg-transparent px-3.5 text-para outline-none"
               />
             </label>
             <label className="flex flex-col gap-1.5">
               <span className="text-primary text-body font-semibold">Job title</span>
               <input
-                defaultValue={currentUser.role}
+                defaultValue={session.jobTitle}
                 className="border-line-input text-primary h-11 rounded-lg border bg-transparent px-3.5 text-para outline-none"
               />
             </label>
             <label className="flex flex-col gap-1.5">
               <span className="text-primary text-body font-semibold">Work email</span>
               <input
-                defaultValue="moses@cvspan.com"
+                defaultValue={session.email}
                 className="border-line-input text-primary h-11 rounded-lg border bg-transparent px-3.5 text-para outline-none"
               />
             </label>
             <label className="flex flex-col gap-1.5">
-              <span className="text-primary text-body font-semibold">Team</span>
+              <span className="text-primary text-body font-semibold">Role</span>
               <input
-                defaultValue={currentUser.team}
+                defaultValue={account?.jobTitle ?? ""}
                 className="border-line-input text-primary h-11 rounded-lg border bg-transparent px-3.5 text-para outline-none"
               />
             </label>
@@ -62,19 +66,19 @@ export default function SettingsPage() {
           <ul className="p-5">
             <li className="border-line flex items-center justify-between gap-3 border-b py-2.5">
               <span className="text-secondary text-body">Type</span>
-              <Badge>{currentUser.employmentType}</Badge>
+              <Badge>{session.employmentType}</Badge>
             </li>
             <li className="border-line flex items-center justify-between gap-3 border-b py-2.5">
-              <span className="text-secondary text-body">Manager</span>
-              <span className="text-primary text-body font-semibold">Ada Obi</span>
+              <span className="text-secondary text-body">Job title</span>
+              <span className="text-primary text-body font-semibold">{session.jobTitle || "—"}</span>
             </li>
             <li className="border-line flex items-center justify-between gap-3 border-b py-2.5">
               <span className="text-secondary text-body">Started</span>
-              <span className="text-primary text-body font-semibold">Jan 2025</span>
+              <span className="text-primary text-body font-semibold">{account?.startDate ?? "—"}</span>
             </li>
             <li className="flex items-center justify-between gap-3 py-2.5">
               <span className="text-secondary text-body">Status</span>
-              <Badge tone="success">Active</Badge>
+              <Badge tone="success" className="capitalize">{account?.status ?? "active"}</Badge>
             </li>
           </ul>
         </Card>

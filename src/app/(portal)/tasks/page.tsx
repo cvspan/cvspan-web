@@ -4,29 +4,44 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
 import { Table, Td, Thead, Tr } from "@/components/ui/table";
-import { tasks, type TaskStatus, type Tone } from "@/lib/mock-data";
+import { getAllTasks, getTasksFor, getTasksForTeam } from "@/db/queries";
+import { formatDay, initials, relativeDays, taskStatusLabels } from "@/lib/format";
+import { atLeast } from "@/lib/roles";
+import { requireUser } from "@/lib/session";
+import { taskTone, type Tone } from "@/lib/tone";
 
-const statusTone: Record<TaskStatus, Tone> = {
-  "To do": "neutral",
-  "In progress": "accent",
-  Overdue: "error",
-  Done: "success",
-};
+const priorityTone: Record<string, Tone> = { high: "error", normal: "neutral", low: "neutral" };
 
-const priorityTone: Record<string, Tone> = {
-  High: "error",
-  Normal: "neutral",
-  Low: "neutral",
-};
+export default async function TasksPage() {
+  const user = await requireUser();
 
-const summary: { label: string; count: number; tone: Tone }[] = [
-  { label: "Overdue", count: tasks.filter((t) => t.status === "Overdue").length, tone: "error" },
-  { label: "In progress", count: tasks.filter((t) => t.status === "In progress").length, tone: "accent" },
-  { label: "To do", count: tasks.filter((t) => t.status === "To do").length, tone: "neutral" },
-  { label: "Done", count: tasks.filter((t) => t.status === "Done").length, tone: "success" },
-];
+  const tasks = atLeast(user.viewRole, "admin")
+    ? await getAllTasks()
+    : atLeast(user.viewRole, "manager")
+      ? [...(await getTasksFor(user.id)), ...(await getTasksForTeam(user.id))]
+      : await getTasksFor(user.id);
 
-export default function TasksPage() {
+  const overdue = tasks.filter(
+    (task) => task.status !== "done" && task.dueAt && new Date(task.dueAt) < new Date(),
+  );
+
+  const summary: { label: string; count: number; tone: Tone }[] = [
+    { label: "Overdue", count: overdue.length, tone: "error" },
+    {
+      label: "In progress",
+      count: tasks.filter((task) => task.status === "in_progress").length,
+      tone: "accent",
+    },
+    { label: "To do", count: tasks.filter((task) => task.status === "todo").length, tone: "neutral" },
+    { label: "Done", count: tasks.filter((task) => task.status === "done").length, tone: "success" },
+  ];
+
+  const scope = atLeast(user.viewRole, "admin")
+    ? "Everyone"
+    : atLeast(user.viewRole, "manager")
+      ? "My team and me"
+      : "Assigned to me";
+
   return (
     <>
       <PageHeader
@@ -61,6 +76,10 @@ export default function TasksPage() {
       </section>
 
       <Card>
+        <header className="border-line flex items-center justify-between gap-4 border-b px-5 py-4">
+          <h2 className="text-primary text-para font-semibold">All tasks</h2>
+          <Badge>{scope}</Badge>
+        </header>
         <Table>
           <Thead columns={["", "Task", "Project", "Assignee", "Due", "Priority", "Status", ""]} />
           <tbody>
@@ -69,33 +88,38 @@ export default function TasksPage() {
                 <Td className="w-10 pr-0">
                   <input
                     type="checkbox"
-                    defaultChecked={task.done}
+                    defaultChecked={task.status === "done"}
                     aria-label={task.title}
                     className="accent-brand size-4 cursor-pointer"
                   />
                 </Td>
                 <Td
                   className={
-                    task.done ? "text-muted line-through" : "text-primary font-semibold"
+                    task.status === "done" ? "text-muted line-through" : "text-primary font-semibold"
                   }
                 >
                   {task.title}
                 </Td>
-                <Td>{task.project}</Td>
+                <Td>{task.project ?? "—"}</Td>
                 <Td>
                   <span className="flex items-center gap-2">
                     <span className="bg-accent-soft text-accent flex size-7 shrink-0 items-center justify-center rounded-full text-tiny font-semibold">
-                      {task.assigneeInitials}
+                      {initials(task.assigneeName ?? "—")}
                     </span>
-                    <span className="whitespace-nowrap">{task.assignee}</span>
+                    <span className="whitespace-nowrap">{task.assigneeName ?? "Unassigned"}</span>
                   </span>
                 </Td>
-                <Td className="whitespace-nowrap">{task.due}</Td>
+                <Td className="whitespace-nowrap">
+                  {formatDay(task.dueAt)}
+                  <span className="text-muted block text-tiny">{relativeDays(task.dueAt)}</span>
+                </Td>
                 <Td>
                   <Badge tone={priorityTone[task.priority]}>{task.priority}</Badge>
                 </Td>
                 <Td>
-                  <Badge tone={statusTone[task.status]}>{task.status}</Badge>
+                  <Badge tone={taskTone(task.status, task.dueAt)}>
+                    {taskStatusLabels[task.status]}
+                  </Badge>
                 </Td>
                 <Td className="w-12">
                   <button

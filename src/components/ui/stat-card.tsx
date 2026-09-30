@@ -1,7 +1,7 @@
 import { Card } from "./card";
 import { Delta } from "./delta";
 import { BarSpark, Sparkline } from "./chart";
-import type { Tone } from "@/lib/mock-data";
+import type { Tone } from "@/lib/tone";
 
 export function SparkStat({
   label,

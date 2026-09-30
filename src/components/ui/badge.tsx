@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import type { Tone } from "@/lib/mock-data";
+import type { Tone } from "@/lib/tone";
 
 const tones: Record<Tone, string> = {
   neutral: "bg-raised text-secondary border-line",

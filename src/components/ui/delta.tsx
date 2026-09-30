@@ -1,5 +1,5 @@
 import { RiArrowDownLine, RiArrowUpLine } from "@remixicon/react";
-import type { Tone } from "@/lib/mock-data";
+import type { Tone } from "@/lib/tone";
 
 /** Percentage or count change shown next to a metric. */
 export function Delta({ value, tone }: { value: string; tone: Tone }) {

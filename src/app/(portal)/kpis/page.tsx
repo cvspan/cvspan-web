@@ -5,24 +5,27 @@ import { Gauge, Progress } from "@/components/ui/chart";
 import { PageHeader } from "@/components/ui/page-header";
 import { Table, Td, Thead, Tr } from "@/components/ui/table";
 import { KpiBars } from "@/components/portal/kpi-bars";
-import { kpiTrend } from "@/lib/mock-data";
+import { getKpiHistory, getKpiTrend } from "@/db/queries";
+import { formatMonth } from "@/lib/format";
+import { requireUser } from "@/lib/session";
 
-const definitions = [
-  { name: "Delivery — work shipped on time", weight: 30, score: 4.4 },
-  { name: "Quality — rework and review notes", weight: 25, score: 4.0 },
-  { name: "Collaboration — reviews and support", weight: 20, score: 4.5 },
-  { name: "Initiative — improvements proposed", weight: 15, score: 3.8 },
-  { name: "Attendance and timeliness", weight: 10, score: 4.6 },
+/** Weightings are defined per team; shown here so people know what is measured. */
+const measures = [
+  { name: "Delivery — work shipped on time", weight: 30 },
+  { name: "Quality — rework and review notes", weight: 25 },
+  { name: "Collaboration — reviews and support", weight: 20 },
+  { name: "Initiative — improvements proposed", weight: 15 },
+  { name: "Attendance and timeliness", weight: 10 },
 ];
 
-const history = [
-  { period: "September 2026", score: 82, grade: "4.2 / 5", by: "Ada Obi", note: "Strong handover work." },
-  { period: "August 2026", score: 79, grade: "4.0 / 5", by: "Ada Obi", note: "Watch the review turnaround." },
-  { period: "July 2026", score: 75, grade: "3.8 / 5", by: "Ada Obi", note: "Good progress on tokens." },
-  { period: "June 2026", score: 68, grade: "3.4 / 5", by: "Ada Obi", note: "Onboarding period." },
-];
+export default async function KpisPage() {
+  const user = await requireUser();
+  const [trend, history] = await Promise.all([getKpiTrend(user.id), getKpiHistory(user.id)]);
 
-export default function KpisPage() {
+  const latest = trend.at(-1);
+  const previous = trend.at(-2);
+  const change = latest && previous ? latest.score - previous.score : 0;
+
   return (
     <>
       <PageHeader
@@ -42,35 +45,47 @@ export default function KpisPage() {
             <p className="text-muted self-start text-tiny font-semibold tracking-wide uppercase">
               Current score
             </p>
-            <Gauge value={82} caption="September" size={148} />
-            <p className="text-muted text-caption">Graded 26 Sep by Ada Obi</p>
-            <Badge tone="warning">Self-assessment due tomorrow</Badge>
+            {latest ? (
+              <>
+                <Gauge value={latest.score} caption={formatMonth(latest.periodStart)} size={148} />
+                <p className="text-muted text-caption">
+                  {change >= 0 ? "Up" : "Down"} {Math.abs(change)} points on last cycle
+                </p>
+              </>
+            ) : (
+              <p className="text-muted py-10 text-body">No scores recorded yet.</p>
+            )}
           </div>
         </Card>
 
         <Card className="xl:col-span-2">
-          <CardHeader title="Score trend" action={<Badge>Last 6 months</Badge>} />
-          <KpiBars data={kpiTrend} />
+          <CardHeader title="Score trend" action={<Badge>Last {trend.length} cycles</Badge>} />
+          {trend.length > 0 ? (
+            <KpiBars
+              data={trend.map((point) => ({
+                month: formatMonth(point.periodStart),
+                score: point.score,
+              }))}
+            />
+          ) : (
+            <p className="text-muted px-5 py-10 text-body">Nothing to chart yet.</p>
+          )}
         </Card>
       </section>
 
       <section className="grid gap-4 xl:grid-cols-2">
         <Card>
-          <CardHeader title="What you are measured on" action={<Badge>5 measures</Badge>} />
+          <CardHeader title="What you are measured on" action={<Badge>{measures.length} measures</Badge>} />
           <ul className="p-5 pt-4">
-            {definitions.map((definition) => (
-              <li key={definition.name} className="py-2.5">
+            {measures.map((measure) => (
+              <li key={measure.name} className="py-2.5">
                 <p className="mb-1.5 flex items-center justify-between gap-3">
-                  <span className="text-secondary text-body">{definition.name}</span>
+                  <span className="text-secondary text-body">{measure.name}</span>
                   <span className="text-primary shrink-0 text-caption font-semibold">
-                    {definition.score} / 5 · {definition.weight}%
+                    {measure.weight}%
                   </span>
                 </p>
-                <Progress
-                  value={(definition.score / 5) * 100}
-                  tone={definition.score >= 4 ? "success" : "brand"}
-                  label={`${definition.name}: ${definition.score} out of 5`}
-                />
+                <Progress value={measure.weight * 3} label={`${measure.name} weighting`} />
               </li>
             ))}
           </ul>
@@ -78,21 +93,27 @@ export default function KpisPage() {
 
         <Card>
           <CardHeader title="Grading history" />
-          <Table>
-            <Thead columns={["Period", "Score", "Grade", "Graded by"]} />
-            <tbody>
-              {history.map((row) => (
-                <Tr key={row.period}>
-                  <Td className="text-primary font-semibold whitespace-nowrap">{row.period}</Td>
-                  <Td>{row.score}%</Td>
-                  <Td>
-                    <Badge tone={row.score >= 80 ? "success" : "neutral"}>{row.grade}</Badge>
-                  </Td>
-                  <Td className="whitespace-nowrap">{row.by}</Td>
-                </Tr>
-              ))}
-            </tbody>
-          </Table>
+          {history.length === 0 ? (
+            <p className="text-muted px-5 py-6 text-body">No grades yet.</p>
+          ) : (
+            <Table>
+              <Thead columns={["Period", "Score", "Graded by", "Comment"]} />
+              <tbody>
+                {history.map((row) => (
+                  <Tr key={row.id}>
+                    <Td className="text-primary font-semibold whitespace-nowrap">
+                      {formatMonth(row.periodStart)} {new Date(row.periodStart).getFullYear()}
+                    </Td>
+                    <Td>
+                      <Badge tone={row.score >= 80 ? "success" : "neutral"}>{row.score}%</Badge>
+                    </Td>
+                    <Td className="whitespace-nowrap">{row.gradedBy ?? "—"}</Td>
+                    <Td>{row.comment ?? "—"}</Td>
+                  </Tr>
+                ))}
+              </tbody>
+            </Table>
+          )}
         </Card>
       </section>
     </>

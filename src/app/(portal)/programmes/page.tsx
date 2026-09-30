@@ -1,22 +1,31 @@
-import { RiAddLine, RiAwardLine, RiCheckLine, RiDownloadLine } from "@remixicon/react";
+import { RiAddLine, RiAwardLine, RiDownloadLine } from "@remixicon/react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader } from "@/components/ui/card";
 import { Progress } from "@/components/ui/chart";
 import { PageHeader } from "@/components/ui/page-header";
 import { Table, Td, Thead, Tr } from "@/components/ui/table";
-import { certificates, programmeStages, programmes } from "@/lib/mock-data";
+import { getAssignmentsFor, getCertificates, getProgrammes } from "@/db/queries";
+import { formatDay, relativeDays } from "@/lib/format";
+import { requireUser } from "@/lib/session";
+import { statusTone } from "@/lib/tone";
 
-const assignments = [
-  { id: "as1", title: "Week 1 — Design principles", due: "5 Sep", grade: "4.5 / 5", status: "Graded" as const },
-  { id: "as2", title: "Week 2 — Component audit", due: "12 Sep", grade: "4.0 / 5", status: "Graded" as const },
-  { id: "as3", title: "Week 3 — Token system", due: "19 Sep", grade: "4.2 / 5", status: "Graded" as const },
-  { id: "as4", title: "Week 4 — Dashboard concept", due: "3 Oct", grade: "—", status: "Submitted" as const },
-  { id: "as5", title: "Mid-programme review", due: "15 Oct", grade: "—", status: "Not started" as const },
-];
+const submissionLabels = {
+  not_started: "Not started",
+  submitted: "Submitted",
+  graded: "Graded",
+} as const;
 
-export default function ProgrammesPage() {
-  const completed = programmeStages.filter((stage) => stage.done).length;
+export default async function ProgrammesPage() {
+  const user = await requireUser();
+  const [programmes, assignments, certificates] = await Promise.all([
+    getProgrammes(),
+    getAssignmentsFor(user.id),
+    getCertificates(),
+  ]);
+
+  const done = assignments.filter((row) => row.status !== "not_started").length;
+  const progress = assignments.length ? Math.round((done / assignments.length) * 100) : 0;
 
   return (
     <>
@@ -40,52 +49,48 @@ export default function ProgrammesPage() {
       <section className="grid gap-4 xl:grid-cols-3">
         <Card className="xl:col-span-2">
           <CardHeader
-            title="Design Internship — Cohort 4"
-            action={<Badge tone="accent">Mid-programme</Badge>}
+            title="My assignments"
+            action={<Badge tone={progress === 100 ? "success" : "accent"}>{progress}% done</Badge>}
           />
-          <div className="p-5">
-            <p className="text-secondary mb-2 flex items-center justify-between text-body">
-              <span>Overall progress</span>
-              <span className="text-primary font-semibold">64%</span>
+          {assignments.length === 0 ? (
+            <p className="text-muted px-5 py-8 text-center text-body">
+              You are not enrolled on a programme. Cohort members see their assignments here.
             </p>
-            <Progress value={64} label="Cohort progress" />
-
-            <ol className="mt-6 flex flex-col gap-3">
-              {programmeStages.map((stage, index) => (
-                <li key={stage.name} className="flex items-center gap-3">
-                  <span
-                    className={`flex size-7 shrink-0 items-center justify-center rounded-full text-tiny font-semibold ${
-                      stage.done
-                        ? "bg-success-surface text-success-text"
-                        : "bg-raised text-muted"
-                    }`}
-                  >
-                    {stage.done ? <RiCheckLine size={16} aria-hidden /> : index + 1}
-                  </span>
-                  <span
-                    className={
-                      stage.done ? "text-muted text-body" : "text-primary text-body font-semibold"
-                    }
-                  >
-                    {stage.name}
-                  </span>
-                  {!stage.done && index === completed ? (
-                    <Badge tone="warning">Current</Badge>
-                  ) : null}
-                </li>
-              ))}
-            </ol>
-          </div>
+          ) : (
+            <Table>
+              <Thead columns={["Assignment", "Due", "Grade", "Status"]} />
+              <tbody>
+                {assignments.map((assignment) => (
+                  <Tr key={assignment.id}>
+                    <Td className="text-primary font-semibold">{assignment.title}</Td>
+                    <Td className="whitespace-nowrap">
+                      {formatDay(assignment.dueAt)}
+                      <span className="text-muted block text-tiny">
+                        {relativeDays(assignment.dueAt)}
+                      </span>
+                    </Td>
+                    <Td>{assignment.grade ? `${assignment.grade}%` : "—"}</Td>
+                    <Td>
+                      <Badge tone={statusTone(assignment.status)}>
+                        {submissionLabels[assignment.status]}
+                      </Badge>
+                    </Td>
+                  </Tr>
+                ))}
+              </tbody>
+            </Table>
+          )}
         </Card>
 
         <Card>
-          <CardHeader title="All cohorts" />
+          <CardHeader title="All cohorts" action={<Badge>{programmes.length}</Badge>} />
           <ul>
             {programmes.map((programme) => (
               <li key={programme.id} className="border-line border-b px-5 py-3 last:border-b-0">
                 <p className="text-primary truncate text-body font-semibold">{programme.name}</p>
                 <p className="text-muted mt-0.5 mb-2 text-tiny">
-                  {programme.members} members · {programme.stage} · ends {programme.ends}
+                  {programme.members} member{programme.members === 1 ? "" : "s"} ·{" "}
+                  {programme.stage} · ends {programme.endDate ?? "—"}
                 </p>
                 <Progress value={programme.progress} label={`${programme.name} progress`} />
               </li>
@@ -94,41 +99,14 @@ export default function ProgrammesPage() {
         </Card>
       </section>
 
-      <section className="grid gap-4 xl:grid-cols-3">
-        <Card className="xl:col-span-2">
-          <CardHeader title="Assignments" action={<Badge>5 total</Badge>} />
-          <Table>
-            <Thead columns={["Assignment", "Due", "Grade", "Status"]} />
-            <tbody>
-              {assignments.map((assignment) => (
-                <Tr key={assignment.id}>
-                  <Td className="text-primary font-semibold">{assignment.title}</Td>
-                  <Td className="whitespace-nowrap">{assignment.due}</Td>
-                  <Td>{assignment.grade}</Td>
-                  <Td>
-                    <Badge
-                      tone={
-                        assignment.status === "Graded"
-                          ? "success"
-                          : assignment.status === "Submitted"
-                            ? "accent"
-                            : "neutral"
-                      }
-                    >
-                      {assignment.status}
-                    </Badge>
-                  </Td>
-                </Tr>
-              ))}
-            </tbody>
-          </Table>
-        </Card>
-
-        <Card>
-          <CardHeader
-            title="Certificates"
-            action={<Badge tone="success">Auto-issued</Badge>}
-          />
+      <Card>
+        <CardHeader
+          title="Certificates"
+          action={<Badge tone="success">Issued automatically</Badge>}
+        />
+        {certificates.length === 0 ? (
+          <p className="text-muted px-5 py-6 text-body">No certificates issued yet.</p>
+        ) : (
           <ul>
             {certificates.map((certificate) => (
               <li
@@ -143,20 +121,21 @@ export default function ProgrammesPage() {
                     {certificate.person}
                   </span>
                   <span className="text-muted block truncate text-tiny">
-                    {certificate.programme}
-                  </span>
-                  <span className="text-muted block text-tiny">
-                    {certificate.ref} · {certificate.issued}
+                    {certificate.programme} · {certificate.reference} ·{" "}
+                    {formatDay(certificate.issuedAt)}
                   </span>
                 </span>
+                <Button size="sm" variant="secondary">
+                  Verify
+                </Button>
               </li>
             ))}
           </ul>
-          <p className="text-muted border-line border-t px-5 py-3 text-caption">
-            Certificates are generated when a cohort ends and emailed automatically.
-          </p>
-        </Card>
-      </section>
+        )}
+        <p className="text-muted border-line border-t px-5 py-3 text-caption">
+          When a cohort ends, certificates are generated, emailed and added to the registry.
+        </p>
+      </Card>
     </>
   );
 }

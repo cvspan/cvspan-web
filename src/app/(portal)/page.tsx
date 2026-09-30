@@ -1,15 +1,13 @@
-"use client";
-
 import { AdminDashboard } from "@/components/dashboards/admin";
 import { ManagerDashboard } from "@/components/dashboards/manager";
 import { MemberDashboard } from "@/components/dashboards/member";
-import { useRole } from "@/components/portal/role-context";
 import { atLeast } from "@/lib/roles";
+import { requireUser } from "@/lib/session";
 
-export default function DashboardPage() {
-  const { role } = useRole();
+export default async function DashboardPage() {
+  const user = await requireUser();
 
-  if (atLeast(role, "admin")) return <AdminDashboard />;
-  if (atLeast(role, "manager")) return <ManagerDashboard />;
-  return <MemberDashboard />;
+  if (atLeast(user.viewRole, "admin")) return <AdminDashboard />;
+  if (atLeast(user.viewRole, "manager")) return <ManagerDashboard user={user} />;
+  return <MemberDashboard user={user} />;
 }

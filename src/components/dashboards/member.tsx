@@ -1,44 +1,63 @@
-import {
-  RiAddLine,
-  RiArrowRightSLine,
-  RiAwardLine,
-  RiCheckboxCircleLine,
-  RiMegaphoneLine,
-  RiMore2Fill,
-  RiStarSmileLine,
-} from "@remixicon/react";
+import Link from "next/link";
+import { RiAddLine, RiArrowRightSLine, RiTimeLine } from "@remixicon/react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader } from "@/components/ui/card";
-import { Gauge, Progress, Sparkline } from "@/components/ui/chart";
+import { Gauge, Progress } from "@/components/ui/chart";
 import { Delta } from "@/components/ui/delta";
 import { PageHeader } from "@/components/ui/page-header";
-import { SparkStat } from "@/components/ui/stat-card";
 import { KpiBars } from "@/components/portal/kpi-bars";
 import {
-  activity,
-  currentUser,
-  deadlines,
-  kpiTrend,
-  miniStats,
-  sparkTaskCompletion,
-  tasks,
-  tiles,
-  type TaskStatus,
-  type Tone,
-} from "@/lib/mock-data";
+  getAssignmentsFor,
+  getAttendanceRate,
+  getKpiTrend,
+  getNotificationsFor,
+  getTasksFor,
+} from "@/db/queries";
+import { formatMonth, relativeDays, taskStatusLabels } from "@/lib/format";
+import { initials } from "@/lib/format";
+import type { Tone } from "@/lib/tone";
+import { taskTone } from "@/lib/tone";
 
-const statusTone: Record<TaskStatus, Tone> = {
-  "To do": "neutral",
-  "In progress": "accent",
-  Overdue: "error",
-  Done: "success",
-};
+export async function MemberDashboard({
+  user,
+}: {
+  user: { id: string; name: string };
+}) {
+  const [tasks, trend, attendanceRate, notifications, assignments] = await Promise.all([
+    getTasksFor(user.id),
+    getKpiTrend(user.id),
+    getAttendanceRate(user.id),
+    getNotificationsFor(user.id, 5),
+    getAssignmentsFor(user.id),
+  ]);
 
-const tileIcons = [RiCheckboxCircleLine, RiStarSmileLine, RiAwardLine, RiMegaphoneLine];
+  const open = tasks.filter((task) => task.status !== "done");
+  const overdue = open.filter((task) => task.dueAt && new Date(task.dueAt) < new Date());
+  const done = tasks.filter((task) => task.status === "done");
+  const latestScore = trend.at(-1)?.score ?? 0;
+  const previousScore = trend.at(-2)?.score ?? latestScore;
+  const graded = assignments.filter((row) => row.status === "graded");
+  const averageGrade =
+    graded.length > 0
+      ? (graded.reduce((sum, row) => sum + (row.grade ?? 0), 0) / graded.length / 20).toFixed(1)
+      : "—";
+  const programmeProgress =
+    assignments.length > 0
+      ? Math.round(
+          (assignments.filter((row) => row.status !== "not_started").length / assignments.length) *
+            100,
+        )
+      : 0;
 
-export function MemberDashboard() {
-  const myTasks = tasks.filter((task) => task.assignee === currentUser.name);
+  const deadlines = open
+    .filter((task) => task.dueAt)
+    .slice(0, 4)
+    .map((task) => ({
+      title: task.title,
+      when: relativeDays(task.dueAt),
+      tone: (task.dueAt && new Date(task.dueAt) < new Date() ? "error" : "neutral") as Tone,
+    }));
 
   return (
     <>
@@ -47,7 +66,10 @@ export function MemberDashboard() {
         title="Dashboard"
         actions={
           <>
-            <Button variant="secondary">Log attendance</Button>
+            <Button variant="secondary">
+              <RiTimeLine size={18} aria-hidden />
+              Clock in
+            </Button>
             <Button>
               <RiAddLine size={18} aria-hidden />
               New task
@@ -61,32 +83,40 @@ export function MemberDashboard() {
           <div className="flex h-full flex-col justify-between gap-6 p-6">
             <div>
               <h2 className="text-primary text-title font-semibold">
-                Welcome back, {currentUser.name.split(" ")[0]}
+                Welcome back, {user.name.split(" ")[0]}
               </h2>
               <p className="text-secondary mt-1 text-body">
-                You have 3 new messages and 2 tasks due today.
+                {open.length} open task{open.length === 1 ? "" : "s"}
+                {overdue.length > 0 ? `, ${overdue.length} overdue` : ""} ·{" "}
+                {notifications.length} recent update{notifications.length === 1 ? "" : "s"}.
               </p>
             </div>
             <div className="grid gap-6 sm:grid-cols-2">
               <div>
                 <p className="text-muted text-tiny font-semibold tracking-wide uppercase">
-                  This week&apos;s tasks
+                  Tasks completed
                 </p>
                 <p className="mt-1 mb-2 flex items-center gap-2">
-                  <span className="text-primary text-title font-semibold">6</span>
-                  <Delta value="+2" tone="success" />
+                  <span className="text-primary text-title font-semibold">
+                    {done.length}/{tasks.length}
+                  </span>
                 </p>
-                <Progress value={72} tone="success" label="Weekly task progress" />
+                <Progress
+                  value={tasks.length ? (done.length / tasks.length) * 100 : 0}
+                  tone="success"
+                  label="Task completion"
+                />
               </div>
               <div>
                 <p className="text-muted text-tiny font-semibold tracking-wide uppercase">
                   Programme progress
                 </p>
                 <p className="mt-1 mb-2 flex items-center gap-2">
-                  <span className="text-primary text-title font-semibold">64%</span>
-                  <Delta value="+8%" tone="success" />
+                  <span className="text-primary text-title font-semibold">
+                    {programmeProgress}%
+                  </span>
                 </p>
-                <Progress value={64} label="Programme progress" />
+                <Progress value={programmeProgress} label="Programme progress" />
               </div>
             </div>
           </div>
@@ -95,17 +125,20 @@ export function MemberDashboard() {
         <Card>
           <div className="p-5">
             <p className="text-muted text-tiny font-semibold tracking-wide uppercase">
-              Tasks completed
+              Attendance this period
             </p>
             <p className="mt-2 flex items-center gap-2">
-              <span className="text-primary text-h4 font-semibold">18</span>
-              <Delta value="+9%" tone="success" />
+              <span className="text-primary text-h4 font-semibold">{attendanceRate}%</span>
+              <Delta
+                value={attendanceRate >= 90 ? "On track" : "Watch"}
+                tone={attendanceRate >= 90 ? "success" : "warning"}
+              />
             </p>
-            <p className="text-muted mt-1 text-caption">
-              6 more than the same week last month
-            </p>
+            <p className="text-muted mt-1 text-caption">Last 21 working days</p>
+            <div className="mt-4">
+              <Progress value={attendanceRate} tone="success" label="Attendance rate" />
+            </div>
           </div>
-          <Sparkline points={sparkTaskCompletion} label="Tasks completed over 12 weeks" />
         </Card>
 
         <Card>
@@ -113,37 +146,38 @@ export function MemberDashboard() {
             <p className="text-muted self-start text-tiny font-semibold tracking-wide uppercase">
               KPI score
             </p>
-            <Gauge value={kpiTrend[kpiTrend.length - 1].score} caption="September" />
-            <p className="text-muted text-caption">Graded 26 Sep by Ada Obi</p>
+            <Gauge value={latestScore} caption={formatMonth(trend.at(-1)?.periodStart ?? null)} />
+            <Delta
+              value={`${latestScore - previousScore >= 0 ? "+" : ""}${latestScore - previousScore}`}
+              tone={latestScore >= previousScore ? "success" : "error"}
+            />
           </div>
         </Card>
       </section>
 
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {miniStats.map((stat) => (
-          <SparkStat key={stat.label} {...stat} />
+        {[
+          { label: "Open tasks", value: String(open.length), caption: `${overdue.length} overdue` },
+          { label: "Average grade", value: averageGrade, caption: `${graded.length} graded` },
+          {
+            label: "Assignments left",
+            value: String(assignments.filter((row) => row.status === "not_started").length),
+            caption: `${assignments.length} in total`,
+          },
+          {
+            label: "Updates",
+            value: String(notifications.length),
+            caption: "in the last few days",
+          },
+        ].map((tile) => (
+          <Card key={tile.label} className="p-5">
+            <p className="text-muted text-tiny font-semibold tracking-wide uppercase">
+              {tile.label}
+            </p>
+            <p className="text-primary mt-1 text-h5 font-semibold">{tile.value}</p>
+            <p className="text-muted mt-1 text-caption">{tile.caption}</p>
+          </Card>
         ))}
-      </section>
-
-      <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {tiles.map((tile, index) => {
-          const Icon = tileIcons[index];
-          return (
-            <Card key={tile.label}>
-              <div className="flex items-center gap-3 p-4">
-                <span className="bg-accent-soft text-accent flex size-11 shrink-0 items-center justify-center rounded-lg">
-                  <Icon size={22} aria-hidden />
-                </span>
-                <span className="min-w-0">
-                  <span className="text-primary block text-body font-semibold">
-                    {tile.value} {tile.label}
-                  </span>
-                  <span className="text-muted block text-caption">{tile.caption}</span>
-                </span>
-              </div>
-            </Card>
-          );
-        })}
       </section>
 
       <section className="grid gap-4 xl:grid-cols-3">
@@ -151,44 +185,43 @@ export function MemberDashboard() {
           <CardHeader
             title="My tasks"
             action={
-              <Button variant="ghost" size="sm">
-                View all
-                <RiArrowRightSLine size={16} aria-hidden />
-              </Button>
+              <Link href="/tasks">
+                <Button variant="ghost" size="sm">
+                  View all
+                  <RiArrowRightSLine size={16} aria-hidden />
+                </Button>
+              </Link>
             }
           />
           <ul>
-            {myTasks.map((task) => (
+            {tasks.slice(0, 6).map((task) => (
               <li
                 key={task.id}
                 className="border-line hover:bg-raised flex items-center gap-3 border-b px-5 py-3 transition-colors last:border-b-0"
               >
                 <input
                   type="checkbox"
-                  defaultChecked={task.done}
+                  defaultChecked={task.status === "done"}
                   aria-label={task.title}
                   className="accent-brand size-4 cursor-pointer"
                 />
                 <span className="min-w-0 flex-1">
                   <span
                     className={
-                      task.done
+                      task.status === "done"
                         ? "text-muted block truncate text-body font-semibold line-through"
                         : "text-primary block truncate text-body font-semibold"
                     }
                   >
                     {task.title}
                   </span>
-                  <span className="text-muted block text-tiny">{task.meta}</span>
+                  <span className="text-muted block text-tiny">
+                    {task.project} · due {relativeDays(task.dueAt)}
+                  </span>
                 </span>
-                <Badge tone={statusTone[task.status]}>{task.status}</Badge>
-                <button
-                  type="button"
-                  aria-label={`Actions for ${task.title}`}
-                  className="text-muted hover:text-primary flex size-8 cursor-pointer items-center justify-center rounded-lg transition-colors"
-                >
-                  <RiMore2Fill size={18} aria-hidden />
-                </button>
+                <Badge tone={taskTone(task.status, task.dueAt)}>
+                  {taskStatusLabels[task.status]}
+                </Badge>
               </li>
             ))}
           </ul>
@@ -197,41 +230,51 @@ export function MemberDashboard() {
         <Card>
           <CardHeader title="Upcoming deadlines" />
           <ul>
-            {deadlines.map((deadline) => (
-              <li
-                key={deadline.title}
-                className="border-line flex items-center gap-3 border-b px-5 py-3 last:border-b-0"
-              >
-                <span className="min-w-0 flex-1">
-                  <span className="text-primary block truncate text-body font-semibold">
-                    {deadline.title}
+            {deadlines.length === 0 ? (
+              <li className="text-muted px-5 py-4 text-body">Nothing due. Enjoy it.</li>
+            ) : (
+              deadlines.map((deadline) => (
+                <li
+                  key={deadline.title}
+                  className="border-line flex items-center gap-3 border-b px-5 py-3 last:border-b-0"
+                >
+                  <span className="min-w-0 flex-1">
+                    <span className="text-primary block truncate text-body font-semibold">
+                      {deadline.title}
+                    </span>
                   </span>
-                  <span className="text-muted block text-tiny">{deadline.when}</span>
-                </span>
-                <Badge tone={deadline.tone}>{deadline.left}</Badge>
-              </li>
-            ))}
+                  <Badge tone={deadline.tone}>{deadline.when}</Badge>
+                </li>
+              ))
+            )}
           </ul>
         </Card>
       </section>
 
       <section className="grid gap-4 xl:grid-cols-3">
         <Card className="xl:col-span-2">
-          <CardHeader title="KPI trend" action={<Badge>Last 6 months</Badge>} />
-          <KpiBars data={kpiTrend} />
+          <CardHeader title="KPI trend" action={<Badge>Last {trend.length} months</Badge>} />
+          <KpiBars
+            data={trend.map((point) => ({
+              month: formatMonth(point.periodStart),
+              score: point.score,
+            }))}
+          />
         </Card>
 
         <Card>
-          <CardHeader title="Recent activity" />
+          <CardHeader title="Recent updates" />
           <ul className="py-2">
-            {activity.map((item, index) => (
-              <li key={index} className="flex items-start gap-3 px-5 py-2.5">
+            {notifications.map((item) => (
+              <li key={item.id} className="flex items-start gap-3 px-5 py-2.5">
                 <span className="bg-accent-soft text-accent flex size-8 shrink-0 items-center justify-center rounded-full text-tiny font-semibold">
-                  {item.initials}
+                  {initials(user.name)}
                 </span>
                 <span className="min-w-0">
-                  <span className="text-primary block text-caption">{item.message}</span>
-                  <span className="text-muted block text-tiny">{item.when}</span>
+                  <span className="text-primary block text-caption">{item.title}</span>
+                  <span className="text-muted block text-tiny">
+                    {relativeDays(item.createdAt)}
+                  </span>
                 </span>
               </li>
             ))}

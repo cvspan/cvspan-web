@@ -1,9 +1,13 @@
+"use client";
+
 import { RiMenuLine, RiNotification3Line, RiSearchLine } from "@remixicon/react";
 import { ThemeToggle } from "./theme-toggle";
 import { RoleSwitcher } from "./role-switcher";
-import { currentUser } from "@/lib/mock-data";
+import { useRole } from "./role-context";
 
 export function Topbar({ onOpenNav }: { onOpenNav?: () => void }) {
+  const { user } = useRole();
+
   return (
     <header className="border-line bg-card sticky top-0 z-10 flex h-16 items-center gap-3 border-b px-4 lg:px-6">
       <button
@@ -41,8 +45,11 @@ export function Topbar({ onOpenNav }: { onOpenNav?: () => void }) {
         <span className="bg-brand absolute top-1.5 right-1.5 size-2 rounded-full" />
       </button>
 
-      <span className="bg-accent-soft text-accent flex size-8 shrink-0 items-center justify-center rounded-full text-caption font-semibold">
-        {currentUser.initials}
+      <span
+        title={user.email}
+        className="bg-accent-soft text-accent flex size-8 shrink-0 items-center justify-center rounded-full text-caption font-semibold"
+      >
+        {user.initials}
       </span>
     </header>
   );
