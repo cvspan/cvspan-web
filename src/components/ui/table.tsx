@@ -12,13 +12,14 @@ export function Thead({ columns }: { columns: string[] }) {
   return (
     <thead>
       <tr className="border-line bg-raised border-b">
-        {columns.map((column) => (
+        {columns.map((column, index) => (
           <th
-            key={column}
+            // Action columns have empty labels, so position is the only unique key.
+            key={`${index}-${column}`}
             scope="col"
             className="text-muted px-5 py-2.5 text-left text-tiny font-semibold tracking-wide whitespace-nowrap uppercase"
           >
-            {column}
+            {column === "" ? <span className="sr-only">Actions</span> : column}
           </th>
         ))}
       </tr>
