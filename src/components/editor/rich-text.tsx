@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef, useState } from "react";
 import { useEditor, EditorContent, type Editor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Link from "@tiptap/extension-link";
@@ -29,6 +30,7 @@ import {
   type RemixiconComponentType,
 } from "@remixicon/react";
 import { cn } from "@/lib/utils";
+import { uploadImage } from "@/lib/image";
 
 function ToolbarButton({
   icon: Icon,
@@ -67,7 +69,7 @@ function Divider() {
   return <span className="bg-line mx-1 h-6 w-px" aria-hidden />;
 }
 
-function Toolbar({ editor }: { editor: Editor }) {
+function Toolbar({ editor, onInsertImage }: { editor: Editor; onInsertImage: () => void }) {
   const addLink = () => {
     const previous = editor.getAttributes("link").href as string | undefined;
     const url = window.prompt("Link URL", previous ?? "https://");
@@ -77,11 +79,6 @@ function Toolbar({ editor }: { editor: Editor }) {
       return;
     }
     editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
-  };
-
-  const addImage = () => {
-    const url = window.prompt("Image URL");
-    if (url) editor.chain().focus().setImage({ src: url }).run();
   };
 
   return (
@@ -159,7 +156,7 @@ function Toolbar({ editor }: { editor: Editor }) {
         disabled={!editor.isActive("link")}
         onClick={() => editor.chain().focus().unsetLink().run()}
       />
-      <ToolbarButton icon={RiImageAddLine} label="Insert image" onClick={addImage} />
+      <ToolbarButton icon={RiImageAddLine} label="Insert image" onClick={onInsertImage} />
       <ToolbarButton
         icon={RiSeparator}
         label="Divider"
@@ -212,6 +209,9 @@ export function RichTextEditor({
   defaultValue?: string;
   onStats?: (stats: { words: number; minutes: number }) => void;
 }) {
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [imageError, setImageError] = useState<string | null>(null);
+
   const editor = useEditor({
     immediatelyRender: false,
     extensions: [
@@ -235,9 +235,40 @@ export function RichTextEditor({
     },
   });
 
+  async function insertUploadedImage(file: File) {
+    setImageError(null);
+    try {
+      const url = await uploadImage(file);
+      editor?.chain().focus().setImage({ src: url }).run();
+    } catch (problem) {
+      setImageError(problem instanceof Error ? problem.message : "Upload failed");
+    }
+  }
+
   return (
     <div className="flex flex-1 flex-col">
-      {editor ? <Toolbar editor={editor} /> : null}
+      {editor ? (
+        <Toolbar editor={editor} onInsertImage={() => fileRef.current?.click()} />
+      ) : null}
+
+      <input
+        ref={fileRef}
+        type="file"
+        accept="image/jpeg,image/png,image/webp,image/gif,image/avif"
+        className="sr-only"
+        aria-label="Insert an image into the post"
+        onChange={(event) => {
+          const file = event.target.files?.[0];
+          if (file) insertUploadedImage(file);
+          event.target.value = "";
+        }}
+      />
+
+      {imageError ? (
+        <p role="alert" className="text-error-text border-line border-b px-4 py-2 text-caption">
+          {imageError}
+        </p>
+      ) : null}
       <div
         className="flex flex-1 cursor-text flex-col"
         onClick={() => editor?.chain().focus("end").run()}

@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { RiDeleteBin6Line, RiImageAddLine, RiLoader4Line } from "@remixicon/react";
 import { cn } from "@/lib/utils";
+import { uploadImage } from "@/lib/image";
 
 const inputClass =
   "border-line-input text-primary placeholder:text-muted h-11 w-full rounded-lg border bg-transparent px-3.5 text-para outline-none";
@@ -24,14 +25,8 @@ export function CoverField({
     setBusy(true);
     setError(null);
 
-    const body = new FormData();
-    body.append("file", file);
-
     try {
-      const response = await fetch("/api/upload", { method: "POST", body });
-      const result = await response.json();
-      if (!response.ok) throw new Error(result.error ?? "Upload failed");
-      setUrl(result.url);
+      setUrl(await uploadImage(file));
     } catch (problem) {
       setError(problem instanceof Error ? problem.message : "Upload failed");
     } finally {

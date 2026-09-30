@@ -29,18 +29,25 @@ export async function POST(request: Request) {
 
   const bytes = Buffer.from(await file.arrayBuffer());
 
-  const [row] = await db
-    .insert(media)
-    .values({
-      filename: file.name,
-      contentType: file.type,
-      size: bytes.byteLength,
-      data: bytes,
-      uploadedById: session.user.id,
-    })
-    .returning({ id: media.id });
+  try {
+    const [row] = await db
+      .insert(media)
+      .values({
+        filename: file.name,
+        contentType: file.type,
+        size: bytes.byteLength,
+        data: bytes,
+        uploadedById: session.user.id,
+      })
+      .returning({ id: media.id });
 
-  /** Callers only ever see the URL, so moving to object storage later is a
-   *  change to this handler alone. */
-  return Response.json({ url: `/api/media/${row.id}` });
+    /** Callers only ever see the URL, so moving to object storage later is a
+     *  change to this handler alone. */
+    return Response.json({ url: `/api/media/${row.id}` });
+  } catch (error) {
+    /** Without this, a storage failure returns an empty 500 and the client
+     *  has nothing to show the person. */
+    console.error("Upload failed", error);
+    return Response.json({ error: "Could not store the image. Try again." }, { status: 500 });
+  }
 }
