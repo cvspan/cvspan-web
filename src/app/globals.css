@@ -1,26 +1,194 @@
 @import "tailwindcss";
 
+/* Dark mode is driven by the `dark` class on <html>, not the OS setting alone. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ------------------------------------------------------------------
+   CVSpan design tokens
+   Palette values come from the CVSpan Colour collection in Figma.
+   Semantic tokens mirror the CVSpan Theme collection (Light / Dark).
+   ------------------------------------------------------------------ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Palette — Neutral */
+  --cv-black: #1a1a1a;
+  --cv-ink: #0c0c0c;
+  --cv-hairline: #272727;
+  --cv-n5: #484848;
+  --cv-n4: #767676;
+  --cv-n3: #a3a3a3;
+  --cv-n2: #d1d1d1;
+  --cv-n1: #f4f4f4;
+  --cv-white: #ffffff;
+
+  /* Palette — Primary */
+  --cv-primary: #1a1aff;
+  --cv-p10: #01010d;
+  --cv-p9: #050533;
+  --cv-p8: #0a0a66;
+  --cv-p7: #101099;
+  --cv-p6: #1515cc;
+  --cv-p5: #4848ff;
+  --cv-p4: #7676ff;
+  --cv-p3: #a3a3ff;
+  --cv-p2: #d1d1ff;
+  --cv-p1: #f4f4ff;
+
+  /* Palette — Secondary */
+  --cv-secondary: #00ffb2;
+  --cv-s8: #006647;
+  --cv-s6: #00cc8e;
+  --cv-s2: #ccfff0;
+  --cv-s1: #f2fffb;
+
+  /* Palette — Action */
+  --cv-success-1: #f3fcf2;
+  --cv-success-2: #9fe999;
+  --cv-success-3: #10c900;
+  --cv-success-5: #0a7900;
+  --cv-warning-1: #fffbf4;
+  --cv-warning-2: #fdddab;
+  --cv-warning-3: #fba92d;
+  --cv-warning-5: #97651b;
+  --cv-error-1: #fff2f2;
+  --cv-error-2: #ff9999;
+  --cv-error-3: #ff0000;
+  --cv-error-4: #cc0000;
+  --cv-error-5: #990000;
+
+  /* Semantic — Light */
+  --surface-app: var(--cv-n1);
+  --surface-card: var(--cv-white);
+  --surface-raised: var(--cv-n1);
+  --surface-accent-soft: var(--cv-p1);
+  --surface-overlay: var(--cv-white);
+
+  --text-primary: var(--cv-black);
+  --text-secondary: var(--cv-n5);
+  --text-muted: var(--cv-n4);
+  --text-accent: var(--cv-primary);
+  --text-on-accent: var(--cv-white);
+
+  --border-default: var(--cv-n2);
+  --border-strong: var(--cv-n3);
+  --border-input: var(--cv-n4);
+  --border-accent: var(--cv-primary);
+  --border-focus-ring: var(--cv-p3);
+
+  --accent-primary: var(--cv-primary);
+  --accent-primary-hover: var(--cv-p6);
+
+  --status-success-surface: var(--cv-success-1);
+  --status-success-border: var(--cv-success-2);
+  --status-success-text: var(--cv-success-5);
+  --status-warning-surface: var(--cv-warning-1);
+  --status-warning-border: var(--cv-warning-2);
+  --status-warning-text: var(--cv-warning-5);
+  --status-error-surface: var(--cv-error-1);
+  --status-error-border: var(--cv-error-2);
+  --status-error-text: var(--cv-error-5);
+
+  --radius-control: 8px;
 }
+
+.dark {
+  --surface-app: var(--cv-ink);
+  --surface-card: var(--cv-black);
+  --surface-raised: var(--cv-hairline);
+  --surface-accent-soft: var(--cv-p10);
+  --surface-overlay: var(--cv-black);
+
+  --text-primary: var(--cv-white);
+  --text-secondary: var(--cv-n2);
+  --text-muted: var(--cv-n3);
+  --text-accent: var(--cv-p4);
+  --text-on-accent: var(--cv-white);
+
+  --border-default: var(--cv-hairline);
+  --border-strong: var(--cv-n5);
+  --border-input: var(--cv-n4);
+  --border-accent: var(--cv-p5);
+  --border-focus-ring: var(--cv-p5);
+
+  --accent-primary: var(--cv-primary);
+  --accent-primary-hover: var(--cv-p5);
+
+  --status-success-surface: #0d2812;
+  --status-success-border: var(--cv-success-5);
+  --status-success-text: var(--cv-success-2);
+  --status-warning-surface: #302411;
+  --status-warning-border: var(--cv-warning-5);
+  --status-warning-text: var(--cv-warning-2);
+  --status-error-surface: #300a0a;
+  --status-error-border: var(--cv-error-4);
+  --status-error-text: var(--cv-error-2);
+}
+
+/* ------------------------------------------------------------------
+   Tailwind theme mapping — utilities such as bg-card, text-muted,
+   border-default, text-accent are generated from these.
+   ------------------------------------------------------------------ */
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-app: var(--surface-app);
+  --color-card: var(--surface-card);
+  --color-raised: var(--surface-raised);
+  --color-accent-soft: var(--surface-accent-soft);
+  --color-overlay: var(--surface-overlay);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-primary: var(--text-primary);
+  --color-secondary: var(--text-secondary);
+  --color-muted: var(--text-muted);
+  --color-accent: var(--text-accent);
+  --color-on-accent: var(--text-on-accent);
+
+  --color-line: var(--border-default);
+  --color-line-strong: var(--border-strong);
+  --color-line-input: var(--border-input);
+  --color-ring: var(--border-focus-ring);
+
+  --color-brand: var(--accent-primary);
+  --color-brand-hover: var(--accent-primary-hover);
+
+  --color-success-surface: var(--status-success-surface);
+  --color-success-border: var(--status-success-border);
+  --color-success-text: var(--status-success-text);
+  --color-warning-surface: var(--status-warning-surface);
+  --color-warning-border: var(--status-warning-border);
+  --color-warning-text: var(--status-warning-text);
+  --color-error-surface: var(--status-error-surface);
+  --color-error-border: var(--status-error-border);
+  --color-error-text: var(--status-error-text);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  /* Type scale from the CVSpan text styles */
+  --text-h4: 34px;
+  --text-h4--line-height: 42px;
+  --text-h5: 24px;
+  --text-h5--line-height: 32px;
+  --text-title: 18px;
+  --text-title--line-height: 26px;
+  --text-para: 16px;
+  --text-para--line-height: 24px;
+  --text-body: 14px;
+  --text-body--line-height: 22px;
+  --text-caption: 12px;
+  --text-caption--line-height: 20px;
+  --text-tiny: 10px;
+  --text-tiny--line-height: 18px;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--surface-app);
+  color: var(--text-primary);
+  font-size: 14px;
+  line-height: 22px;
+}
+
+/* Consistent focus treatment, matching the Figma components */
+:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 3px solid var(--border-focus-ring);
+  outline-offset: 1px;
+  border-radius: 8px;
 }

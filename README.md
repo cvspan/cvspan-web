@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CVSpan Portal
 
-## Getting Started
+Company-wide management portal for CVSpan: people and org structure, tasks and deadlines,
+KPIs and grading, attendance, programmes and certification, messaging, and the link-ups to
+the CVSpan website (blog and careers).
 
-First, run the development server:
+## Stack
+
+| Layer | Choice |
+|---|---|
+| Framework | Next.js (App Router) + TypeScript |
+| Styling | Tailwind CSS v4, CVSpan tokens as CSS variables |
+| Database | Neon (serverless Postgres) via Drizzle ORM |
+| Icons | Remix Icon, the same set as the CVSpan design system |
+
+## Design tokens
+
+`src/app/globals.css` holds two layers, mirroring Figma:
+
+- **Palette** (`--cv-*`) — the raw CVSpan Colour ramps.
+- **Semantic** (`--surface-*`, `--text-*`, `--border-*`, `--status-*`) — the CVSpan Theme
+  collection, redefined under `.dark`.
+
+Tailwind utilities are generated from the semantic layer, so components use `bg-card`,
+`text-muted`, `border-line` and never a raw hex. Dark mode is the `dark` class on `<html>`,
+applied before paint by a small script in `src/app/layout.tsx`.
+
+Type sizes (`text-h5`, `text-body`, `text-caption`, `text-tiny`) match the CVSpan text styles.
+Inter stands in for Aeonik until the licensed font files are added.
+
+## Getting started
 
 ```bash
+npm install
+cp .env.example .env.local   # add your Neon connection string
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The member dashboard is the current home page and runs on placeholder data from
+`src/lib/mock-data.ts`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Database
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Schema lives in `src/db/schema.ts` (people and org, tasks, attendance, KPI definitions and
+scores). With `DATABASE_URL` set:
 
-## Learn More
+```bash
+npx drizzle-kit push
+```
 
-To learn more about Next.js, take a look at the following resources:
+Note that `role` (permission level) and `employment_type` are deliberately separate: an intern
+can be a team lead, and a full-time member can hold no management rights.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Roadmap
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. People and org, roles, tasks and deadlines, attendance, messaging, member and manager dashboards.
+2. KPIs and grading cycles, approvals inbox, reports.
+3. Programmes, internship tracker, certification and automation.
+4. Blog and careers link-ups to the CVSpan website.
