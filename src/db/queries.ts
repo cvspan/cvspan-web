@@ -413,18 +413,54 @@ export async function getJobListings() {
       id: jobListings.id,
       title: jobListings.title,
       employmentType: jobListings.employmentType,
+      seniority: jobListings.seniority,
+      location: jobListings.location,
+      workMode: jobListings.workMode,
+      openings: jobListings.openings,
+      salaryMin: jobListings.salaryMin,
+      salaryMax: jobListings.salaryMax,
+      salaryCurrency: jobListings.salaryCurrency,
+      salaryPeriod: jobListings.salaryPeriod,
+      salaryPublic: jobListings.salaryPublic,
+      closingDate: jobListings.closingDate,
       stage: jobListings.stage,
       postedAt: jobListings.postedAt,
+      updatedAt: jobListings.updatedAt,
       department: departments.name,
+      hiringManager: users.name,
       applicants: count(applications.id),
     })
     .from(jobListings)
     .leftJoin(departments, eq(jobListings.departmentId, departments.id))
+    .leftJoin(users, eq(jobListings.hiringManagerId, users.id))
     .leftJoin(applications, eq(applications.jobId, jobListings.id))
-    .groupBy(jobListings.id, departments.name)
-    .orderBy(desc(jobListings.postedAt));
+    .groupBy(jobListings.id, departments.name, users.name)
+    .orderBy(desc(jobListings.updatedAt));
 
   return rows.map((row) => ({ ...row, applicants: Number(row.applicants) }));
+}
+
+export async function getJobById(id: string) {
+  const [row] = await db.select().from(jobListings).where(eq(jobListings.id, id)).limit(1);
+  return row ?? null;
+}
+
+export async function getDepartments() {
+  return db.select().from(departments).orderBy(asc(departments.name));
+}
+
+/** Skills already in use, offered as suggestions in the editor. */
+export async function getSkills() {
+  const rows = await db.select({ skills: jobListings.skills }).from(jobListings);
+  return [...new Set(rows.flatMap((row) => row.skills))].sort();
+}
+
+export async function getApplicationsFor(jobId: string) {
+  return db
+    .select()
+    .from(applications)
+    .where(eq(applications.jobId, jobId))
+    .orderBy(desc(applications.createdAt));
 }
 
 export async function getHiringPipeline() {

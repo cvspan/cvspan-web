@@ -4,7 +4,7 @@ import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { db } from "@/db";
-import { approvals, blogPosts, categories, departments, jobListings } from "@/db/schema";
+import { approvals, blogPosts, categories, jobListings } from "@/db/schema";
 import type { EmploymentType } from "@/lib/format";
 import { logActivity, requireRole } from "./guards";
 import { requireUser } from "@/lib/session";
@@ -184,27 +184,115 @@ export async function deletePost(postId: string) {
   revalidatePath("/blog");
 }
 
-export async function createJobListing(formData: FormData) {
+export async function saveJob(formData: FormData) {
   const user = await requireRole("admin");
 
+  const id = String(formData.get("id") ?? "");
   const title = String(formData.get("title") ?? "").trim();
+  const intent = String(formData.get("intent") ?? "draft");
   if (!title) return;
 
-  const departmentName = String(formData.get("department") ?? "");
-  const [department] = departmentName
-    ? await db.select().from(departments).where(eq(departments.name, departmentName)).limit(1)
-    : [];
+  const departmentId = String(formData.get("departmentId") ?? "") || null;
+  const number = (key: string) => {
+    const raw = String(formData.get(key) ?? "").replace(/[^0-9]/g, "");
+    return raw ? Number(raw) : null;
+  };
 
-  await db.insert(jobListings).values({
+  const values = {
     title,
-    departmentId: department?.id ?? null,
+    description: String(formData.get("description") ?? ""),
+    summary: String(formData.get("summary") ?? "").trim() || null,
+    departmentId,
     employmentType: String(formData.get("employmentType") ?? "full_time") as EmploymentType,
-    description: String(formData.get("description") ?? "").trim() || null,
-    stage: "open",
-    postedAt: new Date(),
-  });
+    seniority: String(formData.get("seniority") ?? "mid") as
+      | "intern"
+      | "junior"
+      | "mid"
+      | "senior"
+      | "lead",
+    location: String(formData.get("location") ?? "").trim() || null,
+    workMode: String(formData.get("workMode") ?? "on_site") as "on_site" | "hybrid" | "remote",
+    openings: Math.max(1, number("openings") ?? 1),
+    skills: String(formData.get("skills") ?? "")
+      .split(",")
+      .map((skill) => skill.trim())
+      .filter(Boolean)
+      .slice(0, 12),
+    salaryMin: number("salaryMin"),
+    salaryMax: number("salaryMax"),
+    salaryCurrency: String(formData.get("salaryCurrency") ?? "NGN"),
+    salaryPeriod: String(formData.get("salaryPeriod") ?? "month") as
+      | "year"
+      | "month"
+      | "day"
+      | "hour",
+    salaryPublic: formData.get("salaryPublic") === "on",
+    hiringManagerId: String(formData.get("hiringManagerId") ?? "") || null,
+    applyMethod: String(formData.get("applyMethod") ?? "portal") as "portal" | "email" | "url",
+    applyValue: String(formData.get("applyValue") ?? "").trim() || null,
+    closingDate: String(formData.get("closingDate") ?? "") || null,
+    stage: (intent === "publish" ? "open" : intent === "close" ? "closed" : "draft") as
+      | "draft"
+      | "open"
+      | "closed",
+    updatedAt: new Date(),
+  };
 
-  await logActivity(user.id, "opened a job listing", title);
+  if (id) {
+    /** Keep the original posting date once a listing has gone live. */
+    const [existing] = await db.select().from(jobListings).where(eq(jobListings.id, id)).limit(1);
+    await db
+      .update(jobListings)
+      .set({
+        ...values,
+        postedAt:
+          values.stage === "open" ? (existing?.postedAt ?? new Date()) : existing?.postedAt ?? null,
+      })
+      .where(eq(jobListings.id, id));
+  } else {
+    await db.insert(jobListings).values({
+      ...values,
+      slug: `${slugify(title)}-${Date.now().toString(36)}`,
+      postedAt: values.stage === "open" ? new Date() : null,
+    });
+  }
+
+  await logActivity(
+    user.id,
+    values.stage === "open" ? "opened a job listing" : "saved a job listing",
+    title,
+  );
+
   revalidatePath("/careers");
   revalidatePath("/");
+  redirect("/careers");
+}
+
+export async function setJobStage(
+  jobId: string,
+  stage: "draft" | "open" | "screening" | "interviewing" | "closed",
+) {
+  const user = await requireRole("admin");
+
+  const [existing] = await db.select().from(jobListings).where(eq(jobListings.id, jobId)).limit(1);
+
+  await db
+    .update(jobListings)
+    .set({
+      stage,
+      updatedAt: new Date(),
+      postedAt: stage === "open" ? (existing?.postedAt ?? new Date()) : existing?.postedAt,
+    })
+    .where(eq(jobListings.id, jobId));
+
+  await logActivity(user.id, `moved a listing to ${stage}`, existing?.title ?? undefined);
+  revalidatePath("/careers");
+  revalidatePath("/");
+}
+
+export async function deleteJob(jobId: string) {
+  const user = await requireRole("admin");
+  await db.delete(jobListings).where(eq(jobListings.id, jobId));
+  await logActivity(user.id, "deleted a job listing");
+  revalidatePath("/careers");
 }

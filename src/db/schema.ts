@@ -74,6 +74,20 @@ export const applicationStageEnum = pgEnum("application_stage", [
   "rejected",
 ]);
 
+export const workModeEnum = pgEnum("work_mode", ["on_site", "hybrid", "remote"]);
+
+export const seniorityEnum = pgEnum("seniority", [
+  "intern",
+  "junior",
+  "mid",
+  "senior",
+  "lead",
+]);
+
+export const salaryPeriodEnum = pgEnum("salary_period", ["year", "month", "day", "hour"]);
+
+export const applyMethodEnum = pgEnum("apply_method", ["portal", "email", "url"]);
+
 export const submissionStatusEnum = pgEnum("submission_status", [
   "not_started",
   "submitted",
@@ -333,11 +347,34 @@ export const blogPosts = pgTable("blog_posts", {
 export const jobListings = pgTable("job_listings", {
   id: uuid("id").primaryKey().defaultRandom(),
   title: text("title").notNull(),
+  slug: text("slug").notNull().unique(),
   departmentId: uuid("department_id").references(() => departments.id, { onDelete: "set null" }),
   employmentType: employmentTypeEnum("employment_type").default("full_time").notNull(),
+  seniority: seniorityEnum("seniority").default("mid").notNull(),
+  /** Rich text: the role, the work, what we look for, benefits. */
   description: text("description"),
+  summary: text("summary"),
+  location: text("location"),
+  workMode: workModeEnum("work_mode").default("on_site").notNull(),
+  openings: integer("openings").default(1).notNull(),
+  skills: text("skills").array().default([]).notNull(),
+
+  /** Ranges are optional, and only shown publicly when salaryPublic is set. */
+  salaryMin: integer("salary_min"),
+  salaryMax: integer("salary_max"),
+  salaryCurrency: text("salary_currency").default("NGN").notNull(),
+  salaryPeriod: salaryPeriodEnum("salary_period").default("month").notNull(),
+  salaryPublic: boolean("salary_public").default(false).notNull(),
+
+  hiringManagerId: uuid("hiring_manager_id").references(() => users.id, { onDelete: "set null" }),
+  applyMethod: applyMethodEnum("apply_method").default("portal").notNull(),
+  /** Email address or external URL, depending on applyMethod. */
+  applyValue: text("apply_value"),
+  closingDate: date("closing_date"),
+
   stage: jobStageEnum("stage").default("draft").notNull(),
   postedAt: timestamp("posted_at", { withTimezone: true }),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
 export const applications = pgTable("applications", {

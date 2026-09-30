@@ -107,3 +107,44 @@ export function hoursBetween(start: Date | string | null, end: Date | string | n
   const minutes = Math.round((ms % 3_600_000) / 60_000);
   return `${hours}h ${String(minutes).padStart(2, "0")}m`;
 }
+
+export const workModeLabels = {
+  on_site: "On site",
+  hybrid: "Hybrid",
+  remote: "Remote",
+} as const;
+
+export const seniorityLabels = {
+  intern: "Intern",
+  junior: "Junior",
+  mid: "Mid level",
+  senior: "Senior",
+  lead: "Lead",
+} as const;
+
+export const salaryPeriodLabels = {
+  year: "per year",
+  month: "per month",
+  day: "per day",
+  hour: "per hour",
+} as const;
+
+export const applyMethodLabels = {
+  portal: "Apply in the portal",
+  email: "Apply by email",
+  url: "Apply on an external site",
+} as const;
+
+/** "₦450,000 – ₦600,000 per month", or a single figure when only one is set. */
+export function formatSalary(
+  min: number | null,
+  max: number | null,
+  currency: string,
+  period: keyof typeof salaryPeriodLabels,
+) {
+  if (!min && !max) return null;
+  const symbol = currency === "NGN" ? "₦" : currency === "USD" ? "$" : currency === "GBP" ? "£" : "";
+  const money = (value: number) => `${symbol}${value.toLocaleString("en-GB")}`;
+  const range = min && max ? `${money(min)} – ${money(max)}` : money((min ?? max) as number);
+  return `${range} ${salaryPeriodLabels[period]}`;
+}

@@ -2,11 +2,8 @@
 
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { RiAddLine } from "@remixicon/react";
 import { Button } from "@/components/ui/button";
-import { Dialog, Field, fieldClass } from "@/components/ui/dialog";
-import { createJobListing, publishPost, submitPostForReview } from "@/app/actions/website";
-import { employmentLabels, type EmploymentType } from "@/lib/format";
+import { publishPost, setJobStage, submitPostForReview } from "@/app/actions/website";
 
 export function PostActions({
   postId,
@@ -72,50 +69,36 @@ export function PostActions({
   return null;
 }
 
-export function NewListingButton({ departments }: { departments: string[] }) {
+/** Moves a listing through draft → open → closed from the table. */
+export function JobStageActions({ jobId, stage }: { jobId: string; stage: string }) {
+  const [pending, startTransition] = useTransition();
+  const router = useRouter();
+
+  const move = (next: "draft" | "open" | "screening" | "interviewing" | "closed") =>
+    startTransition(async () => {
+      await setJobStage(jobId, next);
+      router.refresh();
+    });
+
+  if (stage === "draft") {
+    return (
+      <Button size="sm" disabled={pending} onClick={() => move("open")}>
+        Publish
+      </Button>
+    );
+  }
+
+  if (stage === "closed") {
+    return (
+      <Button size="sm" variant="secondary" disabled={pending} onClick={() => move("open")}>
+        Reopen
+      </Button>
+    );
+  }
+
   return (
-    <Dialog
-      trigger={
-        <Button>
-          <RiAddLine size={18} aria-hidden />
-          New listing
-        </Button>
-      }
-      title="New job listing"
-      description="Published listings appear on the CVSpan website careers page."
-      submitLabel="Open listing"
-      action={createJobListing}
-    >
-      <Field label="Role title">
-        <input name="title" required placeholder="Product Designer" className={fieldClass} />
-      </Field>
-
-      <div className="grid gap-4 sm:grid-cols-2">
-        <Field label="Department">
-          <select name="department" className={fieldClass}>
-            {departments.map((department) => (
-              <option key={department}>{department}</option>
-            ))}
-          </select>
-        </Field>
-        <Field label="Employment type">
-          <select name="employmentType" defaultValue="full_time" className={fieldClass}>
-            {(Object.keys(employmentLabels) as EmploymentType[]).map((type) => (
-              <option key={type} value={type}>
-                {employmentLabels[type]}
-              </option>
-            ))}
-          </select>
-        </Field>
-      </div>
-
-      <Field label="Description">
-        <textarea
-          name="description"
-          rows={3}
-          className="border-line-input text-primary rounded-lg border bg-transparent px-3.5 py-2.5 text-para outline-none"
-        />
-      </Field>
-    </Dialog>
+    <Button size="sm" variant="secondary" disabled={pending} onClick={() => move("closed")}>
+      Close role
+    </Button>
   );
 }
