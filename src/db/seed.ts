@@ -42,6 +42,7 @@ async function main() {
   await db.delete(schema.applications);
   await db.delete(schema.jobListings);
   await db.delete(schema.blogPosts);
+  await db.delete(schema.categories);
   await db.delete(schema.messages);
   await db.delete(schema.threadMembers);
   await db.delete(schema.threads);
@@ -285,13 +286,69 @@ async function main() {
   ]);
 
   console.log("Website…");
+  const categoryRows = await db
+    .insert(schema.categories)
+    .values([
+      { name: "Culture", slug: "culture" },
+      { name: "Ways of working", slug: "ways-of-working" },
+      { name: "Design", slug: "design" },
+      { name: "Programmes", slug: "programmes" },
+    ])
+    .returning();
+  const category = Object.fromEntries(categoryRows.map((row) => [row.slug, row.id]));
   const posts = await db
     .insert(schema.blogPosts)
     .values([
-    { title: "Inside our internship programme", slug: "inside-our-internship-programme", category: "Culture", authorId: person.bello.id, status: "in_review", excerpt: "What six months at CVSpan actually looks like." },
-    { title: "How we run weekly KPI check-ins", slug: "weekly-kpi-check-ins", category: "Ways of working", authorId: ada.id, status: "scheduled", publishAt: daysAhead(4) },
-    { title: "Design tokens at CVSpan", slug: "design-tokens-at-cvspan", category: "Design", authorId: person.moses.id, status: "draft" },
-    { title: "Meet the Autumn data cohort", slug: "meet-the-autumn-data-cohort", category: "Programmes", authorId: ngozi.id, status: "published", publishAt: daysAhead(-8) },
+    {
+      title: "Inside our internship programme",
+      slug: "inside-our-internship-programme",
+      categoryId: category.culture,
+      tags: ["internships", "hiring"],
+      coverImageUrl: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200",
+      coverAlt: "Team working together around a table",
+      authorId: person.bello.id,
+      status: "in_review",
+      readingMinutes: 4,
+      excerpt: "What six months at CVSpan actually looks like, from first week to final project.",
+      body: "<p>Six months is long enough to build something real, and short enough that every week counts.</p><h2>Week one</h2><p>Interns are paired with a lead on day one and given a task that ships.</p>",
+    },
+    {
+      title: "How we run weekly KPI check-ins",
+      slug: "weekly-kpi-check-ins",
+      categoryId: category["ways-of-working"],
+      tags: ["performance", "management"],
+      authorId: ada.id,
+      status: "scheduled",
+      publishAt: daysAhead(4),
+      readingMinutes: 3,
+      excerpt: "A score on its own means nothing. The conversation around it is the point.",
+      body: "<p>Every Friday, each lead grades their team against five measures.</p><h2>What we grade</h2><ul><li>Delivery</li><li>Quality</li><li>Collaboration</li></ul>",
+    },
+    {
+      title: "Design tokens at CVSpan",
+      slug: "design-tokens-at-cvspan",
+      categoryId: category.design,
+      tags: ["design systems", "figma"],
+      authorId: person.moses.id,
+      status: "draft",
+      readingMinutes: 5,
+      excerpt: "Two layers: raw palette, then semantic tokens that flip with the theme.",
+      body: "<p>Our colours live in two layers, and only one of them is allowed in a component.</p>",
+    },
+    {
+      title: "Meet the Autumn data cohort",
+      slug: "meet-the-autumn-data-cohort",
+      categoryId: category.programmes,
+      tags: ["programmes", "data"],
+      coverImageUrl: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=1200",
+      coverAlt: "Students at laptops in a bright room",
+      authorId: ngozi.id,
+      status: "published",
+      publishAt: daysAhead(-8),
+      readingMinutes: 2,
+      excerpt: "Twelve students joined us in September. Here is what they are working on.",
+      body: "<p>Twelve students joined the Autumn cohort, spread across analytics and engineering.</p>",
+    },
     ])
     .returning();
 

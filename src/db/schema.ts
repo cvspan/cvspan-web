@@ -286,13 +286,26 @@ export const messages = pgTable("messages", {
 
 /* ----------------------------------------------------------------- Website */
 
+export const categories = pgTable("categories", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  name: text("name").notNull(),
+  slug: text("slug").notNull().unique(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
 export const blogPosts = pgTable("blog_posts", {
   id: uuid("id").primaryKey().defaultRandom(),
   title: text("title").notNull(),
   slug: text("slug").notNull().unique(),
+  /** Derived from the body on save; never typed by hand. */
   excerpt: text("excerpt"),
+  /** Rich text, stored as HTML from the editor. */
   body: text("body"),
-  category: text("category"),
+  categoryId: uuid("category_id").references(() => categories.id, { onDelete: "set null" }),
+  tags: text("tags").array().default([]).notNull(),
+  coverImageUrl: text("cover_image_url"),
+  coverAlt: text("cover_alt"),
+  readingMinutes: integer("reading_minutes").default(1).notNull(),
   authorId: uuid("author_id").references(() => users.id, { onDelete: "set null" }),
   status: postStatusEnum("status").default("draft").notNull(),
   publishAt: timestamp("publish_at", { withTimezone: true }),

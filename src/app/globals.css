@@ -214,3 +214,96 @@ body {
   outline-offset: 1px;
   border-radius: 8px;
 }
+
+/* ------------------------------------------------------------------
+   Editor content. Mirrors how the post should read on the website, so
+   what someone writes here is what they get there.
+   ------------------------------------------------------------------ */
+
+.prose-cvspan {
+  color: var(--text-primary);
+  font-size: 18px;
+  line-height: 30px;
+}
+
+.prose-cvspan > * + * {
+  margin-top: 1em;
+}
+
+.prose-cvspan h2 {
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 600;
+  margin-top: 1.6em;
+}
+
+.prose-cvspan h3 {
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 600;
+  margin-top: 1.4em;
+}
+
+.prose-cvspan a {
+  color: var(--text-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.prose-cvspan ul,
+.prose-cvspan ol {
+  padding-left: 1.4em;
+}
+
+.prose-cvspan ul {
+  list-style: disc;
+}
+
+.prose-cvspan ol {
+  list-style: decimal;
+}
+
+.prose-cvspan li + li {
+  margin-top: 0.3em;
+}
+
+.prose-cvspan blockquote {
+  border-left: 3px solid var(--border-accent);
+  padding-left: 1em;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.prose-cvspan pre {
+  background: var(--surface-raised);
+  border-radius: 8px;
+  padding: 1em;
+  overflow-x: auto;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.prose-cvspan code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.9em;
+}
+
+.prose-cvspan img {
+  border-radius: 8px;
+  max-width: 100%;
+}
+
+.prose-cvspan hr {
+  border: 0;
+  border-top: 1px solid var(--border-default);
+  margin: 2em 0;
+}
+
+/* Tiptap's empty-document placeholder */
+.prose-cvspan p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: var(--text-muted);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}

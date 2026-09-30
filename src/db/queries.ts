@@ -7,6 +7,7 @@ import {
   assignments,
   attendance,
   blogPosts,
+  categories,
   certificates,
   departments,
   enrolments,
@@ -374,14 +375,36 @@ export async function getBlogPosts() {
     .select({
       id: blogPosts.id,
       title: blogPosts.title,
-      category: blogPosts.category,
+      slug: blogPosts.slug,
+      excerpt: blogPosts.excerpt,
+      coverImageUrl: blogPosts.coverImageUrl,
+      tags: blogPosts.tags,
+      readingMinutes: blogPosts.readingMinutes,
+      category: categories.name,
       status: blogPosts.status,
       updatedAt: blogPosts.updatedAt,
+      publishAt: blogPosts.publishAt,
       author: users.name,
     })
     .from(blogPosts)
     .leftJoin(users, eq(blogPosts.authorId, users.id))
+    .leftJoin(categories, eq(blogPosts.categoryId, categories.id))
     .orderBy(desc(blogPosts.updatedAt));
+}
+
+export async function getPostById(id: string) {
+  const [row] = await db.select().from(blogPosts).where(eq(blogPosts.id, id)).limit(1);
+  return row ?? null;
+}
+
+export async function getCategories() {
+  return db.select().from(categories).orderBy(asc(categories.name));
+}
+
+/** Every tag in use, for the editor's suggestions. */
+export async function getTags() {
+  const rows = await db.select({ tags: blogPosts.tags }).from(blogPosts);
+  return [...new Set(rows.flatMap((row) => row.tags))].sort();
 }
 
 export async function getJobListings() {

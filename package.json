@@ -7,13 +7,21 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "db:push": "drizzle-kit push",
+    "db:push": "node --env-file=.env.local ./node_modules/drizzle-kit/bin.cjs push",
     "db:seed": "tsx --env-file=.env.local src/db/seed.ts",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "node --env-file=.env.local ./node_modules/drizzle-kit/bin.cjs studio"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
     "@remixicon/react": "^4.9.0",
+    "@tiptap/extension-image": "^3.31.4",
+    "@tiptap/extension-link": "^3.31.4",
+    "@tiptap/extension-placeholder": "^3.31.4",
+    "@tiptap/extension-text-align": "^3.31.4",
+    "@tiptap/extension-underline": "^3.31.4",
+    "@tiptap/pm": "^3.31.4",
+    "@tiptap/react": "^3.31.4",
+    "@tiptap/starter-kit": "^3.31.4",
     "bcryptjs": "^3.0.3",
     "clsx": "^2.1.1",
     "drizzle-orm": "^0.45.3",

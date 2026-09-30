@@ -5,39 +5,8 @@ import { useRouter } from "next/navigation";
 import { RiAddLine } from "@remixicon/react";
 import { Button } from "@/components/ui/button";
 import { Dialog, Field, fieldClass } from "@/components/ui/dialog";
-import { createJobListing, createPost, publishPost, submitPostForReview } from "@/app/actions/website";
+import { createJobListing, publishPost, submitPostForReview } from "@/app/actions/website";
 import { employmentLabels, type EmploymentType } from "@/lib/format";
-
-export function NewPostButton() {
-  return (
-    <Dialog
-      trigger={
-        <Button>
-          <RiAddLine size={18} aria-hidden />
-          New post
-        </Button>
-      }
-      title="New blog post"
-      description="Saved as a draft. Send it for review when it is ready to publish."
-      submitLabel="Create draft"
-      action={createPost}
-    >
-      <Field label="Title">
-        <input name="title" required placeholder="Post title" className={fieldClass} />
-      </Field>
-      <Field label="Category">
-        <input name="category" placeholder="e.g. Culture" className={fieldClass} />
-      </Field>
-      <Field label="Excerpt" hint="Shown on the website listing.">
-        <textarea
-          name="excerpt"
-          rows={3}
-          className="border-line-input text-primary rounded-lg border bg-transparent px-3.5 py-2.5 text-para outline-none"
-        />
-      </Field>
-    </Dialog>
-  );
-}
 
 export function PostActions({
   postId,
