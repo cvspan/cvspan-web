@@ -17,7 +17,7 @@ export function Thead({ columns }: { columns: string[] }) {
             // Action columns have empty labels, so position is the only unique key.
             key={`${index}-${column}`}
             scope="col"
-            className="text-muted px-5 py-2.5 text-left text-tiny font-semibold tracking-wide whitespace-nowrap uppercase"
+            className="text-muted px-4 py-2.5 text-left text-tiny font-semibold tracking-wide whitespace-nowrap uppercase"
           >
             {column === "" ? <span className="sr-only">Actions</span> : column}
           </th>
@@ -53,5 +53,5 @@ export function Td({
   children: React.ReactNode;
   className?: string;
 }) {
-  return <td className={cn("text-secondary px-5 py-3 align-middle", className)}>{children}</td>;
+  return <td className={cn("text-secondary px-4 py-3 align-middle", className)}>{children}</td>;
 }

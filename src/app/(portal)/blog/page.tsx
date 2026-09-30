@@ -1,9 +1,10 @@
 import Link from "next/link";
-import { RiAddLine, RiExternalLinkLine, RiTimeLine } from "@remixicon/react";
+import { RiAddLine, RiExternalLinkLine, RiImageLine } from "@remixicon/react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
+import { Table, Td, Thead, Tr } from "@/components/ui/table";
 import { PostActions } from "@/components/forms/website-forms";
 import { getBlogPosts } from "@/db/queries";
 import { formatDay, initials, postStatusLabels, relativeDays } from "@/lib/format";
@@ -68,88 +69,78 @@ export default async function BlogPage() {
             No posts yet. Start the first one.
           </p>
         ) : (
-          <ul>
-            {posts.map((post) => (
-              <li
-                key={post.id}
-                className="border-line hover:bg-raised flex flex-col gap-4 border-b p-5 transition-colors last:border-b-0 sm:flex-row"
-              >
-                <Link href={`/blog/${post.id}`} className="shrink-0" aria-label={`Edit ${post.title}`}>
-                  {post.coverImageUrl ? (
-                    // eslint-disable-next-line @next/next/no-img-element -- arbitrary remote URLs, no image loader configured
-                    <img
-                      src={post.coverImageUrl}
-                      alt=""
-                      className="border-line h-24 w-full rounded-lg border object-cover sm:w-40"
-                    />
-                  ) : (
-                    <span className="border-line text-muted flex h-24 w-full items-center justify-center rounded-lg border border-dashed text-tiny sm:w-40">
-                      No cover
-                    </span>
-                  )}
-                </Link>
+          <Table>
+            <Thead
+              columns={["", "Post", "Category", "Author", "Read", "Updated", "Status", ""]}
+            />
+            <tbody>
+              {posts.map((post) => (
+                <Tr key={post.id}>
+                  <Td className="w-16 pr-0">
+                    <Link href={`/blog/${post.id}`} aria-label={`Edit ${post.title}`}>
+                      {post.coverImageUrl ? (
+                        // eslint-disable-next-line @next/next/no-img-element -- served from our own media route
+                        <img
+                          src={post.coverImageUrl}
+                          alt=""
+                          className="border-line h-10 w-14 rounded-md border object-cover"
+                        />
+                      ) : (
+                        <span className="border-line text-muted flex h-10 w-14 items-center justify-center rounded-md border border-dashed">
+                          <RiImageLine size={14} aria-hidden />
+                        </span>
+                      )}
+                    </Link>
+                  </Td>
 
-                <div className="min-w-0 flex-1">
-                  <p className="flex flex-wrap items-center gap-2">
+                  <Td className="max-w-72">
                     <Link
                       href={`/blog/${post.id}`}
-                      className="text-primary hover:text-accent text-para font-semibold"
+                      className="text-primary hover:text-accent block truncate font-semibold"
                     >
                       {post.title}
                     </Link>
-                    <Badge tone={statusTone(post.status)}>{postStatusLabels[post.status]}</Badge>
-                  </p>
+                    <span className="text-muted block truncate text-tiny">
+                      {post.tags.length > 0 ? post.tags.join(" · ") : (post.excerpt ?? "No content yet")}
+                    </span>
+                  </Td>
 
-                  {post.excerpt ? (
-                    <p className="text-secondary mt-1 line-clamp-2 text-body">{post.excerpt}</p>
-                  ) : (
-                    <p className="text-muted mt-1 text-body italic">No content yet</p>
-                  )}
+                  <Td className="whitespace-nowrap">{post.category ?? "—"}</Td>
 
-                  <p className="text-muted mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-tiny">
-                    <span className="flex items-center gap-1.5">
-                      <span className="bg-accent-soft text-accent flex size-5 items-center justify-center rounded-full text-[9px] font-semibold">
+                  <Td>
+                    <span className="flex items-center gap-2">
+                      <span className="bg-accent-soft text-accent flex size-7 shrink-0 items-center justify-center rounded-full text-tiny font-semibold">
                         {initials(post.author ?? "??")}
                       </span>
-                      {post.author ?? "Unknown"}
+                      <span className="hidden whitespace-nowrap 2xl:inline">
+                        {post.author ?? "Unknown"}
+                      </span>
                     </span>
-                    {post.category ? <span>{post.category}</span> : null}
-                    <span className="flex items-center gap-1">
-                      <RiTimeLine size={12} aria-hidden />
-                      {post.readingMinutes} min read
-                    </span>
-                    <span>
-                      {post.status === "scheduled" && post.publishAt
-                        ? `Scheduled for ${formatDay(post.publishAt)}`
-                        : `Updated ${relativeDays(post.updatedAt)}`}
-                    </span>
-                  </p>
+                  </Td>
 
-                  {post.tags.length > 0 ? (
-                    <p className="mt-2 flex flex-wrap gap-1.5">
-                      {post.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="border-line text-secondary rounded-md border px-2 py-0.5 text-tiny"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </p>
-                  ) : null}
-                </div>
+                  <Td className="whitespace-nowrap">{post.readingMinutes} min</Td>
 
-                <div className="flex shrink-0 items-start gap-2">
-                  <Link href={`/blog/${post.id}`}>
-                    <Button size="sm" variant="secondary" type="button">
-                      Edit
-                    </Button>
-                  </Link>
-                  <PostActions postId={post.id} status={post.status} canPublish={canPublish} />
-                </div>
-              </li>
-            ))}
-          </ul>
+                  <Td className="whitespace-nowrap">
+                    {post.status === "scheduled" && post.publishAt
+                      ? `Scheduled ${formatDay(post.publishAt)}`
+                      : relativeDays(post.updatedAt)}
+                  </Td>
+
+                  <Td>
+                    <Badge tone={statusTone(post.status)}>{postStatusLabels[post.status]}</Badge>
+                  </Td>
+
+                  {/* The title and thumbnail already open the editor, so this
+                      column carries only the action that changes state. */}
+                  <Td className="whitespace-nowrap">
+                    <span className="flex justify-end">
+                      <PostActions postId={post.id} status={post.status} canPublish={canPublish} />
+                    </span>
+                  </Td>
+                </Tr>
+              ))}
+            </tbody>
+          </Table>
         )}
       </Card>
     </>
