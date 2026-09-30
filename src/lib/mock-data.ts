@@ -124,3 +124,58 @@ export const activity = [
   { initials: "AO", message: "Ada Obi commented on your onboarding checklist", when: "Yesterday" },
   { initials: "SY", message: "Seyi approved your leave request for 10 Oct", when: "2 days ago" },
 ];
+
+/** Tabler-style dashboard extras. */
+export const sparkTaskCompletion = [4, 6, 5, 8, 7, 9, 6, 10, 8, 11, 9, 12];
+export const sparkAttendance = [88, 91, 90, 94, 92, 95, 96, 94, 97, 96, 98, 96];
+export const sparkMessages = [2, 5, 3, 6, 4, 7, 5, 8, 6, 4, 5, 3];
+export const barAssignments = [2, 3, 1, 4, 3, 5, 2, 4, 6, 3, 5, 4];
+
+export const miniStats: {
+  label: string;
+  value: string;
+  delta: string;
+  tone: Tone;
+  spark: number[];
+  kind: "line" | "bar";
+}[] = [
+  {
+    label: "Tasks completed",
+    value: "12",
+    delta: "+9%",
+    tone: "success",
+    spark: sparkTaskCompletion,
+    kind: "line",
+  },
+  {
+    label: "Attendance",
+    value: "96%",
+    delta: "+2%",
+    tone: "success",
+    spark: sparkAttendance,
+    kind: "line",
+  },
+  {
+    label: "Messages",
+    value: "3",
+    delta: "0%",
+    tone: "neutral",
+    spark: sparkMessages,
+    kind: "line",
+  },
+  {
+    label: "Assignments graded",
+    value: "4",
+    delta: "-1",
+    tone: "error",
+    spark: barAssignments,
+    kind: "bar",
+  },
+];
+
+export const tiles = [
+  { value: "18", caption: "12 this month", label: "Tasks done", tone: "accent" as Tone },
+  { value: "4.2", caption: "out of 5.0", label: "Average grade", tone: "success" as Tone },
+  { value: "2", caption: "1 in progress", label: "Certificates", tone: "warning" as Tone },
+  { value: "5", caption: "2 unread", label: "Announcements", tone: "neutral" as Tone },
+];

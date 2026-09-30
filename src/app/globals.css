@@ -88,6 +88,14 @@
   --status-error-border: var(--cv-error-2);
   --status-error-text: var(--cv-error-5);
 
+  /* Sidebar — brand-filled, like Tabler's coloured navbar */
+  --sidebar-bg: var(--cv-primary);
+  --sidebar-text: var(--cv-white);
+  --sidebar-muted: color-mix(in srgb, var(--cv-white) 65%, transparent);
+  --sidebar-active-bg: color-mix(in srgb, var(--cv-white) 16%, transparent);
+  --sidebar-hover-bg: color-mix(in srgb, var(--cv-white) 10%, transparent);
+  --sidebar-border: color-mix(in srgb, var(--cv-white) 14%, transparent);
+
   --radius-control: 8px;
 }
 
@@ -122,6 +130,13 @@
   --status-error-surface: #300a0a;
   --status-error-border: var(--cv-error-4);
   --status-error-text: var(--cv-error-2);
+
+  --sidebar-bg: var(--cv-black);
+  --sidebar-text: var(--cv-white);
+  --sidebar-muted: var(--cv-n3);
+  --sidebar-active-bg: color-mix(in srgb, var(--cv-primary) 30%, transparent);
+  --sidebar-hover-bg: color-mix(in srgb, var(--cv-white) 8%, transparent);
+  --sidebar-border: var(--cv-hairline);
 }
 
 /* ------------------------------------------------------------------
@@ -146,6 +161,13 @@
   --color-line-strong: var(--border-strong);
   --color-line-input: var(--border-input);
   --color-ring: var(--border-focus-ring);
+
+  --color-sidebar: var(--sidebar-bg);
+  --color-sidebar-text: var(--sidebar-text);
+  --color-sidebar-muted: var(--sidebar-muted);
+  --color-sidebar-active: var(--sidebar-active-bg);
+  --color-sidebar-hover: var(--sidebar-hover-bg);
+  --color-sidebar-line: var(--sidebar-border);
 
   --color-brand: var(--accent-primary);
   --color-brand-hover: var(--accent-primary-hover);
