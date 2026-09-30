@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import {
+  RiAddLine,
   RiBriefcaseLine,
   RiCloseLine,
   RiMapPinLine,
@@ -46,6 +47,8 @@ export type JobDraft = {
   applyMethod: keyof typeof applyMethodLabels;
   applyValue: string | null;
   closingDate: string | null;
+  experience: string | null;
+  language: string | null;
   stage: string;
 };
 
@@ -96,6 +99,7 @@ export function JobEditor({
   skillSuggestions: string[];
 }) {
   const [applyMethod, setApplyMethod] = useState(job.applyMethod);
+  const [newDepartment, setNewDepartment] = useState(false);
   const [showSalary, setShowSalary] = useState(job.salaryPublic);
 
   return (
@@ -159,20 +163,46 @@ export function JobEditor({
         <aside className="flex flex-col gap-4 lg:sticky lg:top-24 lg:self-start">
           <Panel title="Role" icon={RiBriefcaseLine}>
             <div className="flex flex-col gap-3">
-              <Field label="Department">
-                <select
-                  name="departmentId"
-                  defaultValue={job.departmentId ?? ""}
-                  className={cn(inputClass, "cursor-pointer")}
-                >
-                  <option value="">No department</option>
-                  {departments.map((department) => (
-                    <option key={department.id} value={department.id}>
-                      {department.name}
-                    </option>
-                  ))}
-                </select>
-              </Field>
+              {newDepartment ? (
+                <Field label="New department">
+                  <input
+                    name="newDepartment"
+                    autoFocus
+                    placeholder="e.g. Business Development"
+                    className={inputClass}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setNewDepartment(false)}
+                    className="text-muted hover:text-primary cursor-pointer self-start text-tiny"
+                  >
+                    Choose an existing one instead
+                  </button>
+                </Field>
+              ) : (
+                <Field label="Department">
+                  <select
+                    name="departmentId"
+                    defaultValue={job.departmentId ?? ""}
+                    className={cn(inputClass, "cursor-pointer")}
+                  >
+                    <option value="">No department</option>
+                    {departments.map((department) => (
+                      <option key={department.id} value={department.id}>
+                        {department.name}
+                      </option>
+                    ))}
+                  </select>
+                  <button
+                    type="button"
+                    onClick={() => setNewDepartment(true)}
+                    className="text-accent flex cursor-pointer items-center gap-1 self-start text-tiny font-semibold"
+                  >
+                    <RiAddLine size={12} aria-hidden />
+                    New department
+                  </button>
+                </Field>
+              )}
 
               <div className="grid grid-cols-2 gap-3">
                 <Field label="Employment type">
@@ -237,6 +267,25 @@ export function JobEditor({
                   className={inputClass}
                 />
               </Field>
+              <div className="grid grid-cols-2 gap-3">
+                <Field label="Experience">
+                  <input
+                    name="experience"
+                    defaultValue={job.experience ?? ""}
+                    placeholder="1–2 years"
+                    className={inputClass}
+                  />
+                </Field>
+                <Field label="Language">
+                  <input
+                    name="language"
+                    defaultValue={job.language ?? "English"}
+                    placeholder="English"
+                    className={inputClass}
+                  />
+                </Field>
+              </div>
+
               <Field label="Work mode">
                 <select
                   name="workMode"

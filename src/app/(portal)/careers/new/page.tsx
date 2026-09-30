@@ -38,6 +38,8 @@ export default async function NewJobPage() {
         applyMethod: "portal",
         applyValue: null,
         closingDate: null,
+        experience: null,
+        language: "English",
         stage: "draft",
       }}
       departments={departments}

@@ -64,11 +64,13 @@ async function main() {
   const departmentRows = await db
     .insert(schema.departments)
     .values([
+      /** Same set the website careers page filters by. */
       { name: "Design", slug: "design" },
-      { name: "Engineering", slug: "engineering" },
+      { name: "Development", slug: "development" },
       { name: "Marketing", slug: "marketing" },
-      { name: "Programmes", slug: "programmes" },
-      { name: "Operations", slug: "operations" },
+      { name: "Business Development", slug: "business-development" },
+      { name: "Project", slug: "project" },
+      { name: "Management", slug: "management" },
     ])
     .returning();
 
@@ -78,10 +80,10 @@ async function main() {
     .insert(schema.teams)
     .values([
       { name: "Product Design", departmentId: dept.design },
-      { name: "Platform", departmentId: dept.engineering },
+      { name: "Platform", departmentId: dept.development },
       { name: "Growth", departmentId: dept.marketing },
-      { name: "Cohorts", departmentId: dept.programmes },
-      { name: "People Ops", departmentId: dept.operations },
+      { name: "Cohorts", departmentId: dept.project },
+      { name: "People Ops", departmentId: dept.management },
     ])
     .returning();
 
@@ -101,7 +103,7 @@ async function main() {
         employmentType: "full_time",
         status: "active",
         jobTitle: "Chief Operating Officer",
-        departmentId: dept.operations,
+        departmentId: dept.management,
         teamId: team["People Ops"],
         startDate: "2023-01-09",
       })
@@ -111,9 +113,9 @@ async function main() {
   const staff = await db
     .insert(schema.users)
     .values([
-      { email: "kemi@cvspan.com", passwordHash, name: "Kemi Lawal", role: "admin", employmentType: "full_time", status: "active", jobTitle: "HR Manager", departmentId: dept.operations, teamId: team["People Ops"], managerId: seyi.id, startDate: "2024-06-03" },
+      { email: "kemi@cvspan.com", passwordHash, name: "Kemi Lawal", role: "admin", employmentType: "full_time", status: "active", jobTitle: "HR Manager", departmentId: dept.management, teamId: team["People Ops"], managerId: seyi.id, startDate: "2024-06-03" },
       { email: "ada@cvspan.com", passwordHash, name: "Ada Obi", role: "manager", employmentType: "full_time", status: "active", jobTitle: "Design Lead", departmentId: dept.design, teamId: team["Product Design"], managerId: seyi.id, startDate: "2024-03-11" },
-      { email: "tunde@cvspan.com", passwordHash, name: "Tunde Ke", role: "manager", employmentType: "full_time", status: "active", jobTitle: "Engineering Lead", departmentId: dept.engineering, teamId: team.Platform, managerId: seyi.id, startDate: "2023-08-21" },
+      { email: "tunde@cvspan.com", passwordHash, name: "Tunde Ke", role: "manager", employmentType: "full_time", status: "active", jobTitle: "Engineering Lead", departmentId: dept.development, teamId: team.Platform, managerId: seyi.id, startDate: "2023-08-21" },
       { email: "ngozi@cvspan.com", passwordHash, name: "Ngozi Uche", role: "manager", employmentType: "full_time", status: "active", jobTitle: "Marketing Lead", departmentId: dept.marketing, teamId: team.Growth, managerId: seyi.id, startDate: "2024-11-04" },
     ])
     .returning();
@@ -127,11 +129,11 @@ async function main() {
     .insert(schema.users)
     .values([
       { email: "moses@cvspan.com", passwordHash, name: "Moses Arfo", role: "member", employmentType: "full_time", status: "active", jobTitle: "Product Designer", departmentId: dept.design, teamId: team["Product Design"], managerId: ada.id, startDate: "2025-01-13" },
-      { email: "chioma@cvspan.com", passwordHash, name: "Chioma Eze", role: "member", employmentType: "internship", status: "active", jobTitle: "Frontend Intern", departmentId: dept.engineering, teamId: team.Platform, managerId: tunde.id, startDate: "2026-07-06", endDate: "2026-12-12" },
+      { email: "chioma@cvspan.com", passwordHash, name: "Chioma Eze", role: "member", employmentType: "internship", status: "active", jobTitle: "Frontend Intern", departmentId: dept.development, teamId: team.Platform, managerId: tunde.id, startDate: "2026-07-06", endDate: "2026-12-12" },
       { email: "bello@cvspan.com", passwordHash, name: "Bello Ibrahim", role: "member", employmentType: "part_time", status: "active", jobTitle: "Content Writer", departmentId: dept.marketing, teamId: team.Growth, managerId: ngozi.id, startDate: "2026-02-02" },
-      { email: "femi@cvspan.com", passwordHash, name: "Femi Adeyemi", role: "member", employmentType: "volunteer", status: "active", jobTitle: "Community Volunteer", departmentId: dept.programmes, teamId: team.Cohorts, managerId: ngozi.id, startDate: "2026-05-18" },
-      { email: "grace@cvspan.com", passwordHash, name: "Grace Peters", role: "member", employmentType: "student", status: "active", jobTitle: "Data Student", departmentId: dept.programmes, teamId: team.Cohorts, managerId: tunde.id, startDate: "2026-09-01" },
-      { email: "daniel@cvspan.com", passwordHash, name: "Daniel Okoro", role: "member", employmentType: "internship", status: "invited", jobTitle: "Backend Intern", departmentId: dept.engineering, teamId: team.Platform, managerId: tunde.id, startDate: "2026-10-05" },
+      { email: "femi@cvspan.com", passwordHash, name: "Femi Adeyemi", role: "member", employmentType: "volunteer", status: "active", jobTitle: "Community Volunteer", departmentId: dept.project, teamId: team.Cohorts, managerId: ngozi.id, startDate: "2026-05-18" },
+      { email: "grace@cvspan.com", passwordHash, name: "Grace Peters", role: "member", employmentType: "student", status: "active", jobTitle: "Data Student", departmentId: dept.project, teamId: team.Cohorts, managerId: tunde.id, startDate: "2026-09-01" },
+      { email: "daniel@cvspan.com", passwordHash, name: "Daniel Okoro", role: "member", employmentType: "internship", status: "invited", jobTitle: "Backend Intern", departmentId: dept.development, teamId: team.Platform, managerId: tunde.id, startDate: "2026-10-05" },
       { email: "amaka@cvspan.com", passwordHash, name: "Amaka Nwosu", role: "member", employmentType: "internship", status: "alumni", jobTitle: "Design Intern", departmentId: dept.design, teamId: team["Product Design"], managerId: ada.id, startDate: "2026-02-10", endDate: "2026-08-28" },
     ])
     .returning();
@@ -360,7 +362,7 @@ async function main() {
       {
         title: "Senior Frontend Engineer",
         slug: "senior-frontend-engineer",
-        departmentId: dept.engineering,
+        departmentId: dept.development,
         employmentType: "full_time",
         seniority: "senior",
         summary: "Own the interface layer of the CVSpan portal and website.",
@@ -368,6 +370,8 @@ async function main() {
           "<h2>About the role</h2><p>You will own the front end of the portal our whole team uses every day.</p><h2>What you'll do</h2><ul><li>Build product surfaces in Next.js and TypeScript</li><li>Keep the design system honest</li></ul><h2>What we're looking for</h2><ul><li>Five years building production React</li><li>Care about accessibility</li></ul>",
         location: "Lagos, Nigeria",
         workMode: "hybrid",
+        experience: "5+ years",
+        language: "English",
         openings: 1,
         skills: ["React", "TypeScript", "Next.js", "CSS"],
         salaryMin: 650000,
@@ -392,6 +396,8 @@ async function main() {
           "<h2>About the role</h2><p>You will shape how the portal feels to use.</p><h2>What you'll do</h2><ul><li>Take problems from research through to shipped design</li><li>Extend the CVSpan design system</li></ul>",
         location: "Lagos, Nigeria",
         workMode: "hybrid",
+        experience: "3–5 years",
+        language: "English",
         openings: 1,
         skills: ["Figma", "Design systems", "Prototyping"],
         salaryMin: 450000,
@@ -414,8 +420,10 @@ async function main() {
         summary: "Six months learning content and community work with our marketing team.",
         description:
           "<h2>About the role</h2><p>A six month internship with real ownership from week one.</p>",
-        location: "Remote",
+        location: "Remote Worldwide",
         workMode: "remote",
+        experience: "1–2 years",
+        language: "English",
         openings: 2,
         skills: ["Writing", "Social media"],
         salaryMin: 150000,
@@ -432,13 +440,15 @@ async function main() {
       {
         title: "Community Volunteer",
         slug: "community-volunteer",
-        departmentId: dept.programmes,
+        departmentId: dept.project,
         employmentType: "volunteer",
         seniority: "junior",
         summary: "Help run cohort events and keep our community active.",
         description: "<h2>About the role</h2><p>A few hours a week supporting our programmes.</p>",
         location: "Lagos, Nigeria",
         workMode: "on_site",
+        experience: "No experience needed",
+        language: "English",
         openings: 3,
         skills: ["Events", "Community"],
         salaryCurrency: "NGN",

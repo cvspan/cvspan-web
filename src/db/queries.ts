@@ -416,6 +416,8 @@ export async function getJobListings() {
       seniority: jobListings.seniority,
       location: jobListings.location,
       workMode: jobListings.workMode,
+      experience: jobListings.experience,
+      language: jobListings.language,
       openings: jobListings.openings,
       salaryMin: jobListings.salaryMin,
       salaryMax: jobListings.salaryMax,

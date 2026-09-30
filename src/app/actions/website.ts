@@ -4,7 +4,7 @@ import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { db } from "@/db";
-import { approvals, blogPosts, categories, jobListings } from "@/db/schema";
+import { approvals, blogPosts, categories, departments, jobListings } from "@/db/schema";
 import type { EmploymentType } from "@/lib/format";
 import { logActivity, requireRole } from "./guards";
 import { requireUser } from "@/lib/session";
@@ -192,7 +192,21 @@ export async function saveJob(formData: FormData) {
   const intent = String(formData.get("intent") ?? "draft");
   if (!title) return;
 
-  const departmentId = String(formData.get("departmentId") ?? "") || null;
+  /** A department can be created while writing the listing, like blog categories. */
+  const newDepartment = String(formData.get("newDepartment") ?? "").trim();
+  let departmentId = String(formData.get("departmentId") ?? "") || null;
+
+  if (newDepartment) {
+    const slug = slugify(newDepartment);
+    const [existing] = await db
+      .select()
+      .from(departments)
+      .where(eq(departments.slug, slug))
+      .limit(1);
+    departmentId =
+      existing?.id ??
+      (await db.insert(departments).values({ name: newDepartment, slug }).returning())[0].id;
+  }
   const number = (key: string) => {
     const raw = String(formData.get(key) ?? "").replace(/[^0-9]/g, "");
     return raw ? Number(raw) : null;
@@ -211,6 +225,8 @@ export async function saveJob(formData: FormData) {
       | "senior"
       | "lead",
     location: String(formData.get("location") ?? "").trim() || null,
+    experience: String(formData.get("experience") ?? "").trim() || null,
+    language: String(formData.get("language") ?? "").trim() || "English",
     workMode: String(formData.get("workMode") ?? "on_site") as "on_site" | "hybrid" | "remote",
     openings: Math.max(1, number("openings") ?? 1),
     skills: String(formData.get("skills") ?? "")

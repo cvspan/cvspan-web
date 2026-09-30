@@ -1,12 +1,15 @@
 import { cn } from "@/lib/utils";
 
-type Variant = "primary" | "secondary" | "ghost";
+type Variant = "primary" | "secondary" | "ghost" | "destructive";
 type Size = "sm" | "md";
 
 const variants: Record<Variant, string> = {
   primary: "bg-brand text-on-accent hover:bg-brand-hover border-transparent",
   secondary: "bg-card text-primary border-line hover:bg-raised",
   ghost: "bg-transparent text-secondary border-transparent hover:bg-raised hover:text-primary",
+  /** Matches the Destructive variant in the CVSpan design system. */
+  destructive:
+    "bg-error-surface text-error-text border-error-border hover:bg-error-border hover:text-on-accent",
 };
 
 const sizes: Record<Size, string> = {

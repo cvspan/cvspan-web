@@ -356,6 +356,9 @@ export const jobListings = pgTable("job_listings", {
   summary: text("summary"),
   location: text("location"),
   workMode: workModeEnum("work_mode").default("on_site").notNull(),
+  /** Shown on the website meta line, e.g. "1–2 years" and "English". */
+  experience: text("experience"),
+  language: text("language").default("English"),
   openings: integer("openings").default(1).notNull(),
   skills: text("skills").array().default([]).notNull(),
 

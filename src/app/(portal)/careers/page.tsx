@@ -159,15 +159,17 @@ export default async function CareersPage() {
                           <span className="text-muted font-normal"> · {job.openings} openings</span>
                         ) : null}
                       </Link>
-                      <span className="text-muted flex items-center gap-1 truncate text-tiny">
-                        {job.department ?? "No department"}
-                        {job.location ? (
-                          <>
-                            <RiMapPinLine size={11} aria-hidden />
-                            {job.location}
-                          </>
-                        ) : null}
-                        · {workModeLabels[job.workMode]}
+                      {/* Same meta line the website shows under each role. */}
+                      <span className="text-muted flex items-center gap-1.5 truncate text-tiny">
+                        <span className="text-accent font-semibold">
+                          {job.department ?? "No department"}
+                        </span>
+                        {job.language ? <span>· {job.language}</span> : null}
+                        {job.experience ? <span>· {job.experience}</span> : null}
+                        <span className="flex items-center gap-1">
+                          · <RiMapPinLine size={11} aria-hidden />
+                          {job.location ?? workModeLabels[job.workMode]}
+                        </span>
                       </span>
                     </Td>
 

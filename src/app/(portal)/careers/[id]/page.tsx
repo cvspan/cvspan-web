@@ -41,6 +41,8 @@ export default async function EditJobPage({ params }: { params: Promise<{ id: st
         applyMethod: job.applyMethod,
         applyValue: job.applyValue,
         closingDate: job.closingDate,
+        experience: job.experience,
+        language: job.language,
         stage: job.stage,
       }}
       departments={departments}
