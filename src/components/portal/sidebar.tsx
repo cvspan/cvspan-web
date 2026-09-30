@@ -2,43 +2,15 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  RiAwardLine,
-  RiChat3Line,
-  RiDashboardLine,
-  RiLineChartLine,
-  RiSettings3Line,
-  RiTaskLine,
-  RiTimeLine,
-  type RemixiconComponentType,
-} from "@remixicon/react";
 import { cn } from "@/lib/utils";
 import { currentUser } from "@/lib/mock-data";
-
-type NavLink = { href: string; label: string; icon: RemixiconComponentType };
-
-const sections: { title: string; links: NavLink[] }[] = [
-  {
-    title: "Overview",
-    links: [
-      { href: "/", label: "Dashboard", icon: RiDashboardLine },
-      { href: "/tasks", label: "My tasks", icon: RiTaskLine },
-      { href: "/kpis", label: "My KPIs", icon: RiLineChartLine },
-    ],
-  },
-  {
-    title: "Workplace",
-    links: [
-      { href: "/attendance", label: "Attendance", icon: RiTimeLine },
-      { href: "/messages", label: "Messages", icon: RiChat3Line },
-      { href: "/programmes", label: "Programmes", icon: RiAwardLine },
-    ],
-  },
-];
+import { navFor, settingsLink, type NavLink } from "@/lib/nav";
+import { roleLabels } from "@/lib/roles";
+import { useRole } from "./role-context";
 
 function NavItem({ href, label, icon: Icon }: NavLink) {
   const pathname = usePathname();
-  const active = pathname === href;
+  const active = href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
     <Link
@@ -57,9 +29,39 @@ function NavItem({ href, label, icon: Icon }: NavLink) {
   );
 }
 
-export function Sidebar() {
+export function Sidebar({
+  open = false,
+  onClose,
+}: {
+  open?: boolean;
+  onClose?: () => void;
+}) {
+  const { role } = useRole();
+  const sections = navFor(role);
+
   return (
-    <aside className="bg-sidebar border-sidebar-line sticky top-0 hidden h-dvh w-65 shrink-0 flex-col border-r py-4 lg:flex">
+    <>
+      {/* Scrim behind the mobile drawer */}
+      {open ? (
+        <button
+          type="button"
+          aria-label="Close navigation"
+          onClick={onClose}
+          className="fixed inset-0 z-20 cursor-default bg-black/40 lg:hidden"
+        />
+      ) : null}
+
+      <aside
+        className={cn(
+          "bg-sidebar border-sidebar-line z-30 h-dvh w-65 shrink-0 flex-col overflow-y-auto border-r py-4",
+          "fixed inset-y-0 left-0 transition-transform lg:sticky lg:top-0 lg:flex lg:translate-x-0",
+          open ? "flex translate-x-0" : "hidden -translate-x-full",
+        )}
+        onClick={(event) => {
+          // Any navigation inside the drawer closes it on small screens.
+          if (onClose && (event.target as HTMLElement).closest("a")) onClose();
+        }}
+      >
       <Link href="/" className="mx-2 flex items-center gap-2.5 rounded-lg px-3 py-2">
         <span className="text-brand flex size-9 items-center justify-center rounded-lg bg-white text-caption font-bold">
           CV
@@ -80,12 +82,12 @@ export function Sidebar() {
         ))}
       </nav>
 
-      <div className="flex-1" />
+      <div className="min-h-6 flex-1" />
 
-      <NavItem href="/settings" label="Settings" icon={RiSettings3Line} />
+      <NavItem {...settingsLink} />
 
       <div className="border-sidebar-line mx-2 mt-3 flex items-center gap-2.5 border-t px-3 pt-3">
-        <span className="bg-sidebar-active text-sidebar-text flex size-9 items-center justify-center rounded-full text-caption font-semibold">
+        <span className="bg-sidebar-active text-sidebar-text flex size-9 shrink-0 items-center justify-center rounded-full text-caption font-semibold">
           {currentUser.initials}
         </span>
         <span className="min-w-0">
@@ -93,10 +95,11 @@ export function Sidebar() {
             {currentUser.name}
           </span>
           <span className="text-sidebar-muted block truncate text-tiny">
-            {currentUser.role} · {currentUser.employmentType}
+            {roleLabels[role]} · {currentUser.employmentType}
           </span>
         </span>
-      </div>
-    </aside>
+        </div>
+      </aside>
+    </>
   );
 }

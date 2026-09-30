@@ -1,0 +1,121 @@
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardHeader } from "@/components/ui/card";
+import { PageHeader } from "@/components/ui/page-header";
+import { currentUser } from "@/lib/mock-data";
+
+const notificationRows = [
+  { label: "Task assigned to me", email: true, inApp: true },
+  { label: "Deadline approaching", email: true, inApp: true },
+  { label: "KPI graded", email: true, inApp: true },
+  { label: "Leave approved or declined", email: true, inApp: true },
+  { label: "Certificate issued", email: true, inApp: false },
+  { label: "Weekly digest", email: false, inApp: false },
+];
+
+export default function SettingsPage() {
+  return (
+    <>
+      <PageHeader
+        pretitle="Account"
+        title="Settings"
+        actions={<Button>Save changes</Button>}
+      />
+
+      <section className="grid gap-4 xl:grid-cols-3">
+        <Card className="xl:col-span-2">
+          <CardHeader title="Profile" />
+          <div className="grid gap-4 p-5 sm:grid-cols-2">
+            <label className="flex flex-col gap-1.5">
+              <span className="text-primary text-body font-semibold">Full name</span>
+              <input
+                defaultValue={currentUser.name}
+                className="border-line-input text-primary h-11 rounded-lg border bg-transparent px-3.5 text-para outline-none"
+              />
+            </label>
+            <label className="flex flex-col gap-1.5">
+              <span className="text-primary text-body font-semibold">Job title</span>
+              <input
+                defaultValue={currentUser.role}
+                className="border-line-input text-primary h-11 rounded-lg border bg-transparent px-3.5 text-para outline-none"
+              />
+            </label>
+            <label className="flex flex-col gap-1.5">
+              <span className="text-primary text-body font-semibold">Work email</span>
+              <input
+                defaultValue="moses@cvspan.com"
+                className="border-line-input text-primary h-11 rounded-lg border bg-transparent px-3.5 text-para outline-none"
+              />
+            </label>
+            <label className="flex flex-col gap-1.5">
+              <span className="text-primary text-body font-semibold">Team</span>
+              <input
+                defaultValue={currentUser.team}
+                className="border-line-input text-primary h-11 rounded-lg border bg-transparent px-3.5 text-para outline-none"
+              />
+            </label>
+          </div>
+        </Card>
+
+        <Card>
+          <CardHeader title="Employment" />
+          <ul className="p-5">
+            <li className="border-line flex items-center justify-between gap-3 border-b py-2.5">
+              <span className="text-secondary text-body">Type</span>
+              <Badge>{currentUser.employmentType}</Badge>
+            </li>
+            <li className="border-line flex items-center justify-between gap-3 border-b py-2.5">
+              <span className="text-secondary text-body">Manager</span>
+              <span className="text-primary text-body font-semibold">Ada Obi</span>
+            </li>
+            <li className="border-line flex items-center justify-between gap-3 border-b py-2.5">
+              <span className="text-secondary text-body">Started</span>
+              <span className="text-primary text-body font-semibold">Jan 2025</span>
+            </li>
+            <li className="flex items-center justify-between gap-3 py-2.5">
+              <span className="text-secondary text-body">Status</span>
+              <Badge tone="success">Active</Badge>
+            </li>
+          </ul>
+        </Card>
+      </section>
+
+      <Card>
+        <CardHeader
+          title="Notifications"
+          action={<Badge tone="accent">Email alerts on</Badge>}
+        />
+        <ul className="p-5">
+          {notificationRows.map((row) => (
+            <li
+              key={row.label}
+              className="border-line flex items-center justify-between gap-4 border-b py-3 last:border-b-0"
+            >
+              <span className="text-secondary text-body">{row.label}</span>
+              <span className="flex items-center gap-6">
+                <label className="text-muted flex cursor-pointer items-center gap-2 text-caption">
+                  <input
+                    type="checkbox"
+                    defaultChecked={row.email}
+                    className="accent-brand size-4 cursor-pointer"
+                    aria-label={`Email me when: ${row.label}`}
+                  />
+                  Email
+                </label>
+                <label className="text-muted flex cursor-pointer items-center gap-2 text-caption">
+                  <input
+                    type="checkbox"
+                    defaultChecked={row.inApp}
+                    className="accent-brand size-4 cursor-pointer"
+                    aria-label={`Notify me in the portal when: ${row.label}`}
+                  />
+                  In portal
+                </label>
+              </span>
+            </li>
+          ))}
+        </ul>
+      </Card>
+    </>
+  );
+}
