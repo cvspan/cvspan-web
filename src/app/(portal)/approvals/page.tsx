@@ -1,6 +1,6 @@
-import { RiCheckLine, RiCloseLine } from "@remixicon/react";
+
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { ApprovalButtons } from "@/components/forms/approval-buttons";
 import { Card, CardHeader } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
 import { getApprovalsFor, getOpenApprovals, getPendingLeave } from "@/db/queries";
@@ -23,7 +23,6 @@ export default async function ApprovalsPage() {
       <PageHeader
         pretitle="Manage"
         title="Approvals"
-        actions={<Button variant="secondary">Approve all leave</Button>}
       />
 
       <p className="text-secondary -mt-1 max-w-200 text-body">
@@ -56,16 +55,10 @@ export default async function ApprovalsPage() {
                     {item.detail} · {relativeDays(item.createdAt)}
                   </span>
                 </span>
-                <span className="flex gap-2">
-                  <Button size="sm" variant="secondary">
-                    <RiCloseLine size={16} aria-hidden />
-                    Decline
-                  </Button>
-                  <Button size="sm">
-                    <RiCheckLine size={16} aria-hidden />
-                    Approve
-                  </Button>
-                </span>
+                <ApprovalButtons
+                  approvalId={item.id}
+                  label={`${item.kind.replace("_", " ")} from ${item.requestedBy}`}
+                />
               </li>
             ))}
           </ul>

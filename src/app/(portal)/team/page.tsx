@@ -1,16 +1,15 @@
-import { RiAddLine, RiMailLine } from "@remixicon/react";
+import Link from "next/link";
+import { RiMailLine } from "@remixicon/react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader } from "@/components/ui/card";
 import { Progress } from "@/components/ui/chart";
 import { PageHeader } from "@/components/ui/page-header";
 import { Table, Td, Thead, Tr } from "@/components/ui/table";
-import {
-  getAttendanceRate,
-  getDirectReports,
-  getLatestKpi,
-  getTasksForTeam,
-} from "@/db/queries";
+import { GradeButton } from "@/components/forms/grade-dialog";
+import { NewTaskButton } from "@/components/forms/task-forms";
+import { messageMyTeam } from "@/app/actions/messages";
+import { getAttendanceRate, getDirectReports, getLatestKpi, getTasksForTeam } from "@/db/queries";
 import { employmentLabels, initials } from "@/lib/format";
 import { requireUser } from "@/lib/session";
 import { statusTone } from "@/lib/tone";
@@ -33,6 +32,8 @@ export default async function TeamPage() {
     })),
   );
 
+  const assignable = [{ id: user.id, name: `${user.name} (me)` }, ...reports];
+
   return (
     <>
       <PageHeader
@@ -40,14 +41,17 @@ export default async function TeamPage() {
         title="My team"
         actions={
           <>
-            <Button variant="secondary">
-              <RiMailLine size={18} aria-hidden />
-              Message team
-            </Button>
-            <Button>
-              <RiAddLine size={18} aria-hidden />
-              Assign task
-            </Button>
+            <form action={messageMyTeam}>
+              <Button type="submit" variant="secondary">
+                <RiMailLine size={18} aria-hidden />
+                Message team
+              </Button>
+            </form>
+            <NewTaskButton
+              people={assignable}
+              defaultAssigneeId={reports[0]?.id ?? user.id}
+              label="Assign task"
+            />
           </>
         }
       />
@@ -63,15 +67,7 @@ export default async function TeamPage() {
           <CardHeader title="Members" action={<Badge>{rows.length} people</Badge>} />
           <Table>
             <Thead
-              columns={[
-                "Member",
-                "Type",
-                "KPI score",
-                "Attendance",
-                "Open tasks",
-                "Status",
-                "",
-              ]}
+              columns={["Member", "Type", "KPI score", "Attendance", "Open tasks", "Status", ""]}
             />
             <tbody>
               {rows.map((member) => (
@@ -117,10 +113,16 @@ export default async function TeamPage() {
                   </Td>
                   <Td className="whitespace-nowrap">
                     <span className="flex gap-2">
-                      <Button size="sm" variant="secondary">
-                        Profile
-                      </Button>
-                      <Button size="sm">{member.kpi > 0 ? "Regrade" : "Grade"}</Button>
+                      <Link href={`/people/${member.id}`}>
+                        <Button size="sm" variant="secondary">
+                          Profile
+                        </Button>
+                      </Link>
+                      <GradeButton
+                        userId={member.id}
+                        name={member.name}
+                        currentScore={member.kpi}
+                      />
                     </span>
                   </Td>
                 </Tr>

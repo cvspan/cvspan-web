@@ -285,12 +285,17 @@ async function main() {
   ]);
 
   console.log("Website…");
-  await db.insert(schema.blogPosts).values([
+  const posts = await db
+    .insert(schema.blogPosts)
+    .values([
     { title: "Inside our internship programme", slug: "inside-our-internship-programme", category: "Culture", authorId: person.bello.id, status: "in_review", excerpt: "What six months at CVSpan actually looks like." },
     { title: "How we run weekly KPI check-ins", slug: "weekly-kpi-check-ins", category: "Ways of working", authorId: ada.id, status: "scheduled", publishAt: daysAhead(4) },
     { title: "Design tokens at CVSpan", slug: "design-tokens-at-cvspan", category: "Design", authorId: person.moses.id, status: "draft" },
     { title: "Meet the Autumn data cohort", slug: "meet-the-autumn-data-cohort", category: "Programmes", authorId: ngozi.id, status: "published", publishAt: daysAhead(-8) },
-  ]);
+    ])
+    .returning();
+
+  const postInReview = posts.find((post) => post.status === "in_review");
 
   const jobs = await db
     .insert(schema.jobListings)
@@ -318,7 +323,7 @@ async function main() {
     { kind: "leave", subjectId: leaveRows[1].id, requestedById: person.chioma.id, assignedToId: tunde.id, detail: "Study leave, 2 days" },
     { kind: "leave", subjectId: leaveRows[3].id, requestedById: person.femi.id, assignedToId: ngozi.id, detail: "Unpaid leave, 5 days" },
     { kind: "timesheet", requestedById: person.bello.id, assignedToId: ngozi.id, detail: "Week 39, 18 hours" },
-    { kind: "blog_post", requestedById: person.bello.id, assignedToId: person.kemi.id, detail: "“Inside our internship programme”" },
+    { kind: "blog_post", subjectId: postInReview?.id, requestedById: person.bello.id, assignedToId: person.kemi.id, detail: `“${postInReview?.title}”` },
   ]);
 
   await db.insert(schema.notifications).values([

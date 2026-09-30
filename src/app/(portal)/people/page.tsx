@@ -1,9 +1,11 @@
-import { RiAddLine, RiDownloadLine, RiSearchLine } from "@remixicon/react";
+import Link from "next/link";
+import { RiDownloadLine, RiSearchLine } from "@remixicon/react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
 import { Table, Td, Thead, Tr } from "@/components/ui/table";
+import { InviteMemberButton } from "@/components/forms/people-forms";
 import { getDepartmentSummary, getHeadcountByType, getPeople } from "@/db/queries";
 import { employmentLabels, initials } from "@/lib/format";
 import { roleLabels } from "@/lib/roles";
@@ -27,14 +29,18 @@ export default async function PeoplePage() {
         title="People"
         actions={
           <>
-            <Button variant="secondary">
-              <RiDownloadLine size={18} aria-hidden />
-              Export
-            </Button>
-            <Button>
-              <RiAddLine size={18} aria-hidden />
-              Invite member
-            </Button>
+            <a href="/api/export/people" download>
+              <Button variant="secondary" type="button">
+                <RiDownloadLine size={18} aria-hidden />
+                Export CSV
+              </Button>
+            </a>
+            <InviteMemberButton
+              departments={departments.map((department) => department.name)}
+              managers={people
+                .filter((person) => person.role !== "member")
+                .map((person) => ({ id: person.id, name: person.name }))}
+            />
           </>
         }
       />
@@ -135,9 +141,12 @@ export default async function PeoplePage() {
                       {initials(person.name)}
                     </span>
                     <span className="min-w-0">
-                      <span className="text-primary block truncate font-semibold">
+                      <Link
+                        href={`/people/${person.id}`}
+                        className="text-primary hover:text-accent block truncate font-semibold"
+                      >
                         {person.name}
-                      </span>
+                      </Link>
                       <span className="text-muted block truncate text-tiny">{person.email}</span>
                     </span>
                   </span>

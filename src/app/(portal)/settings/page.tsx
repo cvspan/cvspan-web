@@ -2,8 +2,10 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
+import { updateProfile } from "@/app/actions/profile";
 import { requireUser } from "@/lib/session";
 import { getUserById } from "@/db/queries";
+import { roleLabels } from "@/lib/roles";
 
 const notificationRows = [
   { label: "Task assigned to me", email: true, inApp: true },
@@ -23,16 +25,17 @@ export default async function SettingsPage() {
       <PageHeader
         pretitle="Account"
         title="Settings"
-        actions={<Button>Save changes</Button>}
       />
 
       <section className="grid gap-4 xl:grid-cols-3">
         <Card className="xl:col-span-2">
+          <form action={updateProfile}>
           <CardHeader title="Profile" />
           <div className="grid gap-4 p-5 sm:grid-cols-2">
             <label className="flex flex-col gap-1.5">
               <span className="text-primary text-body font-semibold">Full name</span>
               <input
+                name="name"
                 defaultValue={session.name}
                 className="border-line-input text-primary h-11 rounded-lg border bg-transparent px-3.5 text-para outline-none"
               />
@@ -40,6 +43,7 @@ export default async function SettingsPage() {
             <label className="flex flex-col gap-1.5">
               <span className="text-primary text-body font-semibold">Job title</span>
               <input
+                name="jobTitle"
                 defaultValue={session.jobTitle}
                 className="border-line-input text-primary h-11 rounded-lg border bg-transparent px-3.5 text-para outline-none"
               />
@@ -47,6 +51,7 @@ export default async function SettingsPage() {
             <label className="flex flex-col gap-1.5">
               <span className="text-primary text-body font-semibold">Work email</span>
               <input
+                readOnly
                 defaultValue={session.email}
                 className="border-line-input text-primary h-11 rounded-lg border bg-transparent px-3.5 text-para outline-none"
               />
@@ -54,11 +59,16 @@ export default async function SettingsPage() {
             <label className="flex flex-col gap-1.5">
               <span className="text-primary text-body font-semibold">Role</span>
               <input
-                defaultValue={account?.jobTitle ?? ""}
-                className="border-line-input text-primary h-11 rounded-lg border bg-transparent px-3.5 text-para outline-none"
+                readOnly
+                defaultValue={roleLabels[session.role]}
+                className="border-line-input text-muted h-11 rounded-lg border bg-transparent px-3.5 text-para outline-none"
               />
             </label>
           </div>
+          <footer className="border-line flex justify-end border-t px-5 py-4">
+            <Button type="submit">Save changes</Button>
+          </footer>
+          </form>
         </Card>
 
         <Card>

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { RiAddLine, RiArrowRightSLine, RiTimeLine } from "@remixicon/react";
+import { RiArrowRightSLine } from "@remixicon/react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader } from "@/components/ui/card";
@@ -7,8 +7,11 @@ import { Gauge, Progress } from "@/components/ui/chart";
 import { Delta } from "@/components/ui/delta";
 import { PageHeader } from "@/components/ui/page-header";
 import { KpiBars } from "@/components/portal/kpi-bars";
+import { ClockButton } from "@/components/forms/attendance-forms";
+import { NewTaskButton, TaskCheckbox } from "@/components/forms/task-forms";
 import {
   getAssignmentsFor,
+  getAttendanceFor,
   getAttendanceRate,
   getKpiTrend,
   getNotificationsFor,
@@ -24,13 +27,22 @@ export async function MemberDashboard({
 }: {
   user: { id: string; name: string };
 }) {
-  const [tasks, trend, attendanceRate, notifications, assignments] = await Promise.all([
+  const [tasks, trend, attendanceRate, notifications, assignments, attendance] = await Promise.all([
     getTasksFor(user.id),
     getKpiTrend(user.id),
     getAttendanceRate(user.id),
     getNotificationsFor(user.id, 5),
     getAssignmentsFor(user.id),
+    getAttendanceFor(user.id, 1),
   ]);
+
+  const todayEntry = attendance[0];
+  const clockedIn = Boolean(
+    todayEntry &&
+      todayEntry.day === new Date().toISOString().slice(0, 10) &&
+      todayEntry.clockIn &&
+      !todayEntry.clockOut,
+  );
 
   const open = tasks.filter((task) => task.status !== "done");
   const overdue = open.filter((task) => task.dueAt && new Date(task.dueAt) < new Date());
@@ -66,14 +78,11 @@ export async function MemberDashboard({
         title="Dashboard"
         actions={
           <>
-            <Button variant="secondary">
-              <RiTimeLine size={18} aria-hidden />
-              Clock in
-            </Button>
-            <Button>
-              <RiAddLine size={18} aria-hidden />
-              New task
-            </Button>
+            <ClockButton clockedIn={clockedIn} />
+            <NewTaskButton
+              people={[{ id: user.id, name: user.name }]}
+              defaultAssigneeId={user.id}
+            />
           </>
         }
       />
@@ -199,11 +208,10 @@ export async function MemberDashboard({
                 key={task.id}
                 className="border-line hover:bg-raised flex items-center gap-3 border-b px-5 py-3 transition-colors last:border-b-0"
               >
-                <input
-                  type="checkbox"
-                  defaultChecked={task.status === "done"}
-                  aria-label={task.title}
-                  className="accent-brand size-4 cursor-pointer"
+                <TaskCheckbox
+                  taskId={task.id}
+                  done={task.status === "done"}
+                  label={task.title}
                 />
                 <span className="min-w-0 flex-1">
                   <span

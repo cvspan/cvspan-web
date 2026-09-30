@@ -1,9 +1,10 @@
-import { RiAddLine, RiExternalLinkLine } from "@remixicon/react";
+import { RiExternalLinkLine } from "@remixicon/react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
 import { Table, Td, Thead, Tr } from "@/components/ui/table";
+import { NewListingButton } from "@/components/forms/website-forms";
 import { getDepartmentSummary, getHiringPipeline, getJobListings } from "@/db/queries";
 import {
   applicationStageLabels,
@@ -29,14 +30,13 @@ export default async function CareersPage() {
         title="Careers"
         actions={
           <>
-            <Button variant="secondary">
-              <RiExternalLinkLine size={18} aria-hidden />
-              View careers page
-            </Button>
-            <Button>
-              <RiAddLine size={18} aria-hidden />
-              New listing
-            </Button>
+            <a href="https://cvspan.com/careers" target="_blank" rel="noopener noreferrer">
+              <Button variant="secondary" type="button">
+                <RiExternalLinkLine size={18} aria-hidden />
+                View careers page
+              </Button>
+            </a>
+            <NewListingButton departments={departments.map((department) => department.name)} />
           </>
         }
       />
@@ -95,7 +95,7 @@ export default async function CareersPage() {
       <Card>
         <CardHeader title="Job listings" action={<Badge>{jobs.length} listings</Badge>} />
         <Table>
-          <Thead columns={["Role", "Department", "Type", "Applicants", "Stage", "Posted", ""]} />
+          <Thead columns={["Role", "Department", "Type", "Applicants", "Stage", "Posted", "Pipeline"]} />
           <tbody>
             {jobs.map((job) => (
               <Tr key={job.id}>
@@ -109,10 +109,8 @@ export default async function CareersPage() {
                   <Badge tone={statusTone(job.stage)}>{jobStageLabels[job.stage]}</Badge>
                 </Td>
                 <Td className="whitespace-nowrap">{job.postedAt ? formatDay(job.postedAt) : "—"}</Td>
-                <Td>
-                  <Button size="sm" variant="secondary">
-                    Open
-                  </Button>
+                <Td className="text-muted whitespace-nowrap">
+                  {job.applicants > 0 ? `${job.applicants} in pipeline` : "No applicants yet"}
                 </Td>
               </Tr>
             ))}

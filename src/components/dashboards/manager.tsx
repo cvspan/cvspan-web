@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { RiAddLine, RiArrowRightSLine, RiCheckLine, RiCloseLine } from "@remixicon/react";
+import { RiArrowRightSLine } from "@remixicon/react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader } from "@/components/ui/card";
@@ -7,6 +7,9 @@ import { Progress } from "@/components/ui/chart";
 import { PageHeader } from "@/components/ui/page-header";
 import { Table, Td, Thead, Tr } from "@/components/ui/table";
 import { KpiBars } from "@/components/portal/kpi-bars";
+import { ApprovalButtons } from "@/components/forms/approval-buttons";
+import { GradeButton } from "@/components/forms/grade-dialog";
+import { NewTaskButton } from "@/components/forms/task-forms";
 import {
   getApprovalsFor,
   getDirectReports,
@@ -54,12 +57,13 @@ export async function ManagerDashboard({
         actions={
           <>
             <Link href="/team">
-              <Button variant="secondary">Start grading</Button>
+              <Button variant="secondary">Open team page</Button>
             </Link>
-            <Button>
-              <RiAddLine size={18} aria-hidden />
-              Assign task
-            </Button>
+            <NewTaskButton
+              people={[{ id: user.id, name: `${user.name} (me)` }, ...reports]}
+              defaultAssigneeId={reports[0]?.id ?? user.id}
+              label="Assign task"
+            />
           </>
         }
       />
@@ -133,11 +137,7 @@ export async function ManagerDashboard({
                   </Td>
                   <Td>{openTasks}</Td>
                   <Td>
-                    {kpi > 0 ? (
-                      <Badge tone="success">Graded</Badge>
-                    ) : (
-                      <Button size="sm">Grade</Button>
-                    )}
+                    <GradeButton userId={report.id} name={report.name} currentScore={kpi} />
                   </Td>
                 </Tr>
               ))}
@@ -170,22 +170,11 @@ export async function ManagerDashboard({
                       {item.requestedBy} · {item.detail}
                     </span>
                   </span>
-                  <span className="flex gap-1">
-                    <button
-                      type="button"
-                      aria-label={`Approve ${item.kind} from ${item.requestedBy}`}
-                      className="text-success-text hover:bg-success-surface flex size-8 cursor-pointer items-center justify-center rounded-lg transition-colors"
-                    >
-                      <RiCheckLine size={18} aria-hidden />
-                    </button>
-                    <button
-                      type="button"
-                      aria-label={`Decline ${item.kind} from ${item.requestedBy}`}
-                      className="text-error-text hover:bg-error-surface flex size-8 cursor-pointer items-center justify-center rounded-lg transition-colors"
-                    >
-                      <RiCloseLine size={18} aria-hidden />
-                    </button>
-                  </span>
+                  <ApprovalButtons
+                    approvalId={item.id}
+                    label={`${item.kind.replace("_", " ")} from ${item.requestedBy}`}
+                    compact
+                  />
                 </li>
               ))
             )}

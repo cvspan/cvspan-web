@@ -1,5 +1,5 @@
 import "server-only";
-import { and, asc, count, desc, eq, gte, inArray, isNull, sql } from "drizzle-orm";
+import { and, asc, count, desc, eq, inArray, isNull, sql } from "drizzle-orm";
 import { db } from "./index";
 import {
   applications,
@@ -484,21 +484,26 @@ export async function getRecentActivity(limit = 8) {
 /* ----------------------------------------------------------------- Counters */
 
 export async function getOrgCounts() {
-  const [people] = await db.select({ total: count() }).from(users);
-  const [open] = await db
-    .select({ total: count() })
-    .from(jobListings)
-    .where(sql`${jobListings.stage} not in ('draft','closed')`);
-  const [applicants] = await db.select({ total: count() }).from(applications);
-  const [activeProgrammes] = await db
-    .select({ total: count() })
-    .from(programmes)
-    .where(gte(programmes.endDate, new Date().toISOString().slice(0, 10)));
+  /** One round trip: the HTTP driver makes every extra query a separate request. */
+  const result = await db.execute<{
+    people: number;
+    open_roles: number;
+    applicants: number;
+    programmes: number;
+  }>(sql`
+    select
+      (select count(*) from ${users})::int as people,
+      (select count(*) from ${jobListings} where stage not in ('draft','closed'))::int as open_roles,
+      (select count(*) from ${applications})::int as applicants,
+      (select count(*) from ${programmes} where end_date >= current_date)::int as programmes
+  `);
+
+  const row = result.rows[0];
 
   return {
-    people: Number(people?.total ?? 0),
-    openRoles: Number(open?.total ?? 0),
-    applicants: Number(applicants?.total ?? 0),
-    programmes: Number(activeProgrammes?.total ?? 0),
+    people: Number(row?.people ?? 0),
+    openRoles: Number(row?.open_roles ?? 0),
+    applicants: Number(row?.applicants ?? 0),
+    programmes: Number(row?.programmes ?? 0),
   };
 }

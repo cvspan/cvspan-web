@@ -1,9 +1,11 @@
-import { RiAddLine, RiAttachment2, RiSendPlaneFill } from "@remixicon/react";
+import { RiAttachment2, RiSendPlaneFill } from "@remixicon/react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
-import { getMessages, getThreadsFor } from "@/db/queries";
+import { sendMessage } from "@/app/actions/messages";
+import { NewMessageButton } from "@/components/forms/message-forms";
+import { getMessages, getPeople, getThreadsFor } from "@/db/queries";
 import { formatTime, initials, relativeDays } from "@/lib/format";
 import { requireUser } from "@/lib/session";
 
@@ -15,7 +17,7 @@ export default async function MessagesPage({
   const user = await requireUser();
   const { thread: requested } = await searchParams;
 
-  const threads = await getThreadsFor(user.id);
+  const [threads, people] = await Promise.all([getThreadsFor(user.id), getPeople()]);
   const activeId = requested ?? threads[0]?.id;
   const messages = activeId ? await getMessages(activeId) : [];
   const active = threads.find((thread) => thread.id === activeId);
@@ -30,10 +32,11 @@ export default async function MessagesPage({
         pretitle="Workplace"
         title="Messages"
         actions={
-          <Button>
-            <RiAddLine size={18} aria-hidden />
-            New message
-          </Button>
+          <NewMessageButton
+            people={people
+              .filter((person) => person.id !== user.id)
+              .map((person) => ({ id: person.id, name: person.name }))}
+          />
         }
       />
 
@@ -115,7 +118,8 @@ export default async function MessagesPage({
             })}
           </ul>
 
-          <div className="border-line flex items-center gap-2 border-t p-3">
+          <form action={sendMessage} className="border-line flex items-center gap-2 border-t p-3">
+            <input type="hidden" name="threadId" value={activeId ?? ""} />
             <button
               type="button"
               aria-label="Attach a file"
@@ -125,15 +129,19 @@ export default async function MessagesPage({
             </button>
             <input
               type="text"
+              name="body"
+              required
+              autoComplete="off"
               placeholder="Write a message…"
               aria-label="Write a message"
-              className="text-primary placeholder:text-muted border-line h-10 flex-1 rounded-lg border bg-transparent px-3 text-body outline-none"
+              disabled={!activeId}
+              className="text-primary placeholder:text-muted border-line h-10 flex-1 rounded-lg border bg-transparent px-3 text-body outline-none disabled:opacity-50"
             />
-            <Button aria-label="Send message">
+            <Button type="submit" aria-label="Send message" disabled={!activeId}>
               <RiSendPlaneFill size={18} aria-hidden />
               Send
             </Button>
-          </div>
+          </form>
         </Card>
       </div>
     </>

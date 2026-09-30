@@ -1,11 +1,18 @@
 "use client";
 
-import { RiMenuLine, RiNotification3Line, RiSearchLine } from "@remixicon/react";
+import { RiMenuLine, RiSearchLine } from "@remixicon/react";
 import { ThemeToggle } from "./theme-toggle";
 import { RoleSwitcher } from "./role-switcher";
 import { useRole } from "./role-context";
+import { NotificationBell, type NotificationItem } from "./notifications";
 
-export function Topbar({ onOpenNav }: { onOpenNav?: () => void }) {
+export function Topbar({
+  onOpenNav,
+  notifications = [],
+}: {
+  onOpenNav?: () => void;
+  notifications?: NotificationItem[];
+}) {
   const { user } = useRole();
 
   return (
@@ -36,14 +43,7 @@ export function Topbar({ onOpenNav }: { onOpenNav?: () => void }) {
       <RoleSwitcher />
       <ThemeToggle />
 
-      <button
-        type="button"
-        aria-label="Notifications"
-        className="text-secondary hover:bg-raised hover:text-primary relative flex size-9 cursor-pointer items-center justify-center rounded-lg transition-colors"
-      >
-        <RiNotification3Line size={20} aria-hidden />
-        <span className="bg-brand absolute top-1.5 right-1.5 size-2 rounded-full" />
-      </button>
+      <NotificationBell items={notifications} />
 
       <span
         title={user.email}

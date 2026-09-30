@@ -1,13 +1,15 @@
 import Link from "next/link";
-import { RiAddLine, RiArrowRightSLine } from "@remixicon/react";
+import { RiArrowRightSLine } from "@remixicon/react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader } from "@/components/ui/card";
 import { Progress } from "@/components/ui/chart";
 import { PageHeader } from "@/components/ui/page-header";
 import { Table, Td, Thead, Tr } from "@/components/ui/table";
+import { InviteMemberButton } from "@/components/forms/people-forms";
 import {
   getBlogPosts,
+  getPeople,
   getDepartmentSummary,
   getHeadcountByType,
   getHiringPipeline,
@@ -20,7 +22,7 @@ import { employmentLabels, initials, postStatusLabels, relativeDays } from "@/li
 import { statusTone } from "@/lib/tone";
 
 export async function AdminDashboard() {
-  const [counts, headcount, departments, pipeline, programmes, posts, activity, approvals] =
+  const [counts, headcount, departments, pipeline, programmes, posts, activity, approvals, people] =
     await Promise.all([
       getOrgCounts(),
       getHeadcountByType(),
@@ -30,6 +32,7 @@ export async function AdminDashboard() {
       getBlogPosts(),
       getRecentActivity(6),
       getOpenApprovals(),
+      getPeople(),
     ]);
 
   const totalHeadcount = headcount.reduce((sum, row) => sum + row.count, 0);
@@ -43,13 +46,17 @@ export async function AdminDashboard() {
         title="Admin dashboard"
         actions={
           <>
-            <Button variant="secondary">Export report</Button>
-            <Link href="/people">
-              <Button>
-                <RiAddLine size={18} aria-hidden />
-                Invite member
+            <a href="/api/export/people" download>
+              <Button variant="secondary" type="button">
+                Export CSV
               </Button>
-            </Link>
+            </a>
+            <InviteMemberButton
+              departments={departments.map((department) => department.name)}
+              managers={people
+                .filter((person) => person.role !== "member")
+                .map((person) => ({ id: person.id, name: person.name }))}
+            />
           </>
         }
       />

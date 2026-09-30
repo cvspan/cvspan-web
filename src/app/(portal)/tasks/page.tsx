@@ -1,10 +1,12 @@
-import { RiAddLine, RiFilter3Line, RiMore2Fill } from "@remixicon/react";
+import { RiDownloadLine } from "@remixicon/react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
 import { Table, Td, Thead, Tr } from "@/components/ui/table";
-import { getAllTasks, getTasksFor, getTasksForTeam } from "@/db/queries";
+import { DeleteTaskButton, NewTaskButton, TaskCheckbox } from "@/components/forms/task-forms";
+import { TaskFilter } from "@/components/forms/task-filter";
+import { getAllTasks, getDirectReports, getPeople, getTasksFor, getTasksForTeam } from "@/db/queries";
 import { formatDay, initials, relativeDays, taskStatusLabels } from "@/lib/format";
 import { atLeast } from "@/lib/roles";
 import { requireUser } from "@/lib/session";
@@ -12,14 +14,34 @@ import { taskTone, type Tone } from "@/lib/tone";
 
 const priorityTone: Record<string, Tone> = { high: "error", normal: "neutral", low: "neutral" };
 
-export default async function TasksPage() {
+export default async function TasksPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ status?: string }>;
+}) {
   const user = await requireUser();
+  const { status: statusFilter } = await searchParams;
 
   const tasks = atLeast(user.viewRole, "admin")
     ? await getAllTasks()
     : atLeast(user.viewRole, "manager")
       ? [...(await getTasksFor(user.id)), ...(await getTasksForTeam(user.id))]
       : await getTasksFor(user.id);
+
+  const assignable = atLeast(user.viewRole, "admin")
+    ? (await getPeople()).map((person) => ({ id: person.id, name: person.name }))
+    : atLeast(user.viewRole, "manager")
+      ? [{ id: user.id, name: `${user.name} (me)` }, ...(await getDirectReports(user.id))]
+      : [{ id: user.id, name: user.name }];
+
+  const visible =
+    statusFilter && statusFilter !== "all"
+      ? tasks.filter((task) =>
+          statusFilter === "overdue"
+            ? task.status !== "done" && task.dueAt && new Date(task.dueAt) < new Date()
+            : task.status === statusFilter,
+        )
+      : tasks;
 
   const overdue = tasks.filter(
     (task) => task.status !== "done" && task.dueAt && new Date(task.dueAt) < new Date(),
@@ -49,14 +71,16 @@ export default async function TasksPage() {
         title="Tasks"
         actions={
           <>
-            <Button variant="secondary">
-              <RiFilter3Line size={18} aria-hidden />
-              Filter
-            </Button>
-            <Button>
-              <RiAddLine size={18} aria-hidden />
-              New task
-            </Button>
+            <TaskFilter value={statusFilter ?? "all"} />
+            {atLeast(user.viewRole, "manager") ? (
+              <a href="/api/export/tasks" download>
+                <Button variant="secondary" type="button">
+                  <RiDownloadLine size={18} aria-hidden />
+                  Export
+                </Button>
+              </a>
+            ) : null}
+            <NewTaskButton people={assignable} defaultAssigneeId={user.id} />
           </>
         }
       />
@@ -83,14 +107,13 @@ export default async function TasksPage() {
         <Table>
           <Thead columns={["", "Task", "Project", "Assignee", "Due", "Priority", "Status", ""]} />
           <tbody>
-            {tasks.map((task) => (
+            {visible.map((task) => (
               <Tr key={task.id}>
                 <Td className="w-10 pr-0">
-                  <input
-                    type="checkbox"
-                    defaultChecked={task.status === "done"}
-                    aria-label={task.title}
-                    className="accent-brand size-4 cursor-pointer"
+                  <TaskCheckbox
+                    taskId={task.id}
+                    done={task.status === "done"}
+                    label={task.title}
                   />
                 </Td>
                 <Td
@@ -122,13 +145,9 @@ export default async function TasksPage() {
                   </Badge>
                 </Td>
                 <Td className="w-12">
-                  <button
-                    type="button"
-                    aria-label={`Actions for ${task.title}`}
-                    className="text-muted hover:text-primary flex size-8 cursor-pointer items-center justify-center rounded-lg transition-colors"
-                  >
-                    <RiMore2Fill size={18} aria-hidden />
-                  </button>
+                  {atLeast(user.viewRole, "manager") ? (
+                    <DeleteTaskButton taskId={task.id} label={task.title} />
+                  ) : null}
                 </Td>
               </Tr>
             ))}

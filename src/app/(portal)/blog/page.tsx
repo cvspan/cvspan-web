@@ -1,15 +1,20 @@
-import { RiAddLine, RiExternalLinkLine } from "@remixicon/react";
+import { RiExternalLinkLine } from "@remixicon/react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
 import { Table, Td, Thead, Tr } from "@/components/ui/table";
+import { NewPostButton, PostActions } from "@/components/forms/website-forms";
 import { getBlogPosts } from "@/db/queries";
+import { atLeast } from "@/lib/roles";
+import { requireUser } from "@/lib/session";
 import { initials, postStatusLabels, relativeDays } from "@/lib/format";
 import { statusTone } from "@/lib/tone";
 
 export default async function BlogPage() {
+  const user = await requireUser();
   const posts = await getBlogPosts();
+  const canPublish = atLeast(user.role, "admin");
   const counts = (["published", "scheduled", "in_review", "draft"] as const).map((status) => ({
     status,
     count: posts.filter((post) => post.status === status).length,
@@ -22,14 +27,13 @@ export default async function BlogPage() {
         title="Blog"
         actions={
           <>
-            <Button variant="secondary">
-              <RiExternalLinkLine size={18} aria-hidden />
-              View site
-            </Button>
-            <Button>
-              <RiAddLine size={18} aria-hidden />
-              New post
-            </Button>
+            <a href="https://cvspan.com/blog" target="_blank" rel="noopener noreferrer">
+              <Button variant="secondary" type="button">
+                <RiExternalLinkLine size={18} aria-hidden />
+                View site
+              </Button>
+            </a>
+            <NewPostButton />
           </>
         }
       />
@@ -72,12 +76,7 @@ export default async function BlogPage() {
                   <Badge tone={statusTone(post.status)}>{postStatusLabels[post.status]}</Badge>
                 </Td>
                 <Td className="whitespace-nowrap">
-                  <span className="flex gap-2">
-                    <Button size="sm" variant="secondary">
-                      Edit
-                    </Button>
-                    {post.status === "in_review" ? <Button size="sm">Approve</Button> : null}
-                  </span>
+                  <PostActions postId={post.id} status={post.status} canPublish={canPublish} />
                 </Td>
               </Tr>
             ))}

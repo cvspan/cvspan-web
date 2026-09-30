@@ -1,6 +1,6 @@
-import { RiCalendarLine, RiTimeLine } from "@remixicon/react";
+
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { ClockButton, RequestLeaveButton } from "@/components/forms/attendance-forms";
 import { Card, CardHeader } from "@/components/ui/card";
 import { Progress } from "@/components/ui/chart";
 import { PageHeader } from "@/components/ui/page-header";
@@ -38,14 +38,8 @@ export default async function AttendancePage() {
         title="Attendance"
         actions={
           <>
-            <Button variant="secondary">
-              <RiCalendarLine size={18} aria-hidden />
-              Request leave
-            </Button>
-            <Button>
-              <RiTimeLine size={18} aria-hidden />
-              {openNow ? "Clock out" : "Clock in"}
-            </Button>
+            <RequestLeaveButton />
+            <ClockButton clockedIn={Boolean(openNow)} />
           </>
         }
       />
