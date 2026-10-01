@@ -46,6 +46,7 @@ export const MobileNav = ({ isLight, isBlogPage }: { isLight: boolean; isBlogPag
                                         width={152}
                                         height={31}
                                         alt="Cvspan logo"
+                                        priority
                                         className="text-inherit"
                                     />
                                 </Link>

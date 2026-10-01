@@ -18,6 +18,8 @@ export const NavBrand = ({ isLight }: { isLight: boolean }) => {
                 width={152}
                 height={31}
                 alt="Cvspan logo"
+                // Above the fold on every page: load it straight away rather than lazily.
+                priority
                 className="text-inherit"
             />
         </Link>
