@@ -20,6 +20,11 @@ In production the website proxies that prefix to the portal's own deployment:
 rewrites: () => [{ source: '/portal/:path*', destination: `${process.env.PORTAL_ORIGIN}/portal/:path*` }]
 ```
 
+The website has two rewrite rules for this. The first one, for requests carrying an `_rsc` query, puts that
+value back when proxying: the portal runs a newer Next.js than the website, checks `_rsc` on every client-side
+navigation, and the website strips it, which otherwise ends in an endless redirect (ERR_TOO_MANY_REDIRECTS,
+Next's "1 Issue" badge in development). Keep that rule if you edit `next.config.mjs`.
+
 Set `PORTAL_ORIGIN` on the website to wherever the portal is deployed (for example
 `https://cvspan-portal.vercel.app`). Visitors only ever see `cvspan.com`. The same rewrite makes the
 apply form same-origin, so it needs no CORS in production.
