@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next';
 
 import { SITE_URL } from '@/lib/seo/config';
+import { fetchJobs, fetchPosts } from '@/lib/portal';
 
 /**
  * Sitemap.
@@ -15,6 +16,7 @@ type Entry = {
     path: string;
     priority: number;
     changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency'];
+    lastModified?: Date;
 };
 
 const SERVICES = [
@@ -79,12 +81,35 @@ const ENTRIES: Entry[] = [
     { path: '/legal/cookie-policy', priority: 0.3, changeFrequency: 'yearly' },
 ];
 
-export default function sitemap(): MetadataRoute.Sitemap {
-    const lastModified = new Date();
+/** Roles and articles published from the CVSpan Portal. If it can't be reached the static pages still list. */
+async function portalEntries(): Promise<Entry[]> {
+    try {
+        const [{ jobs }, { posts }] = await Promise.all([fetchJobs(), fetchPosts({ pageSize: 24 })]);
+        const known = new Set(CAREER_ROLES);
+        return [
+            ...jobs
+                .filter((job) => !known.has(job.slug))
+                .map((job) => ({ path: `/careers/${job.slug}`, priority: 0.5, changeFrequency: 'weekly' as const })),
+            { path: '/blog', priority: 0.6, changeFrequency: 'weekly' as const },
+            ...posts.map((post) => ({
+                path: `/blog/${post.slug}`,
+                priority: 0.6,
+                changeFrequency: 'monthly' as const,
+                lastModified: new Date(post.updatedAt),
+            })),
+        ];
+    } catch {
+        return [];
+    }
+}
 
-    return ENTRIES.map((entry) => ({
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+    const lastModified = new Date();
+    const entries = [...ENTRIES, ...(await portalEntries())];
+
+    return entries.map((entry) => ({
         url: `${SITE_URL}${entry.path === '/' ? '' : entry.path}`,
-        lastModified,
+        lastModified: entry.lastModified ?? lastModified,
         changeFrequency: entry.changeFrequency,
         priority: entry.priority,
     }));

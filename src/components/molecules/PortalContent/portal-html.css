@@ -1,0 +1,82 @@
+/* Styles for HTML written in the CVSpan Portal's editor (job descriptions and blog posts). */
+.portal-html {
+    font-family: var(--font-eudoxus, inherit);
+    color: #484848;
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+.portal-html > * + * {
+    margin-top: 1rem;
+}
+.portal-html h1,
+.portal-html h2,
+.portal-html h3,
+.portal-html h4 {
+    color: #1a1a1a;
+    font-weight: 500;
+    line-height: 1.3;
+    margin-top: 2rem;
+}
+.portal-html h1,
+.portal-html h2 {
+    font-size: 24px;
+}
+.portal-html h3 {
+    font-size: 20px;
+}
+.portal-html h4 {
+    font-size: 18px;
+}
+.portal-html ul,
+.portal-html ol {
+    margin-left: 0.75rem;
+    padding-left: 1rem;
+}
+.portal-html ul {
+    list-style: disc;
+}
+.portal-html ol {
+    list-style: decimal;
+}
+.portal-html li + li {
+    margin-top: 0.4rem;
+}
+.portal-html a {
+    color: #1a1aff;
+    text-decoration: underline;
+}
+.portal-html strong {
+    color: #1a1a1a;
+    font-weight: 600;
+}
+.portal-html img {
+    height: auto;
+    max-width: 100%;
+    border-radius: 8px;
+}
+.portal-html blockquote {
+    border-left: 3px solid #1a1aff;
+    padding-left: 1rem;
+    color: #1a1a1a;
+}
+.portal-html pre {
+    overflow-x: auto;
+    border-radius: 8px;
+    background: #f4f4f4;
+    padding: 1rem;
+    font-size: 14px;
+}
+.portal-html code {
+    border-radius: 4px;
+    background: #f4f4f4;
+    padding: 0.1rem 0.3rem;
+    font-size: 0.9em;
+}
+.portal-html pre code {
+    background: none;
+    padding: 0;
+}
+.portal-html hr {
+    border-color: #d1d1d1;
+}

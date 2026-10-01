@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { motion } from 'framer-motion';
 import Button from '@/components/molecules/Button';
@@ -7,95 +7,123 @@ import Button from '@/components/molecules/Button';
 import { ANIMATE_PROPS } from '@/helpers/motion';
 import Link from 'next/link';
 import useWindowSize from '@/hooks/general/useWindowSize';
+import { PORTAL_API_URL, type PortalDepartment, type PortalJob } from '@/lib/portal';
+
+type Listing = {
+    title: string;
+    language: string;
+    level: string;
+    experience: string;
+    location: string;
+    link: string;
+    department: string;
+};
+
+const fromPortal = (job: PortalJob): Listing => ({
+    title: job.title,
+    language: job.language ?? 'English',
+    level: job.employmentLabel,
+    experience: job.experience ?? job.seniorityLabel,
+    location: job.location ?? job.workModeLabel,
+    link: job.slug,
+    department: job.department?.name ?? 'Other',
+});
+
+const FALLBACK_LISTINGS: Listing[] = [
+    {
+        title: 'Front End Developer',
+        language: 'English',
+        level: 'Internship',
+        experience: '1-2 Years Experience',
+        location: 'Remote Worldwide',
+        link: 'front-end',
+        department: 'Development',
+    },
+    {
+        title: 'Graphic Designer',
+        language: 'English',
+        level: 'Internship',
+        experience: '1-2 Years Experience',
+        location: 'Remote Worldwide',
+        link: 'graphic-designer',
+        department: 'Design',
+    },
+    {
+        title: 'Human Resources (HR)',
+        language: 'English',
+        level: 'Internship',
+        experience: '1-2 Years Experience',
+        location: 'Remote Worldwide',
+        link: 'human-resource',
+        department: 'Management',
+    },
+    {
+        title: 'Social Media Manager',
+        language: 'English',
+        level: 'Internship',
+        experience: '1-2 Years Experience',
+        location: 'Remote Worldwide',
+        link: 'social-media-manager',
+        department: 'Business Development',
+    },
+    {
+        title: 'Marketing Manager',
+        language: 'English',
+        level: 'Internship',
+        experience: '1-2 Years Experience',
+        location: 'Nigeria or Remote',
+        link: 'marketing-manager',
+        department: 'Marketing',
+    },
+    {
+        title: 'SEO Manager',
+        language: 'English',
+        level: 'Internship',
+        experience: '1-2 Years Experience',
+        location: 'Nigeria or Remote',
+        link: 'seo-manager',
+        department: 'Development',
+    },
+    {
+        title: 'Volunteers',
+        language: 'English',
+        level: 'Volunteering',
+        experience: '0-2 Years Experience',
+        location: 'Nigeria or Remote',
+        link: 'volunteers',
+        department: 'Project',
+    },
+];
+
+const FALLBACK_FILTERS = ['Design', 'Development', 'Marketing', 'Business Development', 'Project', 'Management'];
 
 const Openposition = () => {
-    const jobListings = [
-        {
-            title: 'Front End Developer',
-            language: 'English',
-            level: 'Internship',
-            experience: '1-2 Years Experience',
-            location: 'Remote Worldwide',
-            arrowSrc: '/assets/icons/arrow-top-right-gray.svg',
-            link: 'front-end',
-            department: 'Development',
-        },
-        {
-            title: 'Graphic Designer',
-            language: 'English',
-            level: 'Internship',
-            experience: '1-2 Years Experience',
-            location: 'Remote Worldwide',
-            arrowSrc: '/assets/icons/arrow-top-right-gray.svg',
-            link: 'graphic-designer',
-            department: 'Design',
-        },
-        {
-            title: 'Human Resources (HR)',
-            language: 'English',
-            level: 'Internship',
-            experience: '1-2 Years Experience',
-            location: 'Remote Worldwide',
-            arrowSrc: '/assets/icons/arrow-top-right-gray.svg',
-            link: 'human-resource',
-            department: 'Management',
-        },
-        {
-            title: 'Social Media Manager',
-            language: 'English',
-            level: 'Internship',
-            experience: '1-2 Years Experience',
-            location: 'Remote Worldwide',
-            arrowSrc: '/assets/icons/arrow-top-right-gray.svg',
-            link: 'social-media-manager',
-            department: 'Business Development',
-        },
-        {
-            title: 'Marketing Manager',
-            language: 'English',
-            level: 'Internship',
-            experience: '1-2 Years Experience',
-            location: 'Nigeria or Remote',
-            arrowSrc: '/assets/icons/arrow-top-right-gray.svg',
-            link: 'marketing-manager',
-            department: 'Marketing',
-        },
-        {
-            title: 'SEO Manager',
-            language: 'English',
-            level: 'Internship',
-            experience: '1-2 Years Experience',
-            location: 'Nigeria or Remote',
-            arrowSrc: '/assets/icons/arrow-top-right-gray.svg',
-            link: 'seo-manager',
-            department: 'Development',
-        },
-        {
-            title: 'Volunteers',
-            language: 'English',
-            level: 'Volunteering',
-            experience: '0-2 Years Experience',
-            location: 'Nigeria or Remote',
-            arrowSrc: '/assets/icons/arrow-top-right-gray.svg',
-            link: 'volunteers',
-            department: 'Project',
-        },
-    ];
-
     const [selected, setSelected] = useState<string>('All');
+    /** null while loading; the portal's roles once they arrive; the built-in list if it can't be reached. */
+    const [listings, setListings] = useState<Listing[] | null>(null);
+    const [filters, setFilters] = useState<string[]>(FALLBACK_FILTERS);
 
-    const buttons: string[] = [
-        'All',
-        'Design',
-        'Development',
-        'Marketing',
-        'Business Development',
-        'Project',
-        'Management',
-    ];
+    useEffect(() => {
+        const controller = new AbortController();
+        fetch(`${PORTAL_API_URL}/careers`, { signal: controller.signal })
+            .then((response) => {
+                if (!response.ok) throw new Error(String(response.status));
+                return response.json() as Promise<{ jobs: PortalJob[]; departments: PortalDepartment[] }>;
+            })
+            .then(({ jobs, departments }) => {
+                setListings(jobs.map(fromPortal));
+                setFilters(departments.filter((department) => (department.openRoles ?? 0) > 0).map((d) => d.name));
+            })
+            .catch((error) => {
+                if (error?.name !== 'AbortError') setListings(FALLBACK_LISTINGS);
+            });
+        return () => controller.abort();
+    }, []);
+
+    const buttons = ['All', ...filters];
 
     const filteredListings =
-        selected === 'All' ? jobListings : jobListings.filter((job) => job.department === selected);
+        selected === 'All' ? listings ?? [] : (listings ?? []).filter((job) => job.department === selected);
 
     const { width } = useWindowSize();
     const smallDevice = width < 900;
@@ -140,13 +168,31 @@ const Openposition = () => {
                     </motion.div>
                     <div className="ml-auto w-full lg:max-w-[800px]">
                         <div className="flex flex-col gap-[20px]">
-                            {/* <div className="flex w-full gap-[12px] rounded-[8px] bg-[#F4F4F4] p-[24px]">
-                                <img src="/assets/icons/info-circle.svg" alt="" loading="lazy" decoding="async" />
-                                <p className="text-[16px] font-normal leading-[24px] text-[#1A1A1A]">
-                                    We have no positions open at the moment. Check back later
-                                </p>
-                            </div> */}
-                            {/* PLEASE DONT DELETE */}
+                            {listings === null && (
+                                <div
+                                    className="flex flex-col gap-[20px]"
+                                    aria-busy="true"
+                                    aria-label="Loading open positions"
+                                >
+                                    {[0, 1, 2].map((item) => (
+                                        <div
+                                            key={item}
+                                            className="animate-pulse border-t-[1px] border-[#A3A3A3] pb-10 pt-10"
+                                        >
+                                            <div className="mb-[12px] h-[40px] w-3/4 rounded bg-[#F4F4F4]" />
+                                            <div className="h-[20px] w-1/2 rounded bg-[#F4F4F4]" />
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                            {listings !== null && filteredListings.length === 0 && (
+                                <div className="flex w-full gap-[12px] rounded-[8px] bg-[#F4F4F4] p-[24px]">
+                                    <img src="/assets/icons/info-circle.svg" alt="" loading="lazy" decoding="async" />
+                                    <p className="text-[16px] font-normal leading-[24px] text-[#1A1A1A]">
+                                        We have no positions open at the moment. Check back later
+                                    </p>
+                                </div>
+                            )}
 
                             {filteredListings.map((job, index) => (
                                 <Link className="cursor-pointer" href={`/careers/${job.link}`} key={index}>

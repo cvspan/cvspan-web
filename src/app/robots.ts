@@ -9,8 +9,8 @@ export default function robots(): MetadataRoute.Robots {
                 userAgent: '*',
                 allow: '/',
                 // Authenticated/private surfaces: no search value, and indexing them
-                // would leak dashboard routes into results.
-                disallow: ['/blog/auth/', '/blog/dashboard/', '/api/'],
+                // would leak dashboard routes into results. /portal/ is the staff portal.
+                disallow: ['/blog/auth/', '/blog/dashboard/', '/api/', '/portal/'],
             },
         ],
         sitemap: `${SITE_URL}/sitemap.xml`,
