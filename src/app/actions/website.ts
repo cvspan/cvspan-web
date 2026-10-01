@@ -1,6 +1,7 @@
 "use server";
 
 import { eq } from "drizzle-orm";
+import { after } from "next/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { db } from "@/db";
@@ -8,6 +9,8 @@ import { approvals, blogPosts, categories, departments, jobListings } from "@/db
 import type { EmploymentType } from "@/lib/format";
 import { logActivity, requireRole } from "./guards";
 import { slugify } from "@/lib/slug";
+import { pingWebsite } from "@/lib/website-sync";
+import { RESERVED_SLUGS } from "@/lib/website";
 import { requireUser } from "@/lib/session";
 
 /** Strip tags so we can derive an excerpt and a reading time from the body. */
@@ -49,6 +52,36 @@ async function resolveCategory(categoryId: string, newCategory: string) {
   }
 
   return categoryId || null;
+}
+
+/**
+ * A readable, unique slug for a public URL: "product-designer", then "product-designer-2" if that
+ * is taken. These become cvspan.com/careers/<slug> and cvspan.com/blog/<slug>.
+ */
+async function uniqueSlug(kind: "post" | "job", title: string) {
+  const base = slugify(title) || kind;
+  const table = kind === "post" ? blogPosts : jobListings;
+
+  for (let attempt = 1; attempt <= 25; attempt++) {
+    const candidate = attempt === 1 ? base : `${base}-${attempt}`;
+    if ((RESERVED_SLUGS[kind] as readonly string[]).includes(candidate)) continue;
+    const [taken] = await db.select({ id: table.id }).from(table).where(eq(table.slug, candidate)).limit(1);
+    if (!taken) return candidate;
+  }
+  return `${base}-${Date.now().toString(36)}`;
+}
+
+/** The website pages a post or role appears on: its list and its own page. */
+async function websitePaths(kind: "post" | "job", slug: string | null | undefined) {
+  const list = kind === "post" ? "/blog" : "/careers";
+  return slug ? [list, `${list}/${slug}`] : [list];
+}
+
+async function slugOf(kind: "post" | "job", id: string | null | undefined) {
+  if (!id) return null;
+  const table = kind === "post" ? blogPosts : jobListings;
+  const [row] = await db.select({ slug: table.slug }).from(table).where(eq(table.id, id)).limit(1);
+  return row?.slug ?? null;
 }
 
 export async function savePost(formData: FormData) {
@@ -112,7 +145,7 @@ export async function savePost(formData: FormData) {
       .insert(blogPosts)
       .values({
         ...values,
-        slug: `${slugify(title)}-${Date.now().toString(36)}`,
+        slug: await uniqueSlug("post", title),
         authorId: user.id,
       })
       .returning();
@@ -136,6 +169,7 @@ export async function savePost(formData: FormData) {
   );
 
   revalidatePath("/blog");
+  after(async () => pingWebsite(await websitePaths("post", await slugOf("post", postId))));
   redirect("/blog");
 }
 
@@ -150,6 +184,7 @@ export async function publishPost(postId: string) {
   await logActivity(user.id, "published a blog post");
   revalidatePath("/blog");
   revalidatePath("/");
+  after(async () => pingWebsite(await websitePaths("post", await slugOf("post", postId))));
 }
 
 export async function submitPostForReview(postId: string) {
@@ -172,9 +207,11 @@ export async function submitPostForReview(postId: string) {
 
 export async function deletePost(postId: string) {
   const user = await requireRole("admin");
+  const slug = await slugOf("post", postId);
   await db.delete(blogPosts).where(eq(blogPosts.id, postId));
   await logActivity(user.id, "deleted a blog post");
   revalidatePath("/blog");
+  after(async () => pingWebsite(await websitePaths("post", slug)));
 }
 
 export async function saveJob(formData: FormData) {
@@ -247,6 +284,8 @@ export async function saveJob(formData: FormData) {
     updatedAt: new Date(),
   };
 
+  let jobId = id;
+
   if (id) {
     /** Keep the original posting date once a listing has gone live. */
     const [existing] = await db.select().from(jobListings).where(eq(jobListings.id, id)).limit(1);
@@ -259,11 +298,15 @@ export async function saveJob(formData: FormData) {
       })
       .where(eq(jobListings.id, id));
   } else {
-    await db.insert(jobListings).values({
-      ...values,
-      slug: `${slugify(title)}-${Date.now().toString(36)}`,
-      postedAt: values.stage === "open" ? new Date() : null,
-    });
+    const [created] = await db
+      .insert(jobListings)
+      .values({
+        ...values,
+        slug: await uniqueSlug("job", title),
+        postedAt: values.stage === "open" ? new Date() : null,
+      })
+      .returning({ id: jobListings.id });
+    jobId = created.id;
   }
 
   await logActivity(
@@ -274,6 +317,7 @@ export async function saveJob(formData: FormData) {
 
   revalidatePath("/careers");
   revalidatePath("/");
+  after(async () => pingWebsite(await websitePaths("job", await slugOf("job", jobId))));
   redirect("/careers");
 }
 
@@ -297,11 +341,14 @@ export async function setJobStage(
   await logActivity(user.id, `moved a listing to ${stage}`, existing?.title ?? undefined);
   revalidatePath("/careers");
   revalidatePath("/");
+  after(async () => pingWebsite(await websitePaths("job", await slugOf("job", jobId))));
 }
 
 export async function deleteJob(jobId: string) {
   const user = await requireRole("admin");
+  const slug = await slugOf("job", jobId);
   await db.delete(jobListings).where(eq(jobListings.id, jobId));
   await logActivity(user.id, "deleted a job listing");
   revalidatePath("/careers");
+  after(async () => pingWebsite(await websitePaths("job", slug)));
 }

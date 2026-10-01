@@ -1,4 +1,5 @@
 import { signOut } from "@/auth";
+import { withBasePath } from "@/lib/base-path";
 
 /**
  * Where `requireUser` sends a session whose account no longer exists or has lost access.
@@ -6,5 +7,5 @@ import { signOut } from "@/auth";
  * sees a valid token; clearing the session first breaks that loop.
  */
 export async function GET() {
-  await signOut({ redirectTo: "/login?expired=1" });
+  await signOut({ redirectTo: withBasePath("/login?expired=1") });
 }

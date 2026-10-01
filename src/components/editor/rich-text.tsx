@@ -28,6 +28,7 @@ import {
   type RemixiconComponentType,
 } from "@remixicon/react";
 import { cn } from "@/lib/utils";
+import { htmlForEditor, htmlForStorage, mediaSrc } from "@/lib/base-path";
 import { uploadImage } from "@/lib/image";
 
 function ToolbarButton({
@@ -223,7 +224,7 @@ export function RichTextEditor({
       TextAlign.configure({ types: ["heading", "paragraph"] }),
       Placeholder.configure({ placeholder: "Write the post…" }),
     ],
-    content: defaultValue,
+    content: htmlForEditor(defaultValue),
     editorProps: {
       attributes: {
         /** Tall by default, so a click anywhere in the blank area lands in the text. */
@@ -240,7 +241,7 @@ export function RichTextEditor({
     setImageError(null);
     try {
       const url = await uploadImage(file);
-      editor?.chain().focus().setImage({ src: url }).run();
+      editor?.chain().focus().setImage({ src: mediaSrc(url) }).run();
     } catch (problem) {
       setImageError(problem instanceof Error ? problem.message : "Upload failed");
     }
@@ -276,7 +277,7 @@ export function RichTextEditor({
       >
         <EditorContent editor={editor} className="flex-1" />
       </div>
-      <input type="hidden" name={name} value={editor?.getHTML() ?? defaultValue} readOnly />
+      <input type="hidden" name={name} value={htmlForStorage(editor?.getHTML() ?? defaultValue)} readOnly />
     </div>
   );
 }

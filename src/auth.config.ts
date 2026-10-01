@@ -1,11 +1,14 @@
 import type { NextAuthConfig } from "next-auth";
+import { BASE_PATH } from "@/lib/base-path";
 
 /**
  * Edge-safe half of the auth setup: no database or bcrypt here, because
  * middleware runs on the edge runtime. Providers live in `src/auth.ts`.
  */
 export const authConfig = {
-  pages: { signIn: "/login" },
+  /** Auth.js builds absolute URLs itself, so it has to be told the portal lives under a prefix. */
+  basePath: `${BASE_PATH}/api/auth`,
+  pages: { signIn: `${BASE_PATH}/login` },
   session: { strategy: "jwt" },
   callbacks: {
     authorized({ auth, request }) {
@@ -13,7 +16,7 @@ export const authConfig = {
       const onLogin = request.nextUrl.pathname.startsWith("/login");
 
       if (onLogin) {
-        if (signedIn) return Response.redirect(new URL("/", request.nextUrl));
+        if (signedIn) return Response.redirect(new URL(`${BASE_PATH}/`, request.nextUrl));
         return true;
       }
 

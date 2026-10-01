@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { RiDeleteBin6Line, RiImageAddLine, RiLoader4Line } from "@remixicon/react";
 import { cn } from "@/lib/utils";
+import { mediaSrc } from "@/lib/base-path";
 import { uploadImage } from "@/lib/image";
 
 const inputClass =
@@ -42,7 +43,7 @@ export function CoverField({
         <div className="relative">
           {/* eslint-disable-next-line @next/next/no-img-element -- served from our own media route */}
           <img
-            src={url}
+            src={mediaSrc(url)}
             alt=""
             className="border-line aspect-[16/9] w-full rounded-lg border object-cover"
           />

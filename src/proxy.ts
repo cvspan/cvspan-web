@@ -14,7 +14,8 @@ export const config = {
    * Everything except static assets, the auth endpoints, and uploaded media —
    * cover images have to load on the public website, where there is no session.
    * Brand files and the app icon are public too: the sign-in page needs them before anyone
-   * is signed in. So is certificate verification: its whole point is that anyone can check one.
+   * is signed in. So is certificate verification: its whole point is that anyone can check one. And the public API
+   * the website reads, which has no session by design.
    */
-  matcher: ["/((?!api/auth|api/media|_next/static|_next/image|brand/|verify/|icon.svg|favicon.ico).*)"],
+  matcher: ["/((?!api/auth|api/media|_next/static|_next/image|brand/|verify/|api/public/|icon.svg|favicon.ico).*)"],
 };

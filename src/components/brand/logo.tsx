@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { withBasePath } from "@/lib/base-path";
 import { cn } from "@/lib/utils";
 
 /** Artwork is 500×102 (full logo) and 220×102 (icon); width follows from the height we ask for. */
@@ -27,7 +28,8 @@ export function Logo({
 
   const image = (file: string, extra?: string) => (
     <Image
-      src={`/brand/${file}.svg`}
+      /** SVGs are served as-is, so next/image doesn't add the base path for us. */
+      src={withBasePath(`/brand/${file}.svg`)}
       alt={extra ? "" : "CVSpan"}
       aria-hidden={extra ? true : undefined}
       width={width}

@@ -1,3 +1,4 @@
+import { withBasePath } from "@/lib/base-path";
 import Link from "next/link";
 import { RiAwardLine, RiDownloadLine, RiExternalLinkLine } from "@remixicon/react";
 import { Badge } from "@/components/ui/badge";
@@ -38,7 +39,7 @@ export default async function ProgrammesPage() {
         actions={
           <>
             {atLeast(user.viewRole, "manager") ? (
-              <a href="/api/export/programmes" download>
+              <a href={withBasePath("/api/export/programmes")} download>
                 <Button variant="secondary" type="button">
                   <RiDownloadLine size={18} aria-hidden />
                   Export progress

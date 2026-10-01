@@ -1,3 +1,4 @@
+import { mediaSrc } from "@/lib/base-path";
 import Link from "next/link";
 import { RiAddLine, RiExternalLinkLine, RiImageLine } from "@remixicon/react";
 import { Badge } from "@/components/ui/badge";
@@ -11,6 +12,11 @@ import { formatDay, initials, postStatusLabels, relativeDays } from "@/lib/forma
 import { atLeast } from "@/lib/roles";
 import { requireUser } from "@/lib/session";
 import { statusTone } from "@/lib/tone";
+import { websitePostUrl, websiteUrl } from "@/lib/website";
+
+/** Published, or scheduled for a time that has passed: what the public site is showing. */
+const isLive = (post: { status: string; publishAt: Date | null }) =>
+  post.status === "published" || (post.status === "scheduled" && post.publishAt !== null && post.publishAt <= new Date());
 
 export default async function BlogPage() {
   const user = await requireUser();
@@ -29,10 +35,10 @@ export default async function BlogPage() {
         title="Blog"
         actions={
           <>
-            <a href="https://cvspan.com/blog" target="_blank" rel="noopener noreferrer">
+            <a href={websiteUrl("/blog")} target="_blank" rel="noopener noreferrer">
               <Button variant="secondary" type="button">
                 <RiExternalLinkLine size={18} aria-hidden />
-                View site
+                View blog on website
               </Button>
             </a>
             <Link href="/blog/new">
@@ -81,7 +87,7 @@ export default async function BlogPage() {
                       {post.coverImageUrl ? (
                         // eslint-disable-next-line @next/next/no-img-element -- served from our own media route
                         <img
-                          src={post.coverImageUrl}
+                          src={mediaSrc(post.coverImageUrl)}
                           alt=""
                           className="border-line h-10 w-14 rounded-md border object-cover"
                         />
@@ -133,7 +139,19 @@ export default async function BlogPage() {
                   {/* The title and thumbnail already open the editor, so this
                       column carries only the action that changes state. */}
                   <Td className="whitespace-nowrap">
-                    <span className="flex justify-end">
+                    <span className="flex items-center justify-end gap-1">
+                      {isLive(post) ? (
+                        <a
+                          href={websitePostUrl(post.slug)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={`View ${post.title} on the website`}
+                          title="View on the website"
+                          className="text-muted hover:bg-raised hover:text-primary flex size-8 items-center justify-center rounded-lg transition-colors"
+                        >
+                          <RiExternalLinkLine size={18} aria-hidden />
+                        </a>
+                      ) : null}
                       <PostActions postId={post.id} status={post.status} canPublish={canPublish} />
                     </span>
                   </Td>

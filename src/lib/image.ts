@@ -1,3 +1,4 @@
+import { withBasePath } from "@/lib/base-path";
 const MAX_WIDTH = 1600;
 const QUALITY = 0.82;
 
@@ -51,7 +52,7 @@ export async function uploadImage(file: File): Promise<string> {
   const body = new FormData();
   body.append("file", prepared);
 
-  const response = await fetch("/api/upload", { method: "POST", body });
+  const response = await fetch(withBasePath("/api/upload"), { method: "POST", body });
 
   /** A failure can arrive without a JSON body, so never assume one. */
   const raw = await response.text();

@@ -1,3 +1,4 @@
+import { withBasePath } from "@/lib/base-path";
 import Link from "next/link";
 import { RiDownloadLine } from "@remixicon/react";
 import { Badge } from "@/components/ui/badge";
@@ -79,7 +80,7 @@ export default async function TasksPage({
           <>
             <TaskFilter value={statusFilter ?? "all"} />
             {atLeast(user.viewRole, "manager") ? (
-              <a href="/api/export/tasks" download>
+              <a href={withBasePath("/api/export/tasks")} download>
                 <Button variant="secondary" type="button">
                   <RiDownloadLine size={18} aria-hidden />
                   Export

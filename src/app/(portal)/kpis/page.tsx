@@ -1,3 +1,4 @@
+import { withBasePath } from "@/lib/base-path";
 import { RiDownloadLine } from "@remixicon/react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -44,7 +45,7 @@ export default async function KpisPage() {
         title="My KPIs"
         actions={
           <>
-            <a href="/api/export/kpis" download>
+            <a href={withBasePath("/api/export/kpis")} download>
               <Button variant="secondary" type="button">
                 <RiDownloadLine size={18} aria-hidden />
                 Download report

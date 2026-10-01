@@ -1,3 +1,4 @@
+import { withBasePath } from "@/lib/base-path";
 import Link from "next/link";
 import { RiDownloadLine, RiNodeTree } from "@remixicon/react";
 import { Badge } from "@/components/ui/badge";
@@ -41,7 +42,7 @@ export default async function PeoplePage({ searchParams }: { searchParams: Promi
         title="People"
         actions={
           <>
-            <a href="/api/export/people" download>
+            <a href={withBasePath("/api/export/people")} download>
               <Button variant="secondary" type="button">
                 <RiDownloadLine size={18} aria-hidden />
                 Export CSV

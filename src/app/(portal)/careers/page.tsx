@@ -19,6 +19,7 @@ import {
 } from "@/lib/format";
 import { atLeast } from "@/lib/roles";
 import { requireUser } from "@/lib/session";
+import { websiteJobUrl, websiteUrl } from "@/lib/website";
 import { statusTone } from "@/lib/tone";
 
 export default async function CareersPage() {
@@ -49,7 +50,7 @@ export default async function CareersPage() {
         title="Careers"
         actions={
           <>
-            <a href="https://cvspan.com/careers" target="_blank" rel="noopener noreferrer">
+            <a href={websiteUrl("/careers")} target="_blank" rel="noopener noreferrer">
               <Button variant="secondary" type="button">
                 <RiExternalLinkLine size={18} aria-hidden />
                 View careers page
@@ -193,7 +194,15 @@ export default async function CareersPage() {
                       )}
                     </Td>
 
-                    <Td>{job.applicants}</Td>
+                    <Td>
+                      <Link
+                        href={`/careers/${job.id}/applicants`}
+                        className="text-primary hover:text-accent font-semibold"
+                        aria-label={`${job.applicants} applicants for ${job.title}`}
+                      >
+                        {job.applicants}
+                      </Link>
+                    </Td>
 
                     <Td className="whitespace-nowrap">
                       {job.closingDate ? (
@@ -214,6 +223,18 @@ export default async function CareersPage() {
 
                     <Td className="whitespace-nowrap">
                       <span className="flex justify-end">
+                        {job.stage === "open" ? (
+                          <a
+                            href={websiteJobUrl(job.slug)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={`View ${job.title} on the website`}
+                            title="View on the website"
+                            className="text-muted hover:bg-raised hover:text-primary mr-1 flex size-8 items-center justify-center rounded-lg transition-colors"
+                          >
+                            <RiExternalLinkLine size={18} aria-hidden />
+                          </a>
+                        ) : null}
                         {canManage ? <JobStageActions jobId={job.id} stage={job.stage} /> : null}
                       </span>
                     </Td>

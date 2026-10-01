@@ -9,6 +9,7 @@ export const notificationCategories = [
   { key: "approvals", label: "Leave requests for me to approve, and decisions on mine" },
   { key: "projects", label: "I am added to a project or made its manager" },
   { key: "organisation", label: "My role, department or reporting line changes" },
+  { key: "careers", label: "A candidate applies for a role I am hiring for" },
 ] as const;
 
 export type NotificationCategory = (typeof notificationCategories)[number]["key"];

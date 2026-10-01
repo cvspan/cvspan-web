@@ -1,3 +1,4 @@
+import { withBasePath } from "@/lib/base-path";
 import Link from "next/link";
 import { RiArrowRightSLine } from "@remixicon/react";
 import { Badge } from "@/components/ui/badge";
@@ -46,7 +47,7 @@ export async function AdminDashboard() {
         title="Admin dashboard"
         actions={
           <>
-            <a href="/api/export/people" download>
+            <a href={withBasePath("/api/export/people")} download>
               <Button variant="secondary" type="button">
                 Export CSV
               </Button>

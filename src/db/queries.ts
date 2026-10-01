@@ -426,6 +426,7 @@ export async function getJobListings() {
     .select({
       id: jobListings.id,
       title: jobListings.title,
+      slug: jobListings.slug,
       employmentType: jobListings.employmentType,
       seniority: jobListings.seniority,
       location: jobListings.location,

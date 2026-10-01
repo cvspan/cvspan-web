@@ -3,6 +3,7 @@
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { RiSearchLine } from "@remixicon/react";
+import { withBasePath } from "@/lib/base-path";
 import { cn } from "@/lib/utils";
 
 type Item = { id: string; title: string; detail?: string; href: string };
@@ -36,7 +37,7 @@ export function GlobalSearch() {
     const controller = new AbortController();
     const timer = setTimeout(async () => {
       try {
-        const response = await fetch(`/api/search?q=${encodeURIComponent(trimmed)}`, { signal: controller.signal });
+        const response = await fetch(withBasePath(`/api/search?q=${encodeURIComponent(trimmed)}`), { signal: controller.signal });
         if (!response.ok) return;
         const data = (await response.json()) as { groups: Group[] };
         setGroups(data.groups);
