@@ -13,9 +13,10 @@ const nextConfig = {
 
     // In production the CVSpan Portal is its own deployment served at cvspan.com/portal.
     // Set PORTAL_ORIGIN to its address (for example https://cvspan-portal.vercel.app) and the
-    // browser keeps seeing a single site. Without it, /portal is not proxied (local development).
+    // browser keeps seeing a single site. In local development it defaults to the portal on port 3000.
     async rewrites() {
-        const portal = process.env.PORTAL_ORIGIN?.replace(/\/+$/, '');
+        const fallback = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : undefined;
+        const portal = (process.env.PORTAL_ORIGIN ?? fallback)?.replace(/\/+$/, '');
         if (!portal) return [];
         return [{ source: '/portal/:path*', destination: `${portal}/portal/:path*` }];
     },
