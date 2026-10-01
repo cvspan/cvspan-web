@@ -18,7 +18,17 @@ const nextConfig = {
         const fallback = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : undefined;
         const portal = (process.env.PORTAL_ORIGIN ?? fallback)?.replace(/\/+$/, '');
         if (!portal) return [];
-        return [{ source: '/portal/:path*', destination: `${portal}/portal/:path*` }];
+        return [
+            // The portal is a newer Next.js than this site, and it checks the "_rsc" value on every
+            // client-side navigation. This site strips that value before proxying, so the portal
+            // would redirect forever ("1 Issue" in dev, a full page reload in production). Put it back.
+            {
+                source: '/portal/:path*',
+                has: [{ type: 'query', key: '_rsc', value: '(?<rsc>.*)' }],
+                destination: `${portal}/portal/:path*?_rsc=:rsc`,
+            },
+            { source: '/portal/:path*', destination: `${portal}/portal/:path*` },
+        ];
     },
 };
 
