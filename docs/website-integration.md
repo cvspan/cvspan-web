@@ -52,7 +52,7 @@ Local development: portal on `:3000`, website on `:2000`, `NEXT_PUBLIC_PORTAL_AP
 Base: `/portal/api/public/v1`. All responses are JSON. GETs are cached by a CDN for 60 seconds
 (`s-maxage=60, stale-while-revalidate=300`) and are open to any origin.
 
-### `GET /blog?page=1&pageSize=9&category=<slug>&tag=<tag>`
+### `GET /blog?page=1&pageSize=9&category=<slug>&tag=<tag>&q=<text>`
 
 ```json
 {
@@ -68,7 +68,7 @@ Base: `/portal/api/public/v1`. All responses are JSON. GETs are cached by a CDN 
 }
 ```
 
-`pageSize` is capped at 24.
+`pageSize` is capped at 24. `q` matches the title or excerpt.
 
 ### `GET /blog/:slug`
 

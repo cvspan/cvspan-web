@@ -39,14 +39,19 @@ export async function getPublicPosts({
   pageSize,
   category,
   tag,
+  search,
 }: {
   page: number;
   pageSize: number;
   category?: string;
   tag?: string;
+  search?: string;
 }) {
+  /** Matches the title or excerpt; %, _ and backslashes are escaped so they search as plain characters. */
+  const pattern = search ? `%${search.replace(/[\\%_]/g, "\\$&")}%` : null;
   const where = and(
     postIsPublic,
+    pattern ? sql`(${blogPosts.title} ilike ${pattern} or ${blogPosts.excerpt} ilike ${pattern})` : undefined,
     category ? eq(categories.slug, category) : undefined,
     tag ? sql`${tag} = any(${blogPosts.tags})` : undefined,
   );

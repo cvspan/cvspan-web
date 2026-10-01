@@ -22,6 +22,7 @@ export async function GET(request: Request) {
       pageSize,
       category: params.get("category")?.slice(0, 80) || undefined,
       tag: params.get("tag")?.slice(0, 60) || undefined,
+      search: params.get("q")?.trim().slice(0, 80) || undefined,
     }),
     getPublicCategories(),
   ]);
