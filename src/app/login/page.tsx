@@ -25,9 +25,9 @@ async function signInAction(formData: FormData) {
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ error?: string }>;
+  searchParams: Promise<{ error?: string; expired?: string }>;
 }) {
-  const { error } = await searchParams;
+  const { error, expired } = await searchParams;
 
   return (
     <main className="bg-app flex min-h-dvh items-center justify-center p-4">
@@ -44,6 +44,15 @@ export default async function LoginPage({
           <p className="text-muted mt-1 text-body">
             Use your CVSpan work email to continue.
           </p>
+
+          {expired ? (
+            <p
+              role="status"
+              className="bg-warning-surface text-warning-text border-warning-border mt-4 rounded-lg border px-3 py-2 text-caption"
+            >
+              Your session ended because your account changed or was removed. Please sign in again.
+            </p>
+          ) : null}
 
           {error ? (
             <p
