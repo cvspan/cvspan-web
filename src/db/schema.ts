@@ -165,6 +165,7 @@ export const users = pgTable(
     email: text("email").notNull(),
     passwordHash: text("password_hash"),
     name: text("name").notNull(),
+    /** A portable media path (/api/media/<id>) the person uploaded themselves; null shows their initials. */
     avatarUrl: text("avatar_url"),
     /** Permission level. Independent of employmentType: an intern can be a manager. */
     role: roleEnum("role").default("member").notNull(),

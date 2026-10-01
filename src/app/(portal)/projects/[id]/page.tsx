@@ -335,17 +335,18 @@ export default async function ProjectPage({ params }: { params: Promise<{ id: st
             <CardHeader
               title="Tasks"
               action={
-                <NewProjectTaskButton
-                  projectId={id}
-                  members={(canManage ? members : members.filter((member) => member.id === user.id)).map(
-                    (member) => ({ id: member.id, name: member.name }),
-                  )}
-                  milestones={milestones.map((milestone) => ({
-                    id: milestone.id,
-                    title: milestone.title,
-                  }))}
-                  defaultAssigneeId={memberIds.has(user.id) ? user.id : undefined}
-                />
+                /** Only the project's manager (or an admin) adds tasks; members work the ones they are given. */
+                canManage ? (
+                  <NewProjectTaskButton
+                    projectId={id}
+                    members={members.map((member) => ({ id: member.id, name: member.name }))}
+                    milestones={milestones.map((milestone) => ({
+                      id: milestone.id,
+                      title: milestone.title,
+                    }))}
+                    defaultAssigneeId={memberIds.has(user.id) ? user.id : undefined}
+                  />
+                ) : null
               }
             />
             {tasks.length === 0 ? (

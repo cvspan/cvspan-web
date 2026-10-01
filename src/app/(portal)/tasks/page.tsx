@@ -87,7 +87,9 @@ export default async function TasksPage({
                 </Button>
               </a>
             ) : null}
-            <NewTaskButton people={assignable} projects={projectOptions} defaultAssigneeId={user.id} />
+            {atLeast(user.viewRole, "manager") ? (
+              <NewTaskButton people={assignable} projects={projectOptions} defaultAssigneeId={user.id} />
+            ) : null}
           </>
         }
       />

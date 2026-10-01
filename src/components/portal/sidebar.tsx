@@ -1,5 +1,6 @@
 "use client";
 
+import { Avatar } from "@/components/ui/avatar";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { RiLogoutBoxRLine } from "@remixicon/react";
@@ -85,9 +86,12 @@ export function Sidebar({ open = false, onClose }: { open?: boolean; onClose?: (
           <NavItem {...settingsLink} />
 
           <div className="mx-2 mt-2 flex items-center gap-2.5 px-3 pt-2">
-            <span className="bg-sidebar-active text-sidebar-text flex size-9 shrink-0 items-center justify-center rounded-full text-caption font-semibold">
-              {user.initials}
-            </span>
+            <Avatar
+              name={user.name}
+              src={user.avatarUrl}
+              size="lg"
+              className="bg-sidebar-active text-sidebar-text"
+            />
             <span className="min-w-0 flex-1">
               <span className="text-sidebar-text block truncate text-body font-semibold">
                 {user.name}

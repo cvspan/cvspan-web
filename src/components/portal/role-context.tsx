@@ -13,6 +13,8 @@ export type SessionUser = {
   /** The role actually held by the signed-in user. */
   realRole: Role;
   jobTitle: string;
+  /** A stored media path, or null to show initials. */
+  avatarUrl: string | null;
   employmentType: string;
 };
 

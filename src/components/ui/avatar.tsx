@@ -1,14 +1,24 @@
+import { mediaSrc } from "@/lib/base-path";
 import { initials } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
-const sizes = { sm: "size-6 text-tiny", md: "size-8 text-tiny", lg: "size-10 text-caption" } as const;
+const sizes = {
+  sm: "size-6 text-tiny",
+  md: "size-8 text-tiny",
+  lg: "size-10 text-caption",
+  xl: "size-24 text-h5",
+} as const;
 
+/** A person's photo when they have one, otherwise their initials. */
 export function Avatar({
   name,
+  src,
   size = "md",
   className,
 }: {
   name: string;
+  /** A stored media path (/api/media/…) or any image URL. */
+  src?: string | null;
   size?: keyof typeof sizes;
   className?: string;
 }) {
@@ -16,12 +26,17 @@ export function Avatar({
     <span
       title={name}
       className={cn(
-        "bg-accent-soft text-accent flex shrink-0 items-center justify-center rounded-full font-semibold",
+        "bg-accent-soft text-accent flex shrink-0 items-center justify-center overflow-hidden rounded-full font-semibold",
         sizes[size],
         className,
       )}
     >
-      <span aria-hidden>{initials(name)}</span>
+      {src ? (
+        // eslint-disable-next-line @next/next/no-img-element -- served from our own media route
+        <img src={mediaSrc(src)} alt="" className="size-full object-cover" />
+      ) : (
+        <span aria-hidden>{initials(name)}</span>
+      )}
       <span className="sr-only">{name}</span>
     </span>
   );

@@ -1,10 +1,11 @@
 "use client";
 
 import { GlobalSearch } from "./global-search";
-import { RiMenuLine } from "@remixicon/react";
+import { RiGlobalLine, RiMenuLine } from "@remixicon/react";
 import { ThemeToggle } from "./theme-toggle";
 import { RoleSwitcher } from "./role-switcher";
-import { useRole } from "./role-context";
+import { UserMenu } from "./user-menu";
+import { websiteUrl } from "@/lib/website";
 import { NotificationBell, type NotificationItem } from "./notifications";
 
 export function Topbar({
@@ -14,8 +15,6 @@ export function Topbar({
   onOpenNav?: () => void;
   notifications?: NotificationItem[];
 }) {
-  const { user } = useRole();
-
   return (
     <header className="border-line bg-card sticky top-0 z-10 flex h-16 items-center gap-3 border-b px-4 lg:px-6">
       <button
@@ -32,16 +31,21 @@ export function Topbar({
       <div className="flex-1" />
 
       <RoleSwitcher />
+      <a
+        href={websiteUrl()}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Open the CVSpan website in a new tab"
+        title="Visit the CVSpan website"
+        className="text-secondary hover:bg-raised hover:text-primary flex size-9 cursor-pointer items-center justify-center rounded-lg transition-colors"
+      >
+        <RiGlobalLine size={20} aria-hidden />
+      </a>
       <ThemeToggle />
 
       <NotificationBell items={notifications} />
 
-      <span
-        title={user.email}
-        className="bg-accent-soft text-accent flex size-8 shrink-0 items-center justify-center rounded-full text-caption font-semibold"
-      >
-        {user.initials}
-      </span>
+      <UserMenu />
     </header>
   );
 }

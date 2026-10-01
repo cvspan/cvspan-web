@@ -5,6 +5,7 @@ import { PageHeader } from "@/components/ui/page-header";
 import { updateProfile } from "@/app/actions/profile";
 import { requireUser } from "@/lib/session";
 import { getNotificationPreferences, getUserById } from "@/db/queries";
+import { AvatarField } from "@/components/forms/avatar-field";
 import { NotificationPreferences } from "@/components/forms/notification-preferences";
 import { roleLabels } from "@/lib/roles";
 
@@ -26,6 +27,9 @@ export default async function SettingsPage() {
         <Card className="xl:col-span-2">
           <form action={updateProfile}>
           <CardHeader title="Profile" />
+          <div className="border-line border-b p-5">
+            <AvatarField name={session.name} initialUrl={session.avatarUrl} />
+          </div>
           <div className="grid gap-4 p-5 sm:grid-cols-2">
             <label className="flex flex-col gap-1.5">
               <span className="text-primary text-body font-semibold">Full name</span>

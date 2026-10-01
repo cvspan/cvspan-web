@@ -1,3 +1,4 @@
+import { Avatar } from "@/components/ui/avatar";
 import { withBasePath } from "@/lib/base-path";
 import Link from "next/link";
 import { RiDownloadLine, RiNodeTree } from "@remixicon/react";
@@ -9,7 +10,7 @@ import { Table, Td, Thead, Tr } from "@/components/ui/table";
 import { DirectorySearch } from "@/components/forms/directory-search";
 import { InviteMemberButton } from "@/components/forms/people-forms";
 import { getDepartmentSummary, getHeadcountByType, getPeople } from "@/db/queries";
-import { employmentLabels, initials } from "@/lib/format";
+import { employmentLabels } from "@/lib/format";
 import { roleLabels } from "@/lib/roles";
 import { statusTone } from "@/lib/tone";
 
@@ -104,9 +105,7 @@ export default async function PeoplePage({ searchParams }: { searchParams: Promi
               <Tr key={person.id}>
                 <Td>
                   <span className="flex items-center gap-2.5">
-                    <span className="bg-accent-soft text-accent flex size-8 shrink-0 items-center justify-center rounded-full text-tiny font-semibold">
-                      {initials(person.name)}
-                    </span>
+                    <Avatar name={person.name} src={person.avatarUrl} />
                     <span className="min-w-0">
                       <Link
                         href={`/people/${person.id}`}

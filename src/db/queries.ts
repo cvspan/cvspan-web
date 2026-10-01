@@ -37,6 +37,7 @@ export async function getPeople() {
       id: users.id,
       name: users.name,
       email: users.email,
+      avatarUrl: users.avatarUrl,
       jobTitle: users.jobTitle,
       role: users.role,
       employmentType: users.employmentType,
@@ -346,6 +347,7 @@ export async function getThreadsFor(userId: string) {
       threadId: threadMembers.threadId,
       id: users.id,
       name: users.name,
+      avatarUrl: users.avatarUrl,
       jobTitle: users.jobTitle,
       department: departments.name,
     })
@@ -383,7 +385,7 @@ export async function getThreadsFor(userId: string) {
       name: thread.name,
       members: people
         .filter((person) => person.threadId === thread.id)
-        .map(({ id, name, jobTitle, department }) => ({ id, name, jobTitle, department })),
+        .map(({ id, name, avatarUrl, jobTitle, department }) => ({ id, name, avatarUrl, jobTitle, department })),
       lastMessage: latest.get(thread.id)?.body ?? null,
       lastSenderId: latest.get(thread.id)?.senderId ?? null,
       lastAt: latest.get(thread.id)?.createdAt ?? null,

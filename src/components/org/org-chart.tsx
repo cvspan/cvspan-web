@@ -229,7 +229,7 @@ function Card({ node, open, onToggle }: { node: Node; open: boolean; onToggle?: 
         !node.you && !node.path && node.inDepartment && "bg-raised",
       )}
     >
-      <Avatar name={person.name} size="lg" className={node.you || node.inDepartment ? "bg-card" : undefined} />
+      <Avatar name={person.name} src={person.avatarUrl} size="lg" className={node.you || node.inDepartment ? "bg-card" : undefined} />
       <div className="min-w-0 flex-1">
         <p className="text-primary flex items-center gap-1.5 text-body font-semibold">
           {name}

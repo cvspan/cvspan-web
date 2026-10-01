@@ -21,6 +21,7 @@ const loadAccount = cache(async (id: string) => {
       role: users.role,
       status: users.status,
       jobTitle: users.jobTitle,
+      avatarUrl: users.avatarUrl,
       employmentType: users.employmentType,
     })
     .from(users)
@@ -64,6 +65,7 @@ export async function requireUser() {
     role,
     viewRole,
     jobTitle: account.jobTitle ?? "",
+    avatarUrl: account.avatarUrl,
     employmentType: employmentLabels[account.employmentType as EmploymentType],
   };
 }

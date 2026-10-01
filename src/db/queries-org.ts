@@ -17,6 +17,7 @@ export async function getOrgPeople(): Promise<OrgMember[]> {
       .select({
         id: users.id,
         name: users.name,
+        avatarUrl: users.avatarUrl,
         jobTitle: users.jobTitle,
         role: users.role,
         orgLevel: users.orgLevel,

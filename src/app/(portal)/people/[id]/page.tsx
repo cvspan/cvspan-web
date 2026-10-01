@@ -1,3 +1,4 @@
+import { Avatar } from "@/components/ui/avatar";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { RiArrowLeftLine, RiMailLine } from "@remixicon/react";
@@ -32,7 +33,6 @@ import {
   formatDay,
   formatMonth,
   formatTime,
-  initials,
   relativeDays,
   taskStatusLabels,
 } from "@/lib/format";
@@ -125,9 +125,7 @@ export default async function PersonPage({ params }: { params: Promise<{ id: str
       <section className="grid gap-4 xl:grid-cols-4">
         <Card className="xl:col-span-2">
           <div className="flex items-center gap-4 p-5">
-            <span className="bg-accent-soft text-accent flex size-16 shrink-0 items-center justify-center rounded-full text-title font-semibold">
-              {initials(person.name)}
-            </span>
+            <Avatar name={person.name} src={person.avatarUrl} className="size-16 text-title" />
             <div className="min-w-0">
               <p className="text-primary text-title font-semibold">{person.name}</p>
               <p className="text-muted text-body">{person.email}</p>

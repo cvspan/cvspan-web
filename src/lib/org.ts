@@ -49,6 +49,8 @@ export type OrgPerson = {
   id: string;
   name: string;
   jobTitle: string | null;
+  /** A stored photo path, when they have one. */
+  avatarUrl?: string | null;
   role: Role;
   orgLevel: StoredLevel;
   managerId: string | null;

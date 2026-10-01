@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { RiArrowLeftLine } from "@remixicon/react";
+import { Avatar } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
@@ -7,24 +8,13 @@ import { NewMessageButton } from "@/components/forms/message-forms";
 import { ChatPanel } from "@/components/messages/chat-panel";
 import { getMessages, getPeople, getThreadsFor } from "@/db/queries";
 import { groupMessages, listTime, threadTitle } from "@/lib/chat";
-import { initials } from "@/lib/format";
 import { requireUser } from "@/lib/session";
 import { cn } from "@/lib/utils";
 
 export const metadata = { title: "Messages · CVSpan Portal" };
 
-function Avatar({ name, onTint = false }: { name: string; onTint?: boolean }) {
-  return (
-    <span
-      aria-hidden
-      className={cn(
-        "text-accent flex size-10 shrink-0 items-center justify-center rounded-full text-caption font-semibold",
-        onTint ? "bg-card" : "bg-accent-soft",
-      )}
-    >
-      {initials(name)}
-    </span>
-  );
+function ThreadAvatar({ name, src, onTint = false }: { name: string; src?: string | null; onTint?: boolean }) {
+  return <Avatar name={name} src={src} size="lg" className={onTint ? "bg-card" : undefined} />;
 }
 
 export default async function MessagesPage({
@@ -45,6 +35,11 @@ export default async function MessagesPage({
     ...thread,
     title: threadTitle(thread, thread.members, user.id),
     isGroup: thread.name !== null || thread.members.length > 2,
+    /** A one-to-one chat shows the other person's photo; a group shows initials. */
+    photo:
+      thread.name === null && thread.members.length === 2
+        ? (thread.members.find((member) => member.id !== user.id)?.avatarUrl ?? null)
+        : null,
   }));
   const current = titled.find((thread) => thread.id === active?.id);
 
@@ -99,7 +94,7 @@ export default async function MessagesPage({
                         selected ? "border-accent bg-accent-soft" : "border-transparent",
                       )}
                     >
-                      <Avatar name={thread.title} onTint={selected} />
+                      <ThreadAvatar name={thread.title} src={thread.photo} onTint={selected} />
                       <span className="min-w-0 flex-1">
                         <span className="flex items-baseline justify-between gap-2">
                           <span className="text-primary truncate text-body font-semibold">{thread.title}</span>
@@ -128,7 +123,7 @@ export default async function MessagesPage({
                 >
                   <RiArrowLeftLine size={20} aria-hidden />
                 </Link>
-                <Avatar name={current.title} />
+                <ThreadAvatar name={current.title} src={current.photo} />
                 <div className="min-w-0 flex-1">
                   <h2 className="text-primary truncate text-body font-semibold">{current.title}</h2>
                   <p className="text-muted truncate text-caption">{subtitle}</p>

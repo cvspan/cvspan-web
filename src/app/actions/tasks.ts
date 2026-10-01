@@ -49,9 +49,9 @@ export async function createTask(formData: FormData): Promise<ActionResult> {
   const projectRole = projectId ? await getProjectRole(projectId, user.id) : null;
   const isAdmin = atLeast(user.role, "admin");
 
-  /** Only managers, admins and a project's own lead may put work on someone else's plate. */
-  if (assigneeId !== user.id && !atLeast(user.role, "manager") && !canManageProject(user.role, projectRole)) {
-    return fail("You can only assign tasks to yourself.");
+  /** Members never create or assign tasks, not even their own. Managers, admins and a project's own lead do. */
+  if (!atLeast(user.role, "manager") && !canManageProject(user.role, projectRole)) {
+    return fail("Members can't create or assign tasks. Ask your manager.");
   }
 
   if (projectId) {

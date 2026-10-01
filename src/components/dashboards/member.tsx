@@ -9,7 +9,7 @@ import { PageHeader } from "@/components/ui/page-header";
 import { KpiBars } from "@/components/portal/kpi-bars";
 import { MyInternshipCountdown, MyLatestReview } from "@/components/reviews/snapshots";
 import { ClockButton } from "@/components/forms/attendance-forms";
-import { NewTaskButton, TaskCheckbox } from "@/components/forms/task-forms";
+import { TaskCheckbox } from "@/components/forms/task-forms";
 import {
   getAssignmentsFor,
   getAttendanceFor,
@@ -80,10 +80,6 @@ export async function MemberDashboard({
         actions={
           <>
             <ClockButton clockedIn={clockedIn} />
-            <NewTaskButton
-              people={[{ id: user.id, name: user.name }]}
-              defaultAssigneeId={user.id}
-            />
           </>
         }
       />
