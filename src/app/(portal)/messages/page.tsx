@@ -1,13 +1,31 @@
-import { RiAttachment2, RiSendPlaneFill } from "@remixicon/react";
+import Link from "next/link";
+import { RiArrowLeftLine } from "@remixicon/react";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
-import { sendMessage } from "@/app/actions/messages";
 import { NewMessageButton } from "@/components/forms/message-forms";
+import { ChatPanel } from "@/components/messages/chat-panel";
 import { getMessages, getPeople, getThreadsFor } from "@/db/queries";
-import { formatTime, initials, relativeDays } from "@/lib/format";
+import { groupMessages, listTime, threadTitle } from "@/lib/chat";
+import { initials } from "@/lib/format";
 import { requireUser } from "@/lib/session";
+import { cn } from "@/lib/utils";
+
+export const metadata = { title: "Messages · CVSpan Portal" };
+
+function Avatar({ name, onTint = false }: { name: string; onTint?: boolean }) {
+  return (
+    <span
+      aria-hidden
+      className={cn(
+        "text-accent flex size-10 shrink-0 items-center justify-center rounded-full text-caption font-semibold",
+        onTint ? "bg-card" : "bg-accent-soft",
+      )}
+    >
+      {initials(name)}
+    </span>
+  );
+}
 
 export default async function MessagesPage({
   searchParams,
@@ -18,13 +36,28 @@ export default async function MessagesPage({
   const { thread: requested } = await searchParams;
 
   const [threads, people] = await Promise.all([getThreadsFor(user.id), getPeople()]);
-  const activeId = requested ?? threads[0]?.id;
-  const messages = activeId ? await getMessages(activeId) : [];
-  const active = threads.find((thread) => thread.id === activeId);
-  const otherName =
-    active?.name ??
-    messages.find((message) => message.senderId !== user.id)?.senderName ??
-    "Conversation";
+
+  /** A thread id that isn't one of mine (stale link, someone else's) falls back to the newest. */
+  const active = threads.find((thread) => thread.id === requested) ?? threads[0];
+  const messages = active ? await getMessages(active.id) : [];
+
+  const titled = threads.map((thread) => ({
+    ...thread,
+    title: threadTitle(thread, thread.members, user.id),
+    isGroup: thread.name !== null || thread.members.length > 2,
+  }));
+  const current = titled.find((thread) => thread.id === active?.id);
+
+  /** For a one-to-one chat, who they are: role and department under their name. */
+  const others = current?.members.filter((member) => member.id !== user.id) ?? [];
+  const subtitle = !current
+    ? ""
+    : current.isGroup
+      ? `${current.members.length} members · ${others.map((member) => member.name.split(" ")[0]).join(", ")}`
+      : [others[0]?.jobTitle, others[0]?.department].filter(Boolean).join(" · ") || "Teammate";
+
+  /** On phones only one pane shows: the list, or the open conversation with a way back. */
+  const showConversation = Boolean(requested && current);
 
   return (
     <>
@@ -40,108 +73,82 @@ export default async function MessagesPage({
         }
       />
 
-      <div className="grid gap-4 lg:grid-cols-3">
-        <Card className="lg:col-span-1">
-          {threads.length === 0 ? (
-            <p className="text-muted px-5 py-8 text-center text-body">No conversations yet.</p>
+      <div className="grid h-[calc(100dvh-14rem)] min-h-[28rem] gap-4 lg:grid-cols-[20rem_minmax(0,1fr)]">
+        <Card className={cn("flex-col", showConversation ? "hidden lg:flex" : "flex")}>
+          <h2 className="border-line text-primary border-b px-4 py-3 text-body font-semibold">
+            Conversations
+          </h2>
+          {titled.length === 0 ? (
+            <p className="text-muted px-4 py-10 text-center text-body">
+              No conversations yet. Use <span className="font-semibold">New message</span> to start one.
+            </p>
           ) : (
-            <ul>
-              {threads.map((thread) => (
-                <li key={thread.id}>
-                  <a
-                    href={`/messages?thread=${thread.id}`}
-                    className={`border-line hover:bg-raised flex w-full items-center gap-3 border-b px-5 py-3 text-left transition-colors ${
-                      thread.id === activeId ? "bg-accent-soft" : ""
-                    }`}
-                  >
-                    <span className="bg-accent-soft text-accent flex size-9 shrink-0 items-center justify-center rounded-full text-caption font-semibold">
-                      {initials(thread.name ?? "Direct message")}
-                    </span>
-                    <span className="min-w-0 flex-1">
-                      <span className="text-primary block truncate text-body font-semibold">
-                        {thread.name ?? "Direct message"}
+            <ul className="flex-1 overflow-y-auto">
+              {titled.map((thread) => {
+                const selected = thread.id === current?.id;
+                const preview = thread.lastMessage
+                  ? `${thread.lastSenderId === user.id ? "You: " : ""}${thread.lastMessage}`
+                  : "No messages yet";
+                return (
+                  <li key={thread.id}>
+                    <Link
+                      href={`/messages?thread=${thread.id}`}
+                      aria-current={selected ? "page" : undefined}
+                      className={cn(
+                        "hover:bg-raised flex items-center gap-3 border-l-2 px-4 py-3 transition-colors",
+                        selected ? "border-accent bg-accent-soft" : "border-transparent",
+                      )}
+                    >
+                      <Avatar name={thread.title} onTint={selected} />
+                      <span className="min-w-0 flex-1">
+                        <span className="flex items-baseline justify-between gap-2">
+                          <span className="text-primary truncate text-body font-semibold">{thread.title}</span>
+                          {thread.lastAt ? (
+                            <span className="text-muted shrink-0 text-tiny">{listTime(thread.lastAt)}</span>
+                          ) : null}
+                        </span>
+                        <span className="text-muted block truncate text-caption">{preview}</span>
                       </span>
-                      <span className="text-muted block truncate text-tiny">
-                        {thread.lastMessage ?? "No messages yet"}
-                      </span>
-                    </span>
-                    <span className="text-muted shrink-0 text-tiny">
-                      {thread.lastAt ? relativeDays(thread.lastAt) : ""}
-                    </span>
-                  </a>
-                </li>
-              ))}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           )}
         </Card>
 
-        <Card className="flex flex-col lg:col-span-2">
-          <header className="border-line flex items-center gap-3 border-b px-5 py-3">
-            <span className="bg-accent-soft text-accent flex size-9 items-center justify-center rounded-full text-caption font-semibold">
-              {initials(otherName)}
-            </span>
-            <span className="min-w-0 flex-1">
-              <span className="text-primary block truncate text-body font-semibold">
-                {otherName}
-              </span>
-              <span className="text-muted block text-tiny">
-                {messages.length} message{messages.length === 1 ? "" : "s"}
-              </span>
-            </span>
-            {active?.name ? <Badge>Group</Badge> : null}
-          </header>
+        <Card className={cn("flex-col", showConversation ? "flex" : "hidden lg:flex")}>
+          {current ? (
+            <>
+              <header className="border-line flex items-center gap-3 border-b px-4 py-3">
+                <Link
+                  href="/messages"
+                  aria-label="Back to conversations"
+                  className="text-muted hover:bg-raised hover:text-primary -ml-1 flex size-8 items-center justify-center rounded-lg lg:hidden"
+                >
+                  <RiArrowLeftLine size={20} aria-hidden />
+                </Link>
+                <Avatar name={current.title} />
+                <div className="min-w-0 flex-1">
+                  <h2 className="text-primary truncate text-body font-semibold">{current.title}</h2>
+                  <p className="text-muted truncate text-caption">{subtitle}</p>
+                </div>
+                {current.isGroup ? <Badge>Group</Badge> : null}
+              </header>
 
-          <ul className="flex min-h-60 flex-1 flex-col gap-3 p-5">
-            {messages.map((message) => {
-              const mine = message.senderId === user.id;
-              return (
-                <li key={message.id} className={mine ? "flex justify-end" : "flex justify-start"}>
-                  <span
-                    className={`max-w-[75%] rounded-lg px-4 py-2.5 ${
-                      mine ? "bg-brand text-on-accent" : "bg-raised text-primary"
-                    }`}
-                  >
-                    {!mine ? (
-                      <span className="text-muted mb-0.5 block text-tiny font-semibold">
-                        {message.senderName}
-                      </span>
-                    ) : null}
-                    <span className="block text-body">{message.body}</span>
-                    <span
-                      className={`mt-1 block text-tiny ${mine ? "text-on-accent/70" : "text-muted"}`}
-                    >
-                      {formatTime(message.createdAt)}
-                    </span>
-                  </span>
-                </li>
-              );
-            })}
-          </ul>
-
-          <form action={sendMessage} className="border-line flex items-center gap-2 border-t p-3">
-            <input type="hidden" name="threadId" value={activeId ?? ""} />
-            <button
-              type="button"
-              aria-label="Attach a file"
-              className="text-muted hover:bg-raised hover:text-primary flex size-9 cursor-pointer items-center justify-center rounded-lg transition-colors"
-            >
-              <RiAttachment2 size={20} aria-hidden />
-            </button>
-            <input
-              type="text"
-              name="body"
-              required
-              autoComplete="off"
-              placeholder="Write a message…"
-              aria-label="Write a message"
-              disabled={!activeId}
-              className="text-primary placeholder:text-muted border-line h-10 flex-1 rounded-lg border bg-transparent px-3 text-body outline-none disabled:opacity-50"
-            />
-            <Button type="submit" aria-label="Send message" disabled={!activeId}>
-              <RiSendPlaneFill size={18} aria-hidden />
-              Send
-            </Button>
-          </form>
+              <ChatPanel
+                threadId={current.id}
+                latestId={messages[messages.length - 1]?.id ?? null}
+                items={groupMessages(messages, user.id)}
+                isGroup={current.isGroup}
+                otherName={current.title}
+              />
+            </>
+          ) : (
+            <div className="text-muted flex flex-1 items-center justify-center px-6 text-center text-body">
+              Select a conversation, or start a new one.
+            </div>
+          )}
         </Card>
       </div>
     </>

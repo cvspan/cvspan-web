@@ -12,7 +12,7 @@ export async function sendMessage(formData: FormData) {
 
   const threadId = String(formData.get("threadId") ?? "");
   const body = String(formData.get("body") ?? "").trim();
-  if (!threadId || !body) return;
+  if (!threadId || !body || body.length > 2000) return;
 
   /** Only members of a thread may post to it. */
   const [membership] = await db

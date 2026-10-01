@@ -340,21 +340,40 @@ export async function getThreadsFor(userId: string) {
 
   const rows = await db.select().from(threads).where(inArray(threads.id, ids));
 
+  /** Everyone in these threads, so a conversation can be titled after who is in it. */
+  const people = await db
+    .select({
+      threadId: threadMembers.threadId,
+      id: users.id,
+      name: users.name,
+      jobTitle: users.jobTitle,
+      department: departments.name,
+    })
+    .from(threadMembers)
+    .innerJoin(users, eq(threadMembers.userId, users.id))
+    .leftJoin(departments, eq(users.departmentId, departments.id))
+    .where(inArray(threadMembers.threadId, ids));
+
   /** One pass over this person's messages beats a correlated subquery per thread. */
   const recent = await db
     .select({
       threadId: messages.threadId,
       body: messages.body,
+      senderId: messages.senderId,
       createdAt: messages.createdAt,
     })
     .from(messages)
     .where(inArray(messages.threadId, ids))
     .orderBy(desc(messages.createdAt));
 
-  const latest = new Map<string, { body: string; createdAt: Date }>();
+  const latest = new Map<string, { body: string; senderId: string | null; createdAt: Date }>();
   for (const message of recent) {
     if (!latest.has(message.threadId)) {
-      latest.set(message.threadId, { body: message.body, createdAt: message.createdAt });
+      latest.set(message.threadId, {
+        body: message.body,
+        senderId: message.senderId,
+        createdAt: message.createdAt,
+      });
     }
   }
 
@@ -362,10 +381,18 @@ export async function getThreadsFor(userId: string) {
     .map((thread) => ({
       id: thread.id,
       name: thread.name,
+      members: people
+        .filter((person) => person.threadId === thread.id)
+        .map(({ id, name, jobTitle, department }) => ({ id, name, jobTitle, department })),
       lastMessage: latest.get(thread.id)?.body ?? null,
+      lastSenderId: latest.get(thread.id)?.senderId ?? null,
       lastAt: latest.get(thread.id)?.createdAt ?? null,
+      createdAt: thread.createdAt,
     }))
-    .sort((a, b) => (b.lastAt?.getTime() ?? 0) - (a.lastAt?.getTime() ?? 0));
+    .sort(
+      (a, b) =>
+        (b.lastAt ?? b.createdAt).getTime() - (a.lastAt ?? a.createdAt).getTime(),
+    );
 }
 
 export async function getMessages(threadId: string) {
