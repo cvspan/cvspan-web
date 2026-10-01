@@ -429,3 +429,26 @@ body {
   height: 0;
   pointer-events: none;
 }
+
+/* Sidebar navigation scrolls without chrome: the scrollbar only appears while the pointer
+   (or keyboard focus) is over it. The gutter is reserved on both edges so nothing shifts. */
+.sidebar-scroll {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-gutter: stable both-edges;
+  scrollbar-color: transparent transparent;
+  overscroll-behavior: contain;
+}
+.sidebar-scroll:hover,
+.sidebar-scroll:focus-within {
+  scrollbar-color: color-mix(in srgb, var(--sidebar-text) 38%, transparent) transparent;
+}
+
+/* Logo pair: coloured on light surfaces, white on dark. Mirrors how the theme tokens switch. */
+.brand-on-dark { display: none; }
+:root.dark .brand-on-light { display: none; }
+:root.dark .brand-on-dark { display: block; }
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) .brand-on-light { display: none; }
+  :root:not(.light) .brand-on-dark { display: block; }
+}

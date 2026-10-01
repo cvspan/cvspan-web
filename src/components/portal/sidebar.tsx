@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { RiLogoutBoxRLine } from "@remixicon/react";
+import { Logo } from "@/components/brand/logo";
 import { cn } from "@/lib/utils";
 import { navFor, settingsLink, type NavLink } from "@/lib/nav";
 import { roleLabels } from "@/lib/roles";
@@ -47,7 +48,7 @@ export function Sidebar({ open = false, onClose }: { open?: boolean; onClose?: (
 
       <aside
         className={cn(
-          "bg-sidebar border-sidebar-line z-30 h-dvh w-65 shrink-0 flex-col overflow-y-auto border-r py-4",
+          "bg-sidebar border-sidebar-line z-30 h-dvh w-65 shrink-0 flex-col border-r",
           "fixed inset-y-0 left-0 transition-transform lg:sticky lg:top-0 lg:flex lg:translate-x-0",
           open ? "flex translate-x-0" : "hidden -translate-x-full",
         )}
@@ -56,14 +57,17 @@ export function Sidebar({ open = false, onClose }: { open?: boolean; onClose?: (
           if (onClose && (event.target as HTMLElement).closest("a")) onClose();
         }}
       >
-        <Link href="/" className="mx-2 flex items-center gap-2.5 rounded-lg px-3 py-2">
-          <span className="text-brand flex size-9 items-center justify-center rounded-lg bg-white text-caption font-bold">
-            CV
-          </span>
-          <span className="text-sidebar-text text-para font-semibold">CVSpan Portal</span>
+        {/* Fixed: the logo never scrolls away. */}
+        <Link
+          href="/"
+          aria-label="CVSpan Portal home"
+          className="mx-2 mt-4 flex shrink-0 items-center rounded-lg px-3 py-2"
+        >
+          <Logo tone="white" height={26} />
         </Link>
 
-        <nav className="mt-4 flex flex-col gap-0.5">
+        {/* Only the menu scrolls, and its scrollbar stays hidden until you hover it. */}
+        <nav aria-label="Main" className="sidebar-scroll mt-2 flex min-h-0 flex-1 flex-col gap-0.5">
           {sections.map((section) => (
             <div key={section.title} className="pb-2">
               <p className="text-sidebar-muted px-5 pt-3 pb-1.5 text-tiny font-semibold tracking-widest uppercase">
@@ -76,31 +80,32 @@ export function Sidebar({ open = false, onClose }: { open?: boolean; onClose?: (
           ))}
         </nav>
 
-        <div className="min-h-6 flex-1" />
+        {/* Fixed: settings and the signed-in user stay in view however long the menu is. */}
+        <div className="border-sidebar-line shrink-0 border-t pt-2 pb-4">
+          <NavItem {...settingsLink} />
 
-        <NavItem {...settingsLink} />
-
-        <div className="border-sidebar-line mx-2 mt-3 flex items-center gap-2.5 border-t px-3 pt-3">
-          <span className="bg-sidebar-active text-sidebar-text flex size-9 shrink-0 items-center justify-center rounded-full text-caption font-semibold">
-            {user.initials}
-          </span>
-          <span className="min-w-0 flex-1">
-            <span className="text-sidebar-text block truncate text-body font-semibold">
-              {user.name}
+          <div className="mx-2 mt-2 flex items-center gap-2.5 px-3 pt-2">
+            <span className="bg-sidebar-active text-sidebar-text flex size-9 shrink-0 items-center justify-center rounded-full text-caption font-semibold">
+              {user.initials}
             </span>
-            <span className="text-sidebar-muted block truncate text-tiny">
-              {roleLabels[user.role]} · {user.employmentType}
+            <span className="min-w-0 flex-1">
+              <span className="text-sidebar-text block truncate text-body font-semibold">
+                {user.name}
+              </span>
+              <span className="text-sidebar-muted block truncate text-tiny">
+                {roleLabels[user.role]} · {user.employmentType}
+              </span>
             </span>
-          </span>
-          <form action={signOutAction}>
-            <button
-              type="submit"
-              aria-label="Sign out"
-              className="text-sidebar-muted hover:bg-sidebar-hover hover:text-sidebar-text flex size-8 cursor-pointer items-center justify-center rounded-lg transition-colors"
-            >
-              <RiLogoutBoxRLine size={18} aria-hidden />
-            </button>
-          </form>
+            <form action={signOutAction}>
+              <button
+                type="submit"
+                aria-label="Sign out"
+                className="text-sidebar-muted hover:bg-sidebar-hover hover:text-sidebar-text flex size-8 cursor-pointer items-center justify-center rounded-lg transition-colors"
+              >
+                <RiLogoutBoxRLine size={18} aria-hidden />
+              </button>
+            </form>
+          </div>
         </div>
       </aside>
     </>

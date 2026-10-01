@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { AuthError } from "next-auth";
 import { signIn } from "@/auth";
+import { Logo } from "@/components/brand/logo";
 import { Button } from "@/components/ui/button";
 
 export const metadata = { title: "Sign in · CVSpan Portal" };
@@ -32,12 +33,7 @@ export default async function LoginPage({
   return (
     <main className="bg-app flex min-h-dvh items-center justify-center p-4">
       <div className="w-full max-w-100">
-        <div className="mb-6 flex items-center gap-2.5">
-          <span className="bg-brand text-on-accent flex size-10 items-center justify-center rounded-lg text-body font-bold">
-            CV
-          </span>
-          <span className="text-primary text-title font-semibold">CVSpan Portal</span>
-        </div>
+        <Logo height={32} className="mb-6 block" />
 
         <div className="border-line bg-card rounded-lg border p-6">
           <h1 className="text-primary text-h5 font-semibold">Sign in</h1>

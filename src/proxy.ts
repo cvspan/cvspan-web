@@ -13,6 +13,8 @@ export const config = {
   /**
    * Everything except static assets, the auth endpoints, and uploaded media —
    * cover images have to load on the public website, where there is no session.
+   * Brand files and the app icon are public too: the sign-in page needs them before anyone
+   * is signed in.
    */
-  matcher: ["/((?!api/auth|api/media|_next/static|_next/image|favicon.ico).*)"],
+  matcher: ["/((?!api/auth|api/media|_next/static|_next/image|brand/|icon.svg|favicon.ico).*)"],
 };
