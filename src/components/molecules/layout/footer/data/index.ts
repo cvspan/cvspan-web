@@ -124,7 +124,7 @@ export const FOOTER_LINKS: FooterLink[] = [
             {
                 id: 4,
                 text: 'Blog',
-                link: 'https://blog.cvspan.com',
+                link: '/blog',
                 disabled: false,
                 comingSoon: false,
             },
