@@ -1,24 +1,44 @@
 import { addDays, daysBetween, todayString } from "./dates";
+import { atLeast, type Role } from "./roles";
 import type { Tone } from "./tone";
 
 /* Pure scheduling logic for projects. No I/O, so it is trivial to test. */
 
-export const projectStatuses = ["planning", "active", "on_hold", "completed", "cancelled"] as const;
+export const projectStatuses = [
+  "not_started",
+  "planning",
+  "design",
+  "development",
+  "live",
+  "on_hold",
+  "cancelled",
+] as const;
 export type ProjectStatus = (typeof projectStatuses)[number];
 
 export const projectStatusLabels: Record<ProjectStatus, string> = {
+  not_started: "Not started",
   planning: "Planning",
-  active: "Active",
+  design: "Design",
+  development: "Development",
+  live: "Live",
   on_hold: "On hold",
-  completed: "Completed",
   cancelled: "Cancelled",
 };
+
+/** The stages a project moves through, in order. On hold and cancelled sit outside the path. */
+export const lifecycleStages = ["not_started", "planning", "design", "development", "live"] as const;
+
+/** Stages where work is under way, so the schedule can be judged. */
+export const inFlightStatuses = ["planning", "design", "development"] as const;
+
+/** A project that has shipped or been abandoned no longer has a schedule to keep. */
+export const isClosedStatus = (status: ProjectStatus) => status === "live" || status === "cancelled";
 
 export const projectRoles = ["lead", "contributor", "reviewer"] as const;
 export type ProjectRole = (typeof projectRoles)[number];
 
 export const projectRoleLabels: Record<ProjectRole, string> = {
-  lead: "Lead",
+  lead: "Project manager",
   contributor: "Contributor",
   reviewer: "Reviewer",
 };
@@ -59,7 +79,7 @@ export const healthLabels: Record<Health, string> = {
   on_track: "On track",
   at_risk: "At risk",
   behind: "Behind schedule",
-  complete: "Complete",
+  complete: "Delivered",
   paused: "On hold",
   not_started: "Not started",
   cancelled: "Cancelled",
@@ -97,7 +117,7 @@ export function projectProgress(input: {
   tasks: Counts;
   milestones: Counts;
 }) {
-  if (input.status === "completed") return 100;
+  if (input.status === "live") return 100;
   if (input.tasks.total > 0) return Math.round((input.tasks.done / input.tasks.total) * 100);
   if (input.milestones.total > 0) {
     return Math.round((input.milestones.done / input.milestones.total) * 100);
@@ -126,12 +146,12 @@ export function projectHealth(input: {
 }): Health {
   const { status, startDate, targetDate, progress, overdueMilestones, today } = input;
 
-  if (status === "completed") return "complete";
+  if (status === "live") return "complete";
   if (status === "cancelled") return "cancelled";
   if (status === "on_hold") return "paused";
 
-  if (status === "planning") {
-    /** Planning past its start date means the kickoff slipped. */
+  if (status === "not_started") {
+    /** Still not started after its start date means the kickoff slipped. */
     return startDate && today > startDate ? "at_risk" : "not_started";
   }
 
@@ -247,4 +267,20 @@ export function deriveProjectCode(name: string, taken: ReadonlySet<string>) {
     if (!taken.has(`${base}${suffix}`)) return `${base}${suffix}`;
   }
   return `${base}${Date.now() % 1000}`;
+}
+
+/* ----------------------------------------------------------- Who runs a project */
+
+/** A project manager has to be a manager or above: they run the people and the schedule. */
+export function canBeProjectManager(role: Role) {
+  return atLeast(role, "manager");
+}
+
+/**
+ * Admins manage any project. A project's manager (its `lead` member) manages that project:
+ * its details, status, links, team, milestones, tasks and updates. They need a manager-level
+ * role to do so, so someone later moved down to member loses the powers with the role.
+ */
+export function canManageProject(role: Role, projectRole: ProjectRole | null) {
+  return atLeast(role, "admin") || (projectRole === "lead" && canBeProjectManager(role));
 }

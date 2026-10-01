@@ -2,6 +2,7 @@ import "server-only";
 import { db } from "@/db";
 import { getProjectRole } from "@/db/queries-projects";
 import { notifications, activityLog } from "@/db/schema";
+import { canManageProject } from "@/lib/project";
 import { atLeast, type Role } from "@/lib/roles";
 import { requireUser } from "@/lib/session";
 
@@ -23,16 +24,14 @@ export async function logActivity(actorId: string, action: string, subject?: str
 }
 
 /**
- * Admins, or the lead of this particular project. Leads run the schedule day to day
- * (milestones, status, updates) but cannot change who is on the project or delete it.
+ * Admins, or this project's manager. A project manager runs their project end to end: its
+ * details, status, links, team, milestones, tasks and updates. Only admins create or delete one.
  */
-export async function requireProjectEditor(projectId: string) {
+export async function requireProjectManager(projectId: string) {
   const user = await requireUser();
-  if (atLeast(user.role, "admin")) return user;
-
   const role = await getProjectRole(projectId, user.id);
-  if (role !== "lead") {
-    throw new Error("Only admins and the project lead can change this project.");
+  if (!canManageProject(user.role, role)) {
+    throw new Error("Only admins and the project manager can change this project.");
   }
   return user;
 }

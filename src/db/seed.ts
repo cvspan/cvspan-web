@@ -167,12 +167,12 @@ async function main() {
   const projectRows = await db
     .insert(schema.projects)
     .values([
-      { name: "Portal Platform", code: "PLT", description: "The CVSpan staff portal: people, tasks, KPIs, attendance and the website back office.", status: "active", departmentId: dept.development, startDate: daysAgo(60), targetDate: daysAgo(-45), createdById: seyi.id },
-      { name: "Website Relaunch", code: "WEB", description: "Rebuild the public site with a managed blog and careers section.", status: "active", departmentId: dept.marketing, startDate: daysAgo(30), targetDate: daysAgo(-30), createdById: seyi.id },
-      { name: "Cohort 5 Programme", code: "COH", description: "Curriculum, mentors and kick-off for the next student cohort.", status: "active", departmentId: dept.project, startDate: daysAgo(20), targetDate: daysAgo(-40), createdById: seyi.id },
-      { name: "Staff Onboarding & Performance", code: "OPS", description: "Onboarding checklist, weekly KPI self-assessments and attendance reporting.", status: "active", departmentId: dept.management, startDate: daysAgo(90), targetDate: daysAgo(-15), createdById: seyi.id },
-      { name: "Brand Refresh", code: "BRD", description: "Colour, type and logo refresh across product and marketing.", status: "completed", departmentId: dept.design, startDate: daysAgo(120), targetDate: daysAgo(30), completedAt: daysAhead(-28), createdById: seyi.id },
-      { name: "Mobile App", code: "MOB", description: "Companion mobile app for clock-in, tasks and messages.", status: "planning", departmentId: dept.development, startDate: daysAgo(-20), targetDate: daysAgo(-120), createdById: seyi.id },
+      { name: "Portal Platform", code: "PLT", description: "The CVSpan staff portal: people, tasks, KPIs, attendance and the website back office.", status: "development", links: [{ name: "Figma", url: "https://www.figma.com/" }, { name: "Repository", url: "https://github.com/" }], departmentId: dept.development, startDate: daysAgo(60), targetDate: daysAgo(-45), createdById: seyi.id },
+      { name: "Website Relaunch", code: "WEB", description: "Rebuild the public site with a managed blog and careers section.", status: "design", links: [{ name: "Figma", url: "https://www.figma.com/" }], departmentId: dept.marketing, startDate: daysAgo(30), targetDate: daysAgo(-30), createdById: seyi.id },
+      { name: "Cohort 5 Programme", code: "COH", description: "Curriculum, mentors and kick-off for the next student cohort.", status: "planning", departmentId: dept.project, startDate: daysAgo(20), targetDate: daysAgo(-40), createdById: seyi.id },
+      { name: "Staff Onboarding & Performance", code: "OPS", description: "Onboarding checklist, weekly KPI self-assessments and attendance reporting.", status: "development", departmentId: dept.management, startDate: daysAgo(90), targetDate: daysAgo(-15), createdById: seyi.id },
+      { name: "Brand Refresh", code: "BRD", description: "Colour, type and logo refresh across product and marketing.", status: "live", departmentId: dept.design, startDate: daysAgo(120), targetDate: daysAgo(30), completedAt: daysAhead(-28), createdById: seyi.id },
+      { name: "Mobile App", code: "MOB", description: "Companion mobile app for clock-in, tasks and messages.", status: "not_started", departmentId: dept.development, startDate: daysAgo(-20), targetDate: daysAgo(-120), createdById: seyi.id },
     ])
     .returning();
   const project = Object.fromEntries(projectRows.map((row) => [row.code, row.id]));

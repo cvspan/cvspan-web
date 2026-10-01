@@ -22,7 +22,7 @@ function overview() {
       updatedAt: departments.updatedAt,
       headcount: sql<number>`(select count(*)::int from ${users} where ${users.departmentId} = ${departments.id} and ${users.status} <> 'alumni')`,
       teamCount: sql<number>`(select count(*)::int from ${teams} where ${teams.departmentId} = ${departments.id})`,
-      activeProjects: sql<number>`(select count(*)::int from ${projects} where ${projects.departmentId} = ${departments.id} and ${projects.status} in ('planning', 'active'))`,
+      activeProjects: sql<number>`(select count(*)::int from ${projects} where ${projects.departmentId} = ${departments.id} and ${projects.status} in ('planning', 'design', 'development'))`,
       openRoles: sql<number>`(select count(*)::int from ${jobListings} where ${jobListings.departmentId} = ${departments.id} and ${jobListings.stage} not in ('draft', 'closed'))`,
     })
     .from(departments)
@@ -66,6 +66,7 @@ export async function getAssignablePeople() {
       jobTitle: users.jobTitle,
       departmentId: users.departmentId,
       departmentName: departments.name,
+      role: users.role,
     })
     .from(users)
     .leftJoin(departments, eq(users.departmentId, departments.id))

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { RiArrowLeftLine, RiCalendarLine } from "@remixicon/react";
+import { RiArrowLeftLine, RiCalendarLine, RiExternalLinkLine } from "@remixicon/react";
 import { Avatar } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardHeader } from "@/components/ui/card";
@@ -22,6 +22,7 @@ import {
   RemoveMemberButton,
 } from "@/components/forms/project-forms";
 import { HealthBadge } from "@/components/projects/health-badge";
+import { StageTracker } from "@/components/projects/stage-tracker";
 import { Timeline } from "@/components/projects/timeline";
 import { getAssignablePeople, getDepartmentsOverview } from "@/db/queries-departments";
 import {
@@ -34,7 +35,10 @@ import {
 } from "@/db/queries-projects";
 import { formatDay, pluralise, relativeDays, taskStatusLabels } from "@/lib/format";
 import {
+  canBeProjectManager,
+  canManageProject,
   describeProject,
+  isClosedStatus,
   milestoneProgress,
   milestoneStatusLabels,
   projectRoleLabels,
@@ -66,7 +70,8 @@ export default async function ProjectPage({ params }: { params: Promise<{ id: st
 
   /** Admins see every project; everyone else only the ones they are on. */
   if (!canAdmin && !myRole) notFound();
-  const canEdit = canAdmin || myRole === "lead";
+  /** Admins, or this project's manager. Only admins delete a project. */
+  const canManage = canManageProject(user.viewRole, myRole);
 
   const [members, milestones, tasks, updates] = await Promise.all([
     getProjectMembers(id),
@@ -75,7 +80,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ id: st
     getProjectUpdates(id),
   ]);
 
-  const [departments, everyone] = canAdmin
+  const [departments, everyone] = canManage
     ? await Promise.all([getDepartmentsOverview(), getAssignablePeople()])
     : [[], []];
 
@@ -85,7 +90,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ id: st
   const memberIds = new Set(members.map((member) => member.id));
 
   const overdueTasks = project.overdueTasks;
-  const closed = project.status === "completed" || project.status === "cancelled";
+  const closed = isClosedStatus(project.status);
 
   const timeLeft =
     described.daysLeft === null || closed
@@ -112,28 +117,27 @@ export default async function ProjectPage({ params }: { params: Promise<{ id: st
         title={project.name}
         actions={
           <>
-            {canEdit ? <ProjectStatusSelect projectId={id} status={project.status} /> : (
+            {canManage ? <ProjectStatusSelect projectId={id} status={project.status} /> : (
               <Badge>{projectStatusLabels[project.status]}</Badge>
             )}
-            {canAdmin ? (
-              <>
-                <EditProjectButton
-                  project={{
-                    id: project.id,
-                    name: project.name,
-                    code: project.code,
-                    description: project.description,
-                    departmentId: project.departmentId,
-                    status: project.status,
-                    startDate: project.startDate,
-                    targetDate: project.targetDate,
-                    updatedAt: project.updatedAt,
-                  }}
-                  departments={departments.map((row) => ({ id: row.id, name: row.name }))}
-                />
-                <DeleteProjectButton id={id} name={project.name} />
-              </>
+            {canManage ? (
+              <EditProjectButton
+                project={{
+                  id: project.id,
+                  name: project.name,
+                  code: project.code,
+                  description: project.description,
+                  departmentId: project.departmentId,
+                  status: project.status,
+                  startDate: project.startDate,
+                  targetDate: project.targetDate,
+                  links: project.links,
+                  updatedAt: project.updatedAt,
+                }}
+                departments={departments.map((row) => ({ id: row.id, name: row.name }))}
+              />
             ) : null}
+            {canAdmin ? <DeleteProjectButton id={id} name={project.name} /> : null}
           </>
         }
       />
@@ -141,6 +145,27 @@ export default async function ProjectPage({ params }: { params: Promise<{ id: st
       {project.description ? (
         <p className="text-secondary -mt-1 max-w-200 text-body">{project.description}</p>
       ) : null}
+
+      <Card className="p-5">
+        <StageTracker status={project.status} />
+        {project.links.length > 0 ? (
+          <ul className="border-line mt-4 flex flex-wrap gap-2 border-t pt-4" aria-label="Project links">
+            {project.links.map((link) => (
+              <li key={link.url}>
+                <a
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="border-line text-primary hover:bg-raised flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-caption font-semibold transition-colors"
+                >
+                  {link.name}
+                  <RiExternalLinkLine size={14} className="text-muted" aria-hidden />
+                </a>
+              </li>
+            ))}
+          </ul>
+        ) : null}
+      </Card>
 
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <Card className="p-5">
@@ -213,11 +238,11 @@ export default async function ProjectPage({ params }: { params: Promise<{ id: st
           <Card>
             <CardHeader
               title="Milestones"
-              action={canEdit ? <MilestoneButton projectId={id} /> : <Badge>{milestones.length}</Badge>}
+              action={canManage ? <MilestoneButton projectId={id} /> : <Badge>{milestones.length}</Badge>}
             />
             {milestones.length === 0 ? (
               <p className="text-muted px-5 py-8 text-body">
-                No milestones yet.{canEdit ? " Add the phases that make up this project." : ""}
+                No milestones yet.{canManage ? " Add the phases that make up this project." : ""}
               </p>
             ) : (
               <Table>
@@ -233,7 +258,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ id: st
                     return (
                       <Tr key={milestone.id}>
                         <Td className="w-10 pr-0">
-                          {canEdit ? (
+                          {canManage ? (
                             <MilestoneDoneToggle
                               milestoneId={milestone.id}
                               status={milestone.status}
@@ -288,7 +313,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ id: st
                           </Badge>
                         </Td>
                         <Td className="whitespace-nowrap">
-                          {canEdit ? (
+                          {canManage ? (
                             <span className="flex justify-end gap-0.5">
                               <MilestoneButton projectId={id} milestone={milestone} />
                               <DeleteMilestoneButton
@@ -312,7 +337,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ id: st
               action={
                 <NewProjectTaskButton
                   projectId={id}
-                  members={(canEdit ? members : members.filter((member) => member.id === user.id)).map(
+                  members={(canManage ? members : members.filter((member) => member.id === user.id)).map(
                     (member) => ({ id: member.id, name: member.name }),
                   )}
                   milestones={milestones.map((milestone) => ({
@@ -334,7 +359,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ id: st
                   {tasks.map((task) => (
                     <Tr key={task.id}>
                       <Td className="w-10 pr-0">
-                        {canEdit || task.assigneeId === user.id ? (
+                        {canManage || task.assigneeId === user.id ? (
                           <TaskCheckbox
                             taskId={task.id}
                             done={task.status === "done"}
@@ -385,7 +410,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ id: st
             <CardHeader
               title="Team"
               action={
-                canAdmin ? (
+                canManage ? (
                   <AddMembersButton
                     projectId={id}
                     projectName={project.name}
@@ -424,13 +449,14 @@ export default async function ProjectPage({ params }: { params: Promise<{ id: st
                         {member.openTasks > 0 ? ` · ${member.openTasks} open` : ""}
                       </span>
                     </span>
-                    {canAdmin ? (
+                    {canManage ? (
                       <>
                         <MemberRoleSelect
                           projectId={id}
                           userId={member.id}
                           role={member.role}
                           name={member.name}
+                          canBeManager={canBeProjectManager(member.userRole)}
                         />
                         <RemoveMemberButton projectId={id} userId={member.id} name={member.name} />
                       </>
@@ -447,7 +473,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ id: st
 
           <Card>
             <CardHeader title="Status updates" />
-            {canEdit ? <PostUpdateForm projectId={id} /> : null}
+            {canManage ? <PostUpdateForm projectId={id} /> : null}
             {updates.length === 0 ? (
               <p className="text-muted px-5 py-6 text-body">No updates posted yet.</p>
             ) : (

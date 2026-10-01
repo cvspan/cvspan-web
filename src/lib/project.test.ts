@@ -2,6 +2,8 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import {
   addDays,
+  canBeProjectManager,
+  canManageProject,
   daysBetween,
   deriveProjectCode,
   describeProject,
@@ -41,22 +43,22 @@ describe("projectProgress", () => {
 
   it("uses tasks first", () => {
     assert.equal(
-      projectProgress({ status: "active", tasks: { done: 3, total: 4 }, milestones: { done: 0, total: 5 } }),
+      projectProgress({ status: "development", tasks: { done: 3, total: 4 }, milestones: { done: 0, total: 5 } }),
       75,
     );
   });
 
   it("falls back to milestones when there are no tasks", () => {
     assert.equal(
-      projectProgress({ status: "active", tasks: none, milestones: { done: 1, total: 4 } }),
+      projectProgress({ status: "development", tasks: none, milestones: { done: 1, total: 4 } }),
       25,
     );
   });
 
   it("is 0 with nothing to measure, and 100 once completed", () => {
-    assert.equal(projectProgress({ status: "active", tasks: none, milestones: none }), 0);
+    assert.equal(projectProgress({ status: "development", tasks: none, milestones: none }), 0);
     assert.equal(
-      projectProgress({ status: "completed", tasks: { done: 1, total: 9 }, milestones: none }),
+      projectProgress({ status: "live", tasks: { done: 1, total: 9 }, milestones: none }),
       100,
     );
   });
@@ -72,7 +74,7 @@ describe("milestoneProgress", () => {
 
 describe("projectHealth", () => {
   const base = {
-    status: "active" as const,
+    status: "development" as const,
     startDate: "2026-10-01",
     targetDate: "2026-10-31",
     overdueMilestones: 0,
@@ -99,17 +101,24 @@ describe("projectHealth", () => {
     assert.equal(projectHealth({ ...base, targetDate: "2026-10-10", progress: 90 }), "behind");
   });
 
-  it("flags a project still in planning after its start date", () => {
-    assert.equal(projectHealth({ ...base, status: "planning", progress: 0 }), "at_risk");
+  it("flags a project still not started after its start date", () => {
+    assert.equal(projectHealth({ ...base, status: "not_started", progress: 0 }), "at_risk");
     assert.equal(
-      projectHealth({ ...base, status: "planning", startDate: "2026-11-01", progress: 0 }),
+      projectHealth({ ...base, status: "not_started", startDate: "2026-11-01", progress: 0 }),
       "not_started",
     );
   });
 
-  it("does not judge paused, completed or cancelled projects", () => {
+  it("judges every stage of work on the schedule", () => {
+    for (const status of ["planning", "design", "development"] as const) {
+      assert.equal(projectHealth({ ...base, status, progress: 45 }), "on_track");
+      assert.equal(projectHealth({ ...base, status, progress: 10 }), "behind");
+    }
+  });
+
+  it("does not judge paused, live or cancelled projects", () => {
     assert.equal(projectHealth({ ...base, status: "on_hold", progress: 0 }), "paused");
-    assert.equal(projectHealth({ ...base, status: "completed", progress: 0 }), "complete");
+    assert.equal(projectHealth({ ...base, status: "live", progress: 0 }), "complete");
     assert.equal(projectHealth({ ...base, status: "cancelled", progress: 0 }), "cancelled");
   });
 
@@ -160,7 +169,7 @@ describe("describeProject", () => {
   it("derives progress, schedule and health from a project row", () => {
     const described = describeProject(
       {
-        status: "active",
+        status: "development",
         startDate: "2026-10-01",
         targetDate: "2026-10-31",
         tasksTotal: 10,
@@ -177,7 +186,7 @@ describe("describeProject", () => {
   it("reports overrun as negative days left", () => {
     const described = describeProject(
       {
-        status: "active",
+        status: "development",
         startDate: "2026-09-01",
         targetDate: "2026-10-10",
         tasksTotal: 4,
@@ -210,5 +219,25 @@ describe("deriveProjectCode", () => {
   it("always yields at least two characters", () => {
     assert.equal(deriveProjectCode("X", none), "XX");
     assert.equal(deriveProjectCode("", none), "PRJ");
+  });
+});
+
+describe("who runs a project", () => {
+  it("only managers and above can be a project manager", () => {
+    assert.equal(canBeProjectManager("member"), false);
+    assert.equal(canBeProjectManager("manager"), true);
+    assert.equal(canBeProjectManager("admin"), true);
+  });
+
+  it("admins manage any project, a project manager manages theirs", () => {
+    assert.equal(canManageProject("admin", null), true);
+    assert.equal(canManageProject("super_admin", "contributor"), true);
+    assert.equal(canManageProject("manager", "lead"), true);
+    assert.equal(canManageProject("manager", "contributor"), false);
+    assert.equal(canManageProject("manager", null), false);
+  });
+
+  it("a project manager who is moved down to member loses the powers", () => {
+    assert.equal(canManageProject("member", "lead"), false);
   });
 });

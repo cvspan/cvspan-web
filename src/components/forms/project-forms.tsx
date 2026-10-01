@@ -1,9 +1,10 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import {
   RiAddLine,
+  RiCloseLine,
   RiDeleteBin6Line,
   RiEditLine,
   RiUserAddLine,
@@ -26,6 +27,7 @@ import {
   updateProject,
 } from "@/app/actions/projects";
 import { createTask } from "@/app/actions/tasks";
+import { MAX_LINK_NAME, MAX_PROJECT_LINKS, type ProjectLink } from "@/lib/project-links";
 import {
   milestoneStatuses,
   milestoneStatusLabels,
@@ -55,8 +57,85 @@ type ProjectValues = {
   status: ProjectStatus;
   startDate: string | null;
   targetDate: string | null;
+  links: ProjectLink[];
   updatedAt: Date;
 };
+
+/**
+ * Up to three named links (Figma, the repo, the brief…). Rows are plain inputs named linkName /
+ * linkUrl, so the form posts them as repeated fields; the state only tracks how many rows exist.
+ */
+function LinksField({ initial }: { initial: ProjectLink[] }) {
+  const initialRows = () => initial.map((link, index) => ({ key: index, ...link }));
+  const nextKey = useRef(initial.length);
+  const [rows, setRows] = useState(initialRows);
+  const anchor = useRef<HTMLDivElement>(null);
+
+  /** The dialog resets its form after a save; put the rows back as they started. */
+  useEffect(() => {
+    const form = anchor.current?.closest("form");
+    const onReset = () => {
+      nextKey.current = initial.length;
+      setRows(initial.map((link, index) => ({ key: index, ...link })));
+    };
+    form?.addEventListener("reset", onReset);
+    return () => form?.removeEventListener("reset", onReset);
+  }, [initial]);
+
+  return (
+    <div ref={anchor} className="flex flex-col gap-2">
+      <div className="flex items-center justify-between">
+        <span className="text-primary text-body font-semibold">Links</span>
+        <span className="text-muted text-tiny">
+          {rows.length} of {MAX_PROJECT_LINKS}
+        </span>
+      </div>
+
+      {rows.map((row) => (
+        <div key={row.key} className="grid grid-cols-[1fr_auto] items-start gap-2 sm:grid-cols-[10rem_1fr_auto]">
+          <input
+            name="linkName"
+            defaultValue={row.name}
+            maxLength={MAX_LINK_NAME}
+            placeholder="Name, e.g. Figma"
+            aria-label="Link name"
+            className={`${fieldClass} col-span-1`}
+          />
+          <input
+            name="linkUrl"
+            defaultValue={row.url}
+            placeholder="https://…"
+            aria-label="Link address"
+            inputMode="url"
+            className={`${fieldClass} order-last col-span-2 sm:order-none sm:col-span-1`}
+          />
+          <button
+            type="button"
+            onClick={() => setRows((current) => current.filter((item) => item.key !== row.key))}
+            aria-label={`Remove link ${row.name || ""}`.trim()}
+            title="Remove link"
+            className="text-muted hover:text-error-text hover:bg-error-surface flex size-11 cursor-pointer items-center justify-center rounded-lg transition-colors"
+          >
+            <RiCloseLine size={18} aria-hidden />
+          </button>
+        </div>
+      ))}
+
+      {rows.length < MAX_PROJECT_LINKS ? (
+        <button
+          type="button"
+          onClick={() => setRows((current) => [...current, { key: nextKey.current++, name: "", url: "" }])}
+          className="text-accent hover:bg-accent-soft flex w-fit cursor-pointer items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-caption font-semibold transition-colors"
+        >
+          <RiAddLine size={16} aria-hidden />
+          Add link
+        </button>
+      ) : (
+        <p className="text-muted text-tiny">That&apos;s the limit of {MAX_PROJECT_LINKS} links. Remove one to add another.</p>
+      )}
+    </div>
+  );
+}
 
 function ProjectFields({
   project,
@@ -65,7 +144,7 @@ function ProjectFields({
 }: {
   project?: ProjectValues;
   departments: DepartmentOption[];
-  /** Offered on create only; afterwards the lead is a role on the team list. */
+  /** Offered on create only; afterwards the project manager is a role on the team list. */
   leads?: { id: string; name: string }[];
 }) {
   return (
@@ -115,7 +194,7 @@ function ProjectFields({
           </select>
         </Field>
         <Field label="Status">
-          <select name="status" defaultValue={project?.status ?? "planning"} className={fieldClass}>
+          <select name="status" defaultValue={project?.status ?? "not_started"} className={fieldClass}>
             {projectStatuses.map((status) => (
               <option key={status} value={status}>
                 {projectStatusLabels[status]}
@@ -134,8 +213,13 @@ function ProjectFields({
         </Field>
       </div>
 
+      <LinksField initial={project?.links ?? []} />
+
       {leads ? (
-        <Field label="Project lead" hint="Leads run the schedule: milestones, status and updates.">
+        <Field
+          label="Project manager"
+          hint="Must be a manager or admin. They manage the people and every part of the project."
+        >
           <select name="leadId" defaultValue="" className={fieldClass}>
             <option value="">Assign later</option>
             {leads.map((person) => (
@@ -168,7 +252,7 @@ export function NewProjectButton({
         </Button>
       }
       title="New project"
-      description="Set the window now; add people, milestones and tasks from the project page."
+      description="Set the stage and window now. The project manager adds people, milestones and tasks from the project page."
       submitLabel="Create project"
       action={createProject}
       wide
@@ -178,7 +262,7 @@ export function NewProjectButton({
         leads={people}
         project={
           defaultDepartmentId
-            ? ({ departmentId: defaultDepartmentId, status: "planning" } as ProjectValues)
+            ? ({ departmentId: defaultDepartmentId, status: "not_started", links: [] } as unknown as ProjectValues)
             : undefined
         }
       />
@@ -295,7 +379,7 @@ export function AddMembersButton({
         </Button>
       }
       title={`Add people to ${projectName}`}
-      description="They are notified and can see the project, its timeline and its tasks."
+      description="They are notified and can see the project, its timeline and its tasks. Only managers and admins can be the project manager."
       submitLabel="Add to project"
       action={addProjectMembers}
     >
@@ -319,11 +403,14 @@ export function MemberRoleSelect({
   userId,
   role,
   name,
+  canBeManager,
 }: {
   projectId: string;
   userId: string;
   role: ProjectRole;
   name: string;
+  /** Only a manager or admin can be the project manager. */
+  canBeManager: boolean;
 }) {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
@@ -340,11 +427,12 @@ export function MemberRoleSelect({
           router.refresh();
         })
       }
-      className="border-line-input text-primary h-8 w-28 cursor-pointer rounded-lg border bg-transparent px-2 text-caption outline-none disabled:opacity-60"
+      className="border-line-input text-primary h-8 w-36 cursor-pointer rounded-lg border bg-transparent px-2 text-caption outline-none disabled:opacity-60"
     >
       {projectRoles.map((value) => (
-        <option key={value} value={value}>
+        <option key={value} value={value} disabled={value === "lead" && !canBeManager && role !== "lead"}>
           {projectRoleLabels[value]}
+          {value === "lead" && !canBeManager ? " (managers only)" : ""}
         </option>
       ))}
     </select>

@@ -23,7 +23,7 @@ import {
 } from "@/db/queries-departments";
 import { getProjects } from "@/db/queries-projects";
 import { employmentLabels, formatDay } from "@/lib/format";
-import { describeProject, projectStatusLabels, todayString } from "@/lib/project";
+import { canBeProjectManager, describeProject, projectStatusLabels, todayString } from "@/lib/project";
 import { atLeast } from "@/lib/roles";
 import { requireUser } from "@/lib/session";
 import { statusTone } from "@/lib/tone";
@@ -83,7 +83,9 @@ export default async function DepartmentPage({ params }: { params: Promise<{ id:
             />
             <NewProjectButton
               departments={departments.map((row) => ({ id: row.id, name: row.name }))}
-              people={everyone.map((person) => ({ id: person.id, name: person.name }))}
+              people={everyone
+                .filter((person) => canBeProjectManager(person.role))
+                .map((person) => ({ id: person.id, name: person.name }))}
               defaultDepartmentId={id}
             />
             <EditDepartmentButton

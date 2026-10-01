@@ -6,6 +6,7 @@ import { z } from "zod";
 import { db } from "@/db";
 import { milestones, projectMembers, tasks, users } from "@/db/schema";
 import { getProjectRole } from "@/db/queries-projects";
+import { canManageProject } from "@/lib/project";
 import { atLeast } from "@/lib/roles";
 import { requireUser } from "@/lib/session";
 import {
@@ -49,7 +50,7 @@ export async function createTask(formData: FormData): Promise<ActionResult> {
   const isAdmin = atLeast(user.role, "admin");
 
   /** Only managers, admins and a project's own lead may put work on someone else's plate. */
-  if (assigneeId !== user.id && !atLeast(user.role, "manager") && projectRole !== "lead") {
+  if (assigneeId !== user.id && !atLeast(user.role, "manager") && !canManageProject(user.role, projectRole)) {
     return fail("You can only assign tasks to yourself.");
   }
 
@@ -110,7 +111,7 @@ export async function setTaskDone(taskId: string, done: boolean) {
   /** Your own task, or someone you manage — admins can close anything, and so can a project's lead. */
   const mine = task.assigneeId === user.id;
   const leadsProject = task.projectId
-    ? (await getProjectRole(task.projectId, user.id)) === "lead"
+    ? canManageProject(user.role, await getProjectRole(task.projectId, user.id))
     : false;
   if (!mine && !leadsProject && !atLeast(user.role, "manager")) return;
 
@@ -129,7 +130,7 @@ export async function deleteTask(taskId: string) {
   if (!task) return;
 
   const leadsProject = task.projectId
-    ? (await getProjectRole(task.projectId, user.id)) === "lead"
+    ? canManageProject(user.role, await getProjectRole(task.projectId, user.id))
     : false;
   if (!leadsProject && !atLeast(user.role, "manager")) return;
 

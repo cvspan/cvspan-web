@@ -10,6 +10,7 @@
     "db:push": "node --env-file=.env.local ./node_modules/drizzle-kit/bin.cjs push",
     "db:seed": "tsx --env-file=.env.local src/db/seed.ts",
     "db:backfill-projects": "tsx --env-file=.env.local src/db/backfill-projects.ts",
+    "db:migrate-project-status": "tsx --env-file=.env.local src/db/migrate-project-status.ts",
     "db:studio": "node --env-file=.env.local ./node_modules/drizzle-kit/bin.cjs studio",
     "test": "tsx --test src/lib/*.test.ts"
   },

@@ -11,7 +11,10 @@ import { getAssignablePeople, getDepartmentsOverview } from "@/db/queries-depart
 import { getMembersForProjects, getProjects } from "@/db/queries-projects";
 import { formatDay, pluralise } from "@/lib/format";
 import {
+  canBeProjectManager,
   describeProject,
+  inFlightStatuses,
+  isClosedStatus,
   projectStatusLabels,
   projectStatuses,
   todayString,
@@ -25,10 +28,12 @@ import { cn } from "@/lib/utils";
 export const metadata = { title: "Projects · CVSpan Portal" };
 
 const projectStatusTone: Record<ProjectStatus, Tone> = {
-  planning: "neutral",
-  active: "accent",
+  not_started: "neutral",
+  planning: "accent",
+  design: "accent",
+  development: "accent",
+  live: "success",
   on_hold: "warning",
-  completed: "success",
   cancelled: "neutral",
 };
 
@@ -54,14 +59,18 @@ export default async function ProjectsPage({
   const visible = filter === "all" ? rows : rows.filter((row) => row.status === filter);
 
   const counts = [
-    { label: "Active", value: rows.filter((row) => row.status === "active").length, tone: "accent" as Tone },
+    {
+      label: "In progress",
+      value: rows.filter((row) => inFlightStatuses.includes(row.status as (typeof inFlightStatuses)[number])).length,
+      tone: "accent" as Tone,
+    },
     {
       label: "Needs attention",
       value: rows.filter((row) => row.health === "at_risk" || row.health === "behind").length,
       tone: "warning" as Tone,
     },
     { label: "On hold", value: rows.filter((row) => row.status === "on_hold").length, tone: "neutral" as Tone },
-    { label: "Completed", value: rows.filter((row) => row.status === "completed").length, tone: "success" as Tone },
+    { label: "Live", value: rows.filter((row) => row.status === "live").length, tone: "success" as Tone },
   ];
 
   const [departments, people] = canAdmin
@@ -86,7 +95,9 @@ export default async function ProjectsPage({
           canAdmin ? (
             <NewProjectButton
               departments={departments.map((row) => ({ id: row.id, name: row.name }))}
-              people={people.map((person) => ({ id: person.id, name: person.name }))}
+              people={people
+                .filter((person) => canBeProjectManager(person.role))
+                .map((person) => ({ id: person.id, name: person.name }))}
             />
           ) : null
         }
@@ -143,7 +154,7 @@ export default async function ProjectsPage({
         ) : (
           <Table>
             <Thead
-              columns={["Project", "Lead", "Team", "Timeline", "Progress", "Health", "Status"]}
+              columns={["Project", "Manager", "Team", "Timeline", "Progress", "Health", "Status"]}
             />
             <tbody>
               {visible.map((project) => (
@@ -167,7 +178,7 @@ export default async function ProjectsPage({
                         {project.leadName}
                       </span>
                     ) : (
-                      <span className="text-muted">No lead</span>
+                      <span className="text-muted">No manager</span>
                     )}
                   </Td>
                   <Td>
@@ -178,7 +189,7 @@ export default async function ProjectsPage({
                       <>
                         {formatDay(project.startDate)} – {formatDay(project.targetDate)}
                         <span className="text-muted block text-tiny">
-                          {project.status === "completed" || project.status === "cancelled"
+                          {isClosedStatus(project.status)
                             ? " "
                             : project.daysLeft === null
                               ? "No target"
@@ -201,7 +212,7 @@ export default async function ProjectsPage({
                               ? "error"
                               : project.health === "at_risk"
                                 ? "warning"
-                                : project.status === "completed"
+                                : project.status === "live"
                                   ? "success"
                                   : "brand"
                           }

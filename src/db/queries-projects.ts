@@ -27,6 +27,7 @@ function summary() {
       departmentName: departments.name,
       startDate: projects.startDate,
       targetDate: projects.targetDate,
+      links: projects.links,
       completedAt: projects.completedAt,
       updatedAt: projects.updatedAt,
       leadId: sql<string | null>`(select ${projectMembers.userId} from ${projectMembers} where ${projectMembers.projectId} = ${projects.id} and ${projectMembers.role} = 'lead' order by ${projectMembers.createdAt} limit 1)`,
@@ -46,7 +47,7 @@ function summary() {
 export type ProjectSummary = Awaited<ReturnType<typeof getProjects>>[number];
 
 /** Active work first, then by nearest deadline, so the list reads in order of urgency. */
-const urgency = sql`case ${projects.status} when 'active' then 0 when 'planning' then 1 when 'on_hold' then 2 when 'completed' then 3 else 4 end`;
+const urgency = sql`case ${projects.status} when 'development' then 0 when 'design' then 1 when 'planning' then 2 when 'not_started' then 3 when 'on_hold' then 4 when 'live' then 5 else 6 end`;
 
 export async function getProjects(filter: { memberUserId?: string; departmentId?: string } = {}) {
   const conditions: SQL[] = [];
@@ -93,6 +94,7 @@ export async function getProjectMembers(projectId: string) {
       name: users.name,
       jobTitle: users.jobTitle,
       departmentName: departments.name,
+      userRole: users.role,
       role: projectMembers.role,
       openTasks: sql<number>`(select count(*)::int from ${tasks} where ${tasks.projectId} = ${projectId} and ${tasks.assigneeId} = ${users.id} and ${tasks.status} <> 'done')`,
     })
@@ -167,7 +169,7 @@ export async function getProjectOptions(memberUserId?: string) {
     .from(projects)
     .where(
       and(
-        inArray(projects.status, ["planning", "active", "on_hold"]),
+        inArray(projects.status, ["not_started", "planning", "design", "development", "on_hold"]),
         memberUserId
           ? sql`exists (select 1 from ${projectMembers} where ${projectMembers.projectId} = ${projects.id} and ${projectMembers.userId} = ${memberUserId})`
           : undefined,

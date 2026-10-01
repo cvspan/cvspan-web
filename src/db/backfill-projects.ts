@@ -102,7 +102,7 @@ async function main() {
           id: projectId,
           name,
           code,
-          status: allDone ? "completed" : "active",
+          status: allDone ? "live" : "development",
           departmentId,
           startDate,
           targetDate,

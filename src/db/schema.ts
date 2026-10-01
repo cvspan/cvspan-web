@@ -7,6 +7,7 @@ import {
   date,
   index,
   integer,
+  jsonb,
   pgEnum,
   pgTable,
   primaryKey,
@@ -46,10 +47,12 @@ export const taskStatusEnum = pgEnum("task_status", ["todo", "in_progress", "blo
 export const taskPriorityEnum = pgEnum("task_priority", ["low", "normal", "high"]);
 
 export const projectStatusEnum = pgEnum("project_status", [
+  "not_started",
   "planning",
-  "active",
+  "design",
+  "development",
+  "live",
   "on_hold",
-  "completed",
   "cancelled",
 ]);
 
@@ -181,10 +184,12 @@ export const projects = pgTable(
     /** Short unique reference, e.g. WEB, shown beside the name. */
     code: text("code").notNull(),
     description: text("description"),
-    status: projectStatusEnum("status").default("planning").notNull(),
+    status: projectStatusEnum("status").default("not_started").notNull(),
     departmentId: uuid("department_id").references(() => departments.id, { onDelete: "set null" }),
     startDate: date("start_date"),
     targetDate: date("target_date"),
+    /** Up to three named links (Figma, repo, brief…). Validated in src/lib/project-links.ts. */
+    links: jsonb("links").$type<{ name: string; url: string }[]>().default(sql`'[]'::jsonb`).notNull(),
     completedAt: timestamp("completed_at", { withTimezone: true }),
     createdById: uuid("created_by_id").references(() => users.id, { onDelete: "set null" }),
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
@@ -193,6 +198,7 @@ export const projects = pgTable(
   (table) => [
     uniqueIndex("projects_code_idx").on(table.code),
     index("projects_department_idx").on(table.departmentId),
+    check("projects_links_check", sql`jsonb_typeof(${table.links}) = 'array' and jsonb_array_length(${table.links}) <= 3`),
     check(
       "projects_dates_check",
       sql`${table.targetDate} is null or ${table.startDate} is null or ${table.targetDate} >= ${table.startDate}`,

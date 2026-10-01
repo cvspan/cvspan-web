@@ -3,6 +3,7 @@
 import { and, eq, inArray } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
+import { atLeast } from "@/lib/roles";
 import { db } from "@/db";
 import {
   milestones,
@@ -12,13 +13,16 @@ import {
   users,
 } from "@/db/schema";
 import {
+  canBeProjectManager,
   deriveProjectCode,
   milestoneStatuses,
+  projectRoleLabels,
   projectRoles,
   projectStatuses,
   projectStatusLabels,
   type ProjectStatus,
 } from "@/lib/project";
+import { parseProjectLinks } from "@/lib/project-links";
 import {
   datesInOrder,
   fail,
@@ -36,7 +40,7 @@ import {
   isUniqueViolation,
   logActivity,
   notify,
-  requireProjectEditor,
+  requireProjectManager,
   requireRole,
 } from "./guards";
 
@@ -86,6 +90,18 @@ export async function createProject(formData: FormData): Promise<ActionResult> {
   if (!parsed.success) return fail(parsed.error);
   const { leadId, code, ...values } = parsed.data;
 
+  const links = parseProjectLinks(formData.getAll("linkName").map(String), formData.getAll("linkUrl").map(String));
+  if (!links.ok) return fail(links.error);
+
+  /** The project manager runs the people and the schedule, so they must be a manager or above. */
+  if (leadId) {
+    const [candidate] = await db.select({ name: users.name, role: users.role }).from(users).where(eq(users.id, leadId)).limit(1);
+    if (!candidate) return fail("That person no longer exists.");
+    if (!canBeProjectManager(candidate.role)) {
+      return fail(`${candidate.name} is a member. A project manager must be a manager or an admin.`);
+    }
+  }
+
   const projectId = crypto.randomUUID();
   const finalCode = code || (await uniqueCode(values.name));
 
@@ -94,8 +110,9 @@ export async function createProject(formData: FormData): Promise<ActionResult> {
       db.insert(projects).values({
         id: projectId,
         ...values,
+        links: links.links,
         code: finalCode,
-        completedAt: values.status === "completed" ? new Date() : null,
+        completedAt: values.status === "live" ? new Date() : null,
         createdById: actor.id,
       }),
       ...(leadId
@@ -116,8 +133,6 @@ export async function createProject(formData: FormData): Promise<ActionResult> {
 }
 
 export async function updateProject(formData: FormData): Promise<ActionResult> {
-  const actor = await requireRole("admin");
-
   const parsed = parseForm(
     projectFields.extend({ id: requiredId("project") }).refine(
       (data) => datesInOrder(data.startDate, data.targetDate),
@@ -128,6 +143,12 @@ export async function updateProject(formData: FormData): Promise<ActionResult> {
   if (!parsed.success) return fail(parsed.error);
   const { id, code, ...values } = parsed.data;
 
+  /** Admins and this project's manager may edit it. */
+  const actor = await requireProjectManager(id);
+
+  const links = parseProjectLinks(formData.getAll("linkName").map(String), formData.getAll("linkUrl").map(String));
+  if (!links.ok) return fail(links.error);
+
   const [existing] = await db.select().from(projects).where(eq(projects.id, id)).limit(1);
   if (!existing) return fail("That project no longer exists.");
 
@@ -136,9 +157,10 @@ export async function updateProject(formData: FormData): Promise<ActionResult> {
       .update(projects)
       .set({
         ...values,
+        links: links.links,
         code: code || existing.code,
         completedAt:
-          values.status === "completed" ? (existing.completedAt ?? new Date()) : null,
+          values.status === "live" ? (existing.completedAt ?? new Date()) : null,
         updatedAt: new Date(),
       })
       .where(eq(projects.id, id));
@@ -152,12 +174,12 @@ export async function updateProject(formData: FormData): Promise<ActionResult> {
   return ok;
 }
 
-/** Leads can move a project between statuses without being able to edit anything else. */
+/** Moves a project along its lifecycle. Available to admins and the project manager. */
 export async function setProjectStatus(
   projectId: string,
   status: ProjectStatus,
 ): Promise<ActionResult> {
-  const actor = await requireProjectEditor(projectId);
+  const actor = await requireProjectManager(projectId);
   if (!projectStatuses.includes(status)) return fail("Unknown status.");
 
   const [existing] = await db.select().from(projects).where(eq(projects.id, projectId)).limit(1);
@@ -167,7 +189,7 @@ export async function setProjectStatus(
     .update(projects)
     .set({
       status,
-      completedAt: status === "completed" ? (existing.completedAt ?? new Date()) : null,
+      completedAt: status === "live" ? (existing.completedAt ?? new Date()) : null,
       updatedAt: new Date(),
     })
     .where(eq(projects.id, projectId));
@@ -193,8 +215,6 @@ export async function deleteProject(projectId: string): Promise<ActionResult> {
 /* ------------------------------------------------------------------- Team */
 
 export async function addProjectMembers(formData: FormData): Promise<ActionResult> {
-  const actor = await requireRole("admin");
-
   const parsed = parseForm(
     z.object({
       projectId: requiredId("project"),
@@ -207,8 +227,19 @@ export async function addProjectMembers(formData: FormData): Promise<ActionResul
   const { projectId, userIds, role } = parsed.data;
   if (userIds.length === 0) return fail("Select at least one person.");
 
+  const actor = await requireProjectManager(projectId);
+
   const [project] = await db.select().from(projects).where(eq(projects.id, projectId)).limit(1);
   if (!project) return fail("That project no longer exists.");
+
+  /** Only a manager or above can be made project manager. */
+  if (role === "lead") {
+    const chosen = await db.select({ name: users.name, role: users.role }).from(users).where(inArray(users.id, userIds));
+    const notManager = chosen.find((person) => !canBeProjectManager(person.role));
+    if (notManager) {
+      return fail(`${notManager.name} is a member. A project manager must be a manager or an admin.`);
+    }
+  }
 
   const existing = await db
     .select({ userId: projectMembers.userId })
@@ -242,15 +273,28 @@ export async function setProjectMemberRole(
   userId: string,
   role: (typeof projectRoles)[number],
 ): Promise<ActionResult> {
-  const actor = await requireRole("admin");
+  const actor = await requireProjectManager(projectId);
   if (!projectRoles.includes(role)) return fail("Unknown role.");
+
+  /** A project manager can't demote themselves out of the project; an admin can reassign it. */
+  if (userId === actor.id && !atLeast(actor.role, "admin") && role !== "lead") {
+    return fail("Ask an admin to change your own role on this project.");
+  }
+
+  if (role === "lead") {
+    const [person] = await db.select({ name: users.name, role: users.role }).from(users).where(eq(users.id, userId)).limit(1);
+    if (!person) return fail("That person no longer exists.");
+    if (!canBeProjectManager(person.role)) {
+      return fail(`${person.name} is a member. A project manager must be a manager or an admin.`);
+    }
+  }
 
   await db
     .update(projectMembers)
     .set({ role })
     .where(and(eq(projectMembers.projectId, projectId), eq(projectMembers.userId, userId)));
 
-  await logActivity(actor.id, "changed a project role", role);
+  await logActivity(actor.id, "changed a project role", projectRoleLabels[role]);
   refresh(projectId);
   return ok;
 }
@@ -259,7 +303,11 @@ export async function removeProjectMember(
   projectId: string,
   userId: string,
 ): Promise<ActionResult> {
-  const actor = await requireRole("admin");
+  const actor = await requireProjectManager(projectId);
+
+  if (userId === actor.id && !atLeast(actor.role, "admin")) {
+    return fail("Ask an admin to take you off this project.");
+  }
 
   const [member] = await db
     .select({ name: users.name })
@@ -298,7 +346,7 @@ export async function saveMilestone(formData: FormData): Promise<ActionResult> {
   if (!parsed.success) return fail(parsed.error);
   const { id, projectId, ...values } = parsed.data;
 
-  const actor = await requireProjectEditor(projectId);
+  const actor = await requireProjectManager(projectId);
 
   const completedAt = values.status === "done" ? new Date() : null;
 
@@ -330,7 +378,7 @@ export async function setMilestoneStatus(
     .limit(1);
   if (!milestone) return fail("That milestone no longer exists.");
 
-  const actor = await requireProjectEditor(milestone.projectId);
+  const actor = await requireProjectManager(milestone.projectId);
 
   await db
     .update(milestones)
@@ -350,7 +398,7 @@ export async function deleteMilestone(milestoneId: string): Promise<ActionResult
     .limit(1);
   if (!milestone) return fail("That milestone no longer exists.");
 
-  const actor = await requireProjectEditor(milestone.projectId);
+  const actor = await requireProjectManager(milestone.projectId);
 
   /** Its tasks stay on the project and simply lose their milestone. */
   await db.delete(milestones).where(eq(milestones.id, milestoneId));
@@ -372,7 +420,7 @@ export async function postProjectUpdate(formData: FormData): Promise<ActionResul
   );
   if (!parsed.success) return fail(parsed.error);
 
-  const actor = await requireProjectEditor(parsed.data.projectId);
+  const actor = await requireProjectManager(parsed.data.projectId);
 
   await db.insert(projectUpdates).values({ ...parsed.data, authorId: actor.id });
   await logActivity(actor.id, "posted a project update");
