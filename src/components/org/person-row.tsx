@@ -5,7 +5,7 @@ import { levelBadge, levelOf, type Level, type OrgPerson } from "@/lib/org";
 import { pluralise } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
-const tone = { ceo: "accent", executive: "accent", head: "success", manager: "neutral", member: "neutral" } as const;
+const tone = { ceo: "accent", head: "success", manager: "neutral", member: "neutral" } as const;
 
 export function LevelBadge({ person }: { person: Pick<OrgPerson, "orgLevel" | "headOf"> }) {
   const level: Level = levelOf(person);

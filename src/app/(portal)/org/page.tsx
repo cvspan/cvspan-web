@@ -24,12 +24,11 @@ import { cn } from "@/lib/utils";
 
 export const metadata = { title: "Org chart · CVSpan Portal" };
 
-const levelsInOrder: Level[] = ["ceo", "executive", "head", "manager", "member"];
+const levelsInOrder: Level[] = ["ceo", "head", "manager", "member"];
 
 const levelPlurals: Record<Level, string> = {
   ceo: "CEO",
-  executive: "Executives",
-  head: "Dept. heads",
+  head: "Department heads",
   manager: "Managers",
   member: "Members",
 };
@@ -114,6 +113,7 @@ function CompanyView({
   }));
 
   /** What the edit form needs to narrow its choices; the server checks every rule again. */
+  const ceo = people.find((person) => person.orgLevel === "ceo");
   const context: EditContext = {
     eligible: people
       .filter((person) => atLeast(person.role, "manager"))
@@ -126,12 +126,19 @@ function CompanyView({
     descendants: Object.fromEntries(
       people.map((person) => [person.id, [...descendantIds(person.id, byManager)]]),
     ),
-    headIds: people.filter((person) => person.headOf.length > 0).map((person) => person.id),
+    ceo: ceo ? { id: ceo.id, name: ceo.name } : null,
+    departmentHeads: Object.fromEntries(
+      people.flatMap((person) =>
+        person.headOf.length > 0 && person.departmentId
+          ? [[person.departmentId, { id: person.id, name: person.name }] as const]
+          : [],
+      ),
+    ),
   };
 
   return (
     <OrgEditProvider value={context}>
-      <section className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 xl:grid-cols-5">
+      <section className="grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4">
         {counts.map((item) => (
           <Card key={item.level} className="p-4">
             <p className="text-muted text-tiny font-semibold tracking-wide uppercase">

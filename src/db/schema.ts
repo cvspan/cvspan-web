@@ -38,10 +38,10 @@ export const employmentTypeEnum = pgEnum("employment_type", [
 
 /**
  * Where someone sits in the organisation, separate from their access role. Heads of department
- * aren't stored: they are whoever a department names as its head, and rank between executives
- * and managers (see src/lib/org.ts).
+ * aren't stored: they are whoever a department names as its head, and rank between the CEO and
+ * managers (see src/lib/org.ts).
  */
-export const orgLevelEnum = pgEnum("org_level", ["ceo", "executive", "manager", "member"]);
+export const orgLevelEnum = pgEnum("org_level", ["ceo", "manager", "member"]);
 
 export const memberStatusEnum = pgEnum("member_status", [
   "invited",

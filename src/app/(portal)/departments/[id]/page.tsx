@@ -83,9 +83,7 @@ export default async function DepartmentPage({ params }: { params: Promise<{ id:
             />
             <NewProjectButton
               departments={departments.map((row) => ({ id: row.id, name: row.name }))}
-              people={everyone
-                .filter((person) => canBeProjectManager(person.role))
-                .map((person) => ({ id: person.id, name: person.name }))}
+              people={everyone.map((person) => ({ id: person.id, name: person.name, isMember: !canBeProjectManager(person.role) }))}
               defaultDepartmentId={id}
             />
             <EditDepartmentButton

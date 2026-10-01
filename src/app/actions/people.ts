@@ -7,6 +7,7 @@ import { departments, users } from "@/db/schema";
 import type { Role } from "@/lib/roles";
 import { z } from "zod";
 import { logActivity, requireRole } from "./guards";
+import { reconcileOrg, refreshOrg } from "./org-sync";
 import type { EmploymentType } from "@/lib/format";
 import { defaultInternshipEnd } from "@/lib/grading";
 import { defaultLevelForRole } from "@/lib/org";
@@ -61,6 +62,9 @@ export async function inviteMember(formData: FormData) {
   });
 
   await logActivity(user.id, "invited a new member", name);
+  /** A new member with no manager reports to their department head. */
+  await reconcileOrg();
+  refreshOrg();
   revalidatePath("/people");
   revalidatePath("/");
 }
@@ -73,11 +77,11 @@ export async function updateMemberRole(formData: FormData) {
   if (!userId || !role) return;
 
   /**
-   * Keep the org level in step with the new access role, unless the person is the CEO or an
-   * executive: those are chosen on the org chart, not inferred from access.
+   * Keep the org level in step with the new access role, unless the person is the CEO: that is
+   * chosen on the org chart, not inferred from access.
    */
   const [current] = await db.select({ orgLevel: users.orgLevel }).from(users).where(eq(users.id, userId)).limit(1);
-  const keepsLevel = current?.orgLevel === "ceo" || current?.orgLevel === "executive";
+  const keepsLevel = current?.orgLevel === "ceo";
 
   await db
     .update(users)
@@ -85,6 +89,8 @@ export async function updateMemberRole(formData: FormData) {
     .where(eq(users.id, userId));
   await logActivity(actor.id, "changed a role", role);
 
+  await reconcileOrg();
+  refreshOrg();
   revalidatePath("/people");
   revalidatePath("/roles");
 }

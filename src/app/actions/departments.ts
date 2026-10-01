@@ -18,6 +18,7 @@ import {
   type ActionResult,
 } from "@/lib/validation";
 import { isUniqueViolation, logActivity, notify, requireRole } from "./guards";
+import { ensureManagerAccess, reconcileOrg, refreshOrg } from "./org-sync";
 
 const departmentSchema = z.object({
   name: requiredText("Department name", 80),
@@ -77,6 +78,14 @@ export async function updateDepartment(formData: FormData): Promise<ActionResult
     if (!member) return fail("The head must be a member of this department.");
   }
 
+  /** A head runs people, so a member named head gets manager access. */
+  if (headId) {
+    const access = await ensureManagerAccess(headId, actor.role);
+    if (!access.ok) return fail(access.error);
+  }
+
+  const [before] = await db.select({ headId: departments.headId }).from(departments).where(eq(departments.id, id)).limit(1);
+
   try {
     await db
       .update(departments)
@@ -87,8 +96,13 @@ export async function updateDepartment(formData: FormData): Promise<ActionResult
     throw error;
   }
 
+  /** The new head is a department head by definition, and the lines under them follow. */
+  await reconcileOrg();
+  if (headId && headId !== before?.headId) await notify(headId, `You are now Head of ${name}`, "/org");
+
   await logActivity(actor.id, "updated a department", name);
   refresh(id);
+  refreshOrg();
   return ok;
 }
 
@@ -182,7 +196,10 @@ export async function assignToDepartment(formData: FormData): Promise<ActionResu
     department.name,
   );
 
+  /** Newcomers report to the department's head until given a manager. */
+  await reconcileOrg();
   refresh(departmentId);
+  refreshOrg();
   return ok;
 }
 

@@ -456,7 +456,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ id: st
                           userId={member.id}
                           role={member.role}
                           name={member.name}
-                          canBeManager={canBeProjectManager(member.userRole)}
+                          canBeManager={canBeProjectManager(member.userRole) || canAdmin}
                         />
                         <RemoveMemberButton projectId={id} userId={member.id} name={member.name} />
                       </>

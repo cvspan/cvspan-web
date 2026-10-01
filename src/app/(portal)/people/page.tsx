@@ -61,7 +61,7 @@ export default async function PeoplePage() {
         />
         <div className="flex flex-wrap items-center justify-between gap-4 p-5">
           <p className="text-secondary max-w-150 text-body">
-            Set the hierarchy from CEO and executives through heads of department and managers, and
+            Set the hierarchy from the CEO through heads of department and managers, and
             see who reports to whom. Everyone can see their own reporting line and team.
           </p>
           <Link href="/org">

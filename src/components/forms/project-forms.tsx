@@ -145,7 +145,7 @@ function ProjectFields({
   project?: ProjectValues;
   departments: DepartmentOption[];
   /** Offered on create only; afterwards the project manager is a role on the team list. */
-  leads?: { id: string; name: string }[];
+  leads?: { id: string; name: string; isMember: boolean }[];
 }) {
   return (
     <>
@@ -218,13 +218,14 @@ function ProjectFields({
       {leads ? (
         <Field
           label="Project manager"
-          hint="Must be a manager or admin. They manage the people and every part of the project."
+          hint="They manage the people and every part of the project. A member chosen here becomes a Manager."
         >
           <select name="leadId" defaultValue="" className={fieldClass}>
             <option value="">Assign later</option>
             {leads.map((person) => (
               <option key={person.id} value={person.id}>
                 {person.name}
+                {person.isMember ? " (will become a Manager)" : ""}
               </option>
             ))}
           </select>
@@ -240,7 +241,7 @@ export function NewProjectButton({
   defaultDepartmentId,
 }: {
   departments: DepartmentOption[];
-  people: { id: string; name: string }[];
+  people: { id: string; name: string; isMember: boolean }[];
   defaultDepartmentId?: string;
 }) {
   return (
@@ -379,7 +380,7 @@ export function AddMembersButton({
         </Button>
       }
       title={`Add people to ${projectName}`}
-      description="They are notified and can see the project, its timeline and its tasks. Only managers and admins can be the project manager."
+      description="They are notified and can see the project, its timeline and its tasks. Only an admin can make a member the project manager, which also makes them a Manager."
       submitLabel="Add to project"
       action={addProjectMembers}
     >
@@ -409,7 +410,7 @@ export function MemberRoleSelect({
   userId: string;
   role: ProjectRole;
   name: string;
-  /** Only a manager or admin can be the project manager. */
+  /** Whether this person can be made project manager by the viewer: they hold manager access, or the viewer is an admin who can promote them. */
   canBeManager: boolean;
 }) {
   const router = useRouter();
@@ -432,7 +433,7 @@ export function MemberRoleSelect({
       {projectRoles.map((value) => (
         <option key={value} value={value} disabled={value === "lead" && !canBeManager && role !== "lead"}>
           {projectRoleLabels[value]}
-          {value === "lead" && !canBeManager ? " (managers only)" : ""}
+          {value === "lead" && !canBeManager ? " (admins can promote)" : ""}
         </option>
       ))}
     </select>

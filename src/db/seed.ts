@@ -110,7 +110,7 @@ async function main() {
         passwordHash,
         name: "Seyi Bankole",
         role: "super_admin",
-        orgLevel: "executive",
+        orgLevel: "manager",
         employmentType: "full_time",
         status: "active",
         jobTitle: "Chief Operating Officer",

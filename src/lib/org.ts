@@ -1,40 +1,46 @@
 import { atLeast, type Role } from "./roles";
 
 /*
- * The organisation hierarchy: CEO → executives (CTO, COO, CFO…) → heads of department →
+ * The organisation hierarchy: CEO → heads of department (the executives: CTO, COO, CFO…) →
  * managers → members.
  *
- * Who reports to whom is `users.managerId`. How senior someone is, is their org level. Heads of
- * department aren't a stored level: whoever a department names as its head ranks as a head, so
- * the department page stays the single place that says who heads what.
- * All pure, so the rules are easy to test.
+ * Who reports to whom is `users.managerId`, and most of it is automatic:
+ *   - heads of department report to the CEO;
+ *   - managers report to the head of their department;
+ *   - members report to a manager (an admin can choose, and it defaults to their project
+ *     manager, else their department head).
+ * A head of department isn't a stored level: whoever a department names as its head ranks as a
+ * head, so the Departments page stays the one place that says who heads what. All pure, so the
+ * rules are easy to test.
  */
 
-export const orgLevels = ["ceo", "executive", "manager", "member"] as const;
+/** What is stored on the person. */
+export const orgLevels = ["ceo", "manager", "member"] as const;
 export type StoredLevel = (typeof orgLevels)[number];
 export type Level = StoredLevel | "head";
+
+/** What an admin chooses between. "head" means heading the department they are in. */
+export const positionLevels = ["ceo", "head", "manager", "member"] as const;
+export type PositionLevel = (typeof positionLevels)[number];
 
 /** Lower is more senior. A person must report to someone strictly more senior than themselves. */
 export const levelRank: Record<Level, number> = {
   ceo: 1,
-  executive: 2,
-  head: 3,
-  manager: 4,
-  member: 5,
+  head: 2,
+  manager: 3,
+  member: 4,
 };
 
 export const levelLabels: Record<Level, string> = {
   ceo: "CEO",
-  executive: "Executive",
-  head: "Head of department",
+  head: "Department head",
   manager: "Manager",
   member: "Member",
 };
 
-/** What an admin can pick. "Head of department" is set on the Departments page instead. */
-export const storedLevelLabels: Record<StoredLevel, string> = {
+export const positionLevelLabels: Record<PositionLevel, string> = {
   ceo: "CEO",
-  executive: "Executive (CTO, COO, CFO…)",
+  head: "Department head (executives)",
   manager: "Manager",
   member: "Member",
 };
@@ -53,15 +59,13 @@ export type OrgPerson = {
 };
 
 export function levelOf(person: Pick<OrgPerson, "orgLevel" | "headOf">): Level {
-  if (person.orgLevel === "ceo" || person.orgLevel === "executive") return person.orgLevel;
+  if (person.orgLevel === "ceo") return "ceo";
   return person.headOf.length > 0 ? "head" : person.orgLevel;
 }
 
 /** A sensible starting level from someone's access role, until an admin sets it. */
 export function defaultLevelForRole(role: Role): StoredLevel {
-  if (role === "super_admin") return "executive";
-  if (role === "member") return "member";
-  return "manager";
+  return role === "member" ? "member" : "manager";
 }
 
 /** "Head of Design", "CEO", "Manager": the label shown next to a name. */
@@ -130,8 +134,8 @@ export function descendantIds<T extends OrgPerson>(personId: string, children: M
 }
 
 /**
- * Where the chart starts. With a CEO it is the CEO alone; with none, the executives who report
- * to nobody. Anyone else with no manager hasn't been placed yet.
+ * Where the chart starts. With a CEO it is the CEO alone; with none, the heads of department who
+ * report to nobody. Anyone else with no manager hasn't been placed yet.
  */
 export function chartRoots<T extends OrgPerson>(people: T[]) {
   const byId = indexPeople(people);
@@ -139,7 +143,7 @@ export function chartRoots<T extends OrgPerson>(people: T[]) {
 
   const topless = people.filter((person) => !managerIn(person, byId));
   const isRoot = (person: T) =>
-    person.orgLevel === "ceo" || (!hasCeo && person.orgLevel === "executive");
+    person.orgLevel === "ceo" || (!hasCeo && levelOf(person) === "head");
 
   const sort = (list: T[]) =>
     list.sort((a, b) => levelRank[levelOf(a)] - levelRank[levelOf(b)] || a.name.localeCompare(b.name));
@@ -152,11 +156,15 @@ export function chartRoots<T extends OrgPerson>(people: T[]) {
 
 /* ------------------------------------------------------------- Validation */
 
-export type PositionChange = { subjectId: string; level: StoredLevel; managerId: string | null };
+export type PositionChange = { subjectId: string; level: PositionLevel; managerId: string | null };
+
+/** The level someone would have after a change. Heading a department is what makes a head. */
+const resultingLevel = (level: PositionLevel): Level => level;
 
 /**
- * Checks a proposed change to someone's level and reporting line. Returns the problem in plain
- * words, or null when it is fine. The server runs this; the form uses it to filter its choices.
+ * Checks a proposed change to someone's level and, where it is theirs to choose, their reporting
+ * line. Returns the problem in plain words, or null when it is fine. The server runs this; the
+ * form uses it to narrow its choices.
  */
 export function validatePosition(change: PositionChange, people: OrgPerson[]): string | null {
   const byId = indexPeople(people);
@@ -166,10 +174,17 @@ export function validatePosition(change: PositionChange, people: OrgPerson[]): s
   if (change.level === "ceo") {
     const current = people.find((person) => person.orgLevel === "ceo" && person.id !== subject.id);
     if (current) return `${current.name} is already the CEO. Change their level first.`;
-    return null; // the CEO reports to no one; the caller clears the manager
+    return null; // the CEO reports to no one
   }
 
-  const proposed = levelOf({ orgLevel: change.level, headOf: subject.headOf });
+  if (change.level === "head") {
+    if (!subject.departmentId) {
+      return `${subject.name} isn't in a department. Add them to one first, then make them its head.`;
+    }
+    return null; // heads report to the CEO automatically
+  }
+
+  const proposed = resultingLevel(change.level);
 
   /** Anyone who reports to them must stay more junior than they become. */
   const children = childrenMap(people);
@@ -198,13 +213,77 @@ export function validatePosition(change: PositionChange, people: OrgPerson[]): s
 }
 
 /** Who could `subject` report to at this level? Used to fill the form's list. */
-export function managerCandidates<T extends OrgPerson>(subject: OrgPerson, level: StoredLevel, people: T[]) {
-  if (level === "ceo") return [];
+export function managerCandidates<T extends OrgPerson>(subject: OrgPerson, level: PositionLevel, people: T[]) {
+  if (level === "ceo" || level === "head") return [];
   return people.filter(
     (person) =>
       person.id !== subject.id &&
       validatePosition({ subjectId: subject.id, level, managerId: person.id }, people) === null,
   );
+}
+
+/* ------------------------------------------------------- Automatic lines */
+
+export type OrgContext = {
+  ceoId: string | null;
+  /** The head of each department, by department id. */
+  departmentHeads: Map<string, string>;
+};
+
+/**
+ * Who someone reports to when the structure decides it:
+ *   - the CEO reports to no one (null);
+ *   - a head of department reports to the CEO;
+ *   - a manager reports to the head of their department, when it has one.
+ * Returns undefined when it is a choice rather than a rule: a member's manager, or a manager in
+ * a department that has no head yet.
+ */
+export function automaticManagerId(
+  person: Pick<OrgPerson, "id" | "orgLevel" | "headOf" | "departmentId">,
+  level: Level,
+  context: OrgContext,
+): string | null | undefined {
+  if (level === "ceo") return null;
+  if (level === "head") return context.ceoId && context.ceoId !== person.id ? context.ceoId : null;
+
+  if (level === "manager" && person.departmentId) {
+    const head = context.departmentHeads.get(person.departmentId);
+    if (head && head !== person.id) return head;
+  }
+  return undefined;
+}
+
+export type LineChange = { id: string; managerId: string | null };
+
+/**
+ * Works out which reporting lines need to change to match the rules above. Idempotent: run it
+ * after anything that could move someone (a new head, a department change, a project manager),
+ * and an already-correct organisation produces no changes.
+ *   - The CEO, heads and managers are always brought into line.
+ *   - A member keeps a manager they already have. One with none (or whose manager has gone)
+ *     gets their project manager, else their department head.
+ */
+export function planReportingLines(
+  people: OrgPerson[],
+  context: OrgContext,
+  projectManagerOf: Map<string, string>,
+): LineChange[] {
+  const byId = indexPeople(people);
+  const changes: LineChange[] = [];
+
+  for (const person of people) {
+    const level = levelOf(person);
+    const current = person.managerId && byId.has(person.managerId) ? person.managerId : null;
+    let target: string | null | undefined = automaticManagerId(person, level, context);
+
+    if (target === undefined && level === "member" && current === null) {
+      const options = [projectManagerOf.get(person.id), person.departmentId ? context.departmentHeads.get(person.departmentId) : undefined];
+      target = options.find((candidate) => candidate && candidate !== person.id && byId.has(candidate)) ?? null;
+    }
+
+    if (target !== undefined && target !== current) changes.push({ id: person.id, managerId: target });
+  }
+  return changes;
 }
 
 /* ----------------------------------------------------------------- Health */

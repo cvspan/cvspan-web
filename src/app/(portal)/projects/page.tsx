@@ -95,9 +95,7 @@ export default async function ProjectsPage({
           canAdmin ? (
             <NewProjectButton
               departments={departments.map((row) => ({ id: row.id, name: row.name }))}
-              people={people
-                .filter((person) => canBeProjectManager(person.role))
-                .map((person) => ({ id: person.id, name: person.name }))}
+              people={people.map((person) => ({ id: person.id, name: person.name, isMember: !canBeProjectManager(person.role) }))}
             />
           ) : null
         }

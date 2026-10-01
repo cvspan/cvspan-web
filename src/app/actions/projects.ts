@@ -3,6 +3,7 @@
 import { and, eq, inArray } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
+import { ensureManagerAccess, reconcileOrg, refreshOrg } from "./org-sync";
 import { atLeast } from "@/lib/roles";
 import { db } from "@/db";
 import {
@@ -13,7 +14,6 @@ import {
   users,
 } from "@/db/schema";
 import {
-  canBeProjectManager,
   deriveProjectCode,
   milestoneStatuses,
   projectRoleLabels,
@@ -93,13 +93,15 @@ export async function createProject(formData: FormData): Promise<ActionResult> {
   const links = parseProjectLinks(formData.getAll("linkName").map(String), formData.getAll("linkUrl").map(String));
   if (!links.ok) return fail(links.error);
 
-  /** The project manager runs the people and the schedule, so they must be a manager or above. */
+  /**
+   * The project manager runs the people and the schedule, so they need manager access. When an
+   * admin picks a member, they become a Manager.
+   */
+  let promoted = false;
   if (leadId) {
-    const [candidate] = await db.select({ name: users.name, role: users.role }).from(users).where(eq(users.id, leadId)).limit(1);
-    if (!candidate) return fail("That person no longer exists.");
-    if (!canBeProjectManager(candidate.role)) {
-      return fail(`${candidate.name} is a member. A project manager must be a manager or an admin.`);
-    }
+    const access = await ensureManagerAccess(leadId, actor.role);
+    if (!access.ok) return fail(access.error);
+    promoted = access.promoted;
   }
 
   const projectId = crypto.randomUUID();
@@ -128,6 +130,11 @@ export async function createProject(formData: FormData): Promise<ActionResult> {
     await notify(leadId, `You were made project manager of ${values.name}`, `/projects/${projectId}`);
   }
   await logActivity(actor.id, "created a project", values.name);
+  if (leadId) {
+    /** Their new project's members, and the manager's own line, follow from this. */
+    await reconcileOrg();
+    if (promoted) refreshOrg();
+  }
   refresh(projectId);
   return ok;
 }
@@ -232,12 +239,13 @@ export async function addProjectMembers(formData: FormData): Promise<ActionResul
   const [project] = await db.select().from(projects).where(eq(projects.id, projectId)).limit(1);
   if (!project) return fail("That project no longer exists.");
 
-  /** Only a manager or above can be made project manager. */
+  /** A project manager needs manager access: an admin can promote a member, a project manager can't. */
+  let promotedAny = false;
   if (role === "lead") {
-    const chosen = await db.select({ name: users.name, role: users.role }).from(users).where(inArray(users.id, userIds));
-    const notManager = chosen.find((person) => !canBeProjectManager(person.role));
-    if (notManager) {
-      return fail(`${notManager.name} is a member. A project manager must be a manager or an admin.`);
+    for (const id of userIds) {
+      const access = await ensureManagerAccess(id, actor.role);
+      if (!access.ok) return fail(access.error);
+      promotedAny ||= access.promoted;
     }
   }
 
@@ -264,6 +272,9 @@ export async function addProjectMembers(formData: FormData): Promise<ActionResul
     `added ${added.length} ${added.length === 1 ? "person" : "people"} to a project`,
     project.name,
   );
+  /** Newcomers with no manager report to this project's manager. */
+  await reconcileOrg();
+  if (promotedAny) refreshOrg();
   refresh(projectId);
   return ok;
 }
@@ -281,12 +292,11 @@ export async function setProjectMemberRole(
     return fail("Ask an admin to change your own role on this project.");
   }
 
+  let promoted = false;
   if (role === "lead") {
-    const [person] = await db.select({ name: users.name, role: users.role }).from(users).where(eq(users.id, userId)).limit(1);
-    if (!person) return fail("That person no longer exists.");
-    if (!canBeProjectManager(person.role)) {
-      return fail(`${person.name} is a member. A project manager must be a manager or an admin.`);
-    }
+    const access = await ensureManagerAccess(userId, actor.role);
+    if (!access.ok) return fail(access.error);
+    promoted = access.promoted;
   }
 
   await db
@@ -295,6 +305,10 @@ export async function setProjectMemberRole(
     .where(and(eq(projectMembers.projectId, projectId), eq(projectMembers.userId, userId)));
 
   await logActivity(actor.id, "changed a project role", projectRoleLabels[role]);
+  if (role === "lead") {
+    await reconcileOrg();
+    if (promoted) refreshOrg();
+  }
   refresh(projectId);
   return ok;
 }
