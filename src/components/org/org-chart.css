@@ -1,0 +1,148 @@
+/*
+ * The org chart's connectors. Everything is on a 4px grid. A branch whose people have no teams of
+ * their own is drawn as a vertical list (.org-stack) so wide teams don't push the chart sideways;
+ * any other branch is a row (.org-row) with the classic bracket connectors.
+ */
+.org-chart {
+  --card-w: 224px;
+  --card-h: 88px;
+  --gap: 24px;
+  --stack-gap: 12px;
+  --stack-offset: 64px;
+  --stack-tick: 16px;
+  --line: var(--border-strong);
+  --path: var(--accent-primary);
+  width: max-content;
+  min-width: 100%;
+  margin: 0 auto;
+}
+
+.org-chart ul {
+  list-style: none;
+  margin: 0;
+}
+
+/* A person is a card with their team underneath, both centred on the card. */
+.org-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ---- Row: children side by side under a bracket ---- */
+.org-row {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  padding: var(--gap) 0 0;
+}
+.org-row::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  height: var(--gap);
+  border-left: 1px solid var(--line);
+}
+.org-row.is-path::before {
+  border-color: var(--path);
+}
+.org-row > li {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--gap) 12px 0;
+}
+.org-row > li::before,
+.org-row > li::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: var(--gap);
+  border-top: 1px solid var(--line);
+}
+.org-row > li::before {
+  right: 50%;
+}
+.org-row > li::after {
+  left: 50%;
+  border-left: 1px solid var(--line);
+}
+.org-row > li:only-child {
+  padding-top: 0;
+}
+.org-row > li:only-child::before,
+.org-row > li:only-child::after {
+  display: none;
+}
+.org-row > li:first-child::before,
+.org-row > li:last-child::after {
+  border-top: 0;
+}
+.org-row > li:last-child::before {
+  border-right: 1px solid var(--line);
+  border-radius: 0 8px 0 0;
+}
+.org-row > li:first-child::after {
+  border-radius: 8px 0 0 0;
+}
+.org-row > li.is-path::before,
+.org-row > li.is-path::after {
+  border-color: var(--path);
+}
+
+/* ---- Stack: a vertical list hanging off the parent ----
+   The parent's card is centred in a column 64px wider than a card, so the list can sit 64px in from
+   the left, with its spine 16px in from the card's left edge. */
+.org-node.has-stack {
+  width: calc(var(--card-w) + var(--stack-offset));
+}
+.org-stack {
+  align-self: stretch;
+  padding: 0 0 0 var(--stack-offset);
+}
+.org-stack > li {
+  position: relative;
+  padding-top: var(--stack-gap);
+}
+.org-stack > li::before {
+  content: "";
+  position: absolute;
+  left: calc(var(--stack-tick) * -1);
+  top: 0;
+  bottom: 0;
+  border-left: 1px solid var(--line);
+}
+.org-stack > li:last-child::before {
+  bottom: auto;
+  height: calc(var(--stack-gap) + var(--card-h) / 2);
+}
+.org-stack > li::after {
+  content: "";
+  position: absolute;
+  left: calc(var(--stack-tick) * -1);
+  top: calc(var(--stack-gap) + var(--card-h) / 2);
+  width: var(--stack-tick);
+  border-top: 1px solid var(--line);
+}
+.org-stack > li.is-path::before,
+.org-stack > li.is-path::after {
+  border-color: var(--path);
+}
+
+/* ---- Card ---- */
+.org-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: var(--card-w);
+  height: var(--card-h);
+  padding: 0 12px;
+  border: 1px solid var(--border-default);
+  border-radius: 12px;
+  background: var(--surface-card);
+  text-align: left;
+}

@@ -3,8 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardHeader } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
 import { OrgEditProvider, type EditContext } from "@/components/org/edit-position";
-import { OrgTree } from "@/components/org/org-tree";
-import { PersonRow } from "@/components/org/person-row";
+import { OrgChart } from "@/components/org/org-chart";
 import { getOrgPeople } from "@/db/queries-org";
 import { pluralise } from "@/lib/format";
 import {
@@ -15,9 +14,9 @@ import {
   indexPeople,
   levelOf,
   levelRank,
-  reportingLine,
   type Level,
 } from "@/lib/org";
+import { buildChart, focusRoots } from "@/lib/org-chart";
 import { atLeast } from "@/lib/roles";
 import { requireUser } from "@/lib/session";
 import { cn } from "@/lib/utils";
@@ -77,7 +76,7 @@ export default async function OrgPage({ searchParams }: { searchParams: Promise<
       />
 
       {showCompany ? (
-        <CompanyView people={people} byManager={byManager} youId={user.id} linkProfiles={linkProfiles} />
+        <CompanyView people={people} byId={byId} byManager={byManager} youId={user.id} linkProfiles={linkProfiles} />
       ) : (
         <MyPlace
           me={me}
@@ -95,17 +94,21 @@ export default async function OrgPage({ searchParams }: { searchParams: Promise<
 
 function CompanyView({
   people,
+  byId,
   byManager,
   youId,
   linkProfiles,
 }: {
   people: Awaited<ReturnType<typeof getOrgPeople>>;
+  byId: ReturnType<typeof indexPeople<Awaited<ReturnType<typeof getOrgPeople>>[number]>>;
   byManager: ReturnType<typeof childrenMap<Awaited<ReturnType<typeof getOrgPeople>>[number]>>;
   youId: string;
   linkProfiles: boolean;
 }) {
   const { roots, unplaced } = chartRoots(people);
   const issues = hierarchyIssues(people);
+  const chart = buildChart(roots, byManager, byId, { youId }, people);
+  const unplacedChart = buildChart(unplaced, byManager, byId, { youId }, people);
 
   const counts = levelsInOrder.map((level) => ({
     level,
@@ -170,7 +173,7 @@ function CompanyView({
               No one is at the top yet. Edit someone and set their level to CEO or Executive.
             </p>
           ) : (
-            <OrgTree nodes={roots} byManager={byManager} youId={youId} canEdit linkProfiles={linkProfiles} />
+            <OrgChart nodes={chart} youId={youId} canEdit linkProfiles={linkProfiles} />
           )}
         </div>
       </Card>
@@ -182,7 +185,7 @@ function CompanyView({
             These people have no reporting line. Choose Edit and set who they report to.
           </p>
           <div className="p-5">
-            <OrgTree nodes={unplaced} byManager={byManager} youId={youId} canEdit linkProfiles={linkProfiles} />
+            <OrgChart nodes={unplacedChart} youId={youId} canEdit linkProfiles={linkProfiles} />
           </div>
         </Card>
       ) : null}
@@ -215,95 +218,49 @@ function MyPlace({
     );
   }
 
-  /** From the top of the organisation down to you. */
-  const above = reportingLine(me.id, byId).reverse();
   const manager = me.managerId ? byId.get(me.managerId) : undefined;
-  const colleagues = manager ? (byManager.get(manager.id) ?? []).filter((person) => person.id !== me.id) : [];
-  const mine = byManager.get(me.id) ?? [];
-
   const departmentHead = me.departmentName
     ? people.find((person) => person.headOf.includes(me.departmentName!))
     : undefined;
-  const link = (id: string) => (linkProfiles || id === me.id ? `/people/${id}` : undefined);
+  const teammates = manager ? (byManager.get(manager.id) ?? []).filter((person) => person.id !== me.id).length : 0;
+  const myTeam = descendantIds(me.id, byManager).size;
+
+  const roots = focusRoots(me.id, byId, chartRoots(people).roots);
+  const chart = buildChart(roots, byManager, byId, { youId: me.id, focus: true }, people);
+
+  const facts = [
+    { label: "You report to", value: manager?.name ?? (me.orgLevel === "ceo" ? "No one, you lead the company" : "Not set yet"), note: manager?.jobTitle },
+    {
+      label: "Head of your department",
+      value: departmentHead ? (departmentHead.id === me.id ? "You" : departmentHead.name) : me.departmentName ? "Not set yet" : "No department yet",
+      note: me.departmentName,
+    },
+    { label: "Your teammates", value: String(teammates), note: manager ? `Also report to ${manager.name.split(" ")[0]}` : undefined },
+    { label: "Your team", value: String(myTeam), note: myTeam === 0 ? "No one reports to you" : "People under you" },
+  ];
 
   return (
     <>
-      <Card>
-        <CardHeader title="Your reporting line" action={<Badge>{above.length === 0 ? "Top of the organisation" : `${above.length} above you`}</Badge>} />
-        <div className="p-5">
-          {above.length === 0 && !me.managerId ? (
-            <p className="text-muted mb-4 text-body">
-              {me.orgLevel === "ceo"
-                ? "You are at the top of the organisation."
-                : "You don't have a reporting line yet. An admin sets this from the org chart."}
-            </p>
-          ) : null}
-
-          <ol aria-label="From the top of the organisation down to you">
-            {[...above, me].map((person, index, line) => (
-              <li key={person.id} className="relative">
-                <PersonRow
-                  person={person}
-                  you={person.id === me.id}
-                  emphasis={departmentHead?.id === person.id && person.id !== me.id}
-                  href={link(person.id)}
-                />
-                {index < line.length - 1 ? (
-                  <span aria-hidden className="bg-line mx-auto my-0 block h-4 w-px" />
-                ) : null}
-              </li>
-            ))}
-          </ol>
-        </div>
-      </Card>
-
-      <section className="grid items-start gap-4 xl:grid-cols-2">
-        <Card>
-          <CardHeader title="Your department" action={me.departmentName ? <Badge>{me.departmentName}</Badge> : null} />
-          <div className="flex flex-col gap-3 p-5">
-            {!me.departmentName ? (
-              <p className="text-muted text-body">You aren&apos;t in a department yet.</p>
-            ) : departmentHead ? (
-              <>
-                <p className="text-muted text-tiny font-semibold tracking-wide uppercase">Head of department</p>
-                <PersonRow person={departmentHead} you={departmentHead.id === me.id} href={link(departmentHead.id)} />
-              </>
-            ) : (
-              <p className="text-muted text-body">{me.departmentName} doesn&apos;t have a head set yet.</p>
-            )}
-          </div>
-        </Card>
-
-        <Card>
-          <CardHeader
-            title={manager ? `Your team under ${manager.name.split(" ")[0]}` : "Your colleagues"}
-            action={<Badge>{pluralise(colleagues.length, "colleague")}</Badge>}
-          />
-          <div className="flex flex-col gap-2 p-5">
-            {colleagues.length === 0 ? (
-              <p className="text-muted text-body">
-                {manager ? "No one else reports to your manager." : "Colleagues appear once you have a manager."}
-              </p>
-            ) : (
-              colleagues.map((person) => (
-                <PersonRow key={person.id} person={person} href={link(person.id)} />
-              ))
-            )}
-          </div>
-        </Card>
+      <section className="grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4" aria-label="Where you sit">
+        {facts.map((fact) => (
+          <Card key={fact.label} className="p-4">
+            <p className="text-muted text-tiny font-semibold tracking-wide uppercase">{fact.label}</p>
+            <p className="text-primary mt-1 truncate text-title font-semibold">{fact.value}</p>
+            {fact.note ? <p className="text-muted truncate text-caption">{fact.note}</p> : null}
+          </Card>
+        ))}
       </section>
 
-      {mine.length > 0 ? (
-        <Card>
-          <CardHeader
-            title="People who report to you"
-            action={<Badge>{pluralise(descendantIds(me.id, byManager).size, "person", "people")} in your team</Badge>}
-          />
-          <div className="p-5">
-            <OrgTree nodes={mine} byManager={byManager} linkProfiles={linkProfiles} />
-          </div>
-        </Card>
-      ) : null}
+      <Card>
+        <CardHeader title="Where you fit" action={<Badge>{me.departmentName ?? "No department"}</Badge>} />
+        <div className="p-5">
+          <p className="text-muted mb-4 text-body">
+            The CEO and every department head, your manager, everyone in your department and anyone who reports to
+            you.
+          </p>
+          <OrgChart nodes={chart} youId={me.id} linkProfiles={linkProfiles} showLegend />
+        </div>
+      </Card>
     </>
   );
 }

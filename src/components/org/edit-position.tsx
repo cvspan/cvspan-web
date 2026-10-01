@@ -31,7 +31,7 @@ export function OrgEditProvider({ value, children }: { value: EditContext; child
   return <Context.Provider value={value}>{children}</Context.Provider>;
 }
 
-export function EditPositionButton({ person }: { person: OrgPerson }) {
+export function EditPositionButton({ person, compact = false }: { person: OrgPerson; compact?: boolean }) {
   const context = useContext(Context);
   const [level, setLevel] = useState<PositionLevel>(levelOf(person));
 
@@ -65,10 +65,21 @@ export function EditPositionButton({ person }: { person: OrgPerson }) {
     <Dialog
       key={`${person.orgLevel}|${person.headOf.join(",")}|${person.managerId}|${person.jobTitle}`}
       trigger={
-        <Button size="sm" variant="secondary">
-          <RiEditLine size={16} aria-hidden />
-          Edit
-        </Button>
+        compact ? (
+          <button
+            type="button"
+            aria-label={`Edit ${person.name}'s position`}
+            title="Edit position"
+            className="text-muted hover:bg-raised hover:text-primary flex size-6 cursor-pointer items-center justify-center rounded-md transition-colors"
+          >
+            <RiEditLine size={14} aria-hidden />
+          </button>
+        ) : (
+          <Button size="sm" variant="secondary">
+            <RiEditLine size={16} aria-hidden />
+            Edit
+          </Button>
+        )
       }
       title={`${person.name}'s position`}
       description="This sets who they report to, and so who grades them, approves their leave and sees them on their team."
