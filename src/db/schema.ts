@@ -36,6 +36,13 @@ export const employmentTypeEnum = pgEnum("employment_type", [
   "student",
 ]);
 
+/**
+ * Where someone sits in the organisation, separate from their access role. Heads of department
+ * aren't stored: they are whoever a department names as its head, and rank between executives
+ * and managers (see src/lib/org.ts).
+ */
+export const orgLevelEnum = pgEnum("org_level", ["ceo", "executive", "manager", "member"]);
+
 export const memberStatusEnum = pgEnum("member_status", [
   "invited",
   "active",
@@ -161,6 +168,7 @@ export const users = pgTable(
     avatarUrl: text("avatar_url"),
     /** Permission level. Independent of employmentType: an intern can be a manager. */
     role: roleEnum("role").default("member").notNull(),
+    orgLevel: orgLevelEnum("org_level").default("member").notNull(),
     employmentType: employmentTypeEnum("employment_type").default("full_time").notNull(),
     status: memberStatusEnum("status").default("invited").notNull(),
     jobTitle: text("job_title"),
@@ -171,7 +179,13 @@ export const users = pgTable(
     endDate: date("end_date"),
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   },
-  (table) => [uniqueIndex("users_email_idx").on(table.email)],
+  (table) => [
+    uniqueIndex("users_email_idx").on(table.email),
+    /** There is one CEO. */
+    uniqueIndex("users_single_ceo_idx")
+      .on(table.orgLevel)
+      .where(sql`${table.orgLevel} = 'ceo'`),
+  ],
 );
 
 /* ------------------------------------------------------------------- Work */

@@ -110,6 +110,7 @@ async function main() {
         passwordHash,
         name: "Seyi Bankole",
         role: "super_admin",
+        orgLevel: "executive",
         employmentType: "full_time",
         status: "active",
         jobTitle: "Chief Operating Officer",
@@ -123,10 +124,10 @@ async function main() {
   const staff = await db
     .insert(schema.users)
     .values([
-      { email: "kemi@cvspan.com", passwordHash, name: "Kemi Lawal", role: "admin", employmentType: "full_time", status: "active", jobTitle: "HR Manager", departmentId: dept.management, teamId: team["People Ops"], managerId: seyi.id, startDate: "2024-06-03" },
-      { email: "ada@cvspan.com", passwordHash, name: "Ada Obi", role: "manager", employmentType: "full_time", status: "active", jobTitle: "Design Lead", departmentId: dept.design, teamId: team["Product Design"], managerId: seyi.id, startDate: "2024-03-11" },
-      { email: "tunde@cvspan.com", passwordHash, name: "Tunde Ke", role: "manager", employmentType: "full_time", status: "active", jobTitle: "Engineering Lead", departmentId: dept.development, teamId: team.Platform, managerId: seyi.id, startDate: "2023-08-21" },
-      { email: "ngozi@cvspan.com", passwordHash, name: "Ngozi Uche", role: "manager", employmentType: "full_time", status: "active", jobTitle: "Marketing Lead", departmentId: dept.marketing, teamId: team.Growth, managerId: seyi.id, startDate: "2024-11-04" },
+      { email: "kemi@cvspan.com", passwordHash, name: "Kemi Lawal", role: "admin", orgLevel: "manager", employmentType: "full_time", status: "active", jobTitle: "HR Manager", departmentId: dept.management, teamId: team["People Ops"], managerId: seyi.id, startDate: "2024-06-03" },
+      { email: "ada@cvspan.com", passwordHash, name: "Ada Obi", role: "manager", orgLevel: "manager", employmentType: "full_time", status: "active", jobTitle: "Design Lead", departmentId: dept.design, teamId: team["Product Design"], managerId: seyi.id, startDate: "2024-03-11" },
+      { email: "tunde@cvspan.com", passwordHash, name: "Tunde Ke", role: "manager", orgLevel: "manager", employmentType: "full_time", status: "active", jobTitle: "Engineering Lead", departmentId: dept.development, teamId: team.Platform, managerId: seyi.id, startDate: "2023-08-21" },
+      { email: "ngozi@cvspan.com", passwordHash, name: "Ngozi Uche", role: "manager", orgLevel: "manager", employmentType: "full_time", status: "active", jobTitle: "Marketing Lead", departmentId: dept.marketing, teamId: team.Growth, managerId: seyi.id, startDate: "2024-11-04" },
     ])
     .returning();
 

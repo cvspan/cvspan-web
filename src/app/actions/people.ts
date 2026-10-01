@@ -9,6 +9,7 @@ import { z } from "zod";
 import { logActivity, requireRole } from "./guards";
 import type { EmploymentType } from "@/lib/format";
 import { defaultInternshipEnd } from "@/lib/grading";
+import { defaultLevelForRole } from "@/lib/org";
 import {
   datesInOrder,
   fail,
@@ -36,6 +37,7 @@ export async function inviteMember(formData: FormData) {
     ? await db.select().from(departments).where(eq(departments.name, departmentName)).limit(1)
     : [];
 
+  const inviteRole = (String(formData.get("role") ?? "member") as Role) ?? "member";
   const employmentType = String(formData.get("employmentType") ?? "full_time") as EmploymentType;
   const startDate = String(formData.get("startDate") ?? "") || null;
 
@@ -48,7 +50,8 @@ export async function inviteMember(formData: FormData) {
     email,
     name,
     jobTitle: String(formData.get("jobTitle") ?? "").trim() || null,
-    role: (String(formData.get("role") ?? "member") as Role) ?? "member",
+    role: inviteRole,
+    orgLevel: defaultLevelForRole(inviteRole),
     employmentType,
     status: "invited",
     departmentId: department?.id ?? null,
@@ -69,7 +72,17 @@ export async function updateMemberRole(formData: FormData) {
   const role = String(formData.get("role") ?? "") as Role;
   if (!userId || !role) return;
 
-  await db.update(users).set({ role }).where(eq(users.id, userId));
+  /**
+   * Keep the org level in step with the new access role, unless the person is the CEO or an
+   * executive: those are chosen on the org chart, not inferred from access.
+   */
+  const [current] = await db.select({ orgLevel: users.orgLevel }).from(users).where(eq(users.id, userId)).limit(1);
+  const keepsLevel = current?.orgLevel === "ceo" || current?.orgLevel === "executive";
+
+  await db
+    .update(users)
+    .set(keepsLevel ? { role } : { role, orgLevel: defaultLevelForRole(role) })
+    .where(eq(users.id, userId));
   await logActivity(actor.id, "changed a role", role);
 
   revalidatePath("/people");

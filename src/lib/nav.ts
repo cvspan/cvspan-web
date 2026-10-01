@@ -9,6 +9,7 @@ import {
   RiFolderChartLine,
   RiGroupLine,
   RiLineChartLine,
+  RiNodeTree,
   RiStarSmileLine,
   RiOrganizationChart,
   RiSettings3Line,
@@ -45,6 +46,7 @@ const sections: NavSection[] = [
     links: [
       { href: "/attendance", label: "Attendance", icon: RiTimeLine, minRole: "member" },
       { href: "/messages", label: "Messages", icon: RiChat3Line, minRole: "member" },
+      { href: "/org", label: "Org chart", icon: RiNodeTree, minRole: "member" },
       { href: "/projects", label: "Projects", icon: RiFolderChartLine, minRole: "member" },
       { href: "/programmes", label: "Programmes", icon: RiAwardLine, minRole: "member" },
     ],

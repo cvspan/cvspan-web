@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { RiDownloadLine, RiSearchLine } from "@remixicon/react";
+import { RiDownloadLine, RiNodeTree, RiSearchLine } from "@remixicon/react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader } from "@/components/ui/card";
@@ -19,8 +19,6 @@ export default async function PeoplePage() {
   ]);
 
   const byId = new Map(people.map((person) => [person.id, person]));
-  const leads = people.filter((person) => person.role === "manager");
-  const top = people.find((person) => person.role === "super_admin");
 
   return (
     <>
@@ -57,59 +55,21 @@ export default async function PeoplePage() {
       </section>
 
       <Card>
-        <CardHeader title="Org chart" action={<Badge>{departments.length} departments</Badge>} />
-        <div className="flex flex-col items-center gap-4 p-6">
-          {top ? (
-            <span className="border-line bg-accent-soft flex items-center gap-2.5 rounded-lg border px-4 py-2.5">
-              <span className="bg-brand text-on-accent flex size-9 items-center justify-center rounded-full text-caption font-semibold">
-                {initials(top.name)}
-              </span>
-              <span>
-                <span className="text-primary block text-body font-semibold">{top.name}</span>
-                <span className="text-muted block text-tiny">{top.jobTitle}</span>
-              </span>
-            </span>
-          ) : null}
-
-          <span className="bg-line h-6 w-px" aria-hidden />
-
-          <div className="grid w-full gap-3 sm:grid-cols-2 xl:grid-cols-4">
-            {leads.map((lead) => {
-              const reports = people.filter((person) => person.managerId === lead.id);
-              return (
-                <div key={lead.id} className="border-line rounded-lg border p-4">
-                  <span className="flex items-center gap-2.5">
-                    <span className="bg-accent-soft text-accent flex size-9 shrink-0 items-center justify-center rounded-full text-caption font-semibold">
-                      {initials(lead.name)}
-                    </span>
-                    <span className="min-w-0">
-                      <span className="text-primary block truncate text-body font-semibold">
-                        {lead.name}
-                      </span>
-                      <span className="text-muted block truncate text-tiny">{lead.jobTitle}</span>
-                    </span>
-                  </span>
-                  <ul className="mt-3 flex flex-col gap-1.5">
-                    {reports.length === 0 ? (
-                      <li className="text-muted text-tiny">No direct reports</li>
-                    ) : (
-                      reports.map((report) => (
-                        <li
-                          key={report.id}
-                          className="text-secondary flex items-center gap-2 text-caption"
-                        >
-                          <span className="bg-raised text-muted flex size-6 shrink-0 items-center justify-center rounded-full text-tiny font-semibold">
-                            {initials(report.name)}
-                          </span>
-                          <span className="truncate">{report.name}</span>
-                        </li>
-                      ))
-                    )}
-                  </ul>
-                </div>
-              );
-            })}
-          </div>
+        <CardHeader
+          title="Org chart"
+          action={<Badge>{departments.length} departments</Badge>}
+        />
+        <div className="flex flex-wrap items-center justify-between gap-4 p-5">
+          <p className="text-secondary max-w-150 text-body">
+            Set the hierarchy from CEO and executives through heads of department and managers, and
+            see who reports to whom. Everyone can see their own reporting line and team.
+          </p>
+          <Link href="/org">
+            <Button variant="secondary" type="button">
+              <RiNodeTree size={18} aria-hidden />
+              Open org chart
+            </Button>
+          </Link>
         </div>
       </Card>
 
