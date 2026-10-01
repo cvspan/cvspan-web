@@ -129,15 +129,17 @@ export function Progress({
   label,
 }: {
   value: number;
-  tone?: "brand" | "success" | "error";
+  tone?: "brand" | "success" | "warning" | "error";
   label: string;
 }) {
   const colour =
     tone === "success"
       ? "bg-[var(--cv-success-3)]"
-      : tone === "error"
-        ? "bg-[var(--cv-error-3)]"
-        : "bg-brand";
+      : tone === "warning"
+        ? "bg-[var(--cv-warning-3)]"
+        : tone === "error"
+          ? "bg-[var(--cv-error-3)]"
+          : "bg-brand";
 
   return (
     <div

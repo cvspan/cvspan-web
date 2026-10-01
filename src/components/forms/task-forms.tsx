@@ -11,10 +11,12 @@ export type Assignable = { id: string; name: string };
 
 export function NewTaskButton({
   people,
+  projects = [],
   defaultAssigneeId,
   label = "New task",
 }: {
   people: Assignable[];
+  projects?: { id: string; name: string; code: string }[];
   defaultAssigneeId: string;
   label?: string;
 }) {
@@ -46,8 +48,15 @@ export function NewTaskButton({
       </Field>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <Field label="Project">
-          <input name="project" placeholder="e.g. Website" className={fieldClass} />
+        <Field label="Project" hint={projects.length === 0 ? "You're not on any projects yet." : undefined}>
+          <select name="projectId" defaultValue="" className={fieldClass}>
+            <option value="">No project</option>
+            {projects.map((project) => (
+              <option key={project.id} value={project.id}>
+                {project.name} ({project.code})
+              </option>
+            ))}
+          </select>
         </Field>
         <Field label="Due date">
           <input name="dueAt" type="date" className={fieldClass} />

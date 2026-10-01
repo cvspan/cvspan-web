@@ -148,3 +148,8 @@ export function formatSalary(
   const range = min && max ? `${money(min)} – ${money(max)}` : money((min ?? max) as number);
   return `${range} ${salaryPeriodLabels[period]}`;
 }
+
+/** "1 day", "2 days": the word agrees with the number. */
+export function pluralise(count: number, singular: string, plural = `${singular}s`) {
+  return `${count} ${count === 1 ? singular : plural}`;
+}

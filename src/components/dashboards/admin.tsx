@@ -105,7 +105,7 @@ export async function AdminDashboard() {
           <CardHeader
             title="Departments"
             action={
-              <Link href="/people">
+              <Link href="/departments">
                 <Button variant="ghost" size="sm">
                   Manage
                   <RiArrowRightSLine size={16} aria-hidden />

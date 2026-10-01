@@ -2,42 +2,103 @@
 
 import { and, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import { z } from "zod";
 import { db } from "@/db";
-import { tasks } from "@/db/schema";
+import { milestones, projectMembers, tasks, users } from "@/db/schema";
+import { getProjectRole } from "@/db/queries-projects";
 import { atLeast } from "@/lib/roles";
 import { requireUser } from "@/lib/session";
+import {
+  fail,
+  ok,
+  optionalDate,
+  optionalId,
+  optionalText,
+  parseForm,
+  requiredText,
+  type ActionResult,
+} from "@/lib/validation";
 import { logActivity, notify } from "./guards";
 
-export async function createTask(formData: FormData) {
+const taskSchema = z.object({
+  title: requiredText("Title", 160),
+  description: optionalText("Description", 1000),
+  assigneeId: optionalId("assignee"),
+  projectId: optionalId("project"),
+  milestoneId: optionalId("milestone"),
+  dueAt: optionalDate("Due date"),
+  priority: z.enum(["low", "normal", "high"]).default("normal"),
+});
+
+function refresh(projectId?: string | null) {
+  revalidatePath("/tasks");
+  revalidatePath("/projects");
+  revalidatePath("/");
+  if (projectId) revalidatePath(`/projects/${projectId}`);
+}
+
+export async function createTask(formData: FormData): Promise<ActionResult> {
   const user = await requireUser();
 
-  const title = String(formData.get("title") ?? "").trim();
-  if (!title) return;
+  const parsed = parseForm(taskSchema, formData);
+  if (!parsed.success) return fail(parsed.error);
+  const { assigneeId: requestedAssignee, projectId, milestoneId, dueAt, ...values } = parsed.data;
 
-  const assigneeId = String(formData.get("assigneeId") ?? "") || user.id;
-  /** Only managers and above may put work on someone else's plate. */
-  if (assigneeId !== user.id && !atLeast(user.role, "manager")) return;
+  const assigneeId = requestedAssignee ?? user.id;
+  const projectRole = projectId ? await getProjectRole(projectId, user.id) : null;
+  const isAdmin = atLeast(user.role, "admin");
 
-  const dueRaw = String(formData.get("dueAt") ?? "");
-  const priority = String(formData.get("priority") ?? "normal") as "low" | "normal" | "high";
+  /** Only managers, admins and a project's own lead may put work on someone else's plate. */
+  if (assigneeId !== user.id && !atLeast(user.role, "manager") && projectRole !== "lead") {
+    return fail("You can only assign tasks to yourself.");
+  }
+
+  if (projectId) {
+    if (!isAdmin && !projectRole) return fail("You are not on that project.");
+
+    /** Work on a project goes to people on that project. */
+    const [onProject] = await db
+      .select({ id: projectMembers.id })
+      .from(projectMembers)
+      .where(and(eq(projectMembers.projectId, projectId), eq(projectMembers.userId, assigneeId)))
+      .limit(1);
+    if (!onProject) {
+      const [assignee] = await db
+        .select({ name: users.name })
+        .from(users)
+        .where(eq(users.id, assigneeId))
+        .limit(1);
+      return fail(`Add ${assignee?.name ?? "that person"} to the project before assigning them work on it.`);
+    }
+  }
+
+  if (milestoneId) {
+    const [milestone] = await db
+      .select({ projectId: milestones.projectId })
+      .from(milestones)
+      .where(eq(milestones.id, milestoneId))
+      .limit(1);
+    if (!milestone || milestone.projectId !== projectId) {
+      return fail("That milestone belongs to a different project.");
+    }
+  }
 
   await db.insert(tasks).values({
-    title,
-    project: String(formData.get("project") ?? "").trim() || null,
-    description: String(formData.get("description") ?? "").trim() || null,
+    ...values,
+    projectId,
+    milestoneId,
     assigneeId,
     createdById: user.id,
-    priority,
-    dueAt: dueRaw ? new Date(dueRaw) : null,
+    dueAt: dueAt ? new Date(dueAt) : null,
   });
 
   if (assigneeId !== user.id) {
-    await notify(assigneeId, `${user.name} assigned you “${title}”`, "/tasks");
-    await logActivity(user.id, "assigned a task", title);
+    await notify(assigneeId, `${user.name} assigned you “${values.title}”`, "/tasks");
+    await logActivity(user.id, "assigned a task", values.title);
   }
 
-  revalidatePath("/tasks");
-  revalidatePath("/");
+  refresh(projectId);
+  return ok;
 }
 
 export async function setTaskDone(taskId: string, done: boolean) {
@@ -46,23 +107,32 @@ export async function setTaskDone(taskId: string, done: boolean) {
   const [task] = await db.select().from(tasks).where(eq(tasks.id, taskId)).limit(1);
   if (!task) return;
 
-  /** Your own task, or someone you manage — admins can close anything. */
+  /** Your own task, or someone you manage — admins can close anything, and so can a project's lead. */
   const mine = task.assigneeId === user.id;
-  if (!mine && !atLeast(user.role, "manager")) return;
+  const leadsProject = task.projectId
+    ? (await getProjectRole(task.projectId, user.id)) === "lead"
+    : false;
+  if (!mine && !leadsProject && !atLeast(user.role, "manager")) return;
 
   await db
     .update(tasks)
     .set({ status: done ? "done" : "todo", completedAt: done ? new Date() : null })
     .where(eq(tasks.id, taskId));
 
-  revalidatePath("/tasks");
-  revalidatePath("/");
+  refresh(task.projectId);
 }
 
 export async function deleteTask(taskId: string) {
   const user = await requireUser();
-  if (!atLeast(user.role, "manager")) return;
 
-  await db.delete(tasks).where(and(eq(tasks.id, taskId)));
-  revalidatePath("/tasks");
+  const [task] = await db.select().from(tasks).where(eq(tasks.id, taskId)).limit(1);
+  if (!task) return;
+
+  const leadsProject = task.projectId
+    ? (await getProjectRole(task.projectId, user.id)) === "lead"
+    : false;
+  if (!leadsProject && !atLeast(user.role, "manager")) return;
+
+  await db.delete(tasks).where(eq(tasks.id, taskId));
+  refresh(task.projectId);
 }

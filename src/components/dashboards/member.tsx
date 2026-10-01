@@ -224,7 +224,7 @@ export async function MemberDashboard({
                     {task.title}
                   </span>
                   <span className="text-muted block text-tiny">
-                    {task.project} · due {relativeDays(task.dueAt)}
+                    {task.projectName ? `${task.projectName} · ` : ""}due {relativeDays(task.dueAt)}
                   </span>
                 </span>
                 <Badge tone={taskTone(task.status, task.dueAt)}>

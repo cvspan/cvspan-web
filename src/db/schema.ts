@@ -1,8 +1,11 @@
-import { relations } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import {
+  type AnyPgColumn,
   boolean,
+  check,
   customType,
   date,
+  index,
   integer,
   pgEnum,
   pgTable,
@@ -40,6 +43,25 @@ export const memberStatusEnum = pgEnum("member_status", [
 
 export const taskStatusEnum = pgEnum("task_status", ["todo", "in_progress", "blocked", "done"]);
 export const taskPriorityEnum = pgEnum("task_priority", ["low", "normal", "high"]);
+
+export const projectStatusEnum = pgEnum("project_status", [
+  "planning",
+  "active",
+  "on_hold",
+  "completed",
+  "cancelled",
+]);
+
+export const projectRoleEnum = pgEnum("project_role", ["lead", "contributor", "reviewer"]);
+
+export const milestoneStatusEnum = pgEnum("milestone_status", [
+  "not_started",
+  "in_progress",
+  "done",
+]);
+
+/** What a lead reports in a status update; the portal also derives its own from the schedule. */
+export const projectHealthEnum = pgEnum("project_health", ["on_track", "at_risk", "off_track"]);
 
 export const attendanceKindEnum = pgEnum("attendance_kind", [
   "on_site",
@@ -105,9 +127,14 @@ export const approvalKindEnum = pgEnum("approval_kind", [
 
 export const departments = pgTable("departments", {
   id: uuid("id").primaryKey().defaultRandom(),
+  /** Names double as the website's careers filters, so renaming one is visible publicly. */
   name: text("name").notNull(),
   slug: text("slug").notNull().unique(),
+  description: text("description"),
+  /** Must be a member of the department; cleared when that member leaves it. */
+  headId: uuid("head_id").references((): AnyPgColumn => users.id, { onDelete: "set null" }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
 export const teams = pgTable("teams", {
@@ -145,20 +172,120 @@ export const users = pgTable(
 
 /* ------------------------------------------------------------------- Work */
 
-export const tasks = pgTable("tasks", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  title: text("title").notNull(),
-  description: text("description"),
-  project: text("project"),
-  assigneeId: uuid("assignee_id").references(() => users.id, { onDelete: "set null" }),
-  createdById: uuid("created_by_id").references(() => users.id, { onDelete: "set null" }),
-  teamId: uuid("team_id").references(() => teams.id, { onDelete: "set null" }),
-  status: taskStatusEnum("status").default("todo").notNull(),
-  priority: taskPriorityEnum("priority").default("normal").notNull(),
-  dueAt: timestamp("due_at", { withTimezone: true }),
-  completedAt: timestamp("completed_at", { withTimezone: true }),
-  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
-});
+export const projects = pgTable(
+  "projects",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    name: text("name").notNull(),
+    /** Short unique reference, e.g. WEB, shown beside the name. */
+    code: text("code").notNull(),
+    description: text("description"),
+    status: projectStatusEnum("status").default("planning").notNull(),
+    departmentId: uuid("department_id").references(() => departments.id, { onDelete: "set null" }),
+    startDate: date("start_date"),
+    targetDate: date("target_date"),
+    completedAt: timestamp("completed_at", { withTimezone: true }),
+    createdById: uuid("created_by_id").references(() => users.id, { onDelete: "set null" }),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    uniqueIndex("projects_code_idx").on(table.code),
+    index("projects_department_idx").on(table.departmentId),
+    check(
+      "projects_dates_check",
+      sql`${table.targetDate} is null or ${table.startDate} is null or ${table.targetDate} >= ${table.startDate}`,
+    ),
+  ],
+);
+
+export const projectMembers = pgTable(
+  "project_members",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    projectId: uuid("project_id")
+      .references(() => projects.id, { onDelete: "cascade" })
+      .notNull(),
+    userId: uuid("user_id")
+      .references(() => users.id, { onDelete: "cascade" })
+      .notNull(),
+    role: projectRoleEnum("role").default("contributor").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    uniqueIndex("project_members_unique_idx").on(table.projectId, table.userId),
+    index("project_members_user_idx").on(table.userId),
+  ],
+);
+
+/** A phase of a project: it has a window on the timeline and optionally owns tasks. */
+export const milestones = pgTable(
+  "milestones",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    projectId: uuid("project_id")
+      .references(() => projects.id, { onDelete: "cascade" })
+      .notNull(),
+    title: text("title").notNull(),
+    description: text("description"),
+    startDate: date("start_date"),
+    dueDate: date("due_date").notNull(),
+    status: milestoneStatusEnum("status").default("not_started").notNull(),
+    completedAt: timestamp("completed_at", { withTimezone: true }),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    index("milestones_project_idx").on(table.projectId),
+    check(
+      "milestones_dates_check",
+      sql`${table.startDate} is null or ${table.dueDate} >= ${table.startDate}`,
+    ),
+  ],
+);
+
+export const projectUpdates = pgTable(
+  "project_updates",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    projectId: uuid("project_id")
+      .references(() => projects.id, { onDelete: "cascade" })
+      .notNull(),
+    authorId: uuid("author_id").references(() => users.id, { onDelete: "set null" }),
+    health: projectHealthEnum("health").default("on_track").notNull(),
+    body: text("body").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [index("project_updates_project_idx").on(table.projectId)],
+);
+
+export const tasks = pgTable(
+  "tasks",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    title: text("title").notNull(),
+    description: text("description"),
+    /**
+     * @deprecated Free-text project name from before projects were real records.
+     * Nothing reads or writes it any more; drop it once the data is confirmed migrated.
+     */
+    project: text("project"),
+    projectId: uuid("project_id").references(() => projects.id, { onDelete: "set null" }),
+    milestoneId: uuid("milestone_id").references(() => milestones.id, { onDelete: "set null" }),
+    assigneeId: uuid("assignee_id").references(() => users.id, { onDelete: "set null" }),
+    createdById: uuid("created_by_id").references(() => users.id, { onDelete: "set null" }),
+    teamId: uuid("team_id").references(() => teams.id, { onDelete: "set null" }),
+    status: taskStatusEnum("status").default("todo").notNull(),
+    priority: taskPriorityEnum("priority").default("normal").notNull(),
+    dueAt: timestamp("due_at", { withTimezone: true }),
+    completedAt: timestamp("completed_at", { withTimezone: true }),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    index("tasks_project_idx").on(table.projectId),
+    index("tasks_milestone_idx").on(table.milestoneId),
+    index("tasks_assignee_idx").on(table.assigneeId),
+  ],
+);
 
 /* ------------------------------------------------------------- Attendance */
 

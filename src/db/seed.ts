@@ -5,6 +5,7 @@
  *   npm run db:seed
  */
 import bcrypt from "bcryptjs";
+import { eq } from "drizzle-orm";
 import { neon } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-http";
 import * as schema from "./schema";
@@ -56,6 +57,10 @@ async function main() {
   await db.delete(schema.leaveRequests);
   await db.delete(schema.attendance);
   await db.delete(schema.tasks);
+  await db.delete(schema.projectUpdates);
+  await db.delete(schema.milestones);
+  await db.delete(schema.projectMembers);
+  await db.delete(schema.projects);
   await db.delete(schema.users);
   await db.delete(schema.teams);
   await db.delete(schema.departments);
@@ -65,12 +70,12 @@ async function main() {
     .insert(schema.departments)
     .values([
       /** Same set the website careers page filters by. */
-      { name: "Design", slug: "design" },
-      { name: "Development", slug: "development" },
-      { name: "Marketing", slug: "marketing" },
-      { name: "Business Development", slug: "business-development" },
-      { name: "Project", slug: "project" },
-      { name: "Management", slug: "management" },
+      { name: "Design", slug: "design", description: "Product, brand and visual design across the platform and website." },
+      { name: "Development", slug: "development", description: "Engineering for the portal, the website and internal tooling." },
+      { name: "Marketing", slug: "marketing", description: "Growth, content and community." },
+      { name: "Business Development", slug: "business-development", description: "Partnerships and new programmes." },
+      { name: "Project", slug: "project", description: "Delivery of cohorts, programmes and community initiatives." },
+      { name: "Management", slug: "management", description: "Operations, people and company leadership." },
     ])
     .returning();
 
@@ -142,18 +147,128 @@ async function main() {
     [seyi, ...staff, ...members].map((row) => [row.email.split("@")[0], row]),
   );
 
+  console.log("Department heads…");
+  const headOf: [string, string][] = [
+    [dept.design, ada.id],
+    [dept.development, tunde.id],
+    [dept.marketing, ngozi.id],
+    [dept.management, seyi.id],
+  ];
+  for (const [departmentId, headId] of headOf) {
+    await db.update(schema.departments).set({ headId }).where(eq(schema.departments.id, departmentId));
+  }
+
+  console.log("Projects…");
+  const projectRows = await db
+    .insert(schema.projects)
+    .values([
+      { name: "Portal Platform", code: "PLT", description: "The CVSpan staff portal: people, tasks, KPIs, attendance and the website back office.", status: "active", departmentId: dept.development, startDate: daysAgo(60), targetDate: daysAgo(-45), createdById: seyi.id },
+      { name: "Website Relaunch", code: "WEB", description: "Rebuild the public site with a managed blog and careers section.", status: "active", departmentId: dept.marketing, startDate: daysAgo(30), targetDate: daysAgo(-30), createdById: seyi.id },
+      { name: "Cohort 5 Programme", code: "COH", description: "Curriculum, mentors and kick-off for the next student cohort.", status: "active", departmentId: dept.project, startDate: daysAgo(20), targetDate: daysAgo(-40), createdById: seyi.id },
+      { name: "Staff Onboarding & Performance", code: "OPS", description: "Onboarding checklist, weekly KPI self-assessments and attendance reporting.", status: "active", departmentId: dept.management, startDate: daysAgo(90), targetDate: daysAgo(-15), createdById: seyi.id },
+      { name: "Brand Refresh", code: "BRD", description: "Colour, type and logo refresh across product and marketing.", status: "completed", departmentId: dept.design, startDate: daysAgo(120), targetDate: daysAgo(30), completedAt: daysAhead(-28), createdById: seyi.id },
+      { name: "Mobile App", code: "MOB", description: "Companion mobile app for clock-in, tasks and messages.", status: "planning", departmentId: dept.development, startDate: daysAgo(-20), targetDate: daysAgo(-120), createdById: seyi.id },
+    ])
+    .returning();
+  const project = Object.fromEntries(projectRows.map((row) => [row.code, row.id]));
+
+  await db.insert(schema.projectMembers).values([
+    { projectId: project.PLT, userId: tunde.id, role: "lead" },
+    { projectId: project.PLT, userId: person.chioma.id, role: "contributor" },
+    { projectId: project.PLT, userId: person.moses.id, role: "contributor" },
+    { projectId: project.PLT, userId: ada.id, role: "reviewer" },
+
+    { projectId: project.WEB, userId: ngozi.id, role: "lead" },
+    { projectId: project.WEB, userId: person.bello.id, role: "contributor" },
+    { projectId: project.WEB, userId: person.moses.id, role: "contributor" },
+    { projectId: project.WEB, userId: ada.id, role: "reviewer" },
+
+    { projectId: project.COH, userId: person.kemi.id, role: "lead" },
+    { projectId: project.COH, userId: person.femi.id, role: "contributor" },
+    { projectId: project.COH, userId: person.grace.id, role: "contributor" },
+    { projectId: project.COH, userId: person.chioma.id, role: "contributor" },
+
+    { projectId: project.OPS, userId: seyi.id, role: "lead" },
+    { projectId: project.OPS, userId: person.kemi.id, role: "contributor" },
+    { projectId: project.OPS, userId: person.moses.id, role: "contributor" },
+
+    { projectId: project.BRD, userId: ada.id, role: "lead" },
+    { projectId: project.BRD, userId: person.moses.id, role: "contributor" },
+
+    { projectId: project.MOB, userId: tunde.id, role: "lead" },
+  ]);
+
+  const milestoneRows = await db
+    .insert(schema.milestones)
+    .values([
+      { projectId: project.PLT, title: "Discovery and requirements", startDate: daysAgo(60), dueDate: daysAgo(40), status: "done", completedAt: daysAhead(-40) },
+      { projectId: project.PLT, title: "Core modules: auth, people, tasks", startDate: daysAgo(40), dueDate: daysAgo(10), status: "done", completedAt: daysAhead(-10) },
+      { projectId: project.PLT, title: "Dashboards and KPIs", startDate: daysAgo(12), dueDate: daysAgo(-10), status: "in_progress" },
+      { projectId: project.PLT, title: "Staff beta", startDate: daysAgo(-10), dueDate: daysAgo(-30), status: "not_started" },
+      { projectId: project.PLT, title: "Launch", dueDate: daysAgo(-45), status: "not_started" },
+
+      { projectId: project.WEB, title: "Content audit", startDate: daysAgo(30), dueDate: daysAgo(18), status: "done", completedAt: daysAhead(-18) },
+      { projectId: project.WEB, title: "Copy sign-off", startDate: daysAgo(18), dueDate: daysAgo(3), status: "in_progress" },
+      { projectId: project.WEB, title: "Blog and careers sections", startDate: daysAgo(3), dueDate: daysAgo(-18), status: "not_started" },
+      { projectId: project.WEB, title: "Go live", dueDate: daysAgo(-30), status: "not_started" },
+
+      { projectId: project.COH, title: "Curriculum draft", startDate: daysAgo(20), dueDate: daysAgo(-14), status: "in_progress" },
+      { projectId: project.COH, title: "Recruit mentors", startDate: daysAgo(-5), dueDate: daysAgo(-25), status: "not_started" },
+      { projectId: project.COH, title: "Cohort kick-off", dueDate: daysAgo(-40), status: "not_started" },
+
+      { projectId: project.OPS, title: "Onboarding checklist live", startDate: daysAgo(90), dueDate: daysAgo(30), status: "done", completedAt: daysAhead(-30) },
+      { projectId: project.OPS, title: "KPI self-assessment rollout", startDate: daysAgo(30), dueDate: daysAgo(5), status: "in_progress" },
+      { projectId: project.OPS, title: "Attendance reporting", startDate: daysAgo(5), dueDate: daysAgo(-15), status: "not_started" },
+
+      { projectId: project.BRD, title: "Colour and type", startDate: daysAgo(120), dueDate: daysAgo(70), status: "done", completedAt: daysAhead(-70) },
+      { projectId: project.BRD, title: "Logo and rollout", startDate: daysAgo(70), dueDate: daysAgo(30), status: "done", completedAt: daysAhead(-29) },
+
+      { projectId: project.MOB, title: "Scope and budget", startDate: daysAgo(-20), dueDate: daysAgo(-40), status: "not_started" },
+    ])
+    .returning();
+  const milestone = Object.fromEntries(milestoneRows.map((row) => [`${row.projectId}:${row.title}`, row.id]));
+  const ms = (code: string, title: string) => milestone[`${project[code]}:${title}`];
+
   console.log("Tasks…");
   await db.insert(schema.tasks).values([
-    { title: "Submit weekly KPI self-assessment", project: "Performance", assigneeId: person.moses.id, createdById: ada.id, teamId: team["Product Design"], status: "todo", priority: "high", dueAt: daysAhead(-1) },
-    { title: "Finish onboarding checklist", project: "Onboarding", assigneeId: person.moses.id, createdById: ada.id, teamId: team["Product Design"], status: "in_progress", priority: "normal", dueAt: daysAhead(3) },
-    { title: "Review 3 blog drafts for the website", project: "Website", assigneeId: person.moses.id, createdById: ngozi.id, teamId: team["Product Design"], status: "in_progress", priority: "normal", dueAt: daysAhead(3) },
-    { title: "Upload September attendance notes", project: "Attendance", assigneeId: person.moses.id, createdById: person.kemi.id, status: "todo", priority: "low", dueAt: daysAhead(6) },
-    { title: "Team retro notes", project: "Operations", assigneeId: person.moses.id, createdById: ada.id, status: "done", priority: "low", dueAt: daysAhead(-4), completedAt: daysAhead(-4) },
-    { title: "Prepare intern induction deck", project: "Programmes", assigneeId: person.chioma.id, createdById: tunde.id, teamId: team.Platform, status: "todo", priority: "high", dueAt: daysAhead(8) },
-    { title: "Publish October careers page update", project: "Website", assigneeId: person.bello.id, createdById: ngozi.id, teamId: team.Growth, status: "todo", priority: "normal", dueAt: daysAhead(9) },
-    { title: "Fix mobile nav overlap on dashboard", project: "Platform", assigneeId: person.chioma.id, createdById: tunde.id, teamId: team.Platform, status: "in_progress", priority: "high", dueAt: daysAhead(2) },
-    { title: "Draft cohort 5 curriculum", project: "Programmes", assigneeId: person.femi.id, createdById: person.kemi.id, teamId: team.Cohorts, status: "todo", priority: "normal", dueAt: daysAhead(14) },
-    { title: "Weekly data lab write-up", project: "Programmes", assigneeId: person.grace.id, createdById: tunde.id, teamId: team.Cohorts, status: "in_progress", priority: "normal", dueAt: daysAhead(4) },
+    /* Portal Platform */
+    { title: "Set up authentication and roles", projectId: project.PLT, milestoneId: ms("PLT", "Core modules: auth, people, tasks"), assigneeId: tunde.id, createdById: tunde.id, status: "done", priority: "high", dueAt: daysAhead(-30), completedAt: daysAhead(-31) },
+    { title: "Build the people directory", projectId: project.PLT, milestoneId: ms("PLT", "Core modules: auth, people, tasks"), assigneeId: person.chioma.id, createdById: tunde.id, teamId: team.Platform, status: "done", priority: "normal", dueAt: daysAhead(-14), completedAt: daysAhead(-15) },
+    { title: "Task assignment and deadlines", projectId: project.PLT, milestoneId: ms("PLT", "Core modules: auth, people, tasks"), assigneeId: tunde.id, createdById: tunde.id, status: "done", priority: "high", dueAt: daysAhead(-12), completedAt: daysAhead(-12) },
+    { title: "Design the dashboard layouts", projectId: project.PLT, milestoneId: ms("PLT", "Discovery and requirements"), assigneeId: person.moses.id, createdById: ada.id, teamId: team["Product Design"], status: "done", priority: "normal", dueAt: daysAhead(-38), completedAt: daysAhead(-39) },
+    { title: "Review dashboard designs", projectId: project.PLT, milestoneId: ms("PLT", "Dashboards and KPIs"), assigneeId: ada.id, createdById: tunde.id, status: "done", priority: "low", dueAt: daysAhead(-6), completedAt: daysAhead(-7) },
+    { title: "Fix mobile nav overlap on dashboard", projectId: project.PLT, milestoneId: ms("PLT", "Dashboards and KPIs"), assigneeId: person.chioma.id, createdById: tunde.id, teamId: team.Platform, status: "in_progress", priority: "high", dueAt: daysAhead(2) },
+    { title: "KPI trend charts", projectId: project.PLT, milestoneId: ms("PLT", "Dashboards and KPIs"), assigneeId: tunde.id, createdById: tunde.id, status: "todo", priority: "normal", dueAt: daysAhead(7) },
+    { title: "Write staff beta guide", projectId: project.PLT, milestoneId: ms("PLT", "Staff beta"), assigneeId: person.moses.id, createdById: tunde.id, status: "todo", priority: "low", dueAt: daysAhead(18) },
+
+    /* Website Relaunch */
+    { title: "Review 3 blog drafts for the website", projectId: project.WEB, milestoneId: ms("WEB", "Copy sign-off"), assigneeId: person.moses.id, createdById: ngozi.id, teamId: team["Product Design"], status: "in_progress", priority: "normal", dueAt: daysAhead(3) },
+    { title: "Publish October careers page update", projectId: project.WEB, milestoneId: ms("WEB", "Blog and careers sections"), assigneeId: person.bello.id, createdById: ngozi.id, teamId: team.Growth, status: "todo", priority: "normal", dueAt: daysAhead(9) },
+    { title: "Audit existing pages and redirects", projectId: project.WEB, milestoneId: ms("WEB", "Content audit"), assigneeId: person.bello.id, createdById: ngozi.id, status: "done", priority: "normal", dueAt: daysAhead(-20), completedAt: daysAhead(-21) },
+    { title: "Rewrite the about page", projectId: project.WEB, milestoneId: ms("WEB", "Copy sign-off"), assigneeId: person.bello.id, createdById: ngozi.id, status: "todo", priority: "high", dueAt: daysAhead(-2) },
+    { title: "Design careers listing cards", projectId: project.WEB, milestoneId: ms("WEB", "Blog and careers sections"), assigneeId: person.moses.id, createdById: ngozi.id, status: "todo", priority: "normal", dueAt: daysAhead(12) },
+
+    /* Cohort 5 */
+    { title: "Draft cohort 5 curriculum", projectId: project.COH, milestoneId: ms("COH", "Curriculum draft"), assigneeId: person.femi.id, createdById: person.kemi.id, teamId: team.Cohorts, status: "todo", priority: "normal", dueAt: daysAhead(14) },
+    { title: "Weekly data lab write-up", projectId: project.COH, milestoneId: ms("COH", "Curriculum draft"), assigneeId: person.grace.id, createdById: tunde.id, teamId: team.Cohorts, status: "in_progress", priority: "normal", dueAt: daysAhead(4) },
+    { title: "Prepare intern induction deck", projectId: project.COH, milestoneId: ms("COH", "Cohort kick-off"), assigneeId: person.chioma.id, createdById: tunde.id, teamId: team.Platform, status: "todo", priority: "high", dueAt: daysAhead(8) },
+
+    /* Staff Onboarding & Performance */
+    { title: "Submit weekly KPI self-assessment", projectId: project.OPS, milestoneId: ms("OPS", "KPI self-assessment rollout"), assigneeId: person.moses.id, createdById: ada.id, teamId: team["Product Design"], status: "todo", priority: "high", dueAt: daysAhead(-1) },
+    { title: "Finish onboarding checklist", projectId: project.OPS, milestoneId: ms("OPS", "Onboarding checklist live"), assigneeId: person.moses.id, createdById: ada.id, teamId: team["Product Design"], status: "in_progress", priority: "normal", dueAt: daysAhead(3) },
+    { title: "Upload September attendance notes", projectId: project.OPS, milestoneId: ms("OPS", "Attendance reporting"), assigneeId: person.moses.id, createdById: person.kemi.id, status: "todo", priority: "low", dueAt: daysAhead(6) },
+    { title: "Team retro notes", projectId: project.OPS, assigneeId: person.moses.id, createdById: ada.id, status: "done", priority: "low", dueAt: daysAhead(-4), completedAt: daysAhead(-4) },
+
+    /* Brand Refresh (finished) */
+    { title: "Final logo files", projectId: project.BRD, milestoneId: ms("BRD", "Logo and rollout"), assigneeId: person.moses.id, createdById: ada.id, status: "done", priority: "normal", dueAt: daysAhead(-32), completedAt: daysAhead(-33) },
+    { title: "Brand guidelines document", projectId: project.BRD, milestoneId: ms("BRD", "Colour and type"), assigneeId: ada.id, createdById: ada.id, status: "done", priority: "normal", dueAt: daysAhead(-70), completedAt: daysAhead(-71) },
+  ]);
+
+  await db.insert(schema.projectUpdates).values([
+    { projectId: project.PLT, authorId: tunde.id, health: "on_track", body: "Core modules shipped. Dashboards and KPI charts are under way; the mobile nav bug is the only open blocker and is being fixed this week." },
+    { projectId: project.WEB, authorId: ngozi.id, health: "at_risk", body: "Copy sign-off has slipped three days waiting on the about page rewrite. Careers and blog sections can start in parallel, but go-live is tight." },
+    { projectId: project.OPS, authorId: seyi.id, health: "off_track", body: "Only the onboarding checklist is complete. KPI self-assessments are overdue for most of the team, which blocks the attendance reporting phase." },
+    { projectId: project.BRD, authorId: ada.id, health: "on_track", body: "Brand refresh delivered and rolled out across product and website." },
   ]);
 
   console.log("Attendance and leave…");

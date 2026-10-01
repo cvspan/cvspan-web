@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { RiDownloadLine } from "@remixicon/react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -7,6 +8,7 @@ import { Table, Td, Thead, Tr } from "@/components/ui/table";
 import { DeleteTaskButton, NewTaskButton, TaskCheckbox } from "@/components/forms/task-forms";
 import { TaskFilter } from "@/components/forms/task-filter";
 import { getAllTasks, getDirectReports, getPeople, getTasksFor, getTasksForTeam } from "@/db/queries";
+import { getProjectOptions } from "@/db/queries-projects";
 import { formatDay, initials, relativeDays, taskStatusLabels } from "@/lib/format";
 import { atLeast } from "@/lib/roles";
 import { requireUser } from "@/lib/session";
@@ -33,6 +35,10 @@ export default async function TasksPage({
     : atLeast(user.viewRole, "manager")
       ? [{ id: user.id, name: `${user.name} (me)` }, ...(await getDirectReports(user.id))]
       : [{ id: user.id, name: user.name }];
+
+  const projectOptions = await getProjectOptions(
+    atLeast(user.viewRole, "admin") ? undefined : user.id,
+  );
 
   const visible =
     statusFilter && statusFilter !== "all"
@@ -80,7 +86,7 @@ export default async function TasksPage({
                 </Button>
               </a>
             ) : null}
-            <NewTaskButton people={assignable} defaultAssigneeId={user.id} />
+            <NewTaskButton people={assignable} projects={projectOptions} defaultAssigneeId={user.id} />
           </>
         }
       />
@@ -123,7 +129,15 @@ export default async function TasksPage({
                 >
                   {task.title}
                 </Td>
-                <Td>{task.project ?? "—"}</Td>
+                <Td className="whitespace-nowrap">
+                  {task.projectId ? (
+                    <Link href={`/projects/${task.projectId}`} className="hover:text-accent">
+                      {task.projectName}
+                    </Link>
+                  ) : (
+                    "—"
+                  )}
+                </Td>
                 <Td>
                   <span className="flex items-center gap-2">
                     <span className="bg-accent-soft text-accent flex size-7 shrink-0 items-center justify-center rounded-full text-tiny font-semibold">

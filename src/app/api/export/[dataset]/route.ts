@@ -51,7 +51,7 @@ export async function GET(
       ["Task", "Project", "Assignee", "Status", "Priority", "Due"],
       ...tasks.map((task) => [
         task.title,
-        task.project ?? "",
+        task.projectName ?? "",
         task.assigneeName ?? "",
         taskStatusLabels[task.status],
         task.priority,

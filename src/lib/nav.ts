@@ -1,10 +1,12 @@
 import {
   RiAwardLine,
   RiBriefcaseLine,
+  RiBuilding2Line,
   RiCheckboxCircleLine,
   RiChat3Line,
   RiDashboardLine,
   RiFileTextLine,
+  RiFolderChartLine,
   RiGroupLine,
   RiLineChartLine,
   RiOrganizationChart,
@@ -41,6 +43,7 @@ const sections: NavSection[] = [
     links: [
       { href: "/attendance", label: "Attendance", icon: RiTimeLine, minRole: "member" },
       { href: "/messages", label: "Messages", icon: RiChat3Line, minRole: "member" },
+      { href: "/projects", label: "Projects", icon: RiFolderChartLine, minRole: "member" },
       { href: "/programmes", label: "Programmes", icon: RiAwardLine, minRole: "member" },
     ],
   },
@@ -50,6 +53,7 @@ const sections: NavSection[] = [
       { href: "/team", label: "My team", icon: RiGroupLine, minRole: "manager" },
       { href: "/approvals", label: "Approvals", icon: RiCheckboxCircleLine, minRole: "manager" },
       { href: "/people", label: "People", icon: RiOrganizationChart, minRole: "admin" },
+      { href: "/departments", label: "Departments", icon: RiBuilding2Line, minRole: "admin" },
       { href: "/roles", label: "Roles & access", icon: RiShieldUserLine, minRole: "super_admin" },
     ],
   },

@@ -1,5 +1,5 @@
 import "server-only";
-import { and, asc, count, desc, eq, inArray, isNull, sql } from "drizzle-orm";
+import { and, asc, count, desc, eq, inArray, isNull, ne, sql } from "drizzle-orm";
 import { db } from "./index";
 import {
   applications,
@@ -17,6 +17,7 @@ import {
   messages,
   notifications,
   programmes,
+  projects,
   submissions,
   tasks,
   threadMembers,
@@ -39,6 +40,7 @@ export async function getPeople() {
       status: users.status,
       startDate: users.startDate,
       department: departments.name,
+      departmentId: users.departmentId,
       managerId: users.managerId,
     })
     .from(users)
@@ -73,7 +75,8 @@ export async function getDepartmentSummary() {
       headcount: count(users.id),
     })
     .from(departments)
-    .leftJoin(users, eq(users.departmentId, departments.id))
+    /** Alumni have left; counting them would disagree with the Departments page. */
+    .leftJoin(users, and(eq(users.departmentId, departments.id), ne(users.status, "alumni")))
     .groupBy(departments.id, departments.name)
     .orderBy(asc(departments.name));
 
@@ -113,7 +116,9 @@ export async function getTasksFor(userId: string) {
     .select({
       id: tasks.id,
       title: tasks.title,
-      project: tasks.project,
+      projectId: tasks.projectId,
+      projectName: projects.name,
+      projectCode: projects.code,
       status: tasks.status,
       priority: tasks.priority,
       dueAt: tasks.dueAt,
@@ -122,6 +127,7 @@ export async function getTasksFor(userId: string) {
     })
     .from(tasks)
     .leftJoin(users, eq(tasks.assigneeId, users.id))
+    .leftJoin(projects, eq(tasks.projectId, projects.id))
     .where(eq(tasks.assigneeId, userId))
     .orderBy(asc(tasks.dueAt));
 }
@@ -131,7 +137,9 @@ export async function getAllTasks() {
     .select({
       id: tasks.id,
       title: tasks.title,
-      project: tasks.project,
+      projectId: tasks.projectId,
+      projectName: projects.name,
+      projectCode: projects.code,
       status: tasks.status,
       priority: tasks.priority,
       dueAt: tasks.dueAt,
@@ -141,6 +149,7 @@ export async function getAllTasks() {
     })
     .from(tasks)
     .leftJoin(users, eq(tasks.assigneeId, users.id))
+    .leftJoin(projects, eq(tasks.projectId, projects.id))
     .orderBy(asc(tasks.dueAt));
 }
 
@@ -152,7 +161,9 @@ export async function getTasksForTeam(managerId: string) {
     .select({
       id: tasks.id,
       title: tasks.title,
-      project: tasks.project,
+      projectId: tasks.projectId,
+      projectName: projects.name,
+      projectCode: projects.code,
       status: tasks.status,
       priority: tasks.priority,
       dueAt: tasks.dueAt,
@@ -161,6 +172,7 @@ export async function getTasksForTeam(managerId: string) {
     })
     .from(tasks)
     .leftJoin(users, eq(tasks.assigneeId, users.id))
+    .leftJoin(projects, eq(tasks.projectId, projects.id))
     .where(inArray(tasks.assigneeId, ids))
     .orderBy(asc(tasks.dueAt));
 }

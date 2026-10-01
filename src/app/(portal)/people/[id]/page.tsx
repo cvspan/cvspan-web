@@ -18,6 +18,8 @@ import {
   getTasksFor,
   getUserById,
 } from "@/db/queries";
+import { getDepartmentOverview } from "@/db/queries-departments";
+import { getProjectsForPerson } from "@/db/queries-projects";
 import {
   attendanceLabels,
   employmentLabels,
@@ -30,6 +32,7 @@ import {
 } from "@/lib/format";
 import { atLeast, roleLabels } from "@/lib/roles";
 import { requireUser } from "@/lib/session";
+import { projectRoleLabels, projectStatusLabels } from "@/lib/project";
 import { attendanceTone, statusTone, taskTone } from "@/lib/tone";
 
 export default async function PersonPage({ params }: { params: Promise<{ id: string }> }) {
@@ -43,12 +46,14 @@ export default async function PersonPage({ params }: { params: Promise<{ id: str
   const canView = viewer.id === person.id || atLeast(viewer.role, "manager");
   if (!canView) notFound();
 
-  const [tasks, trend, history, attendance, rate] = await Promise.all([
+  const [tasks, trend, history, attendance, rate, department, projects] = await Promise.all([
     getTasksFor(person.id),
     getKpiTrend(person.id),
     getKpiHistory(person.id),
     getAttendanceFor(person.id, 7),
     getAttendanceRate(person.id),
+    person.departmentId ? getDepartmentOverview(person.departmentId) : null,
+    getProjectsForPerson(person.id),
   ]);
 
   const latest = trend.at(-1);
@@ -106,7 +111,25 @@ export default async function PersonPage({ params }: { params: Promise<{ id: str
               </p>
             </div>
           </div>
-          <dl className="border-line grid grid-cols-2 gap-4 border-t px-5 py-4 text-body">
+          <dl className="border-line grid grid-cols-3 gap-4 border-t px-5 py-4 text-body">
+            <div>
+              <dt className="text-muted text-tiny font-semibold tracking-wide uppercase">
+                Department
+              </dt>
+              <dd className="text-primary">
+                {department ? (
+                  atLeast(viewer.role, "admin") ? (
+                    <Link href={`/departments/${department.id}`} className="hover:text-accent">
+                      {department.name}
+                    </Link>
+                  ) : (
+                    department.name
+                  )
+                ) : (
+                  "—"
+                )}
+              </dd>
+            </div>
             <div>
               <dt className="text-muted text-tiny font-semibold tracking-wide uppercase">
                 Started
@@ -159,7 +182,15 @@ export default async function PersonPage({ params }: { params: Promise<{ id: str
                 {tasks.map((task) => (
                   <Tr key={task.id}>
                     <Td className="text-primary font-semibold">{task.title}</Td>
-                    <Td>{task.project ?? "—"}</Td>
+                    <Td className="whitespace-nowrap">
+                      {task.projectId && atLeast(viewer.role, "admin") ? (
+                        <Link href={`/projects/${task.projectId}`} className="hover:text-accent">
+                          {task.projectName}
+                        </Link>
+                      ) : (
+                        (task.projectName ?? "—")
+                      )}
+                    </Td>
                     <Td className="whitespace-nowrap">{relativeDays(task.dueAt)}</Td>
                     <Td>
                       <Badge tone={taskTone(task.status, task.dueAt)}>
@@ -194,6 +225,37 @@ export default async function PersonPage({ params }: { params: Promise<{ id: str
           </Table>
         </Card>
       </section>
+
+      <Card>
+        <CardHeader title="Projects" action={<Badge>{projects.length}</Badge>} />
+        {projects.length === 0 ? (
+          <p className="text-muted px-5 py-6 text-body">Not on any projects.</p>
+        ) : (
+          <Table>
+            <Thead columns={["Project", "Role", "Target", "Status"]} />
+            <tbody>
+              {projects.map((project) => (
+                <Tr key={project.id}>
+                  <Td>
+                    <Link
+                      href={`/projects/${project.id}`}
+                      className="text-primary hover:text-accent font-semibold"
+                    >
+                      {project.name}
+                    </Link>
+                    <span className="text-muted ml-2 text-tiny">{project.code}</span>
+                  </Td>
+                  <Td>{projectRoleLabels[project.role]}</Td>
+                  <Td className="whitespace-nowrap">{formatDay(project.targetDate)}</Td>
+                  <Td>
+                    <Badge>{projectStatusLabels[project.status]}</Badge>
+                  </Td>
+                </Tr>
+              ))}
+            </tbody>
+          </Table>
+        )}
+      </Card>
 
       <section className="grid gap-4 xl:grid-cols-3">
         <Card className="xl:col-span-2">

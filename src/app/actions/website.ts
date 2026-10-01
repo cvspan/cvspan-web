@@ -7,15 +7,8 @@ import { db } from "@/db";
 import { approvals, blogPosts, categories, departments, jobListings } from "@/db/schema";
 import type { EmploymentType } from "@/lib/format";
 import { logActivity, requireRole } from "./guards";
+import { slugify } from "@/lib/slug";
 import { requireUser } from "@/lib/session";
-
-function slugify(value: string) {
-  return value
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "")
-    .slice(0, 80);
-}
 
 /** Strip tags so we can derive an excerpt and a reading time from the body. */
 function plainText(html: string) {
