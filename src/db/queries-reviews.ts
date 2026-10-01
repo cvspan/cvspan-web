@@ -17,11 +17,14 @@ import {
   averageRating,
   defaultReviewWeek,
   isReviewableWeek,
+  headsDepartmentOf,
   reviewerIdFor,
 } from "@/lib/grading";
 import { alias } from "drizzle-orm/pg-core";
+import { atLeast, type Role } from "@/lib/roles";
 
 const reviewer = alias(users, "reviewer");
+const departmentHead = alias(users, "department_head");
 
 export type ReviewRow = {
   id: string;
@@ -96,7 +99,7 @@ export async function getReviewsForPeople(userIds: string[], fromWeek: string, t
 
 /** Everyone who takes part in the weekly cycle, with what is needed to decide who grades them. */
 export async function getGradablePeople() {
-  return db
+  const rows = await db
     .select({
       id: users.id,
       name: users.name,
@@ -106,12 +109,14 @@ export async function getGradablePeople() {
       managerId: users.managerId,
       departmentId: users.departmentId,
       departmentName: departments.name,
-      departmentHeadId: departments.headId,
+      headId: departments.headId,
+      headRole: departmentHead.role,
       startDate: users.startDate,
       endDate: users.endDate,
     })
     .from(users)
     .leftJoin(departments, eq(users.departmentId, departments.id))
+    .leftJoin(departmentHead, eq(departments.headId, departmentHead.id))
     .where(
       and(
         inArray(users.role, ["member", "manager"]),
@@ -119,6 +124,11 @@ export async function getGradablePeople() {
       ),
     )
     .orderBy(asc(users.name));
+
+  return rows.map(({ headId, headRole, ...person }) => ({
+    ...person,
+    head: headId && headRole ? { id: headId, role: headRole } : null,
+  }));
 }
 
 export type Evidence = WeekEvidence;
@@ -171,11 +181,19 @@ export async function getLoginTrackingStart() {
   return row?.day ?? null;
 }
 
-/** The people one person writes weekly reviews for. */
-export async function getSubjectsFor(reviewerId: string) {
+/**
+ * The people one person can review: those they are the usual reviewer for, and, for a department
+ * head, everyone in that department. Members never review anyone, whatever their reporting
+ * lines say.
+ */
+export async function getSubjectsFor(reviewer: { id: string; role: Role }) {
+  if (!atLeast(reviewer.role, "manager")) return [];
+
   const people = await getGradablePeople();
   return people.filter(
-    (person) => person.id !== reviewerId && reviewerIdFor(person, person.departmentHeadId) === reviewerId,
+    (person) =>
+      person.id !== reviewer.id &&
+      (reviewerIdFor(person, person.head) === reviewer.id || headsDepartmentOf(reviewer, person, person.head)),
   );
 }
 

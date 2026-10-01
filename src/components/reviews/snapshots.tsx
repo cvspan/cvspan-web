@@ -14,6 +14,7 @@ import {
 import { addDays, companyDay } from "@/lib/dates";
 import { formatDay, pluralise } from "@/lib/format";
 import { CRITERIA, RATING_LABELS, internshipWindow, ratingTone } from "@/lib/grading";
+import type { Role } from "@/lib/roles";
 
 /** The intern's countdown, shown only to people on an internship. */
 export async function MyInternshipCountdown({ userId }: { userId: string }) {
@@ -80,8 +81,8 @@ export async function MyLatestReview({ userId }: { userId: string }) {
 }
 
 /** For reviewers: how many weekly grades they still owe. Renders nothing for people with no one to grade. */
-export async function ReviewsDue({ userId }: { userId: string }) {
-  const subjects = await getSubjectsFor(userId);
+export async function ReviewsDue({ user }: { user: { id: string; role: Role } }) {
+  const subjects = await getSubjectsFor(user);
   if (subjects.length === 0) return null;
 
   const owed = await getOutstandingReviewCount(subjects, companyDay());

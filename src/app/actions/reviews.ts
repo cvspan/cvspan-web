@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { db } from "@/db";
 import { departments, reviewRatings, users, weeklyReviews } from "@/db/schema";
+import { alias } from "drizzle-orm/pg-core";
 import { companyDay } from "@/lib/dates";
 import { formatDay } from "@/lib/format";
 import {
@@ -14,6 +15,7 @@ import {
   criterionKeys,
   isReviewableWeek,
 } from "@/lib/grading";
+import { atLeast } from "@/lib/roles";
 import { requireUser } from "@/lib/session";
 import {
   fail,
@@ -55,6 +57,7 @@ export async function submitWeeklyReview(formData: FormData): Promise<ActionResu
   if (!parsed.success) return fail(parsed.error);
   const { userId, weekStart, comment } = parsed.data;
 
+  const head = alias(users, "department_head");
   const [subject] = await db
     .select({
       id: users.id,
@@ -62,15 +65,21 @@ export async function submitWeeklyReview(formData: FormData): Promise<ActionResu
       role: users.role,
       managerId: users.managerId,
       startDate: users.startDate,
-      departmentHeadId: departments.headId,
+      headId: departments.headId,
+      headRole: head.role,
     })
     .from(users)
     .leftJoin(departments, eq(users.departmentId, departments.id))
+    .leftJoin(head, eq(departments.headId, head.id))
     .where(eq(users.id, userId))
     .limit(1);
   if (!subject) return fail("That person no longer exists.");
 
-  if (!canReview({ id: actor.id, role: actor.role }, subject, subject.departmentHeadId)) {
+  /** Members never grade anyone; managers grade their own people; admins can grade anyone. */
+  if (!atLeast(actor.role, "manager")) return fail("Only managers and admins can grade.");
+
+  const subjectHead = subject.headId && subject.headRole ? { id: subject.headId, role: subject.headRole } : null;
+  if (!canReview({ id: actor.id, role: actor.role }, subject, subjectHead)) {
     return fail(`You are not ${subject.name}'s reviewer.`);
   }
   if (!isReviewableWeek(weekStart, companyDay(), subject.startDate)) {

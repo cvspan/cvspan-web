@@ -20,12 +20,13 @@ import {
   getTeamKpiAverage,
 } from "@/db/queries";
 import { employmentLabels, formatMonth, initials, relativeDays } from "@/lib/format";
+import type { Role } from "@/lib/roles";
 import { taskTone } from "@/lib/tone";
 
 export async function ManagerDashboard({
   user,
 }: {
-  user: { id: string; name: string };
+  user: { id: string; name: string; role: Role };
 }) {
   const [reports, approvals, teamTasks, average, trend] = await Promise.all([
     getDirectReports(user.id),
@@ -95,7 +96,7 @@ export async function ManagerDashboard({
       </section>
 
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        <ReviewsDue userId={user.id} />
+        <ReviewsDue user={{ id: user.id, role: user.role }} />
         <div className="md:col-span-1 xl:col-span-2">
           <MyLatestReview userId={user.id} />
         </div>

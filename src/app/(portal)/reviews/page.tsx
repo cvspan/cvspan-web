@@ -27,6 +27,7 @@ import {
   defaultReviewWeek,
   evidenceHints,
   evidenceRatios,
+  headsDepartmentOf,
   internshipWindow,
   isReviewableWeek,
   ratingTone,
@@ -63,11 +64,17 @@ export default async function ReviewsPage({
 
   /** Admins can grade anyone; everyone else grades the people they are the reviewer for. */
   const isAdminView = atLeast(user.viewRole, "admin");
-  const subjects = people.filter((person) => {
-    if (person.id === user.id) return false;
-    if (isAdminView) return true;
-    return reviewerIdFor(person, person.departmentHeadId) === user.id;
-  });
+  const canGrade = atLeast(user.viewRole, "manager");
+  const subjects = !canGrade
+    ? []
+    : people.filter((person) => {
+        if (person.id === user.id) return false;
+        if (isAdminView) return true;
+        return (
+          reviewerIdFor(person, person.head) === user.id ||
+          headsDepartmentOf(user, person, person.head)
+        );
+      });
 
   const [myReviews, weekReviews, evidence, trackingStart] = await Promise.all([
     me ? getReviewsForUser(me.id) : Promise.resolve([] as ReviewRow[]),
@@ -124,6 +131,10 @@ export default async function ReviewsPage({
   };
 
   const graded = subjects.filter((person) => reviewByPerson.has(person.id)).length;
+
+  /** Heads see people whose usual reviewer is someone else, so say who that is. */
+  const showReviewer =
+    isAdminView || subjects.some((person) => reviewerIdFor(person, person.head) !== user.id);
 
   return (
     <>
@@ -247,7 +258,7 @@ export default async function ReviewsPage({
             <Thead
               columns={[
                 "Person",
-                ...(isAdminView ? ["Reviewer"] : []),
+                ...(showReviewer ? ["Reviewer"] : []),
                 "This week",
                 "Rating",
                 "",
@@ -258,8 +269,8 @@ export default async function ReviewsPage({
                 const review = reviewByPerson.get(person.id);
                 const personEvidence = evidence.get(person.id)!;
                 const reviewable = isReviewableWeek(weekStart, today, person.startDate);
-                const reviewerId = reviewerIdFor(person, person.departmentHeadId);
-                const mayGrade = canReview({ id: user.id, role: user.role }, person, person.departmentHeadId);
+                const reviewerId = reviewerIdFor(person, person.head);
+                const mayGrade = canReview({ id: user.id, role: user.role }, person, person.head);
 
                 return (
                   <Tr key={person.id}>
@@ -279,7 +290,7 @@ export default async function ReviewsPage({
                         </span>
                       </span>
                     </Td>
-                    {isAdminView ? (
+                    {showReviewer ? (
                       <Td className="whitespace-nowrap">
                         {reviewerId ? (nameById.get(reviewerId) ?? "—") : <span className="text-muted">None set</span>}
                       </Td>
@@ -301,6 +312,9 @@ export default async function ReviewsPage({
                           <span className="text-primary text-caption font-semibold">
                             {review.average?.toFixed(1)}
                           </span>
+                          {review.reviewerId !== user.id && review.reviewerName ? (
+                            <span className="text-muted text-tiny">by {review.reviewerName}</span>
+                          ) : null}
                         </span>
                       ) : reviewable ? (
                         <Badge tone="warning">Not graded</Badge>

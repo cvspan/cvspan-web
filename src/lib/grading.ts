@@ -92,28 +92,51 @@ export function reviewableWeeks(personStart: string | null, today: string, count
 
 export type Gradable = { id: string; role: Role; managerId: string | null };
 
+/** A department's head, with the access level that decides whether they may grade. */
+export type DepartmentHead = { id: string; role: Role } | null;
+
 /**
- * Managers grade the members who report to them; a department head grades the managers in
- * that department. A head, who has no one above them in the department, is graded by their own
- * manager. Admins are not part of the weekly cycle.
+ * Who is expected to grade someone. Only managers and admins ever grade; members are only graded.
+ *   - a member is graded by the manager they report to;
+ *   - a manager is graded by the head of their department, when that head is a manager or above
+ *     and isn't the person themselves; otherwise by their own manager.
+ * Admins are outside the weekly cycle, and can grade anyone in it (see canReview).
  */
-export function reviewerIdFor(subject: Gradable, departmentHeadId: string | null) {
+export function reviewerIdFor(subject: Gradable, head: DepartmentHead) {
   if (subject.role === "member") return subject.managerId;
   if (subject.role === "manager") {
-    return departmentHeadId && departmentHeadId !== subject.id ? departmentHeadId : subject.managerId;
+    const headCanGrade = head && head.id !== subject.id && atLeast(head.role, "manager");
+    return headCanGrade ? head.id : subject.managerId;
   }
   return null;
 }
 
-/** The designated reviewer may grade; admins can step in. Nobody grades themselves. */
-export function canReview(
-  actor: { id: string; role: Role },
-  subject: Gradable,
-  departmentHeadId: string | null,
-) {
+/**
+ * The head of a department can grade anyone in it, whoever their usual reviewer is. The head
+ * has to be a manager or above to count, and can't be the person being graded.
+ */
+export function headsDepartmentOf(actor: { id: string }, subject: { id: string }, head: DepartmentHead) {
+  return Boolean(head && head.id === actor.id && actor.id !== subject.id && atLeast(head.role, "manager"));
+}
+
+/**
+ * May `actor` grade `subject`? The role check comes first: a member never grades anyone, even
+ * if they were set as someone's manager or as a department head. After that:
+ *   - admins can grade anyone in the cycle;
+ *   - a department head can grade anyone in their department;
+ *   - a manager can grade the people they are the usual reviewer for.
+ * Nobody grades themselves.
+ */
+export function canReview(actor: { id: string; role: Role }, subject: Gradable, head: DepartmentHead) {
+  if (!atLeast(actor.role, "manager")) return false;
   if (actor.id === subject.id) return false;
   if (subject.role !== "member" && subject.role !== "manager") return false;
-  return atLeast(actor.role, "admin") || reviewerIdFor(subject, departmentHeadId) === actor.id;
+
+  return (
+    atLeast(actor.role, "admin") ||
+    reviewerIdFor(subject, head) === actor.id ||
+    headsDepartmentOf(actor, subject, head)
+  );
 }
 
 /* -------------------------------------------------------------- Week evidence */

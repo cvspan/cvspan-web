@@ -8,6 +8,7 @@ import {
   defaultReviewWeek,
   evidenceHints,
   evidenceRatios,
+  headsDepartmentOf,
   internshipWindow,
   isReviewableWeek,
   reviewableWeeks,
@@ -62,30 +63,79 @@ describe("which week to grade", () => {
 describe("who grades whom", () => {
   const member = { id: "m", role: "member" as const, managerId: "boss" };
   const manager = { id: "mgr", role: "manager" as const, managerId: "coo" };
+  const head = { id: "head", role: "manager" as const };
 
-  it("a manager grades their members", () => {
-    assert.equal(reviewerIdFor(member, "head"), "boss");
+  it("a manager grades the members who report to them", () => {
+    assert.equal(reviewerIdFor(member, null), "boss");
   });
 
   it("a department head grades the managers in the department", () => {
-    assert.equal(reviewerIdFor(manager, "head"), "head");
+    assert.equal(reviewerIdFor(manager, head), "head");
   });
 
   it("a head, or a manager with no head, is graded by their own manager", () => {
-    assert.equal(reviewerIdFor(manager, "mgr"), "coo");
+    assert.equal(reviewerIdFor(manager, { id: "mgr", role: "manager" }), "coo");
     assert.equal(reviewerIdFor(manager, null), "coo");
+  });
+
+  it("a department head who is only a member can't grade, so the manager's manager does", () => {
+    assert.equal(reviewerIdFor(manager, { id: "newbie", role: "member" }), "coo");
   });
 
   it("admins are outside the weekly cycle", () => {
     assert.equal(reviewerIdFor({ id: "a", role: "admin", managerId: null }, null), null);
   });
+});
 
-  it("only the designated reviewer or an admin may grade, and never yourself", () => {
+describe("who may grade", () => {
+  const member = { id: "m", role: "member" as const, managerId: "boss" };
+  const manager = { id: "mgr", role: "manager" as const, managerId: "coo" };
+
+  it("a manager may grade the members who report to them, and no one else", () => {
     assert.equal(canReview({ id: "boss", role: "manager" }, member, null), true);
     assert.equal(canReview({ id: "other", role: "manager" }, member, null), false);
+  });
+
+  it("admins may grade everyone in the cycle, members and managers", () => {
     assert.equal(canReview({ id: "kemi", role: "admin" }, member, null), true);
+    assert.equal(canReview({ id: "kemi", role: "admin" }, manager, null), true);
+    assert.equal(canReview({ id: "seyi", role: "super_admin" }, manager, null), true);
+  });
+
+  it("members never grade anyone, even when set as someone's manager or a department head", () => {
+    assert.equal(canReview({ id: "boss", role: "member" }, member, null), false);
+    assert.equal(canReview({ id: "head", role: "member" }, manager, { id: "head", role: "member" }), false);
+    assert.equal(canReview({ id: "m2", role: "member" }, member, null), false);
+  });
+
+  it("nobody grades themselves", () => {
     assert.equal(canReview({ id: "m", role: "member" }, member, null), false);
-    assert.equal(canReview({ id: "boss", role: "admin" }, { ...member, id: "boss" }, null), false);
+    assert.equal(canReview({ id: "mgr", role: "manager" }, manager, null), false);
+    assert.equal(canReview({ id: "kemi", role: "admin" }, { id: "kemi", role: "manager", managerId: null }, null), false);
+  });
+
+  it("a department head may grade anyone in their department, members and managers", () => {
+    const head = { id: "head", role: "manager" as const };
+    assert.equal(canReview({ id: "head", role: "manager" }, member, head), true);
+    assert.equal(canReview({ id: "head", role: "manager" }, manager, head), true);
+  });
+
+  it("a head's reach stops at their own department and at themselves", () => {
+    const otherHead = { id: "other-head", role: "manager" as const };
+    assert.equal(canReview({ id: "head", role: "manager" }, member, otherHead), false);
+    assert.equal(canReview({ id: "head", role: "manager" }, { id: "head", role: "manager", managerId: null }, { id: "head", role: "manager" }), false);
+    assert.equal(headsDepartmentOf({ id: "head" }, { id: "x" }, null), false);
+  });
+
+  it("a head who only holds a member role still can't grade", () => {
+    assert.equal(canReview({ id: "head", role: "member" }, member, { id: "head", role: "member" }), false);
+  });
+
+  it("a manager can't grade a peer manager they don't head", () => {
+    assert.equal(canReview({ id: "peer", role: "manager" }, manager, null), false);
+  });
+
+  it("admins are not graded in the weekly cycle", () => {
     assert.equal(canReview({ id: "kemi", role: "admin" }, { id: "x", role: "admin", managerId: null }, null), false);
   });
 });
