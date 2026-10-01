@@ -8,6 +8,8 @@ import bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
 import { neon } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-http";
+import { addDays, mondayOf } from "../lib/dates";
+import { criterionKeys } from "../lib/grading";
 import * as schema from "./schema";
 
 const sql = neon(process.env.DATABASE_URL!);
@@ -56,6 +58,9 @@ async function main() {
   await db.delete(schema.kpiDefinitions);
   await db.delete(schema.leaveRequests);
   await db.delete(schema.attendance);
+  await db.delete(schema.reviewRatings);
+  await db.delete(schema.weeklyReviews);
+  await db.delete(schema.portalActivity);
   await db.delete(schema.tasks);
   await db.delete(schema.projectUpdates);
   await db.delete(schema.milestones);
@@ -270,6 +275,54 @@ async function main() {
     { projectId: project.OPS, authorId: seyi.id, health: "off_track", body: "Only the onboarding checklist is complete. KPI self-assessments are overdue for most of the team, which blocks the attendance reporting phase." },
     { projectId: project.BRD, authorId: ada.id, health: "on_track", body: "Brand refresh delivered and rolled out across product and website." },
   ]);
+
+  console.log("Weekly reviews and logins…");
+  const thisMonday = mondayOf(new Date().toISOString().slice(0, 10));
+
+  /** Ratings per week, in criterion order: meetings, availability, tasks, daily login. */
+  const reviewPlans = [
+    { who: person.chioma, by: tunde, weeks: [[3, 4, 3, 3], [3, 4, 4, 4], [4, 4, 4, 4], [4, 5, 4, 4], [4, 5, 5, 4]], note: "Growing in confidence. Keep tasks updated in the portal." },
+    { who: person.grace, by: tunde, weeks: [[4, 4, 4, 5], [4, 5, 4, 5], [5, 5, 4, 5]], note: "Consistent and well prepared." },
+    { who: person.moses, by: ada, weeks: [[4, 5, 4, 5], [5, 5, 4, 5], [4, 5, 5, 5], [5, 5, 5, 5]], note: "Reliable, and shipping early." },
+    { who: ada, by: seyi, weeks: [[5, 4, 5, 4], [5, 5, 5, 5]], note: "Leads from the front." },
+  ];
+
+  for (const plan of reviewPlans) {
+    const count = plan.weeks.length;
+    const reviews = await db
+      .insert(schema.weeklyReviews)
+      .values(
+        plan.weeks.map((_, index) => ({
+          userId: plan.who.id,
+          reviewerId: plan.by.id,
+          weekStart: addDays(thisMonday, -7 * (count - index)),
+          comment: index === count - 1 ? plan.note : null,
+        })),
+      )
+      .returning();
+
+    await db.insert(schema.reviewRatings).values(
+      reviews.flatMap((review, index) =>
+        criterionKeys.map((criterion, position) => ({
+          reviewId: review.id,
+          criterion,
+          rating: plan.weeks[index][position],
+        })),
+      ),
+    );
+  }
+
+  /** Portal logins for the last two working weeks, with a few gaps. */
+  const loginRows: { userId: string; day: string }[] = [];
+  for (const [index, member] of [person.chioma, person.moses, person.grace, person.bello, tunde, ada].entries()) {
+    for (let back = 0; back < 14; back++) {
+      const day = addDays(new Date().toISOString().slice(0, 10), -back);
+      const weekday = (new Date(`${day}T00:00:00Z`).getUTCDay() + 6) % 7;
+      if (weekday > 4 || (back + index) % 7 === 3) continue;
+      loginRows.push({ userId: member.id, day });
+    }
+  }
+  await db.insert(schema.portalActivity).values(loginRows);
 
   console.log("Attendance and leave…");
   const attendanceRows: (typeof schema.attendance.$inferInsert)[] = [];

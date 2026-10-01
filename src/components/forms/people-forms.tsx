@@ -91,6 +91,10 @@ export function InviteMemberButton({
           <input name="startDate" type="date" className={fieldClass} />
         </Field>
       </div>
+
+      <Field label="End date" hint="Optional. Internships default to six months from the start date.">
+        <input name="endDate" type="date" className={fieldClass} />
+      </Field>
     </Dialog>
   );
 }

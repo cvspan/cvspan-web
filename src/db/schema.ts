@@ -9,6 +9,7 @@ import {
   integer,
   pgEnum,
   pgTable,
+  primaryKey,
   text,
   timestamp,
   uniqueIndex,
@@ -518,6 +519,62 @@ export const applications = pgTable("applications", {
   notes: text("notes"),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
+
+/* ------------------------------------------------------------ Weekly reviews */
+
+/**
+ * One review per person per week, written by their reviewer (a manager grades members; a
+ * department head grades managers). `weekStart` is always the Monday of that week.
+ */
+export const weeklyReviews = pgTable(
+  "weekly_reviews",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    userId: uuid("user_id")
+      .references(() => users.id, { onDelete: "cascade" })
+      .notNull(),
+    reviewerId: uuid("reviewer_id").references(() => users.id, { onDelete: "set null" }),
+    weekStart: date("week_start").notNull(),
+    comment: text("comment"),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    uniqueIndex("weekly_reviews_user_week_idx").on(table.userId, table.weekStart),
+    index("weekly_reviews_reviewer_idx").on(table.reviewerId),
+    check("weekly_reviews_monday_check", sql`extract(isodow from ${table.weekStart}) = 1`),
+  ],
+);
+
+/** A 1–5 rating per criterion. The criterion is a key from src/lib/grading.ts, so adding one needs no migration. */
+export const reviewRatings = pgTable(
+  "review_ratings",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    reviewId: uuid("review_id")
+      .references(() => weeklyReviews.id, { onDelete: "cascade" })
+      .notNull(),
+    criterion: text("criterion").notNull(),
+    rating: integer("rating").notNull(),
+  },
+  (table) => [
+    uniqueIndex("review_ratings_review_criterion_idx").on(table.reviewId, table.criterion),
+    check("review_ratings_range_check", sql`${table.rating} between 1 and 5`),
+  ],
+);
+
+/** The days a person opened the portal. It feeds the "daily login" criterion. */
+export const portalActivity = pgTable(
+  "portal_activity",
+  {
+    userId: uuid("user_id")
+      .references(() => users.id, { onDelete: "cascade" })
+      .notNull(),
+    day: date("day").notNull(),
+    firstSeenAt: timestamp("first_seen_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [primaryKey({ columns: [table.userId, table.day] })],
+);
 
 /* ----------------------------------------------------- Approvals and alerts */
 

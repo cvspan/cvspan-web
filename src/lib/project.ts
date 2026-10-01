@@ -1,3 +1,4 @@
+import { addDays, daysBetween, todayString } from "./dates";
 import type { Tone } from "./tone";
 
 /* Pure scheduling logic for projects. No I/O, so it is trivial to test. */
@@ -74,17 +75,7 @@ export const healthTone: Record<Health, Tone> = {
   cancelled: "neutral",
 };
 
-/** Date-only strings ("2026-10-01") compared as UTC days, so time zones never shift a day. */
-const DAY_MS = 86_400_000;
-const dayNumber = (value: string) => Math.floor(Date.parse(`${value}T00:00:00Z`) / DAY_MS);
-
-export function daysBetween(from: string, to: string) {
-  return dayNumber(to) - dayNumber(from);
-}
-
-export function todayString(now = new Date()) {
-  return now.toISOString().slice(0, 10);
-}
+export { addDays, daysBetween, todayString };
 
 /** Share of the schedule that has elapsed, 0–100. Null when the project has no usable dates. */
 export function plannedProgress(start: string | null, target: string | null, today: string) {
@@ -182,10 +173,6 @@ export function timelineRange(
   if (today > end && today <= addDays(end, 31)) end = today;
 
   return { start, end, totalDays: Math.max(1, daysBetween(start, end)) };
-}
-
-export function addDays(value: string, days: number) {
-  return new Date((dayNumber(value) + days) * DAY_MS).toISOString().slice(0, 10);
 }
 
 /** Position of a date along the chart as a 0–100 percentage. */

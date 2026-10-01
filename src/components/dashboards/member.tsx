@@ -7,6 +7,7 @@ import { Gauge, Progress } from "@/components/ui/chart";
 import { Delta } from "@/components/ui/delta";
 import { PageHeader } from "@/components/ui/page-header";
 import { KpiBars } from "@/components/portal/kpi-bars";
+import { MyInternshipCountdown, MyLatestReview } from "@/components/reviews/snapshots";
 import { ClockButton } from "@/components/forms/attendance-forms";
 import { NewTaskButton, TaskCheckbox } from "@/components/forms/task-forms";
 import {
@@ -87,6 +88,8 @@ export async function MemberDashboard({
         }
       />
 
+      <MyInternshipCountdown userId={user.id} />
+
       <section className="grid gap-4 xl:grid-cols-4">
         <Card className="bg-accent-soft border-transparent xl:col-span-2">
           <div className="flex h-full flex-col justify-between gap-6 p-6">
@@ -163,6 +166,8 @@ export async function MemberDashboard({
           </div>
         </Card>
       </section>
+
+      <MyLatestReview userId={user.id} />
 
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {[

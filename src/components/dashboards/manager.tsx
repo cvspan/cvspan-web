@@ -7,6 +7,7 @@ import { Progress } from "@/components/ui/chart";
 import { PageHeader } from "@/components/ui/page-header";
 import { Table, Td, Thead, Tr } from "@/components/ui/table";
 import { KpiBars } from "@/components/portal/kpi-bars";
+import { MyLatestReview, ReviewsDue } from "@/components/reviews/snapshots";
 import { ApprovalButtons } from "@/components/forms/approval-buttons";
 import { GradeButton } from "@/components/forms/grade-dialog";
 import { NewTaskButton } from "@/components/forms/task-forms";
@@ -91,6 +92,13 @@ export async function ManagerDashboard({
             <p className="text-muted mt-1 text-caption">{tile.caption}</p>
           </Card>
         ))}
+      </section>
+
+      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <ReviewsDue userId={user.id} />
+        <div className="md:col-span-1 xl:col-span-2">
+          <MyLatestReview userId={user.id} />
+        </div>
       </section>
 
       <section className="grid gap-4 xl:grid-cols-3">

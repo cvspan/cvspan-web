@@ -19,6 +19,10 @@ import {
   getUserById,
 } from "@/db/queries";
 import { getDepartmentOverview } from "@/db/queries-departments";
+import { getReviewsForUser } from "@/db/queries-reviews";
+import { EditDatesButton } from "@/components/forms/review-forms";
+import { InternshipCountdown } from "@/components/reviews/internship-countdown";
+import { RatingMeter } from "@/components/reviews/rating-meter";
 import { getProjectsForPerson } from "@/db/queries-projects";
 import {
   attendanceLabels,
@@ -32,6 +36,8 @@ import {
 } from "@/lib/format";
 import { atLeast, roleLabels } from "@/lib/roles";
 import { requireUser } from "@/lib/session";
+import { companyDay } from "@/lib/dates";
+import { CRITERIA, internshipWindow, ratingTone } from "@/lib/grading";
 import { projectRoleLabels, projectStatusLabels } from "@/lib/project";
 import { attendanceTone, statusTone, taskTone } from "@/lib/tone";
 
@@ -46,7 +52,7 @@ export default async function PersonPage({ params }: { params: Promise<{ id: str
   const canView = viewer.id === person.id || atLeast(viewer.role, "manager");
   if (!canView) notFound();
 
-  const [tasks, trend, history, attendance, rate, department, projects] = await Promise.all([
+  const [tasks, trend, history, attendance, rate, department, projects, reviews] = await Promise.all([
     getTasksFor(person.id),
     getKpiTrend(person.id),
     getKpiHistory(person.id),
@@ -54,7 +60,11 @@ export default async function PersonPage({ params }: { params: Promise<{ id: str
     getAttendanceRate(person.id),
     person.departmentId ? getDepartmentOverview(person.departmentId) : null,
     getProjectsForPerson(person.id),
+    getReviewsForUser(person.id, 8),
   ]);
+
+  const internship =
+    person.employmentType === "internship" ? internshipWindow(person, companyDay()) : null;
 
   const latest = trend.at(-1);
   const open = tasks.filter((task) => task.status !== "done");
@@ -82,6 +92,13 @@ export default async function PersonPage({ params }: { params: Promise<{ id: str
                 Message
               </Button>
             </form>
+            {atLeast(viewer.role, "admin") ? (
+              <EditDatesButton
+                userId={person.id}
+                startDate={person.startDate}
+                endDate={person.endDate}
+              />
+            ) : null}
             {atLeast(viewer.role, "manager") && viewer.id !== person.id ? (
               <GradeButton
                 userId={person.id}
@@ -225,6 +242,36 @@ export default async function PersonPage({ params }: { params: Promise<{ id: str
           </Table>
         </Card>
       </section>
+
+      {internship ? <InternshipCountdown window={internship} name={person.name.split(" ")[0]} /> : null}
+
+      <Card>
+        <CardHeader title="Weekly reviews" action={<Badge>{reviews.length === 1 ? "1 week" : `${reviews.length} weeks`} graded</Badge>} />
+        {reviews.length === 0 ? (
+          <p className="text-muted px-5 py-6 text-body">No weekly reviews yet.</p>
+        ) : (
+          <Table>
+            <Thead columns={["Week of", "Overall", ...CRITERIA.map((criterion) => criterion.name), "Reviewer"]} />
+            <tbody>
+              {reviews.map((review) => (
+                <Tr key={review.id}>
+                  <Td className="whitespace-nowrap font-semibold text-primary">{formatDay(review.weekStart)}</Td>
+                  <Td>
+                    <span className="flex items-center gap-2">
+                      <RatingMeter value={review.average ?? 0} size="sm" />
+                      <Badge tone={ratingTone(review.average ?? 0)}>{review.average?.toFixed(1)}</Badge>
+                    </span>
+                  </Td>
+                  {CRITERIA.map((criterion) => (
+                    <Td key={criterion.key}>{review.ratings[criterion.key] ?? "—"}</Td>
+                  ))}
+                  <Td className="whitespace-nowrap">{review.reviewerName ?? "—"}</Td>
+                </Tr>
+              ))}
+            </tbody>
+          </Table>
+        )}
+      </Card>
 
       <Card>
         <CardHeader title="Projects" action={<Badge>{projects.length}</Badge>} />

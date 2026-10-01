@@ -1,13 +1,17 @@
+import { after } from "next/server";
 import { RoleProvider } from "@/components/portal/role-context";
 import { Shell } from "@/components/portal/shell";
 import { getNotificationsFor } from "@/db/queries";
 import { relativeDays } from "@/lib/format";
+import { recordPortalActivity } from "@/lib/activity";
 import { requireUser } from "@/lib/session";
 
 export default async function PortalLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const user = await requireUser();
+  /** After the response is sent, so tracking never slows a page down. */
+  after(() => recordPortalActivity(user.id));
   const notifications = await getNotificationsFor(user.id, 8);
 
   return (
