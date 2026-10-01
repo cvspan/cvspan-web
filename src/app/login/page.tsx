@@ -1,11 +1,35 @@
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { AuthError } from "next-auth";
 import { signIn } from "@/auth";
 import { withBasePath } from "@/lib/base-path";
 import { Logo } from "@/components/brand/logo";
 import { Button } from "@/components/ui/button";
+import { websiteUrl } from "@/lib/website";
 
-export const metadata = { title: "Sign in · CVSpan Portal" };
+const loginUrl = websiteUrl("/portal/login");
+const description =
+  "Sign in to the CVSpan Portal, where CVSpan team members manage projects, tasks, reviews, programmes and the website's blog and careers.";
+
+/**
+ * The one public page of the portal. It is indexable so that people searching for the CVSpan portal
+ * find the way in; everything behind it stays out of search (see the root layout and next.config.ts).
+ */
+export const metadata: Metadata = {
+  title: { absolute: "CVSpan Portal — Staff sign in" },
+  description,
+  alternates: { canonical: loginUrl },
+  robots: { index: true, follow: true },
+  openGraph: {
+    type: "website",
+    url: loginUrl,
+    siteName: "CVSpan",
+    title: "CVSpan Portal — Staff sign in",
+    description,
+    images: [{ url: websiteUrl("/opengraph-image"), width: 1200, height: 630, alt: "CVSpan" }],
+  },
+  twitter: { card: "summary_large_image", title: "CVSpan Portal — Staff sign in", description },
+};
 
 async function signInAction(formData: FormData) {
   "use server";
@@ -33,8 +57,25 @@ export default async function LoginPage({
 
   return (
     <main className="bg-app flex min-h-dvh items-center justify-center p-4">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "@id": `${loginUrl}#page`,
+            url: loginUrl,
+            name: "CVSpan Portal — Staff sign in",
+            description,
+            isPartOf: { "@type": "WebSite", name: "CVSpan", url: websiteUrl("/") },
+          }).replace(/</g, "\\u003c"),
+        }}
+      />
       <div className="w-full max-w-100">
-        <Logo height={32} className="mb-6 block" />
+        {/* The logo leads back to the main site, so the portal and website are linked both ways. */}
+        <a href={websiteUrl()} aria-label="CVSpan website" className="mb-6 block w-fit">
+          <Logo height={32} className="block" />
+        </a>
 
         <div className="border-line bg-card rounded-lg border p-6">
           <h1 className="text-primary text-h5 font-semibold">Sign in</h1>
@@ -93,6 +134,21 @@ export default async function LoginPage({
         <p className="text-muted mt-4 text-center text-caption">
           Trouble signing in? Ask an admin to reset your access.
         </p>
+
+        <nav aria-label="CVSpan website" className="text-muted mt-6 flex flex-wrap justify-center gap-x-4 gap-y-1 text-caption">
+          <a href={websiteUrl()} className="hover:text-primary">
+            cvspan.com
+          </a>
+          <a href={websiteUrl("/careers")} className="hover:text-primary">
+            Careers
+          </a>
+          <a href={websiteUrl("/blog")} className="hover:text-primary">
+            Blog
+          </a>
+          <a href={websiteUrl("/legal/privacy-policy")} className="hover:text-primary">
+            Privacy
+          </a>
+        </nav>
       </div>
     </main>
   );

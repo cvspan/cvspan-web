@@ -3,7 +3,7 @@
  * the portal's blog and careers sections feed it, so each post and role can link to its page there.
  */
 
-const origin = (process.env.NEXT_PUBLIC_WEBSITE_URL ?? "https://cvspan.com").replace(/\/+$/, "");
+const origin = (process.env.NEXT_PUBLIC_WEBSITE_URL ?? "https://www.cvspan.com").replace(/\/+$/, "");
 
 /** A page on the public website: websiteUrl("/careers") → "https://cvspan.com/careers". */
 export function websiteUrl(path = "") {
