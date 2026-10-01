@@ -560,6 +560,21 @@ export const applications = pgTable("applications", {
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
+/**
+ * A candidate's CV. Kept apart from `applications` so listing applicants never loads the file,
+ * and apart from `media` because that table is served publicly; a CV must only reach staff.
+ */
+export const applicationResumes = pgTable("application_resumes", {
+  applicationId: uuid("application_id")
+    .primaryKey()
+    .references(() => applications.id, { onDelete: "cascade" }),
+  filename: text("filename").notNull(),
+  contentType: text("content_type").notNull(),
+  size: integer("size").notNull(),
+  data: bytea("data").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
 /* ------------------------------------------------------------ Weekly reviews */
 
 /**

@@ -100,20 +100,30 @@ Base: `/portal/api/public/v1`. All responses are JSON. GETs are cached by a CDN 
 
 ### `POST /careers/:slug/apply`
 
-```json
-{ "name": "Ada Obi", "email": "ada@example.com", "message": "optional", "portfolioUrl": "https://optional", "website": "" }
-```
+`multipart/form-data` (the resume is a file, so this is not JSON):
+
+| Field | Required | Notes |
+| --- | --- | --- |
+| `firstName`, `lastName` | yes | Stored together as the candidate's name. |
+| `email` | yes | |
+| `resume` | yes | PDF, DOC or DOCX, up to 4 MB. Judged by the file's first bytes, not its name. |
+| `portfolioUrl` | no | Portfolio or LinkedIn link. |
+| `message` | no | Up to 2,000 characters. |
+| `website` | no | Hidden honeypot: leave it empty. |
 
 | Status | Meaning |
 | --- | --- |
-| `201 { ok: true }` | Saved. The hiring manager (or the admins) get a notification. Applying again with the same email also answers `201` and is not stored twice. |
-| `400 { error }` | Validation message, safe to show to the applicant. |
+| `201 { ok: true }` | Saved with its resume. The hiring manager (or the admins) get a notification. Applying again with the same email also answers `201` and is not stored twice. |
+| `400 { error }` | Validation message, safe to show to the applicant (missing field, wrong file type, file too large). |
 | `403` | Called from an origin that is not in `WEBSITE_ORIGINS`. |
 | `404` | The role is not open (closed, past its closing date, or never published). |
 | `409` | The role takes applications by email or a link instead; use `apply.target`. |
 | `429` | More than 5 applications an hour from one address. |
 
-`website` is a hidden honeypot: leave it empty. A filled value is silently dropped and still answers `201`.
+Resumes are kept in the `application_resumes` table, never in the public `media` store. Staff download them from the
+portal's Applicants page (`/api/applications/:id/resume`, admins and above only, never cached).
+
+A filled `website` honeypot is silently dropped and still answers `201`.
 Roles whose `apply.method` is `email` or `url` should send people to `apply.target` instead; the website does this.
 
 ## What is public

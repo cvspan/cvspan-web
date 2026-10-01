@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { RiArrowLeftLine, RiExternalLinkLine, RiMailLine } from "@remixicon/react";
+import { RiArrowLeftLine, RiDownload2Line, RiExternalLinkLine, RiMailLine } from "@remixicon/react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader } from "@/components/ui/card";
@@ -13,6 +13,7 @@ import { applicationStageLabels, formatDay, jobStageLabels, relativeDays } from 
 import { atLeast } from "@/lib/roles";
 import { requireUser } from "@/lib/session";
 import { statusTone } from "@/lib/tone";
+import { withBasePath } from "@/lib/base-path";
 import { websiteJobUrl } from "@/lib/website";
 
 export const metadata = { title: "Applicants · CVSpan Portal" };
@@ -79,7 +80,7 @@ export default async function ApplicantsPage({ params }: { params: Promise<{ id:
           </p>
         ) : (
           <Table>
-            <Thead columns={["Candidate", "Applied", "Message", "Stage"]} />
+            <Thead columns={["Candidate", "Applied", "Resume", "Message", "Stage"]} />
             <tbody>
               {people.map((person) => (
                 <Tr key={person.id}>
@@ -96,6 +97,20 @@ export default async function ApplicantsPage({ params }: { params: Promise<{ id:
                   <Td className="whitespace-nowrap">
                     {formatDay(person.createdAt)}
                     <span className="text-muted block text-tiny">{relativeDays(person.createdAt)}</span>
+                  </Td>
+                  <Td className="whitespace-nowrap">
+                    {person.resumeName ? (
+                      <a
+                        href={withBasePath(`/api/applications/${person.id}/resume`)}
+                        download
+                        className="text-accent flex items-center gap-1 text-caption font-semibold"
+                      >
+                        <RiDownload2Line size={14} aria-hidden />
+                        Download
+                      </a>
+                    ) : (
+                      <span className="text-muted">—</span>
+                    )}
                   </Td>
                   <Td className="max-w-96">
                     <span className="line-clamp-3 whitespace-pre-line">{person.notes ?? "—"}</span>

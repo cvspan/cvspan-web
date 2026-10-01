@@ -2,6 +2,7 @@ import "server-only";
 import { and, asc, count, desc, eq, inArray, isNull, ne, sql } from "drizzle-orm";
 import { db } from "./index";
 import {
+  applicationResumes,
   applications,
   approvals,
   assignments,
@@ -473,9 +474,19 @@ export async function getSkills() {
 }
 
 export async function getApplicationsFor(jobId: string) {
+  /** The CV's name only; the file itself is fetched on download, not with the list. */
   return db
-    .select()
+    .select({
+      id: applications.id,
+      candidateName: applications.candidateName,
+      candidateEmail: applications.candidateEmail,
+      stage: applications.stage,
+      notes: applications.notes,
+      createdAt: applications.createdAt,
+      resumeName: applicationResumes.filename,
+    })
     .from(applications)
+    .leftJoin(applicationResumes, eq(applicationResumes.applicationId, applications.id))
     .where(eq(applications.jobId, jobId))
     .orderBy(desc(applications.createdAt));
 }

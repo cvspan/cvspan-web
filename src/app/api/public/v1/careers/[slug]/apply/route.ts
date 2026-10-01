@@ -1,17 +1,19 @@
 import { and, eq, inArray, isNull, or, sql } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "@/db";
-import { applications, jobListings, users } from "@/db/schema";
+import { applicationResumes, applications, jobListings, users } from "@/db/schema";
 import { notify } from "@/app/actions/guards";
 import { allowedOrigins, corsHeaders, preflight } from "@/lib/public-api";
 import { normalizeUrl } from "@/lib/project-links";
 import { createRateLimiter } from "@/lib/rate-limit";
+import { checkResume, safeFilename } from "@/lib/resume";
 
 /** A few attempts an hour per address: enough for a real applicant, awkward for a script. */
 const limiter = createRateLimiter({ limit: 5, windowMs: 60 * 60 * 1000 });
 
 const schema = z.object({
-  name: z.string().trim().min(2, "Tell us your name").max(100, "That name is too long"),
+  firstName: z.string().trim().min(1, "Tell us your first name").max(60, "That first name is too long"),
+  lastName: z.string().trim().min(1, "Tell us your last name").max(60, "That last name is too long"),
   email: z.string().trim().toLowerCase().email("Enter a valid email address").max(160),
   message: z.string().trim().max(2000, "Keep your message under 2,000 characters").optional(),
   portfolioUrl: z.string().trim().max(300).optional(),
@@ -27,7 +29,8 @@ function reply(request: Request, status: number, body: Record<string, unknown>) 
 }
 
 /**
- * POST /api/public/v1/careers/:slug/apply   { name, email, message?, portfolioUrl? }
+ * POST /api/public/v1/careers/:slug/apply   multipart/form-data:
+ *   firstName, lastName, email, resume (PDF/DOC/DOCX, 4 MB), portfolioUrl?, message?
  * A candidate applying from the website. It lands in the portal's applicant list for that role
  * and the hiring manager (or the admins) are told.
  */
@@ -43,18 +46,32 @@ export async function POST(request: Request, { params }: { params: Promise<{ slu
     return reply(request, 429, { error: "Too many applications from your connection. Please try again later." });
   }
 
-  let payload: unknown;
+  let form: FormData;
   try {
-    payload = await request.json();
+    form = await request.formData();
   } catch {
-    return reply(request, 400, { error: "Send the application as JSON." });
+    return reply(request, 400, { error: "Send the application as a form with your resume attached." });
   }
 
-  const parsed = schema.safeParse(payload);
+  /** FormData values are strings or files; only text is wanted for the fields. */
+  const text = (key: string) => {
+    const value = form.get(key);
+    return typeof value === "string" ? value : undefined;
+  };
+
+  const parsed = schema.safeParse({
+    firstName: text("firstName") ?? "",
+    lastName: text("lastName") ?? "",
+    email: text("email") ?? "",
+    message: text("message") || undefined,
+    portfolioUrl: text("portfolioUrl") || undefined,
+    website: text("website"),
+  });
   if (!parsed.success) {
     return reply(request, 400, { error: parsed.error.issues[0]?.message ?? "Check the form and try again." });
   }
-  const { name, email, message, portfolioUrl, website } = parsed.data;
+  const { firstName, lastName, email, message, portfolioUrl, website } = parsed.data;
+  const name = `${firstName} ${lastName}`;
 
   /** A bot filled the hidden field. Say it worked so it learns nothing. */
   if (website) return reply(request, 201, { ok: true });
@@ -64,6 +81,14 @@ export async function POST(request: Request, { params }: { params: Promise<{ slu
     portfolio = normalizeUrl(portfolioUrl);
     if (!portfolio) return reply(request, 400, { error: "Enter a valid portfolio link, or leave it blank." });
   }
+
+  const file = form.get("resume");
+  if (!(file instanceof File) || file.size === 0) {
+    return reply(request, 400, { error: "Attach your resume as a PDF, DOC or DOCX file." });
+  }
+  const bytes = new Uint8Array(await file.arrayBuffer());
+  const resume = checkResume(bytes.subarray(0, 8), bytes.byteLength);
+  if (!resume.ok) return reply(request, 400, { error: resume.error });
 
   const { slug } = await params;
   const [job] = await db
@@ -97,7 +122,20 @@ export async function POST(request: Request, { params }: { params: Promise<{ slu
   if (existing) return reply(request, 201, { ok: true });
 
   const notes = [message, portfolio ? `Portfolio: ${portfolio}` : null].filter(Boolean).join("\n\n") || null;
-  await db.insert(applications).values({ jobId: job.id, candidateName: name, candidateEmail: email, notes });
+  /** One batch, so an application never exists without the CV it came with. */
+  const applicationId = crypto.randomUUID();
+  await db.batch([
+    db
+      .insert(applications)
+      .values({ id: applicationId, jobId: job.id, candidateName: name, candidateEmail: email, notes }),
+    db.insert(applicationResumes).values({
+      applicationId,
+      filename: safeFilename(file.name, resume.extension),
+      contentType: resume.contentType,
+      size: bytes.byteLength,
+      data: Buffer.from(bytes),
+    }),
+  ]);
 
   /** Tell whoever is hiring: the hiring manager, else the admins. */
   const recipients = job.hiringManagerId
