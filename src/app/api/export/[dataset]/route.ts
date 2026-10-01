@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { getAllTasks, getPeople } from "@/db/queries";
+import { getAllTasks, getEnrolmentProgress, getKpiHistory, getPeople } from "@/db/queries";
 import { employmentLabels, taskStatusLabels } from "@/lib/format";
 import { atLeast, roleLabels } from "@/lib/roles";
 
@@ -63,6 +63,50 @@ export async function GET(
       headers: {
         "content-type": "text/csv; charset=utf-8",
         "content-disposition": `attachment; filename="cvspan-tasks-${new Date().toISOString().slice(0, 10)}.csv"`,
+      },
+    });
+  }
+
+  if (dataset === "programmes") {
+    if (!atLeast(session.user.role, "manager")) return new Response("Forbidden", { status: 403 });
+
+    const rows = await getEnrolmentProgress();
+    const csv = toCsv([
+      ["Cohort", "Stage", "Member", "Progress (%)", "Completed"],
+      ...rows.map((row) => [
+        row.cohort,
+        row.stage ?? "",
+        row.member,
+        String(row.progress),
+        row.completedAt ? new Date(row.completedAt).toISOString().slice(0, 10) : "",
+      ]),
+    ]);
+
+    return new Response(csv, {
+      headers: {
+        "content-type": "text/csv; charset=utf-8",
+        "content-disposition": `attachment; filename="cvspan-programmes-${new Date().toISOString().slice(0, 10)}.csv"`,
+      },
+    });
+  }
+
+  if (dataset === "kpis") {
+    /** Everyone can download their own history; it is never anyone else's. */
+    const history = await getKpiHistory(session.user.id);
+    const csv = toCsv([
+      ["Period", "Score (%)", "Graded by", "Comment"],
+      ...history.map((row) => [
+        String(row.periodStart).slice(0, 7),
+        String(row.score),
+        row.gradedBy ?? "",
+        row.comment ?? "",
+      ]),
+    ]);
+
+    return new Response(csv, {
+      headers: {
+        "content-type": "text/csv; charset=utf-8",
+        "content-disposition": `attachment; filename="cvspan-kpis-${new Date().toISOString().slice(0, 10)}.csv"`,
       },
     });
   }

@@ -15,9 +15,11 @@ import {
   kpiScores,
   leaveRequests,
   messages,
+  notificationPreferences,
   notifications,
   programmes,
   projects,
+  selfAssessments,
   submissions,
   tasks,
   threadMembers,
@@ -579,4 +581,63 @@ export async function getOrgCounts() {
     applicants: Number(row?.applicants ?? 0),
     programmes: Number(row?.programmes ?? 0),
   };
+}
+
+/** Which notification categories someone has set; a missing category is on. */
+export async function getNotificationPreferences(userId: string) {
+  const rows = await db
+    .select({ category: notificationPreferences.category, inApp: notificationPreferences.inApp })
+    .from(notificationPreferences)
+    .where(eq(notificationPreferences.userId, userId));
+  return Object.fromEntries(rows.map((row) => [row.category, row.inApp])) as Record<string, boolean>;
+}
+
+/** A person's self-assessments, newest month first. */
+export async function getSelfAssessments(userId: string, limit = 6) {
+  return db
+    .select({
+      id: selfAssessments.id,
+      periodStart: selfAssessments.periodStart,
+      score: selfAssessments.score,
+      comment: selfAssessments.comment,
+      updatedAt: selfAssessments.updatedAt,
+    })
+    .from(selfAssessments)
+    .where(eq(selfAssessments.userId, userId))
+    .orderBy(desc(selfAssessments.periodStart))
+    .limit(limit);
+}
+
+/** One row per person per cohort, for the progress export. */
+export async function getEnrolmentProgress() {
+  return db
+    .select({
+      cohort: programmes.name,
+      stage: programmes.stage,
+      member: users.name,
+      progress: enrolments.progress,
+      completedAt: enrolments.completedAt,
+    })
+    .from(enrolments)
+    .innerJoin(programmes, eq(enrolments.programmeId, programmes.id))
+    .innerJoin(users, eq(enrolments.userId, users.id))
+    .orderBy(asc(programmes.name), asc(users.name));
+}
+
+/** What a public verification page may show about a certificate. */
+export async function getCertificateByReference(reference: string) {
+  const [row] = await db
+    .select({
+      reference: certificates.reference,
+      issuedAt: certificates.issuedAt,
+      revokedAt: certificates.revokedAt,
+      person: users.name,
+      programme: programmes.name,
+    })
+    .from(certificates)
+    .leftJoin(users, eq(certificates.userId, users.id))
+    .leftJoin(programmes, eq(certificates.programmeId, programmes.id))
+    .where(eq(certificates.reference, reference))
+    .limit(1);
+  return row ?? null;
 }

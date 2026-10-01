@@ -65,7 +65,7 @@ export async function requestLeave(formData: FormData) {
       assignedToId: account.managerId,
       detail: `${type}, ${Math.max(days, 1)} day${days > 1 ? "s" : ""}`,
     });
-    await notify(account.managerId, `${user.name} requested ${type.toLowerCase()}`, "/approvals");
+    await notify(account.managerId, `${user.name} requested ${type.toLowerCase()}`, "/approvals", "approvals");
   }
 
   revalidatePath("/attendance");

@@ -4,21 +4,16 @@ import { Card, CardHeader } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
 import { updateProfile } from "@/app/actions/profile";
 import { requireUser } from "@/lib/session";
-import { getUserById } from "@/db/queries";
+import { getNotificationPreferences, getUserById } from "@/db/queries";
+import { NotificationPreferences } from "@/components/forms/notification-preferences";
 import { roleLabels } from "@/lib/roles";
-
-const notificationRows = [
-  { label: "Task assigned to me", email: true, inApp: true },
-  { label: "Deadline approaching", email: true, inApp: true },
-  { label: "KPI graded", email: true, inApp: true },
-  { label: "Leave approved or declined", email: true, inApp: true },
-  { label: "Certificate issued", email: true, inApp: false },
-  { label: "Weekly digest", email: false, inApp: false },
-];
 
 export default async function SettingsPage() {
   const session = await requireUser();
-  const account = await getUserById(session.id);
+  const [account, preferences] = await Promise.all([
+    getUserById(session.id),
+    getNotificationPreferences(session.id),
+  ]);
 
   return (
     <>
@@ -95,40 +90,12 @@ export default async function SettingsPage() {
       </section>
 
       <Card>
-        <CardHeader
-          title="Notifications"
-          action={<Badge tone="accent">Email alerts on</Badge>}
-        />
-        <ul className="p-5">
-          {notificationRows.map((row) => (
-            <li
-              key={row.label}
-              className="border-line flex items-center justify-between gap-4 border-b py-3 last:border-b-0"
-            >
-              <span className="text-secondary text-body">{row.label}</span>
-              <span className="flex items-center gap-6">
-                <label className="text-muted flex cursor-pointer items-center gap-2 text-caption">
-                  <input
-                    type="checkbox"
-                    defaultChecked={row.email}
-                    className="accent-brand size-4 cursor-pointer"
-                    aria-label={`Email me when: ${row.label}`}
-                  />
-                  Email
-                </label>
-                <label className="text-muted flex cursor-pointer items-center gap-2 text-caption">
-                  <input
-                    type="checkbox"
-                    defaultChecked={row.inApp}
-                    className="accent-brand size-4 cursor-pointer"
-                    aria-label={`Notify me in the portal when: ${row.label}`}
-                  />
-                  In portal
-                </label>
-              </span>
-            </li>
-          ))}
-        </ul>
+        <CardHeader title="Notifications" action={<Badge>In the portal</Badge>} />
+        <p className="text-muted px-5 pt-4 text-body">
+          Choose which updates appear in your notification bell. Email alerts aren&apos;t set up
+          yet, so nothing is sent by email.
+        </p>
+        <NotificationPreferences initial={preferences} />
       </Card>
     </>
   );

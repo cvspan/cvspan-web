@@ -1,6 +1,5 @@
 import { RiCheckLine, RiCloseLine } from "@remixicon/react";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardHeader } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
 import { Table, Td, Thead, Tr } from "@/components/ui/table";
@@ -31,15 +30,12 @@ export default async function RolesPage() {
 
   return (
     <>
-      <PageHeader
-        pretitle="Organisation"
-        title="Roles & access"
-        actions={<Button>Create custom role</Button>}
-      />
+      <PageHeader pretitle="Organisation" title="Roles & access" />
 
       <p className="text-secondary -mt-1 max-w-200 text-body">
         A role sets what someone can do. It is separate from employment type, so an intern can
-        lead a team and a full-time member can hold no management rights.
+        lead a team and a full-time member can hold no management rights. The four roles are fixed;
+        to change what someone can do, a super admin changes their role from their profile.
       </p>
 
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">

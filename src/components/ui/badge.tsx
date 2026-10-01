@@ -21,7 +21,8 @@ export function Badge({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-tiny font-semibold whitespace-nowrap",
+        /* 14px is what badges have always rendered at; text-tiny (10px) is too small to read comfortably. */
+        "inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-body font-semibold whitespace-nowrap",
         tones[tone],
         className,
       )}

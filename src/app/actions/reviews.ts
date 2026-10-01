@@ -121,6 +121,7 @@ export async function submitWeeklyReview(formData: FormData): Promise<ActionResu
     userId,
     `${actor.name} ${existing ? "updated" : "posted"} your review for the week of ${formatDay(weekStart)}: ${average}/5`,
     `/reviews?week=${weekStart}`,
+    "grades",
   );
   await logActivity(actor.id, "graded a week", `${subject.name} · ${average}/5`);
 

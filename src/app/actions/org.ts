@@ -103,6 +103,7 @@ export async function updatePosition(formData: FormData): Promise<ActionResult> 
       userId,
       level === "head" ? `You are now Head of ${subject.departmentName}` : `You are now ${levelLabels[level]}`,
       "/org",
+      "organisation",
     );
   }
   await logActivity(actor.id, "updated the org chart", `${subject.name} · ${levelLabels[level]}`);

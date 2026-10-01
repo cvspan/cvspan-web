@@ -1,4 +1,5 @@
-import { RiAddLine, RiAwardLine, RiDownloadLine } from "@remixicon/react";
+import Link from "next/link";
+import { RiAwardLine, RiDownloadLine, RiExternalLinkLine } from "@remixicon/react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader } from "@/components/ui/card";
@@ -7,6 +8,8 @@ import { PageHeader } from "@/components/ui/page-header";
 import { Table, Td, Thead, Tr } from "@/components/ui/table";
 import { getAssignmentsFor, getCertificates, getProgrammes } from "@/db/queries";
 import { formatDay, relativeDays } from "@/lib/format";
+import { NewCohortButton } from "@/components/forms/programme-forms";
+import { atLeast } from "@/lib/roles";
 import { requireUser } from "@/lib/session";
 import { statusTone } from "@/lib/tone";
 
@@ -34,14 +37,15 @@ export default async function ProgrammesPage() {
         title="Programmes"
         actions={
           <>
-            <Button variant="secondary">
-              <RiDownloadLine size={18} aria-hidden />
-              Export progress
-            </Button>
-            <Button>
-              <RiAddLine size={18} aria-hidden />
-              New cohort
-            </Button>
+            {atLeast(user.viewRole, "manager") ? (
+              <a href="/api/export/programmes" download>
+                <Button variant="secondary" type="button">
+                  <RiDownloadLine size={18} aria-hidden />
+                  Export progress
+                </Button>
+              </a>
+            ) : null}
+            {atLeast(user.viewRole, "admin") ? <NewCohortButton /> : null}
           </>
         }
       />
@@ -102,7 +106,7 @@ export default async function ProgrammesPage() {
       <Card>
         <CardHeader
           title="Certificates"
-          action={<Badge tone="success">Issued automatically</Badge>}
+          action={<Badge>{certificates.length} issued</Badge>}
         />
         {certificates.length === 0 ? (
           <p className="text-muted px-5 py-6 text-body">No certificates issued yet.</p>
@@ -125,15 +129,18 @@ export default async function ProgrammesPage() {
                     {formatDay(certificate.issuedAt)}
                   </span>
                 </span>
-                <Button size="sm" variant="secondary">
-                  Verify
-                </Button>
+                <Link href={`/verify/${certificate.reference}`} target="_blank" rel="noopener noreferrer">
+                  <Button size="sm" variant="secondary" type="button">
+                    Verify
+                    <RiExternalLinkLine size={14} aria-hidden />
+                  </Button>
+                </Link>
               </li>
             ))}
           </ul>
         )}
         <p className="text-muted border-line border-t px-5 py-3 text-caption">
-          When a cohort ends, certificates are generated, emailed and added to the registry.
+          Each certificate has a public verification page that anyone can open with its reference.
         </p>
       </Card>
     </>

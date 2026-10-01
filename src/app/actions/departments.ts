@@ -98,7 +98,7 @@ export async function updateDepartment(formData: FormData): Promise<ActionResult
 
   /** The new head is a department head by definition, and the lines under them follow. */
   await reconcileOrg();
-  if (headId && headId !== before?.headId) await notify(headId, `You are now Head of ${name}`, "/org");
+  if (headId && headId !== before?.headId) await notify(headId, `You are now Head of ${name}`, "/org", "organisation");
 
   await logActivity(actor.id, "updated a department", name);
   refresh(id);
@@ -187,7 +187,7 @@ export async function assignToDepartment(formData: FormData): Promise<ActionResu
 
   await Promise.all(
     movingIds.map((id) =>
-      notify(id, `You were added to the ${department.name} department`, "/settings"),
+      notify(id, `You were added to the ${department.name} department`, "/org", "organisation"),
     ),
   );
   await logActivity(

@@ -68,6 +68,7 @@ export async function reconcileOrg() {
           ? `You now report to ${names.get(change.managerId) ?? "your manager"}`
           : "You no longer have a reporting line",
         "/org",
+        "organisation",
       ),
     ),
   );
@@ -104,7 +105,7 @@ export async function ensureManagerAccess(userId: string, actorRole: Role): Prom
     .update(users)
     .set({ role: "manager", orgLevel: person.orgLevel === "member" ? "manager" : person.orgLevel })
     .where(eq(users.id, userId));
-  await notify(userId, "You are now a Manager", "/org");
+  await notify(userId, "You are now a Manager", "/org", "organisation");
   return { ok: true, promoted: true, name: person.name };
 }
 

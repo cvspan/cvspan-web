@@ -37,6 +37,7 @@ export async function resolveApproval(approvalId: string, approve: boolean) {
       item.requestedById,
       `${user.name} ${approve ? "approved" : "declined"} your ${item.kind.replace("_", " ")}`,
       "/attendance",
+      "approvals",
     );
   }
 

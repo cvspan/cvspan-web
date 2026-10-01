@@ -363,6 +363,26 @@ export const kpiScores = pgTable("kpi_scores", {
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
+/** A person's own view of how a month went, written before (and shown to) their manager. */
+export const selfAssessments = pgTable(
+  "self_assessments",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    userId: uuid("user_id")
+      .references(() => users.id, { onDelete: "cascade" })
+      .notNull(),
+    /** First day of the month it covers, like kpi_scores. */
+    periodStart: date("period_start").notNull(),
+    score: integer("score").notNull(),
+    comment: text("comment"),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    uniqueIndex("self_assessments_user_period_idx").on(table.userId, table.periodStart),
+    check("self_assessments_score_check", sql`${table.score} between 0 and 100`),
+  ],
+);
+
 /* -------------------------------------------------------------- Programmes */
 
 export const programmes = pgTable("programmes", {
@@ -622,6 +642,22 @@ export const notifications = pgTable("notifications", {
   emailedAt: timestamp("emailed_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
+
+/**
+ * Which kinds of notification someone wants in the portal. A category with no row is on, so
+ * people only store what they have switched off.
+ */
+export const notificationPreferences = pgTable(
+  "notification_preferences",
+  {
+    userId: uuid("user_id")
+      .references(() => users.id, { onDelete: "cascade" })
+      .notNull(),
+    category: text("category").notNull(),
+    inApp: boolean("in_app").default(true).notNull(),
+  },
+  (table) => [primaryKey({ columns: [table.userId, table.category] })],
+);
 
 export const activityLog = pgTable("activity_log", {
   id: uuid("id").primaryKey().defaultRandom(),

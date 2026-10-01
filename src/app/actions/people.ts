@@ -1,10 +1,10 @@
 "use server";
 
-import { eq } from "drizzle-orm";
+import { and, eq, ne, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { db } from "@/db";
 import { departments, users } from "@/db/schema";
-import type { Role } from "@/lib/roles";
+import { ROLES, roleLabels, type Role } from "@/lib/roles";
 import { z } from "zod";
 import { logActivity, requireRole } from "./guards";
 import { reconcileOrg, refreshOrg } from "./org-sync";
@@ -69,37 +69,74 @@ export async function inviteMember(formData: FormData) {
   revalidatePath("/");
 }
 
-export async function updateMemberRole(formData: FormData) {
-  const actor = await requireRole("super_admin");
+const accessSchema = z.object({
+  userId: requiredId("person"),
+  role: z.enum(ROLES, "Choose a role"),
+  status: z.enum(["active", "suspended", "alumni"], "Choose a status"),
+});
 
-  const userId = String(formData.get("userId") ?? "");
-  const role = String(formData.get("role") ?? "") as Role;
-  if (!userId || !role) return;
+/**
+ * Changes someone's access role and whether they can sign in. Admins can suspend people or move
+ * them to alumni; only a super admin can change a role. Two safeguards keep the portal reachable:
+ * nobody changes their own access, and the last active super admin can't be demoted or suspended.
+ */
+export async function updateAccess(formData: FormData): Promise<ActionResult> {
+  const actor = await requireRole("admin");
 
-  /**
-   * Keep the org level in step with the new access role, unless the person is the CEO: that is
-   * chosen on the org chart, not inferred from access.
-   */
-  const [current] = await db.select({ orgLevel: users.orgLevel }).from(users).where(eq(users.id, userId)).limit(1);
-  const keepsLevel = current?.orgLevel === "ceo";
+  const parsed = parseForm(accessSchema, formData);
+  if (!parsed.success) return fail(parsed.error);
+  const { userId, role, status } = parsed.data;
 
+  if (userId === actor.id) return fail("You can't change your own access. Ask another admin.");
+
+  const [target] = await db
+    .select({ name: users.name, role: users.role, status: users.status, orgLevel: users.orgLevel })
+    .from(users)
+    .where(eq(users.id, userId))
+    .limit(1);
+  if (!target) return fail("That person no longer exists.");
+
+  const roleChanged = role !== target.role;
+  /** "invited" isn't something an admin sets, so leaving it alone counts as unchanged. */
+  const statusChanged = status !== target.status && !(target.status === "invited" && status === "active");
+
+  if (!roleChanged && !statusChanged) return fail("Nothing to change.");
+  if (roleChanged && actor.role !== "super_admin") return fail("Only a super admin can change someone's role.");
+
+  /** Would this leave the portal without an active super admin? */
+  const losesSuperAdmin =
+    target.role === "super_admin" && ((roleChanged && role !== "super_admin") || (statusChanged && status !== "active"));
+  if (losesSuperAdmin) {
+    const [others] = await db
+      .select({ n: sql<number>`count(*)::int` })
+      .from(users)
+      .where(and(eq(users.role, "super_admin"), eq(users.status, "active"), ne(users.id, userId)));
+    if (!others || others.n === 0) return fail("There has to be at least one active super admin.");
+  }
+
+  /** The org level follows the new access role, except for the CEO, who is chosen on the org chart. */
   await db
     .update(users)
-    .set(keepsLevel ? { role } : { role, orgLevel: defaultLevelForRole(role) })
+    .set({
+      ...(roleChanged ? { role, ...(target.orgLevel === "ceo" ? {} : { orgLevel: defaultLevelForRole(role) }) } : {}),
+      ...(statusChanged ? { status } : {}),
+    })
     .where(eq(users.id, userId));
-  await logActivity(actor.id, "changed a role", role);
+
+  await logActivity(
+    actor.id,
+    [roleChanged ? `changed a role to ${roleLabels[role]}` : null, statusChanged ? `set a member to ${status}` : null]
+      .filter(Boolean)
+      .join(" and "),
+    target.name,
+  );
 
   await reconcileOrg();
   refreshOrg();
   revalidatePath("/people");
+  revalidatePath(`/people/${userId}`);
   revalidatePath("/roles");
-}
-
-export async function setMemberStatus(userId: string, status: "active" | "suspended" | "alumni") {
-  const actor = await requireRole("admin");
-  await db.update(users).set({ status }).where(eq(users.id, userId));
-  await logActivity(actor.id, `set a member to ${status}`);
-  revalidatePath("/people");
+  return ok;
 }
 
 /** Start and end dates drive an intern's countdown, so an admin can correct or extend them. */

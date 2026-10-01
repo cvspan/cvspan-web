@@ -1,7 +1,9 @@
 import "server-only";
+import { and, eq } from "drizzle-orm";
 import { db } from "@/db";
 import { getProjectRole } from "@/db/queries-projects";
-import { notifications, activityLog } from "@/db/schema";
+import { notifications, notificationPreferences, activityLog } from "@/db/schema";
+import type { NotificationCategory } from "@/lib/notification-categories";
 import { canManageProject } from "@/lib/project";
 import { atLeast, type Role } from "@/lib/roles";
 import { requireUser } from "@/lib/session";
@@ -15,7 +17,19 @@ export async function requireRole(minimum: Role) {
   return user;
 }
 
-export async function notify(userId: string, title: string, href?: string) {
+/**
+ * Sends an in-portal notification. With a category, it respects the person's settings: a
+ * category they have switched off is skipped. Without one it is always delivered.
+ */
+export async function notify(userId: string, title: string, href?: string, category?: NotificationCategory) {
+  if (category) {
+    const [preference] = await db
+      .select({ inApp: notificationPreferences.inApp })
+      .from(notificationPreferences)
+      .where(and(eq(notificationPreferences.userId, userId), eq(notificationPreferences.category, category)))
+      .limit(1);
+    if (preference && !preference.inApp) return;
+  }
   await db.insert(notifications).values({ userId, title, href });
 }
 

@@ -1,3 +1,4 @@
+import { RiDownloadLine } from "@remixicon/react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader } from "@/components/ui/card";
@@ -5,7 +6,9 @@ import { Gauge, Progress } from "@/components/ui/chart";
 import { PageHeader } from "@/components/ui/page-header";
 import { Table, Td, Thead, Tr } from "@/components/ui/table";
 import { KpiBars } from "@/components/portal/kpi-bars";
-import { getKpiHistory, getKpiTrend } from "@/db/queries";
+import { getKpiHistory, getKpiTrend, getSelfAssessments } from "@/db/queries";
+import { SelfAssessmentButton } from "@/components/forms/self-assessment";
+import { companyDay } from "@/lib/dates";
 import { formatMonth } from "@/lib/format";
 import { requireUser } from "@/lib/session";
 
@@ -20,7 +23,15 @@ const measures = [
 
 export default async function KpisPage() {
   const user = await requireUser();
-  const [trend, history] = await Promise.all([getKpiTrend(user.id), getKpiHistory(user.id)]);
+  const [trend, history, assessments] = await Promise.all([
+    getKpiTrend(user.id),
+    getKpiHistory(user.id),
+    getSelfAssessments(user.id, 1),
+  ]);
+
+  /** This month's self-assessment, if there is one. */
+  const thisMonth = `${companyDay().slice(0, 7)}-01`;
+  const mine = assessments[0]?.periodStart === thisMonth ? assessments[0] : null;
 
   const latest = trend.at(-1);
   const previous = trend.at(-2);
@@ -33,8 +44,20 @@ export default async function KpisPage() {
         title="My KPIs"
         actions={
           <>
-            <Button variant="secondary">Download report</Button>
-            <Button>Start self-assessment</Button>
+            <a href="/api/export/kpis" download>
+              <Button variant="secondary" type="button">
+                <RiDownloadLine size={18} aria-hidden />
+                Download report
+              </Button>
+            </a>
+            <SelfAssessmentButton
+              monthLabel={formatMonth(thisMonth)}
+              current={
+                mine
+                  ? { score: mine.score, comment: mine.comment, updatedAt: mine.updatedAt.toISOString() }
+                  : null
+              }
+            />
           </>
         }
       />
@@ -72,6 +95,18 @@ export default async function KpisPage() {
           )}
         </Card>
       </section>
+
+      <Card>
+        <CardHeader
+          title="My self-assessment"
+          action={<Badge tone={mine ? "success" : "neutral"}>{mine ? `${mine.score}%` : "Not done yet"}</Badge>}
+        />
+        <p className="text-secondary px-5 py-4 text-body">
+          {mine
+            ? mine.comment || "No notes added."
+            : `You haven't assessed ${formatMonth(thisMonth)} yet. Use “Start self-assessment” above to tell your manager how it went.`}
+        </p>
+      </Card>
 
       <section className="grid gap-4 xl:grid-cols-2">
         <Card>

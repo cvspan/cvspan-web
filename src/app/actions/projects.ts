@@ -127,7 +127,7 @@ export async function createProject(formData: FormData): Promise<ActionResult> {
   }
 
   if (leadId && leadId !== actor.id) {
-    await notify(leadId, `You were made project manager of ${values.name}`, `/projects/${projectId}`);
+    await notify(leadId, `You were made project manager of ${values.name}`, `/projects/${projectId}`, "projects");
   }
   await logActivity(actor.id, "created a project", values.name);
   if (leadId) {
@@ -265,7 +265,7 @@ export async function addProjectMembers(formData: FormData): Promise<ActionResul
   await Promise.all(
     added
       .filter((id) => id !== actor.id)
-      .map((id) => notify(id, `You were added to ${project.name}`, `/projects/${projectId}`)),
+      .map((id) => notify(id, `You were added to ${project.name}`, `/projects/${projectId}`, "projects")),
   );
   await logActivity(
     actor.id,

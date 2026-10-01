@@ -1,17 +1,19 @@
 import Link from "next/link";
-import { RiDownloadLine, RiNodeTree, RiSearchLine } from "@remixicon/react";
+import { RiDownloadLine, RiNodeTree } from "@remixicon/react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
 import { Table, Td, Thead, Tr } from "@/components/ui/table";
+import { DirectorySearch } from "@/components/forms/directory-search";
 import { InviteMemberButton } from "@/components/forms/people-forms";
 import { getDepartmentSummary, getHeadcountByType, getPeople } from "@/db/queries";
 import { employmentLabels, initials } from "@/lib/format";
 import { roleLabels } from "@/lib/roles";
 import { statusTone } from "@/lib/tone";
 
-export default async function PeoplePage() {
+export default async function PeoplePage({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
+  const { q } = await searchParams;
   const [people, headcount, departments] = await Promise.all([
     getPeople(),
     getHeadcountByType(),
@@ -19,6 +21,18 @@ export default async function PeoplePage() {
   ]);
 
   const byId = new Map(people.map((person) => [person.id, person]));
+
+  /** The directory, narrowed by whatever was typed into the search box. */
+  const needle = (q ?? "").trim().toLowerCase();
+  const matches = needle
+    ? people.filter((person) =>
+        [person.name, person.email, person.jobTitle, person.department, person.status]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase()
+          .includes(needle),
+      )
+    : people;
 
   return (
     <>
@@ -77,15 +91,7 @@ export default async function PeoplePage() {
         <CardHeader
           title="Directory"
           action={
-            <label className="border-line flex h-9 items-center gap-2 rounded-lg border px-2.5">
-              <RiSearchLine size={16} className="text-muted" aria-hidden />
-              <input
-                type="search"
-                placeholder="Search people"
-                aria-label="Search people"
-                className="text-primary placeholder:text-muted w-40 bg-transparent text-caption outline-none"
-              />
-            </label>
+            <DirectorySearch initial={q ?? ""} label="Search people" />
           }
         />
         <Table>
@@ -93,7 +99,7 @@ export default async function PeoplePage() {
             columns={["Member", "Department", "Type", "Access", "Manager", "Started", "Status"]}
           />
           <tbody>
-            {people.map((person) => (
+            {matches.map((person) => (
               <Tr key={person.id}>
                 <Td>
                   <span className="flex items-center gap-2.5">
@@ -129,6 +135,9 @@ export default async function PeoplePage() {
             ))}
           </tbody>
         </Table>
+        {matches.length === 0 ? (
+          <p className="text-muted px-5 py-8 text-center text-body">No one matches “{q}”.</p>
+        ) : null}
       </Card>
     </>
   );

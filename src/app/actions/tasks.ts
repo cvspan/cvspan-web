@@ -94,7 +94,7 @@ export async function createTask(formData: FormData): Promise<ActionResult> {
   });
 
   if (assigneeId !== user.id) {
-    await notify(assigneeId, `${user.name} assigned you “${values.title}”`, "/tasks");
+    await notify(assigneeId, `${user.name} assigned you “${values.title}”`, "/tasks", "tasks");
     await logActivity(user.id, "assigned a task", values.title);
   }
 

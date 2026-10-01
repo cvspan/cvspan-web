@@ -20,7 +20,9 @@ import {
 } from "@/db/queries";
 import { getDepartmentOverview } from "@/db/queries-departments";
 import { getReviewsForUser } from "@/db/queries-reviews";
+import { getSelfAssessments } from "@/db/queries";
 import { EditDatesButton } from "@/components/forms/review-forms";
+import { ManageAccessButton } from "@/components/forms/access-forms";
 import { InternshipCountdown } from "@/components/reviews/internship-countdown";
 import { RatingMeter } from "@/components/reviews/rating-meter";
 import { getProjectsForPerson } from "@/db/queries-projects";
@@ -52,7 +54,7 @@ export default async function PersonPage({ params }: { params: Promise<{ id: str
   const canView = viewer.id === person.id || atLeast(viewer.role, "manager");
   if (!canView) notFound();
 
-  const [tasks, trend, history, attendance, rate, department, projects, reviews] = await Promise.all([
+  const [tasks, trend, history, attendance, rate, department, projects, reviews, selfAssessments] = await Promise.all([
     getTasksFor(person.id),
     getKpiTrend(person.id),
     getKpiHistory(person.id),
@@ -61,6 +63,7 @@ export default async function PersonPage({ params }: { params: Promise<{ id: str
     person.departmentId ? getDepartmentOverview(person.departmentId) : null,
     getProjectsForPerson(person.id),
     getReviewsForUser(person.id, 8),
+    getSelfAssessments(person.id, 3),
   ]);
 
   const internship =
@@ -92,6 +95,15 @@ export default async function PersonPage({ params }: { params: Promise<{ id: str
                 Message
               </Button>
             </form>
+            {atLeast(viewer.role, "admin") && viewer.id !== person.id ? (
+              <ManageAccessButton
+                userId={person.id}
+                name={person.name}
+                role={person.role}
+                status={person.status}
+                canChangeRole={viewer.role === "super_admin"}
+              />
+            ) : null}
             {atLeast(viewer.role, "admin") ? (
               <EditDatesButton
                 userId={person.id}
@@ -244,6 +256,24 @@ export default async function PersonPage({ params }: { params: Promise<{ id: str
       </section>
 
       {internship ? <InternshipCountdown window={internship} name={person.name.split(" ")[0]} /> : null}
+
+      <Card>
+        <CardHeader title="Self-assessment" action={<Badge>{selfAssessments.length} on record</Badge>} />
+        {selfAssessments.length === 0 ? (
+          <p className="text-muted px-5 py-6 text-body">They haven&apos;t submitted a self-assessment yet.</p>
+        ) : (
+          <ul>
+            {selfAssessments.map((entry) => (
+              <li key={entry.id} className="border-line border-b px-5 py-3 last:border-b-0">
+                <p className="text-primary text-body font-semibold">
+                  {formatMonth(entry.periodStart)} {new Date(entry.periodStart).getFullYear()} · {entry.score}%
+                </p>
+                <p className="text-secondary mt-0.5 text-body">{entry.comment || "No notes."}</p>
+              </li>
+            ))}
+          </ul>
+        )}
+      </Card>
 
       <Card>
         <CardHeader title="Weekly reviews" action={<Badge>{reviews.length === 1 ? "1 week" : `${reviews.length} weeks`} graded</Badge>} />
