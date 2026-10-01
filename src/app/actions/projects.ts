@@ -125,7 +125,7 @@ export async function createProject(formData: FormData): Promise<ActionResult> {
   }
 
   if (leadId && leadId !== actor.id) {
-    await notify(leadId, `You were made lead of ${values.name}`, `/projects/${projectId}`);
+    await notify(leadId, `You were made project manager of ${values.name}`, `/projects/${projectId}`);
   }
   await logActivity(actor.id, "created a project", values.name);
   refresh(projectId);
