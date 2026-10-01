@@ -142,6 +142,13 @@ export const FOOTER_LINKS: FooterLink[] = [
                 disabled: false,
                 comingSoon: false,
             },
+            {
+                id: 7,
+                text: 'Portal',
+                link: '/portal',
+                disabled: false,
+                comingSoon: false,
+            },
         ],
     },
 ];

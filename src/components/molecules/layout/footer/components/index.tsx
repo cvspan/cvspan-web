@@ -1,11 +1,20 @@
 import React from 'react';
 import Link from 'next/link';
+
 import Image from 'next/image';
 
 import { Address, THIRD_PARTY_LINK, FooterLink } from '../types';
 import { ADDRESSES, FOOTER_LINKS, THIRD_PARTY_LINKS } from '../data';
 import { cn } from '@/lib/utils';
 import ComingSoonBadge from '@/components/molecules/ComingSoonBadge';
+
+/** The portal is a separate app served under /portal, so it needs a full page load, not client-side routing. */
+const LinkTag = ({ href, ...props }: React.ComponentProps<typeof Link>) =>
+    typeof href === 'string' && href.startsWith('/portal') ? (
+        <a href={href} {...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)} />
+    ) : (
+        <Link href={href} {...props} />
+    );
 
 const FooterOfficeAddress = () => {
     return (
@@ -55,7 +64,7 @@ const FooterPrimaryLinks = () => {
                                                 <span>{subLink.text}</span>
                                             </div>
                                         ) : (
-                                            <Link
+                                            <LinkTag
                                                 href={subLink.link}
                                                 // py/-my pair grows the touch area into the gap between
                                                 // rows without moving anything: the text was only 21px
@@ -65,7 +74,7 @@ const FooterPrimaryLinks = () => {
                                                 )}
                                             >
                                                 {subLink.text}
-                                            </Link>
+                                            </LinkTag>
                                         )}
 
                                         {subLink?.comingSoon ? <ComingSoonBadge /> : null}
