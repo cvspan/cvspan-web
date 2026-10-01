@@ -165,24 +165,56 @@ export function jobPostingSchema({
     path,
     employmentType = 'FULL_TIME',
     datePosted,
+    validThrough,
+    salary,
+    skills,
 }: {
     title: string;
+    /** Plain text or HTML; Google wants the full description, not a teaser. */
     description: string;
     path: string;
     employmentType?: string;
     datePosted: string;
+    /** ISO date after which the role is closed. Lets Google drop the listing on time. */
+    validThrough?: string | null;
+    salary?: {
+        min: number | null;
+        max: number | null;
+        currency: string;
+        period: 'year' | 'month' | 'day' | 'hour';
+    } | null;
+    skills?: string[];
 }) {
+    const unit = salary && { year: 'YEAR', month: 'MONTH', day: 'DAY', hour: 'HOUR' }[salary.period];
+
     return {
         '@type': 'JobPosting',
         '@id': `${absoluteUrl(path)}#job`,
+        url: absoluteUrl(path),
         title,
         description,
         datePosted,
+        ...(validThrough ? { validThrough } : {}),
         employmentType,
         hiringOrganization: { '@id': ORGANIZATION_ID },
         jobLocationType: 'TELECOMMUTE',
         applicantLocationRequirements: { '@type': 'Country', name: 'Worldwide' },
         directApply: true,
+        ...(skills && skills.length > 0 ? { skills: skills.join(', ') } : {}),
+        ...(salary && (salary.min || salary.max)
+            ? {
+                  baseSalary: {
+                      '@type': 'MonetaryAmount',
+                      currency: salary.currency,
+                      value: {
+                          '@type': 'QuantitativeValue',
+                          ...(salary.min ? { minValue: salary.min } : {}),
+                          ...(salary.max ? { maxValue: salary.max } : {}),
+                          unitText: unit,
+                      },
+                  },
+              }
+            : {}),
     };
 }
 

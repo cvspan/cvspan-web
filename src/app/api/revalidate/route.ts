@@ -1,5 +1,6 @@
 import { revalidatePath } from 'next/cache';
 import { timingSafeEqual } from 'node:crypto';
+import { submitToIndexNow } from '@/lib/seo/indexnow';
 
 /**
  * The CVSpan Portal calls this when a post or role is published, edited or closed, so the site shows
@@ -7,6 +8,9 @@ import { timingSafeEqual } from 'node:crypto';
  *
  * Set REVALIDATE_SECRET here and WEBSITE_REVALIDATE_SECRET in the portal to the same value, and the
  * portal's WEBSITE_REVALIDATE_URL to https://cvspan.com/api/revalidate. Body: { "paths": ["/blog/my-post"] }.
+ *
+ * It also refreshes the sitemap and the blog feed, and tells IndexNow (when configured) so search
+ * engines hear about the change straight away.
  */
 export async function POST(request: Request) {
     const secret = process.env.REVALIDATE_SECRET;
@@ -24,5 +28,9 @@ export async function POST(request: Request) {
         : [];
 
     for (const path of paths) revalidatePath(path);
-    return Response.json({ revalidated: paths });
+    revalidatePath('/sitemap.xml');
+    revalidatePath('/blog/rss.xml');
+
+    const indexed = await submitToIndexNow(paths);
+    return Response.json({ revalidated: paths, sitemap: true, indexNow: indexed });
 }

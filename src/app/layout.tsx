@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google';
 import NextTopLoader from 'nextjs-toploader';
 import FullScreenAnimatedLoader from '@/components/molecules/FullScreenAnimatedLoader';
 import { Toaster } from '@/components/ui/sonner';
+import Analytics from '@/components/seo/Analytics';
 import JsonLd from '@/components/seo/JsonLd';
 import {
     DEFAULT_OG_IMAGE,
@@ -80,6 +81,13 @@ export const metadata: Metadata = {
         apple: '/assets/images/logo.svg',
     },
     manifest: '/manifest.webmanifest',
+    // Proves ownership to Search Console and Bing Webmaster Tools; both are optional env values.
+    verification: {
+        google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+        other: process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
+            ? { 'msvalidate.01': process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION }
+            : undefined,
+    },
     formatDetection: { telephone: false, address: false, email: false },
 };
 
@@ -110,6 +118,7 @@ export default function RootLayout({
                 <NextTopLoader color="#0A1EB9" height={3} />
                 {children}
                 <Toaster richColors />
+                <Analytics />
             </body>
         </html>
     );

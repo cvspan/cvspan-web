@@ -25,7 +25,13 @@ export type PortalJob = {
     language: string | null;
     openings: number;
     skills: string[];
-    salary: { display: string } | null;
+    salary: {
+        display: string;
+        min: number | null;
+        max: number | null;
+        currency: string;
+        period: 'year' | 'month' | 'day' | 'hour';
+    } | null;
     postedAt: string | null;
     closingDate: string | null;
     apply: { method: 'portal' | 'email' | 'url'; target: string | null };
@@ -71,15 +77,27 @@ export async function fetchPosts({
     page = 1,
     pageSize = 9,
     category,
-}: { page?: number; pageSize?: number; category?: string } = {}) {
-    const query = new URLSearchParams({ page: String(page), pageSize: String(pageSize) });
-    if (category) query.set('category', category);
+    query,
+}: { page?: number; pageSize?: number; category?: string; query?: string } = {}) {
+    const params = new URLSearchParams({ page: String(page), pageSize: String(pageSize) });
+    if (category) params.set('category', category);
+    if (query) params.set('q', query);
     const data = await get<{
         posts: PortalPost[];
         categories: { name: string; slug: string }[];
         pagination: { page: number; pageSize: number; total: number; pages: number };
-    }>(`/blog?${query}`);
+    }>(`/blog?${params}`);
     return data ?? { posts: [], categories: [], pagination: { page, pageSize, total: 0, pages: 1 } };
+}
+
+/** Every public post, following the API's pages, for the sitemap and the feed. */
+export async function fetchAllPosts() {
+    const first = await fetchPosts({ page: 1, pageSize: 24 });
+    const posts = [...first.posts];
+    for (let page = 2; page <= first.pagination.pages && page <= 50; page++) {
+        posts.push(...(await fetchPosts({ page, pageSize: 24 })).posts);
+    }
+    return posts;
 }
 
 export async function fetchPost(slug: string) {

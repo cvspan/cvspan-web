@@ -97,13 +97,21 @@ const FALLBACK_LISTINGS: Listing[] = [
 
 const FALLBACK_FILTERS = ['Design', 'Development', 'Marketing', 'Business Development', 'Project', 'Management'];
 
-const Openposition = () => {
+export type OpenPositionsData = { jobs: PortalJob[]; departments: PortalDepartment[] };
+
+/** `initial` is fetched on the server so the roles are in the page's HTML; without it the list loads in the browser. */
+const Openposition = ({ initial = null }: { initial?: OpenPositionsData | null }) => {
     const [selected, setSelected] = useState<string>('All');
     /** null while loading; the portal's roles once they arrive; the built-in list if it can't be reached. */
-    const [listings, setListings] = useState<Listing[] | null>(null);
-    const [filters, setFilters] = useState<string[]>(FALLBACK_FILTERS);
+    const [listings, setListings] = useState<Listing[] | null>(initial ? initial.jobs.map(fromPortal) : null);
+    const [filters, setFilters] = useState<string[]>(
+        initial
+            ? initial.departments.filter((department) => (department.openRoles ?? 0) > 0).map((d) => d.name)
+            : FALLBACK_FILTERS,
+    );
 
     useEffect(() => {
+        if (initial) return;
         const controller = new AbortController();
         fetch(`${PORTAL_API_URL}/careers`, { signal: controller.signal })
             .then((response) => {
@@ -118,7 +126,7 @@ const Openposition = () => {
                 if (error?.name !== 'AbortError') setListings(FALLBACK_LISTINGS);
             });
         return () => controller.abort();
-    }, []);
+    }, [initial]);
 
     const buttons = ['All', ...filters];
 

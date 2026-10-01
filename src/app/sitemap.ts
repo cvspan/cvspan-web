@@ -1,99 +1,58 @@
 import type { MetadataRoute } from 'next';
 
+import routes from '@/lib/seo/routes.generated.json';
+import { TEAMS } from '@/components/ui/data';
 import { SITE_URL } from '@/lib/seo/config';
-import { fetchJobs, fetchPosts } from '@/lib/portal';
+import { fetchAllPosts, fetchJobs } from '@/lib/portal';
 
 /**
- * Sitemap.
+ * Sitemap, built from three live sources so nothing has to be listed by hand:
  *
- * Priorities encode the commercial hierarchy: home > service/industry landing
- * pages (the pages that win search traffic) > portfolio > company > legal.
- * Private surfaces (blog auth + dashboard) are deliberately excluded and are
- * also disallowed in robots.ts.
+ *  1. every public page in src/app (scripts/generate-routes.mjs runs before dev and build),
+ *  2. team profiles from the site's own data,
+ *  3. blog posts and open roles from the CVSpan Portal, plus the portal's public sign-in page.
+ *
+ * The portal publishes through /api/revalidate, which also refreshes this file, so a new post or
+ * role appears within seconds; with no ping it is rebuilt at most a minute later.
  */
+export const revalidate = 60;
 
-type Entry = {
-    path: string;
-    priority: number;
-    changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency'];
-    lastModified?: Date;
-};
+type Freq = NonNullable<MetadataRoute.Sitemap[number]['changeFrequency']>;
+type Rule = { match: (path: string) => boolean; priority: number; changeFrequency: Freq };
 
-const SERVICES = [
-    'ui-ux-design',
-    'website-design',
-    'mobile-design',
-    'brand-identity',
-    'graphic-design',
-    'landing-page',
-    'web-development',
-    'webflow-development',
-    'mobile-development',
-    'devops',
+/** First match wins. Priorities encode the commercial hierarchy: services and industries win the search traffic. */
+const RULES: Rule[] = [
+    { match: (p) => p === '/', priority: 1.0, changeFrequency: 'weekly' },
+    { match: (p) => p.startsWith('/services/'), priority: 0.9, changeFrequency: 'monthly' },
+    { match: (p) => p === '/contact' || p === '/our-works', priority: 0.9, changeFrequency: 'monthly' },
+    { match: (p) => p.startsWith('/industries/'), priority: 0.8, changeFrequency: 'monthly' },
+    { match: (p) => p === '/about', priority: 0.8, changeFrequency: 'monthly' },
+    { match: (p) => p.startsWith('/our-works/'), priority: 0.7, changeFrequency: 'monthly' },
+    { match: (p) => p === '/careers' || p === '/blog', priority: 0.7, changeFrequency: 'weekly' },
+    { match: (p) => p === '/careers/open-position', priority: 0.6, changeFrequency: 'daily' },
+    { match: (p) => p.startsWith('/about/'), priority: 0.6, changeFrequency: 'monthly' },
+    { match: (p) => p.startsWith('/legal/'), priority: 0.3, changeFrequency: 'yearly' },
+    { match: () => true, priority: 0.5, changeFrequency: 'monthly' },
 ];
 
-const INDUSTRIES = ['ai-ml', 'fintech', 'healthcare-wellness', 'web3-blockchain', 'saas'];
+const rule = (path: string) => RULES.find((candidate) => candidate.match(path))!;
 
-const CASE_STUDIES = ['courtz', 'neverbare', 'coastal-loans', 'phozio', 'leedeon', 'littlenemo'];
+type Item = { path: string; lastModified?: Date; priority?: number; changeFrequency?: Freq };
 
-const CAREER_ROLES = [
-    'front-end',
-    'graphic-designer',
-    'human-resource',
-    'marketing-manager',
-    'seo-manager',
-    'social-media-manager',
-    'volunteers',
-];
-
-const ENTRIES: Entry[] = [
-    { path: '/', priority: 1.0, changeFrequency: 'weekly' },
-    { path: '/about', priority: 0.8, changeFrequency: 'monthly' },
-    { path: '/about/teams', priority: 0.6, changeFrequency: 'monthly' },
-    { path: '/contact', priority: 0.9, changeFrequency: 'monthly' },
-    { path: '/our-works', priority: 0.9, changeFrequency: 'weekly' },
-    { path: '/careers', priority: 0.7, changeFrequency: 'weekly' },
-    { path: '/careers/open-position', priority: 0.6, changeFrequency: 'weekly' },
-
-    ...SERVICES.map((slug) => ({
-        path: `/services/${slug}`,
-        priority: 0.9,
-        changeFrequency: 'monthly' as const,
-    })),
-    ...INDUSTRIES.map((slug) => ({
-        path: `/industries/${slug}`,
-        priority: 0.8,
-        changeFrequency: 'monthly' as const,
-    })),
-    ...CASE_STUDIES.map((slug) => ({
-        path: `/our-works/${slug}`,
-        priority: 0.7,
-        changeFrequency: 'monthly' as const,
-    })),
-    ...CAREER_ROLES.map((slug) => ({
-        path: `/careers/${slug}`,
-        priority: 0.5,
-        changeFrequency: 'weekly' as const,
-    })),
-
-    { path: '/legal/privacy-policy', priority: 0.3, changeFrequency: 'yearly' },
-    { path: '/legal/terms-of-use', priority: 0.3, changeFrequency: 'yearly' },
-    { path: '/legal/cookie-policy', priority: 0.3, changeFrequency: 'yearly' },
-];
-
-/** Roles and articles published from the CVSpan Portal. If it can't be reached the static pages still list. */
-async function portalEntries(): Promise<Entry[]> {
+/** The portal can be unreachable; the site's own pages must still be listed. */
+async function fromPortal(): Promise<Item[]> {
     try {
-        const [{ jobs }, { posts }] = await Promise.all([fetchJobs(), fetchPosts({ pageSize: 24 })]);
-        const known = new Set(CAREER_ROLES);
+        const [{ jobs }, posts] = await Promise.all([fetchJobs(), fetchAllPosts()]);
         return [
-            ...jobs
-                .filter((job) => !known.has(job.slug))
-                .map((job) => ({ path: `/careers/${job.slug}`, priority: 0.5, changeFrequency: 'weekly' as const })),
-            { path: '/blog', priority: 0.6, changeFrequency: 'weekly' as const },
+            ...jobs.map((job) => ({
+                path: `/careers/${job.slug}`,
+                priority: 0.6,
+                changeFrequency: 'daily' as const,
+                lastModified: new Date(job.postedAt ?? Date.now()),
+            })),
             ...posts.map((post) => ({
                 path: `/blog/${post.slug}`,
-                priority: 0.6,
+                priority: 0.7,
                 changeFrequency: 'monthly' as const,
                 lastModified: new Date(post.updatedAt),
             })),
@@ -104,13 +63,21 @@ async function portalEntries(): Promise<Entry[]> {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const lastModified = new Date();
-    const entries = [...ENTRIES, ...(await portalEntries())];
+    const items: Item[] = [
+        ...routes.map((route) => ({ path: route.path, lastModified: new Date(route.lastModified) })),
+        ...TEAMS.map((team) => ({ path: `/about/teams/${encodeURIComponent(team.id)}` })),
+        // The staff portal's public front door: the only part of it meant to be found in search.
+        { path: '/portal/login', priority: 0.4, changeFrequency: 'yearly' as const },
+        ...(await fromPortal()),
+    ];
 
-    return entries.map((entry) => ({
-        url: `${SITE_URL}${entry.path === '/' ? '' : entry.path}`,
-        lastModified: entry.lastModified ?? lastModified,
-        changeFrequency: entry.changeFrequency,
-        priority: entry.priority,
-    }));
+    const seen = new Set<string>();
+    return items
+        .filter((item) => !seen.has(item.path) && !!seen.add(item.path))
+        .map((item) => ({
+            url: `${SITE_URL}${item.path === '/' ? '' : item.path}`,
+            lastModified: item.lastModified ?? new Date(),
+            changeFrequency: item.changeFrequency ?? rule(item.path).changeFrequency,
+            priority: item.priority ?? rule(item.path).priority,
+        }));
 }

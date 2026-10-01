@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Button from '@/components/molecules/Button';
+import { trackEvent } from '@/lib/analytics';
 import { resumeProblem, submitApplication } from '@/lib/portal';
 
 const fieldClass =
@@ -31,6 +32,8 @@ const ApplyForm = ({ slug, title }: { slug: string; title: string }) => {
             setError(failure);
             setStatus('idle');
         } else {
+            // A finished application is the site's main conversion.
+            trackEvent('generate_lead', { lead_type: 'job_application', job: slug });
             setStatus('sent');
         }
     }

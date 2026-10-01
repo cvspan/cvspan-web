@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils';
 import { PORTAL_API_URL, formatDate, type PortalPost } from '@/lib/portal';
 
 type Category = { name: string; slug: string };
-type Page = { posts: PortalPost[]; categories: Category[]; pagination: { page: number; pages: number } };
+export type BlogPage = { posts: PortalPost[]; categories: Category[]; pagination: { page: number; pages: number } };
 
 const PAGE_SIZE = 9;
 
@@ -17,18 +17,24 @@ const BlogCards = ({
     maximumInRow = '3',
     query = '',
     onClearSearch,
+    initial,
 }: {
     containerClassname?: string;
     maximumInRow?: '3' | '2';
     /** A search term from the blog header; narrows the list. */
     query?: string;
     onClearSearch?: () => void;
+    /**
+     * The first page of results, fetched on the server for the current search. Rendering it in the HTML
+     * is what lets search engines read the articles without running any script.
+     */
+    initial?: BlogPage | null;
 }) => {
-    const [posts, setPosts] = useState<PortalPost[] | null>(null);
-    const [categories, setCategories] = useState<Category[]>([]);
+    const [posts, setPosts] = useState<PortalPost[] | null>(initial?.posts ?? null);
+    const [categories, setCategories] = useState<Category[]>(initial?.categories ?? []);
     const [category, setCategory] = useState<string>('');
-    const [page, setPage] = useState(1);
-    const [pages, setPages] = useState(1);
+    const [page, setPage] = useState(initial?.pagination.page ?? 1);
+    const [pages, setPages] = useState(initial?.pagination.pages ?? 1);
     const [loadingMore, setLoadingMore] = useState(false);
     const [failed, setFailed] = useState(false);
 
@@ -39,10 +45,19 @@ const BlogCards = ({
         if (term) params.set('q', term);
         const response = await fetch(`${PORTAL_API_URL}/blog?${params}`, { signal });
         if (!response.ok) throw new Error(String(response.status));
-        return (await response.json()) as Page;
+        return (await response.json()) as BlogPage;
     }, []);
 
     useEffect(() => {
+        // The unfiltered list for this search arrived with the page; only a category needs a request.
+        if (initial && !category) {
+            setPosts(initial.posts);
+            setPage(initial.pagination.page);
+            setPages(initial.pagination.pages);
+            setFailed(false);
+            return;
+        }
+
         const controller = new AbortController();
         setPosts(null);
         setFailed(false);
@@ -60,7 +75,7 @@ const BlogCards = ({
                 }
             });
         return () => controller.abort();
-    }, [category, query, load]);
+    }, [category, query, load, initial]);
 
     async function loadMore() {
         setLoadingMore(true);

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
+import { trackEvent } from '@/lib/analytics';
 import { cn } from '@/lib/utils';
 
 type Props = { url: string; title: string };
@@ -79,6 +80,7 @@ const ShareBar = ({ url, title }: Props) => {
     async function copy() {
         try {
             await navigator.clipboard.writeText(url);
+            trackEvent('share', { method: 'Copy link', content_type: 'article', item_id: url });
             setCopied(true);
             clearTimeout(timer.current);
             timer.current = setTimeout(() => setCopied(false), 2000);
@@ -97,6 +99,7 @@ const ShareBar = ({ url, title }: Props) => {
                     rel="noopener noreferrer"
                     aria-label={`Share on ${target.name}`}
                     title={`Share on ${target.name}`}
+                    onClick={() => trackEvent('share', { method: target.name, content_type: 'article', item_id: url })}
                     className={buttonClass}
                 >
                     {target.icon}

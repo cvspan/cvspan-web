@@ -1,21 +1,39 @@
-'use client';
-import Openposition from '@/components/molecules/Openpositions/Openposition';
-import Positionslanding from '@/components/molecules/Positionslanding/Positionslanding';
 import React from 'react';
-import Navbar from '@/components/molecules/layout/navbar';
-import Footer from '@/components/molecules/layout/footer';
-import PerksAndBenefits from '@/components/molecules/perksAndBenefits';
+import OpenPositionPage from '@/components/pages/careers/open-position';
+import JsonLd from '@/components/seo/JsonLd';
+import { fetchJobs } from '@/lib/portal';
+import { absoluteUrl } from '@/lib/seo/config';
+import { buildGraph } from '@/lib/seo/structured-data';
 
-const page = () => {
+/** Roles are opened in the CVSpan Portal; the list is rendered on the server and refreshed every minute. */
+export const revalidate = 60;
+
+export default async function Page() {
+    let initial = null;
+    try {
+        initial = await fetchJobs();
+    } catch {
+        /* the client falls back to its built-in list */
+    }
+
     return (
         <>
-            <Navbar />
-            <Positionslanding />
-            <Openposition />
-            <PerksAndBenefits />
-            <Footer />
+            {initial && initial.jobs.length > 0 ? (
+                <JsonLd
+                    data={buildGraph([
+                        {
+                            '@type': 'ItemList',
+                            itemListElement: initial.jobs.map((job, index) => ({
+                                '@type': 'ListItem',
+                                position: index + 1,
+                                url: absoluteUrl(`/careers/${job.slug}`),
+                                name: job.title,
+                            })),
+                        },
+                    ])}
+                />
+            ) : null}
+            <OpenPositionPage initial={initial} />
         </>
     );
-};
-
-export default page;
+}

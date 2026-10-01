@@ -64,10 +64,13 @@ export default async function PortalJobPage({ params }: Params) {
         ]),
         jobPostingSchema({
             title: job.title,
-            description: job.summary ?? job.title,
+            description: job.descriptionHtml || job.summary || job.title,
             path,
             employmentType: EMPLOYMENT_TYPES[job.employmentType],
             datePosted: (job.postedAt ?? new Date().toISOString()).slice(0, 10),
+            validThrough: job.closingDate,
+            skills: job.skills,
+            salary: job.salary,
         }),
     ]);
 

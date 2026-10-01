@@ -10,7 +10,8 @@ import JsonLd from '@/components/seo/JsonLd';
 import { SITE_NAME, absoluteUrl } from '@/lib/seo/config';
 import { buildMetadata } from '@/lib/seo/metadata';
 import { breadcrumbSchema, buildGraph } from '@/lib/seo/structured-data';
-import { fetchPost } from '@/lib/portal';
+import RelatedPosts from '@/components/molecules/blogComponents/RelatedPosts';
+import { fetchPost, fetchPosts } from '@/lib/portal';
 
 /** Posts are written and published in the CVSpan Portal; each page refreshes at most once a minute. */
 export const revalidate = 60;
@@ -49,6 +50,10 @@ export default async function BlogPostPage({ params }: Params) {
     const post = await loadPost(params.slug);
     if (!post) notFound();
 
+    const related = await fetchPosts({ pageSize: 4 })
+        .then((data) => data.posts.filter((item) => item.slug !== post.slug).slice(0, 3))
+        .catch(() => []);
+
     const path = `/blog/${post.slug}`;
     const graph = buildGraph([
         breadcrumbSchema([
@@ -75,6 +80,7 @@ export default async function BlogPostPage({ params }: Params) {
             <Navbar light />
             <BlogPostLanding post={post} />
             <BlogPostSummary post={post} shareUrl={absoluteUrl(path)} />
+            <RelatedPosts posts={related} />
             <CTA_MissAnything />
             <Footer />
         </>
