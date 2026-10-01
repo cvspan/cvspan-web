@@ -5,7 +5,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 
 import { cn } from '@/lib/utils';
-import { PORTAL_API_URL, type PortalPost } from '@/lib/portal';
+import { PORTAL_API_URL, formatDate, type PortalPost } from '@/lib/portal';
 
 type Category = { name: string; slug: string };
 type Page = { posts: PortalPost[]; categories: Category[]; pagination: { page: number; pages: number } };
@@ -15,9 +15,14 @@ const PAGE_SIZE = 9;
 const BlogCards = ({
     containerClassname = '',
     maximumInRow = '3',
+    query = '',
+    onClearSearch,
 }: {
     containerClassname?: string;
     maximumInRow?: '3' | '2';
+    /** A search term from the blog header; narrows the list. */
+    query?: string;
+    onClearSearch?: () => void;
 }) => {
     const [posts, setPosts] = useState<PortalPost[] | null>(null);
     const [categories, setCategories] = useState<Category[]>([]);
@@ -28,10 +33,11 @@ const BlogCards = ({
     const [failed, setFailed] = useState(false);
 
     /** Posts come from the CVSpan Portal, where the team writes and publishes them. */
-    const load = useCallback(async (nextPage: number, nextCategory: string, signal?: AbortSignal) => {
-        const query = new URLSearchParams({ page: String(nextPage), pageSize: String(PAGE_SIZE) });
-        if (nextCategory) query.set('category', nextCategory);
-        const response = await fetch(`${PORTAL_API_URL}/blog?${query}`, { signal });
+    const load = useCallback(async (nextPage: number, nextCategory: string, term: string, signal?: AbortSignal) => {
+        const params = new URLSearchParams({ page: String(nextPage), pageSize: String(PAGE_SIZE) });
+        if (nextCategory) params.set('category', nextCategory);
+        if (term) params.set('q', term);
+        const response = await fetch(`${PORTAL_API_URL}/blog?${params}`, { signal });
         if (!response.ok) throw new Error(String(response.status));
         return (await response.json()) as Page;
     }, []);
@@ -40,7 +46,7 @@ const BlogCards = ({
         const controller = new AbortController();
         setPosts(null);
         setFailed(false);
-        load(1, category, controller.signal)
+        load(1, category, query, controller.signal)
             .then((data) => {
                 setPosts(data.posts);
                 setCategories(data.categories);
@@ -54,12 +60,12 @@ const BlogCards = ({
                 }
             });
         return () => controller.abort();
-    }, [category, load]);
+    }, [category, query, load]);
 
     async function loadMore() {
         setLoadingMore(true);
         try {
-            const data = await load(page + 1, category);
+            const data = await load(page + 1, category, query);
             setPosts((current) => [...(current ?? []), ...data.posts]);
             setPage(data.pagination.page);
             setPages(data.pagination.pages);
@@ -72,14 +78,14 @@ const BlogCards = ({
 
     const grid =
         maximumInRow === '3'
-            ? 'grid grid-cols-1 gap-[24px] md:grid-cols-2 lg:grid-cols-3'
-            : 'grid grid-cols-1 gap-[24px] md:grid-cols-2';
+            ? 'grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3'
+            : 'grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2';
 
     return (
-        <div className={cn('px-5 py-[60px] lg:py-[120px]', containerClassname)}>
+        <section className={cn('bg-white px-4 py-10 lg:py-16', containerClassname)}>
             <div className="mx-auto w-full max-w-[1200px]">
                 {categories.length > 0 && (
-                    <div className="mb-[40px] flex flex-wrap gap-[12px]" role="group" aria-label="Filter by category">
+                    <div className="mb-8 flex flex-wrap gap-2" role="group" aria-label="Filter by category">
                         {[{ name: 'All', slug: '' }, ...categories].map((item) => (
                             <button
                                 key={item.slug || 'all'}
@@ -87,10 +93,10 @@ const BlogCards = ({
                                 onClick={() => setCategory(item.slug)}
                                 aria-pressed={category === item.slug}
                                 className={cn(
-                                    'rounded-[100px] border-[1px] px-[16px] py-[8px] font-eudoxus text-[16px] font-medium transition',
+                                    'h-8 rounded-full border px-3 font-eudoxus text-[14px] font-medium transition-colors',
                                     category === item.slug
-                                        ? 'border-[#050505] bg-[#050505] text-white'
-                                        : 'border-[#1A1A1A] bg-white text-[#1A1A1A] hover:bg-[#F4F4F4]',
+                                        ? 'border-[#1A1A1A] bg-[#1A1A1A] text-white'
+                                        : 'border-[#D1D1D1] bg-white text-[#484848] hover:border-[#1A1A1A] hover:text-[#1A1A1A]',
                                 )}
                             >
                                 {item.name}
@@ -99,23 +105,43 @@ const BlogCards = ({
                     </div>
                 )}
 
+                {query && (
+                    <p className="mb-6 flex flex-wrap items-center gap-2 font-eudoxus text-[14px] leading-[20px] text-[#484848]">
+                        <span>
+                            Results for <strong className="font-medium text-[#1A1A1A]">&ldquo;{query}&rdquo;</strong>
+                        </span>
+                        {onClearSearch && (
+                            <button
+                                type="button"
+                                onClick={onClearSearch}
+                                className="font-medium text-[#1A1AFF] hover:underline"
+                            >
+                                Clear search
+                            </button>
+                        )}
+                    </p>
+                )}
+
                 {posts === null && (
                     <div className={grid} aria-busy="true" aria-label="Loading articles">
                         {[0, 1, 2].map((item) => (
                             <div key={item} className="animate-pulse">
-                                <div className="mb-5 h-[220px] w-full bg-[#F4F4F4]" />
-                                <div className="mb-3 h-[20px] w-1/3 rounded bg-[#F4F4F4]" />
-                                <div className="h-[34px] w-full rounded bg-[#F4F4F4]" />
+                                <div className="aspect-[3/2] w-full rounded-lg bg-[#F4F4F4]" />
+                                <div className="mt-4 h-4 w-1/3 rounded bg-[#F4F4F4]" />
+                                <div className="mt-3 h-6 w-full rounded bg-[#F4F4F4]" />
+                                <div className="mt-2 h-6 w-2/3 rounded bg-[#F4F4F4]" />
                             </div>
                         ))}
                     </div>
                 )}
 
                 {posts !== null && posts.length === 0 && (
-                    <p className="font-eudoxus text-[16px] text-[#484848]">
+                    <p className="font-eudoxus text-[16px] leading-[24px] text-[#484848]">
                         {failed
                             ? 'We could not load the articles right now. Please try again shortly.'
-                            : 'No articles here yet. Check back soon.'}
+                            : query
+                              ? 'No articles match that search.'
+                              : 'No articles here yet. Check back soon.'}
                     </p>
                 )}
 
@@ -128,19 +154,19 @@ const BlogCards = ({
                 )}
 
                 {page < pages && (
-                    <div className="mt-[40px] flex justify-center">
+                    <div className="mt-10 flex justify-center">
                         <button
                             type="button"
                             onClick={loadMore}
                             disabled={loadingMore}
-                            className="rounded-[100px] border-[1px] border-[#1A1A1A] px-[32px] py-[16px] font-eudoxus text-[16px] font-medium text-[#1A1A1A] transition hover:bg-[#050505] hover:text-white disabled:opacity-60"
+                            className="h-10 rounded-full border border-[#1A1A1A] px-6 font-eudoxus text-[14px] font-medium text-[#1A1A1A] transition-colors hover:bg-[#1A1A1A] hover:text-white disabled:opacity-60"
                         >
                             {loadingMore ? 'Loading…' : 'Load more articles'}
                         </button>
                     </div>
                 )}
             </div>
-        </div>
+        </section>
     );
 };
 
@@ -148,42 +174,50 @@ export default BlogCards;
 
 const BlogCard = ({ post }: { post: PortalPost }) => {
     return (
-        <Link className="mb-8 w-full md:mx-0 md:mb-16" href={`/blog/${post.slug}`}>
-            <div className="group overflow-hidden">
-                <div className="mb-5 h-[220px] w-full overflow-hidden bg-[#F4F4F4]">
-                    {post.coverImageUrl && (
-                        <img
-                            src={post.coverImageUrl}
-                            alt={post.coverAlt ?? post.title}
-                            loading="lazy"
-                            className="h-full w-full scale-105 object-cover transition duration-300 ease-in-out group-hover:scale-100"
-                        />
-                    )}
-                </div>
-                <div className="mb-5 flex items-center gap-5">
-                    <p className="rounded-[20px] bg-[#F4F4F4] p-2 font-eudoxus text-[14px] font-medium">
-                        {post.category?.name ?? 'Article'}
-                    </p>
-                    <p className="font-eudoxus text-[14px] font-[400] leading-[22px] text-[#1A1A1A]">
-                        {post.readingMinutes} min read
-                    </p>
-                </div>
+        <Link href={`/blog/${post.slug}`} className="group flex flex-col">
+            <div className="aspect-[3/2] w-full overflow-hidden rounded-lg bg-[#F4F4F4]">
+                {post.coverImageUrl && (
+                    <img
+                        src={post.coverImageUrl}
+                        alt={post.coverAlt ?? ''}
+                        loading="lazy"
+                        className="size-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                )}
+            </div>
 
-                <h2 className="mb-5 font-eudoxus text-[24px] font-medium leading-[32px] text-[#1A1A1A] group-hover:text-[#1A1AFF] md:text-[20px] md:leading-[28px] lg:text-[34px] lg:leading-[42px]">
-                    {post.title}
-                </h2>
+            <div className="mt-4 flex items-center gap-2 font-eudoxus text-[12px] leading-[16px] text-[#484848]">
+                <span className="rounded-full bg-[#F4F4F4] px-2 py-1 font-medium text-[#1A1A1A]">
+                    {post.category?.name ?? 'Article'}
+                </span>
+                <span aria-hidden>·</span>
+                <span>{post.readingMinutes} min read</span>
+            </div>
 
+            <h2 className="mt-2 line-clamp-2 font-eudoxus text-[20px] font-medium leading-[28px] text-[#1A1A1A] transition-colors group-hover:text-[#1A1AFF]">
+                {post.title}
+            </h2>
+
+            {post.excerpt && (
+                <p className="mt-2 line-clamp-2 font-eudoxus text-[14px] leading-[20px] text-[#484848]">
+                    {post.excerpt}
+                </p>
+            )}
+
+            <div className="mt-4 flex items-center gap-2 font-eudoxus text-[12px] leading-[16px] text-[#484848]">
                 {post.author && (
-                    <div className="flex items-center gap-3">
-                        <div
+                    <>
+                        <span
                             aria-hidden
-                            className="flex h-[48px] w-[48px] items-center justify-center rounded-full bg-[#D9D9D9] font-eudoxus text-[16px] font-medium text-[#1A1A1A]"
+                            className="flex size-6 items-center justify-center rounded-full bg-[#E8E8E8] font-medium text-[#1A1A1A]"
                         >
                             {post.author.charAt(0)}
-                        </div>
-                        <span className="font-eudoxus text-[16px] font-[400] leading-5">{post.author}</span>
-                    </div>
+                        </span>
+                        <span className="font-medium text-[#1A1A1A]">{post.author}</span>
+                        <span aria-hidden>·</span>
+                    </>
                 )}
+                <time dateTime={post.publishedAt}>{formatDate(post.publishedAt)}</time>
             </div>
         </Link>
     );

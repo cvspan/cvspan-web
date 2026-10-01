@@ -87,21 +87,24 @@ export async function fetchPost(slug: string) {
     return data?.post ?? null;
 }
 
-export type ApplicationInput = {
-    name: string;
-    email: string;
-    message?: string;
-    portfolioUrl?: string;
-    website?: string;
-};
+export const MAX_RESUME_BYTES = 4 * 1024 * 1024;
+export const RESUME_EXTENSIONS = ['pdf', 'doc', 'docx'];
 
-/** Sends an application. Resolves with an error message to show, or null on success. */
-export async function submitApplication(slug: string, input: ApplicationInput): Promise<string | null> {
+/** Checked in the browser for quick feedback; the portal checks again on its side. */
+export function resumeProblem(file: File | null): string | null {
+    if (!file || file.size === 0) return 'Attach your resume as a PDF, DOC or DOCX file.';
+    const extension = file.name.split('.').pop()?.toLowerCase() ?? '';
+    if (!RESUME_EXTENSIONS.includes(extension)) return 'Your resume must be a PDF, DOC or DOCX file.';
+    if (file.size > MAX_RESUME_BYTES) return 'Your resume must be 4 MB or smaller.';
+    return null;
+}
+
+/** Sends an application as a form (the resume travels as a file). Resolves with an error message, or null on success. */
+export async function submitApplication(slug: string, form: FormData): Promise<string | null> {
     try {
         const response = await fetch(`${PORTAL_API_URL}/careers/${encodeURIComponent(slug)}/apply`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(input),
+            body: form,
         });
         if (response.ok) return null;
         const body = (await response.json().catch(() => null)) as { error?: string } | null;

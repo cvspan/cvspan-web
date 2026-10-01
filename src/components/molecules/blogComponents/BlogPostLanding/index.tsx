@@ -1,58 +1,59 @@
 import React from 'react';
 import { formatDate, type PortalPostDetail } from '@/lib/portal';
 
+/** Article header: category and reading time, title, summary, byline, then the cover image. */
 const BlogPostLanding = ({ post }: { post: PortalPostDetail }) => {
     return (
-        <div>
-            <div className="px-4 pt-10 md:px-6 lg:px-8">
-                <div className="mx-auto mt-[100px] w-full max-w-[1200px]">
-                    <div>
-                        <h1 className="xs:text-[30px] xs:font-[500] font-pp-mori text-[clamp(34px,calc(60/1200*100vw),60px)] font-[600] leading-tight">
-                            {post.title}
-                        </h1>
+        <header className="bg-white px-4 pt-28 lg:pt-36">
+            {/* 72px = the 40px share rail + 32px gap in the body below, so title and text share one left edge. */}
+            <div className="mx-auto w-full max-w-[816px] lg:pl-[72px]">
+                <div className="flex items-center gap-2 font-eudoxus text-[12px] leading-[16px] text-[#484848]">
+                    <span className="rounded-full bg-[#F4F4F4] px-2 py-1 font-medium text-[#1A1A1A]">
+                        {post.category?.name ?? 'Article'}
+                    </span>
+                    <span aria-hidden>·</span>
+                    <span>{post.readingMinutes} min read</span>
+                </div>
 
-                        <div className="mt-6 flex flex-col gap-6 lg:flex-row lg:items-center">
-                            {post.author && (
-                                <div className="flex items-center gap-3">
-                                    <div
-                                        aria-hidden
-                                        className="flex h-12 w-12 items-center justify-center rounded-full bg-[#D9D9D9] font-eudoxus text-base font-medium text-[#1A1A1A]"
-                                    >
-                                        {post.author.charAt(0)}
-                                    </div>
-                                    {/* Author byline, not a page heading — the post title above is the <h1>. */}
-                                    <span className="font-eudoxus text-sm font-[400] leading-5 md:text-base">
-                                        {post.author}
-                                    </span>
-                                </div>
-                            )}
-                            <div className="flex flex-wrap items-center gap-3 md:gap-5">
-                                <p className="rounded-[20px] bg-[#F4F4F4] p-2 font-eudoxus text-xs font-medium md:text-sm">
-                                    {post.category?.name ?? 'Article'}
-                                </p>
-                                <p className="font-eudoxus text-xs font-[400] leading-[22px] text-[#1A1A1A] md:text-sm">
-                                    {post.readingMinutes} min read
-                                </p>
-                                <time
-                                    dateTime={post.publishedAt}
-                                    className="font-eudoxus text-xs font-[400] leading-[22px] text-[#484848] md:text-sm"
-                                >
-                                    {formatDate(post.publishedAt)}
-                                </time>
-                            </div>
-                        </div>
-                    </div>
+                <h1 className="mt-4 font-pp-mori text-[32px] font-semibold leading-[40px] text-[#1A1A1A] lg:text-[48px] lg:leading-[56px]">
+                    {post.title}
+                </h1>
+
+                {post.excerpt && (
+                    <p className="mt-4 font-eudoxus text-[18px] leading-[28px] text-[#484848]">{post.excerpt}</p>
+                )}
+
+                <div className="mt-6 flex items-center gap-3 font-eudoxus text-[14px] leading-[20px]">
+                    {post.author && (
+                        <>
+                            <span
+                                aria-hidden
+                                className="flex size-8 items-center justify-center rounded-full bg-[#E8E8E8] text-[14px] font-medium text-[#1A1A1A]"
+                            >
+                                {post.author.charAt(0)}
+                            </span>
+                            <span className="font-medium text-[#1A1A1A]">{post.author}</span>
+                            <span aria-hidden className="text-[#8A8A8A]">
+                                ·
+                            </span>
+                        </>
+                    )}
+                    <time dateTime={post.publishedAt} className="text-[#484848]">
+                        {formatDate(post.publishedAt)}
+                    </time>
                 </div>
             </div>
 
             {post.coverImageUrl && (
-                <img
-                    src={post.coverImageUrl}
-                    alt={post.coverAlt ?? ''}
-                    className="mt-[60px] h-auto w-full overflow-hidden object-cover sm:h-[208px] lg:h-[377px]"
-                />
+                <div className="mx-auto mt-8 w-full max-w-[960px] overflow-hidden rounded-xl bg-[#F4F4F4] lg:mt-10">
+                    <img
+                        src={post.coverImageUrl}
+                        alt={post.coverAlt ?? ''}
+                        className="aspect-[2/1] size-full object-cover"
+                    />
+                </div>
             )}
-        </div>
+        </header>
     );
 };
 

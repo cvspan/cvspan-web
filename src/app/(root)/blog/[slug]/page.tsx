@@ -74,7 +74,7 @@ export default async function BlogPostPage({ params }: Params) {
             <JsonLd data={graph} />
             <Navbar light />
             <BlogPostLanding post={post} />
-            <BlogPostSummary post={post} />
+            <BlogPostSummary post={post} shareUrl={absoluteUrl(path)} />
             <CTA_MissAnything />
             <Footer />
         </>
