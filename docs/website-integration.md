@@ -73,7 +73,7 @@ Base: `/portal/api/public/v1`. All responses are JSON. GETs are cached by a CDN 
 }
 ```
 
-`pageSize` is capped at 24. `q` matches the title or excerpt.
+`pageSize` is capped at 24. `q` matches the title, excerpt, article text, tags, category and author.
 
 ### `GET /blog/:slug`
 

@@ -47,11 +47,13 @@ export async function getPublicPosts({
   tag?: string;
   search?: string;
 }) {
-  /** Matches the title or excerpt; %, _ and backslashes are escaped so they search as plain characters. */
+  /** Matches the title, excerpt, text, tags, category or author; %, _ and backslashes are escaped so they search as plain characters. */
   const pattern = search ? `%${search.replace(/[\\%_]/g, "\\$&")}%` : null;
   const where = and(
     postIsPublic,
-    pattern ? sql`(${blogPosts.title} ilike ${pattern} or ${blogPosts.excerpt} ilike ${pattern})` : undefined,
+    pattern
+      ? sql`(${blogPosts.title} ilike ${pattern} or ${blogPosts.excerpt} ilike ${pattern} or ${blogPosts.body} ilike ${pattern} or array_to_string(${blogPosts.tags}, ' ') ilike ${pattern} or ${categories.name} ilike ${pattern} or ${users.name} ilike ${pattern})`
+      : undefined,
     category ? eq(categories.slug, category) : undefined,
     tag ? sql`${tag} = any(${blogPosts.tags})` : undefined,
   );
@@ -70,6 +72,7 @@ export async function getPublicPosts({
       .select({ total: count() })
       .from(blogPosts)
       .leftJoin(categories, eq(blogPosts.categoryId, categories.id))
+      .leftJoin(users, eq(blogPosts.authorId, users.id))
       .where(where),
   ]);
 
