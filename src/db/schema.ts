@@ -5,6 +5,7 @@ import {
   check,
   customType,
   date,
+  doublePrecision,
   index,
   integer,
   jsonb,
@@ -298,6 +299,8 @@ export const tasks = pgTable(
     teamId: uuid("team_id").references(() => teams.id, { onDelete: "set null" }),
     status: taskStatusEnum("status").default("todo").notNull(),
     priority: taskPriorityEnum("priority").default("normal").notNull(),
+    /** Order within a board column: lower is higher up. New tasks take the current time, so they land at the bottom. */
+    position: doublePrecision("position").default(0).notNull(),
     dueAt: timestamp("due_at", { withTimezone: true }),
     completedAt: timestamp("completed_at", { withTimezone: true }),
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),

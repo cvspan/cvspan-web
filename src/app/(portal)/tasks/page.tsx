@@ -8,7 +8,8 @@ import { PageHeader } from "@/components/ui/page-header";
 import { Table, Td, Thead, Tr } from "@/components/ui/table";
 import { DeleteTaskButton, NewTaskButton, TaskCheckbox } from "@/components/forms/task-forms";
 import { TaskFilter } from "@/components/forms/task-filter";
-import { getAllTasks, getDirectReports, getPeople, getTasksFor, getTasksForTeam } from "@/db/queries";
+import { TaskBoard } from "@/components/tasks/task-board";
+import { getAllTasks, getBoardTasks, getDirectReports, getPeople, getTasksFor, getTasksForTeam } from "@/db/queries";
 import { getProjectOptions } from "@/db/queries-projects";
 import { formatDay, initials, relativeDays, taskStatusLabels } from "@/lib/format";
 import { atLeast } from "@/lib/roles";
@@ -20,10 +21,66 @@ const priorityTone: Record<string, Tone> = { high: "error", normal: "neutral", l
 export default async function TasksPage({
   searchParams,
 }: {
-  searchParams: Promise<{ status?: string }>;
+  searchParams: Promise<{ status?: string; view?: string }>;
 }) {
   const user = await requireUser();
-  const { status: statusFilter } = await searchParams;
+  const { status: statusFilter, view } = await searchParams;
+  const listView = view === "list";
+
+  const isManager = atLeast(user.viewRole, "manager");
+
+  if (!listView) {
+    /** Admins see everyone's tasks, managers their own and their team's, members their own. */
+    const reports = isManager && !atLeast(user.viewRole, "admin") ? await getDirectReports(user.id) : [];
+    const rows = await getBoardTasks(
+      atLeast(user.viewRole, "admin") ? null : [user.id, ...reports.map((report) => report.id)],
+    );
+    const boardProjects = await getProjectOptions(atLeast(user.viewRole, "admin") ? undefined : user.id);
+    const boardPeople = atLeast(user.viewRole, "admin")
+      ? (await getPeople()).map((person) => ({ id: person.id, name: person.name }))
+      : isManager
+        ? [{ id: user.id, name: `${user.name} (me)` }, ...reports.map((report) => ({ id: report.id, name: report.name }))]
+        : [];
+
+    return (
+      <>
+        <PageHeader
+          pretitle="Work"
+          title="Tasks"
+          actions={
+            <>
+              <ViewToggle active="board" />
+              {isManager ? (
+                <a href={withBasePath("/api/export/tasks")} download>
+                  <Button variant="secondary" type="button">
+                    <RiDownloadLine size={18} aria-hidden />
+                    Export
+                  </Button>
+                </a>
+              ) : null}
+              {isManager ? (
+                <NewTaskButton people={boardPeople} projects={boardProjects} defaultAssigneeId={user.id} />
+              ) : null}
+            </>
+          }
+        />
+
+        <TaskBoard
+          tasks={rows.map((row) => ({
+            ...row,
+            dueAt: row.dueAt?.toISOString() ?? null,
+            completedAt: row.completedAt?.toISOString() ?? null,
+          }))}
+          people={boardPeople}
+          projects={boardProjects}
+          userId={user.id}
+          canCreate={isManager}
+          canEdit={isManager}
+          canMoveAll={isManager}
+        />
+      </>
+    );
+  }
 
   const tasks = atLeast(user.viewRole, "admin")
     ? await getAllTasks()
@@ -78,6 +135,7 @@ export default async function TasksPage({
         title="Tasks"
         actions={
           <>
+            <ViewToggle active="list" />
             <TaskFilter value={statusFilter ?? "all"} />
             {atLeast(user.viewRole, "manager") ? (
               <a href={withBasePath("/api/export/tasks")} download>
@@ -172,5 +230,31 @@ export default async function TasksPage({
         </Table>
       </Card>
     </>
+  );
+}
+
+
+/** Board and list are two views of the same tasks; the choice lives in the address. */
+function ViewToggle({ active }: { active: "board" | "list" }) {
+  return (
+    <nav aria-label="Task view" className="border-line bg-card flex rounded-lg border p-0.5">
+      {(
+        [
+          { key: "board", label: "Board", href: "/tasks" },
+          { key: "list", label: "List", href: "/tasks?view=list" },
+        ] as const
+      ).map((item) => (
+        <Link
+          key={item.key}
+          href={item.href}
+          aria-current={active === item.key ? "page" : undefined}
+          className={`rounded-md px-3 py-1.5 text-body font-semibold transition-colors ${
+            active === item.key ? "bg-accent-soft text-accent" : "text-muted hover:text-primary"
+          }`}
+        >
+          {item.label}
+        </Link>
+      ))}
+    </nav>
   );
 }

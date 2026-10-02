@@ -157,6 +157,38 @@ export async function getAllTasks() {
     .orderBy(asc(tasks.dueAt));
 }
 
+/**
+ * Everything the task board needs for a set of people, or for everyone when `assigneeIds` is null.
+ * One row per task, with the assignee and project already joined.
+ */
+export async function getBoardTasks(assigneeIds: string[] | null) {
+  if (assigneeIds && assigneeIds.length === 0) return [];
+
+  return db
+    .select({
+      id: tasks.id,
+      title: tasks.title,
+      description: tasks.description,
+      status: tasks.status,
+      priority: tasks.priority,
+      position: tasks.position,
+      dueAt: tasks.dueAt,
+      completedAt: tasks.completedAt,
+      createdAt: tasks.createdAt,
+      assigneeId: tasks.assigneeId,
+      assigneeName: users.name,
+      assigneeAvatar: users.avatarUrl,
+      projectId: tasks.projectId,
+      projectName: projects.name,
+      projectCode: projects.code,
+    })
+    .from(tasks)
+    .leftJoin(users, eq(tasks.assigneeId, users.id))
+    .leftJoin(projects, eq(tasks.projectId, projects.id))
+    .where(assigneeIds ? inArray(tasks.assigneeId, assigneeIds) : undefined)
+    .orderBy(asc(tasks.position));
+}
+
 export async function getTasksForTeam(managerId: string) {
   const reports = await getDirectReports(managerId);
   const ids = reports.map((report) => report.id);

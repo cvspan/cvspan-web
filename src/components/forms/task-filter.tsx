@@ -23,7 +23,7 @@ export function TaskFilter({ value }: { value: string }) {
         value={value}
         onChange={(event) => {
           const next = event.target.value;
-          router.push(next === "all" ? "/tasks" : `/tasks?status=${next}`);
+          router.push(next === "all" ? "/tasks?view=list" : `/tasks?view=list&status=${next}`);
         }}
         className="cursor-pointer bg-transparent outline-none"
       >
