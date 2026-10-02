@@ -1,15 +1,44 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ANIMATE_PROPS } from '@/helpers/motion';
 
 /** Compact blog header: a title, one line of context and a search box that filters the list below. */
-const Bloglanding = ({ query = '', onSearch }: { query?: string; onSearch: (query: string) => void }) => {
-    const [value, setValue] = useState(query);
+const SEARCH_DELAY_MS = 350;
 
-    // Keep the box in step with the address (back button, "clear search").
-    useEffect(() => setValue(query), [query]);
+const Bloglanding = ({
+    query = '',
+    onSearch,
+    searching = false,
+}: {
+    query?: string;
+    /** `live` is true while typing (results follow along without adding history entries). */
+    onSearch: (query: string, live?: boolean) => void;
+    searching?: boolean;
+}) => {
+    const [value, setValue] = useState(query);
+    /** The last term sent, so the results arriving for it don't overwrite what has been typed since. */
+    const lastSent = useRef(query);
+
+    // Keep the box in step with the address when it changes from elsewhere (back button, "clear search").
+    useEffect(() => {
+        if (query !== lastSent.current) {
+            lastSent.current = query;
+            setValue(query);
+        }
+    }, [query]);
+
+    // Search as you type, a moment after you pause.
+    useEffect(() => {
+        const term = value.trim();
+        if (term === lastSent.current) return;
+        const timer = setTimeout(() => {
+            lastSent.current = term;
+            onSearch(term, true);
+        }, SEARCH_DELAY_MS);
+        return () => clearTimeout(timer);
+    }, [value, onSearch]);
 
     return (
         <div className="relative overflow-hidden bg-[#0c0c0c]">
@@ -36,7 +65,9 @@ const Bloglanding = ({ query = '', onSearch }: { query?: string; onSearch: (quer
                     {...ANIMATE_PROPS({ delay: 0.1 })}
                     role="search"
                     onSubmit={(event) => {
+                        // Enter or the button searches straight away, without waiting for the pause.
                         event.preventDefault();
+                        lastSent.current = value.trim();
                         onSearch(value.trim());
                     }}
                     className="flex w-full max-w-[560px] items-center gap-2 rounded-full border border-[#3A3A3A] bg-[#1A1A1A] p-1 focus-within:border-[#6B6BFF]"
@@ -54,6 +85,7 @@ const Bloglanding = ({ query = '', onSearch }: { query?: string; onSearch: (quer
                     />
                     <button
                         type="submit"
+                        aria-busy={searching}
                         className="h-10 shrink-0 rounded-full bg-[#1A1AFF] px-5 font-eudoxus text-[14px] font-medium text-white transition hover:opacity-80"
                     >
                         Search

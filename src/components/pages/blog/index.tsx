@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useCallback, useTransition } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { trackEvent } from '@/lib/analytics';
 import Bloglanding from '@/components/molecules/blogComponents/Bloglanding/Bloglanding';
@@ -15,17 +15,27 @@ import BlogCards, { type BlogPage as BlogData } from '@/components/molecules/blo
 const BlogList = ({ query, initial }: { query: string; initial: BlogData | null }) => {
     const router = useRouter();
     const pathname = usePathname();
+    const [pending, startTransition] = useTransition();
 
-    const search = (term: string) => {
-        if (term) trackEvent('search', { search_term: term });
-        router.push(term ? `${pathname}?q=${encodeURIComponent(term)}` : pathname);
-    };
+    const search = useCallback(
+        (term: string, live = false) => {
+            if (term) trackEvent('search', { search_term: term });
+            const href = term ? `${pathname}?q=${encodeURIComponent(term)}` : pathname;
+            // Typing replaces the entry, so the back button isn't buried under one step per pause.
+            startTransition(() =>
+                live ? router.replace(href, { scroll: false }) : router.push(href, { scroll: false }),
+            );
+        },
+        [pathname, router],
+    );
 
     return (
         <>
-            <Bloglanding query={query} onSearch={search} />
+            <Bloglanding query={query} onSearch={search} searching={pending} />
             {/* Keyed by the search so a new search starts from its own server-rendered results. */}
-            <BlogCards key={query} query={query} initial={initial} onClearSearch={() => search('')} />
+            <div className={pending ? 'opacity-60 transition-opacity' : 'transition-opacity'}>
+                <BlogCards key={query} query={query} initial={initial} onClearSearch={() => search('')} />
+            </div>
         </>
     );
 };

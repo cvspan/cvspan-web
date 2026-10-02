@@ -2,7 +2,6 @@
 import React from 'react';
 import { NavBrand, NavMenu, NavLetsTalkButton } from './components';
 import { MobileNav } from './components/MobileNav';
-import { usePathname } from 'next/navigation';
 import { useSurfaceTheme } from './hooks/useSurfaceTheme';
 import './Navbar.css';
 
@@ -20,9 +19,6 @@ function NavbarWrapper({ light = false, showScrollWatcher }: { light?: boolean; 
     // behind it separating the bar from whatever is sliding underneath. No
     // border — the blur is the edge.
     const surface = scrolled ? `backdrop-blur-xl ${_light ? 'bg-white/[0.08]' : 'bg-black/[0.08]'}` : 'bg-transparent';
-
-    const pathname = usePathname();
-    const isBlogPage = typeof pathname === 'string' && pathname.startsWith('/blog') ? true : false;
 
     return (
         <>
@@ -44,15 +40,15 @@ function NavbarWrapper({ light = false, showScrollWatcher }: { light?: boolean; 
                                     <div className="flex w-full justify-between lg:w-fit lg:justify-normal">
                                         <NavBrand isLight={_light} />
                                     </div>
-                                    <NavMenu isLight={_light} isBlogPage={isBlogPage} />
-                                    <NavLetsTalkButton isLight={_light} isBlogPage={isBlogPage} />
+                                    <NavMenu isLight={_light} />
+                                    <NavLetsTalkButton isLight={_light} />
                                 </div>
                             </div>
                         </div>
                     </section>
                 </div>
             </header>
-            <MobileNav isLight={_light} isBlogPage={isBlogPage} />
+            <MobileNav isLight={_light} />
         </>
     );
 }
