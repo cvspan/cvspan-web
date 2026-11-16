@@ -1,0 +1,22 @@
+.text-gradient {
+    background: linear-gradient(270deg, #b0b0b0 0%, #fff 36.5%, #fff 67.5%, #b0b0b0 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.back {
+    background-image: url('/assets/images/glob.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 649px;
+}
+
+@media screen and (min-width: 1024px) {
+    .back {
+        background-image: url('/assets/images/glob.png');
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: bottom -10px right -40px;
+    }
+}

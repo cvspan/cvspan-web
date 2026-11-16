@@ -1,0 +1,15 @@
+.dgp_card {
+    border: 0.5px solid transparent;
+}
+
+.dgp_card_img {
+    @apply hidden;
+}
+
+.dgp_card:hover {
+    @apply bg-[#0C0C0C];
+}
+
+.dgp_card:hover .dgp_card_img {
+    @apply block;
+}

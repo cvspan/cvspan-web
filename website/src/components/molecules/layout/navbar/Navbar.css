@@ -1,0 +1,32 @@
+.bg {
+    background-image: url('/assets/images/ribbon.svg'), linear-gradient(232deg, #1a1aff 3.55%, #000032 91.01%);
+    background-repeat: no-repeat;
+    background-position: bottom right;
+    background-size: contain;
+}
+
+.scroll_watcher_wrapper {
+    @apply fixed top-[80px] z-[40] h-[5px] w-full bg-[#D1D1D1];
+}
+
+.scroll_watcher {
+    /* height: 10px; */
+    /* position: fixed; */
+    /* top: 0; */
+    /* z-index: 1000; */
+    /* background-color: lime; */
+    /* width: 100%; */
+
+    @apply fixed top-[80px] z-[40] h-[5px] w-full bg-[#00FFB2];
+    scale: 0 1;
+
+    animation: scroll_watcher linear;
+    animation-timeline: scroll();
+    transform-origin: left;
+}
+
+@keyframes scroll_watcher {
+    to {
+        scale: 1 1;
+    }
+}

@@ -1,0 +1,101 @@
+/*
+ * Styles for HTML written in the CVSpan Portal's editor (job descriptions and blog posts).
+ * Spacing follows a 4px grid: 16px between blocks, 32px above h2, 24px above h3, 24px list indent.
+ */
+.portal-html {
+    font-family: var(--font-eudoxus, inherit);
+    color: #484848;
+    font-size: 16px;
+    line-height: 28px;
+    overflow-wrap: anywhere;
+}
+.portal-html > * + * {
+    margin-top: 16px;
+}
+.portal-html > :first-child {
+    margin-top: 0;
+}
+.portal-html h1,
+.portal-html h2,
+.portal-html h3,
+.portal-html h4 {
+    color: #1a1a1a;
+    font-weight: 500;
+    margin-top: 32px;
+}
+.portal-html h1,
+.portal-html h2 {
+    font-size: 24px;
+    line-height: 32px;
+}
+.portal-html h3 {
+    font-size: 20px;
+    line-height: 28px;
+    margin-top: 24px;
+}
+.portal-html h4 {
+    font-size: 16px;
+    line-height: 24px;
+    margin-top: 24px;
+}
+.portal-html h1 + *,
+.portal-html h2 + *,
+.portal-html h3 + *,
+.portal-html h4 + * {
+    margin-top: 8px;
+}
+.portal-html ul,
+.portal-html ol {
+    padding-left: 24px;
+}
+.portal-html ul {
+    list-style: disc;
+}
+.portal-html ol {
+    list-style: decimal;
+}
+.portal-html li + li {
+    margin-top: 4px;
+}
+.portal-html a {
+    color: #1a1aff;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+.portal-html strong {
+    color: #1a1a1a;
+    font-weight: 600;
+}
+.portal-html img {
+    height: auto;
+    max-width: 100%;
+    border-radius: 8px;
+}
+.portal-html blockquote {
+    border-left: 4px solid #1a1aff;
+    padding-left: 16px;
+    color: #1a1a1a;
+}
+.portal-html pre {
+    overflow-x: auto;
+    border-radius: 8px;
+    background: #f4f4f4;
+    padding: 16px;
+    font-size: 14px;
+    line-height: 20px;
+}
+.portal-html code {
+    border-radius: 4px;
+    background: #f4f4f4;
+    padding: 0 4px;
+    font-size: 0.9em;
+}
+.portal-html pre code {
+    background: none;
+    padding: 0;
+}
+.portal-html hr {
+    border-color: #e8e8e8;
+    margin-top: 32px;
+    margin-bottom: 32px;
+}

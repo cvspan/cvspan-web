@@ -1,0 +1,131 @@
+'use client';
+
+import React from 'react';
+// import Button from '../Button';
+import { motion } from 'framer-motion';
+import { ANIMATE_PROPS } from '@/helpers/motion';
+import { caseStudies, TCaseStudy } from './data';
+import './style.css';
+import Link from 'next/link';
+import HoverCursor from '@/components/molecules/HoverCursor';
+
+const SingleCard = ({ card = {} }: { card?: TCaseStudy }) => {
+    return (
+        <Link href={`/our-works/${card.link}`} data-cursor-target>
+            <motion.div {...ANIMATE_PROPS({ delay: 0 })} className="fdp_card" whileHover="on_hover">
+                <div className="fdp_card_img_wrapper">
+                    <img
+                        src={card?.img}
+                        alt={card?.title ? `${card.title} — CVSpan case study` : ''}
+                        loading="lazy"
+                        decoding="async"
+                        className="h-full w-full object-cover"
+                    />
+                </div>
+                <div className="fdp_card_title_wrapper">
+                    <h2 className="fdp_card_title">{card?.title}</h2>
+                    {/* <img className="arrow_black h-[22px] w-[22px]" src="/assets/icons/arrow-top-right-black.svg" alt="" loading="lazy" decoding="async" />
+                <img className="arrow_blue h-[22px] w-[22px]" src="/assets/icons/arrow-top-right-blue.svg" alt="" loading="lazy" decoding="async" /> */}
+
+                    <motion.img
+                        initial={{ x: 0, y: 0, opacity: 1 }}
+                        variants={{
+                            on_hover: {
+                                x: 20,
+                                y: -30,
+                                opacity: 0,
+                                transition: { duration: 0.2 },
+                            },
+                        }}
+                        src="/assets/icons/arrow-top-right-black.svg"
+                        className="arrow_black h-[22px] w-[22px]"
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                    />
+
+                    <motion.img
+                        initial={{ x: -20, y: 30, opacity: 0 }}
+                        variants={{
+                            on_hover: {
+                                x: 0,
+                                y: 0,
+                                opacity: 1,
+                                transition: { duration: 0.2 },
+                            },
+                        }}
+                        src="/assets/icons/arrow-top-right-blue.svg"
+                        className="arrow_blue h-[22px] w-[22px]"
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                    />
+                </div>
+                <motion.h2
+                    variants={{
+                        on_hover: {
+                            opacity: 0,
+                            height: 0,
+                        },
+                    }}
+                    className="fdp_card_desc"
+                >
+                    {card?.description}
+                </motion.h2>
+            </motion.div>
+        </Link>
+    );
+};
+
+const CardsRow = ({
+    card1,
+    card2,
+    card3,
+    card4,
+    card5,
+    card6,
+}: {
+    card1?: TCaseStudy;
+    card2?: TCaseStudy;
+    card3?: TCaseStudy;
+    card4?: TCaseStudy;
+    card5?: TCaseStudy;
+    card6?: TCaseStudy;
+}) => {
+    return (
+        <div className="flex h-fit flex-1 flex-col flex-wrap items-center justify-center gap-[32px] gap-y-[40px] py-[60px] md:flex-row md:gap-x-[24px] md:gap-y-[24px]">
+            <SingleCard card={card1} />
+            <SingleCard card={card2} />
+            <SingleCard card={card3} />
+            <SingleCard card={card4} />
+            <SingleCard card={card5} />
+            <SingleCard card={card6} />
+        </div>
+    );
+};
+
+const CaseStudies = () => {
+    return (
+        <HoverCursor icon="/assets/icons/case-study-cursor.svg" className="px-5 py-[60px]">
+            <div className="mx-auto w-full max-w-[1200px] lg:flex">
+                <div className="flex h-fit w-full flex-col gap-[24px]">
+                    <div className="flex h-fit w-full max-w-[1200px] flex-col gap-[24px] lg:flex-row">
+                        <CardsRow
+                            card1={caseStudies[0]}
+                            card2={caseStudies[1]}
+                            card3={caseStudies[2]}
+                            card4={caseStudies[3]}
+                            card5={caseStudies[4]}
+                            card6={caseStudies[5]}
+                        />
+                    </div>
+                    {/* <div className="flex h-fit w-full max-w-[1200px] flex-col gap-[24px] lg:flex-row">
+                        <CardsRow />
+                    </div> */}
+                </div>
+            </div>
+        </HoverCursor>
+    );
+};
+
+export default CaseStudies;
