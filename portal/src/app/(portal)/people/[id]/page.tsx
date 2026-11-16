@@ -37,7 +37,8 @@ import {
   relativeDays,
   taskStatusLabels,
 } from "@/lib/format";
-import { accessSummary, atLeast } from "@/lib/roles";
+import { accessSummary, atLeast, tierOf } from "@/lib/roles";
+import { SetPasswordButton } from "@/components/forms/password-forms";
 import { requireUser } from "@/lib/session";
 import { companyDay } from "@/lib/dates";
 import { CRITERIA, internshipWindow, ratingTone } from "@/lib/grading";
@@ -52,6 +53,13 @@ export default async function PersonPage({ params }: { params: Promise<{ id: str
   if (!person) notFound();
 
   /** Members may only open their own profile. */
+  /** The same rules as the action: HR for staff and Management, an Admin for HR, a Super admin for Admins. Never your own. */
+  const targetTier = tierOf({ role: person.role, isHr: person.isHr, isManagement: person.isManagement });
+  const mayResetPassword =
+    viewer.id !== person.id &&
+    atLeast(viewer.role, "hr") &&
+    (person.role === "employee" || viewer.role === "super_admin") &&
+    (targetTier !== "hr" || atLeast(viewer.role, "admin"));
   const canView = viewer.id === person.id || atLeast(viewer.role, "manager");
   if (!canView) notFound();
 
@@ -107,6 +115,9 @@ export default async function PersonPage({ params }: { params: Promise<{ id: str
                 viewerRole={viewer.role}
               />
             ) : null}
+            {mayResetPassword ? (
+              <SetPasswordButton userId={person.id} name={person.name} hasPassword={Boolean(person.passwordHash)} />
+            ) : null}
             {atLeast(viewer.role, "hr") ? (
               <EditDetailsButton
                 userId={person.id}
@@ -146,6 +157,7 @@ export default async function PersonPage({ params }: { params: Promise<{ id: str
                 <Badge tone={statusTone(person.status)} className="capitalize">
                   {person.status}
                 </Badge>
+                {!person.passwordHash && atLeast(viewer.role, "hr") ? <Badge tone="warning">No password yet</Badge> : null}
               </p>
             </div>
           </div>

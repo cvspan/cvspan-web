@@ -181,6 +181,10 @@ export const users = pgTable(
     id: uuid("id").primaryKey().defaultRandom(),
     email: text("email").notNull(),
     passwordHash: text("password_hash"),
+    /** Set when an admin gives someone a temporary password: they must choose their own before doing anything else. */
+    mustChangePassword: boolean("must_change_password").default(false).notNull(),
+    /** When the password last changed. Sessions started before this are ended, so a reset locks out whoever had the old one. */
+    passwordChangedAt: timestamp("password_changed_at", { withTimezone: true }),
     name: text("name").notNull(),
     /** A portable media path (/api/media/<id>) the person uploaded themselves; null shows their initials. */
     avatarUrl: text("avatar_url"),

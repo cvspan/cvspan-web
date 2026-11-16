@@ -1,4 +1,5 @@
 import { after } from "next/server";
+import { redirect } from "next/navigation";
 import { RoleProvider } from "@/components/portal/role-context";
 import { PresenceTracker } from "@/components/portal/presence-tracker";
 import { Shell } from "@/components/portal/shell";
@@ -11,6 +12,8 @@ export default async function PortalLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const user = await requireUser();
+  /** A temporary password has to be replaced before anything else. */
+  if (user.mustChangePassword) redirect("/change-password");
   /** After the response is sent, so tracking never slows a page down. */
   after(() => recordPortalActivity(user.id));
   const notifications = await getNotificationsFor(user.id, 8);

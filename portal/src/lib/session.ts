@@ -8,6 +8,9 @@ import { db } from "@/db";
 import { users } from "@/db/schema";
 import { employmentLabels, initials, type EmploymentType } from "./format";
 import { ROLES, tierOf, type Role } from "./roles";
+import { sessionIsCurrent } from "./session-validity";
+
+const canSignIn = (account: { status: string }) => account.status === "active" || account.status === "invited";
 
 export const VIEW_ROLE_COOKIE = "cvspan-view-role";
 
@@ -21,6 +24,8 @@ const loadAccount = cache(async (id: string) => {
       role: users.role,
       isHr: users.isHr,
       isManagement: users.isManagement,
+      mustChangePassword: users.mustChangePassword,
+      passwordChangedAt: users.passwordChangedAt,
       status: users.status,
       jobTitle: users.jobTitle,
       avatarUrl: users.avatarUrl,
@@ -46,7 +51,7 @@ export async function requireUser() {
   if (!session?.user) redirect("/login");
 
   const account = await loadAccount(session.user.id);
-  if (!account || (account.status !== "active" && account.status !== "invited")) {
+  if (!account || !canSignIn(account) || !sessionIsCurrent(account, session.user.pwdAt)) {
     redirect("/session-ended");
   }
 
@@ -69,6 +74,8 @@ export async function requireUser() {
     access: account.role,
     isHr: account.isHr,
     isManagement: account.isManagement,
+    /** An admin gave them a temporary password: they must choose their own before using the portal. */
+    mustChangePassword: account.mustChangePassword,
     viewRole,
     jobTitle: account.jobTitle ?? "",
     avatarUrl: account.avatarUrl,
@@ -84,6 +91,18 @@ export async function currentTier() {
   const session = await auth();
   if (!session?.user?.id) return null;
   const account = await loadAccount(session.user.id);
-  if (!account || (account.status !== "active" && account.status !== "invited")) return null;
+  if (!account || !canSignIn(account) || !sessionIsCurrent(account, session.user.pwdAt)) return null;
   return { id: session.user.id, role: tierOf(account) };
+}
+
+/**
+ * The id of whoever is signed in, only if their session is still good: the account may still sign in and
+ * the password has not changed since they signed in. For API routes that need a person but not their role.
+ */
+export async function activeUserId() {
+  const session = await auth();
+  if (!session?.user?.id) return null;
+  const account = await loadAccount(session.user.id);
+  if (!account || !canSignIn(account) || !sessionIsCurrent(account, session.user.pwdAt)) return null;
+  return session.user.id;
 }

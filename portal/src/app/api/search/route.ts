@@ -1,5 +1,5 @@
 import { and, asc, eq, ilike, inArray, notInArray, or, sql } from "drizzle-orm";
-import { auth } from "@/auth";
+import { activeUserId } from "@/lib/session";
 import { db } from "@/db";
 import { blogPosts, departments, projectMembers, projects, tasks, users } from "@/db/schema";
 import { atLeast, tierOf } from "@/lib/roles";
@@ -15,8 +15,8 @@ const LIMIT = 5;
  * they are on, and the website and departments for admins.
  */
 export async function GET(request: Request) {
-  const session = await auth();
-  if (!session?.user?.id) return Response.json({ groups: [] }, { status: 401 });
+  const me = await activeUserId();
+  if (!me) return Response.json({ groups: [] }, { status: 401 });
 
   const query = new URL(request.url).searchParams.get("q")?.trim() ?? "";
   if (query.length < 2) return Response.json({ groups: [] });
@@ -25,13 +25,12 @@ export async function GET(request: Request) {
   const [account] = await db
     .select({ role: users.role, isHr: users.isHr, isManagement: users.isManagement, status: users.status })
     .from(users)
-    .where(eq(users.id, session.user.id))
+    .where(eq(users.id, me))
     .limit(1);
   if (!account || (account.status !== "active" && account.status !== "invited")) {
     return Response.json({ groups: [] }, { status: 401 });
   }
 
-  const me = session.user.id;
   const role = tierOf(account);
   /** Escape LIKE wildcards so "100%" means 100%. */
   const pattern = `%${query.replace(/[\\%_]/g, "\\$&")}%`;

@@ -7,6 +7,8 @@ declare module "next-auth" {
     role: AccessLevel;
     employmentType: EmploymentType;
     jobTitle?: string;
+    /** When the password last changed (ms since 1970, 0 if never), so a changed password ends older sessions. */
+    pwdAt?: number;
   }
 
   interface Session {
@@ -15,6 +17,7 @@ declare module "next-auth" {
       role: AccessLevel;
       employmentType: EmploymentType;
       jobTitle?: string;
+      pwdAt?: number;
     } & DefaultSession["user"];
   }
 }
@@ -24,6 +27,7 @@ declare module "next-auth/jwt" {
     role: AccessLevel;
     employmentType: EmploymentType;
     jobTitle?: string;
+    pwdAt?: number;
   }
 }
 
@@ -33,5 +37,6 @@ declare module "@auth/core/jwt" {
     role: AccessLevel;
     employmentType: EmploymentType;
     jobTitle?: string;
+    pwdAt?: number;
   }
 }

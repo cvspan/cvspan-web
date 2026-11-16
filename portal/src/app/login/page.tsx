@@ -42,7 +42,7 @@ async function signInAction(formData: FormData) {
     });
   } catch (error) {
     if (error instanceof AuthError) {
-      redirect("/login?error=1");
+      redirect((error as { code?: string }).code === "too_many_attempts" ? "/login?error=locked" : "/login?error=1");
     }
     throw error;
   }
@@ -51,9 +51,9 @@ async function signInAction(formData: FormData) {
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ error?: string; expired?: string }>;
+  searchParams: Promise<{ error?: string; expired?: string; changed?: string }>;
 }) {
-  const { error, expired } = await searchParams;
+  const { error, expired, changed } = await searchParams;
 
   return (
     <main className="bg-app flex min-h-dvh items-center justify-center p-4">
@@ -92,12 +92,23 @@ export default async function LoginPage({
             </p>
           ) : null}
 
+          {changed ? (
+            <p
+              role="status"
+              className="bg-success-surface text-success-text border-success-border mt-4 rounded-lg border px-3 py-2 text-caption"
+            >
+              Your password was changed. Sign in with the new one.
+            </p>
+          ) : null}
+
           {error ? (
             <p
               role="alert"
               className="bg-error-surface text-error-text border-error-border mt-4 rounded-lg border px-3 py-2 text-caption"
             >
-              That email and password combination was not recognised.
+              {error === "locked"
+                ? "Too many wrong passwords. Wait about 15 minutes and try again, or ask HR or an admin for a new password."
+                : "That email and password combination was not recognised."}
             </p>
           ) : null}
 
@@ -132,7 +143,7 @@ export default async function LoginPage({
         </div>
 
         <p className="text-muted mt-4 text-center text-caption">
-          Trouble signing in? Ask an admin to reset your access.
+          Forgot your password? Ask HR or an admin for a new temporary one.
         </p>
 
         <nav aria-label="CVSpan website" className="text-muted mt-6 flex flex-wrap justify-center gap-x-4 gap-y-1 text-caption">

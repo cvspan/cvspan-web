@@ -1,5 +1,5 @@
 import { eq } from "drizzle-orm";
-import { auth } from "@/auth";
+import { activeUserId } from "@/lib/session";
 import { db } from "@/db";
 import { applicationResumes, users } from "@/db/schema";
 import { atLeast, tierOf } from "@/lib/roles";
@@ -9,14 +9,14 @@ import { atLeast, tierOf } from "@/lib/roles";
  * personal data sent by someone outside the company.
  */
 export async function GET(_request: Request, { params }: { params: Promise<{ id: string }> }) {
-  const session = await auth();
-  if (!session?.user?.id) return new Response("Unauthorised", { status: 401 });
+  const userId = await activeUserId();
+  if (!userId) return new Response("Unauthorised", { status: 401 });
 
   /** The database decides the role, not the token. */
   const [account] = await db
     .select({ role: users.role, isHr: users.isHr, isManagement: users.isManagement, status: users.status })
     .from(users)
-    .where(eq(users.id, session.user.id))
+    .where(eq(users.id, userId))
     .limit(1);
   if (!account || (account.status !== "active" && account.status !== "invited") || !atLeast(tierOf(account), "hr")) {
     return new Response("Forbidden", { status: 403 });

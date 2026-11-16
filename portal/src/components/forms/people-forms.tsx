@@ -25,7 +25,7 @@ export function InviteMemberButton({
         </Button>
       }
       title="Invite a member"
-      description="They are created as invited, and become active on first sign-in."
+      description="They are added as invited. Set a password for them from their profile, and they become active once they choose their own."
       submitLabel="Send invite"
       action={inviteMember}
     >

@@ -16,6 +16,7 @@
     "db:migrate-site-settings": "tsx --env-file=.env.local src/db/migrate-site-settings.ts",
     "db:migrate-indexes": "tsx --env-file=.env.local src/db/migrate-indexes.ts",
     "db:migrate-blog-review": "tsx --env-file=.env.local src/db/migrate-blog-review.ts",
+    "db:migrate-passwords": "tsx --env-file=.env.local src/db/migrate-passwords.ts",
     "db:create-admin": "tsx src/db/create-admin.ts",
     "db:migrate-access": "tsx --env-file=.env.local src/db/migrate-access.ts",
     "db:migrate-presence": "tsx --env-file=.env.local src/db/migrate-presence.ts",

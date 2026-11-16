@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { activeUserId } from "@/lib/session";
 import { db } from "@/db";
 import { media } from "@/db/schema";
 
@@ -6,8 +6,8 @@ const MAX_BYTES = 5 * 1024 * 1024;
 const ALLOWED = ["image/jpeg", "image/png", "image/webp", "image/gif", "image/avif"];
 
 export async function POST(request: Request) {
-  const session = await auth();
-  if (!session?.user) return Response.json({ error: "Unauthorised" }, { status: 401 });
+  const userId = await activeUserId();
+  if (!userId) return Response.json({ error: "Unauthorised" }, { status: 401 });
 
   const form = await request.formData();
   const file = form.get("file");
@@ -37,7 +37,7 @@ export async function POST(request: Request) {
         contentType: file.type,
         size: bytes.byteLength,
         data: bytes,
-        uploadedById: session.user.id,
+        uploadedById: userId,
       })
       .returning({ id: media.id });
 

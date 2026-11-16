@@ -27,6 +27,7 @@ export const authConfig = {
         token.role = user.role;
         token.employmentType = user.employmentType;
         token.jobTitle = user.jobTitle;
+        token.pwdAt = user.pwdAt;
       }
       return token;
     },
@@ -36,6 +37,7 @@ export const authConfig = {
         session.user.role = token.role;
         session.user.employmentType = token.employmentType;
         session.user.jobTitle = token.jobTitle;
+        session.user.pwdAt = token.pwdAt;
       }
       return session;
     },

@@ -3,6 +3,7 @@ import { Card, CardHeader } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
 import { requireUser } from "@/lib/session";
 import { getNotificationPreferences, getUserById } from "@/db/queries";
+import { ChangePasswordForm } from "@/components/forms/password-forms";
 import { AvatarField } from "@/components/forms/avatar-field";
 import { NotificationPreferences } from "@/components/forms/notification-preferences";
 import { accessSummary } from "@/lib/roles";
@@ -73,6 +74,13 @@ export default async function SettingsPage() {
           </ul>
         </Card>
       </section>
+
+      <Card>
+        <CardHeader title="Password" />
+        <div className="max-w-md p-5">
+          <ChangePasswordForm />
+        </div>
+      </Card>
 
       <Card>
         <CardHeader title="Notifications" action={<Badge>In the portal</Badge>} />
