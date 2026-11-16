@@ -7,7 +7,7 @@ import { buildMetadata } from '@/lib/seo/metadata';
 export const metadata: Metadata = buildMetadata({
     title: 'Graphic Designer — Careers',
     description:
-        'Create striking visual assets across brand, campaign and product surfaces. Join CVSpan, a remote-first design and development agency working with clients across the UK, Nigeria and the US.',
+        'Create striking visual assets across brand, campaign and product surfaces. Join CVSpan, a remote-first design and development agency.',
     path: '/careers/graphic-designer',
 });
 

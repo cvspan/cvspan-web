@@ -14,7 +14,7 @@ export const SITE_NAME = 'CVSpan';
 export const SITE_TAGLINE = 'Digital Product Design & Development Agency';
 
 export const SITE_DESCRIPTION =
-    'CVSpan is a digital product design and development agency. We craft UI/UX, websites, mobile apps and brand identities for startups and enterprises across fintech, healthcare, AI and Web3.';
+    'CVSpan is a digital product design and development agency. We craft UI/UX, websites, mobile apps and brand identities for startups and enterprises.';
 
 export const TWITTER_HANDLE = '@Cvspanofficial';
 

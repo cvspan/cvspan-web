@@ -5,6 +5,9 @@
  * NEXT_PUBLIC_PORTAL_API_URL points at the API root. In production the portal is served from the
  * same domain, so the default needs no setup. Locally, set it to http://localhost:3000/portal/api/public/v1.
  */
+import type { Team } from '@/components/molecules/OurTeam/types';
+import { TEAMS } from '@/components/ui/data';
+
 export const PORTAL_API_URL = (
     process.env.NEXT_PUBLIC_PORTAL_API_URL ?? 'https://cvspan.com/portal/api/public/v1'
 ).replace(/\/+$/, '');
@@ -52,6 +55,38 @@ export type PortalPost = {
     updatedAt: string;
 };
 export type PortalPostDetail = PortalPost & { bodyHtml: string };
+
+export type PortalTeamMember = {
+    /** The address of their profile: /about/teams/<id>. */
+    id: string;
+    name: string;
+    role: string;
+    photoUrl: string | null;
+    /** Paragraphs; empty when no bio was written, in which case the card has no profile page. */
+    bio: string[];
+};
+
+export type PortalTag = {
+    tag: 'script' | 'meta' | 'link' | 'style' | 'noscript';
+    attrs: Record<string, string>;
+    content?: string;
+};
+
+/** What admins set under Site settings in the portal. Every field can be empty: the site's built-in value then applies. */
+export type PortalSiteSettings = {
+    siteName: string | null;
+    tagline: string | null;
+    description: string | null;
+    titleTemplate: string | null;
+    shareImage: string | null;
+    twitterHandle: string | null;
+    social: Record<'facebook' | 'twitter' | 'instagram' | 'linkedin' | 'tiktok' | 'youtube', string | null>;
+    verification: Record<'google' | 'bing' | 'yandex' | 'facebook', string | null>;
+    analytics: Record<'googleAnalytics' | 'tagManager' | 'metaPixel' | 'linkedinInsight', string | null>;
+    allowIndexing: boolean;
+    robotsExtra: string | null;
+    tags: Record<'head' | 'bodyStart' | 'bodyEnd', PortalTag[]>;
+};
 
 type RequestOptions = { revalidate?: number };
 
@@ -134,3 +169,39 @@ export async function submitApplication(slug: string, form: FormData): Promise<s
 
 export const formatDate = (iso: string) =>
     new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+/**
+ * The people on the Team page, as set in the portal. If the portal can't be reached the page
+ * falls back to the list built into the site, so the team never disappears from the website.
+ */
+export async function fetchTeam(): Promise<Team[]> {
+    try {
+        const data = await get<{ members: PortalTeamMember[] }>('/team');
+        if (data) {
+            return data.members.map((member) => ({
+                id: member.id,
+                name: member.name,
+                role: member.role,
+                avatar: member.photoUrl ?? '',
+                linkedin: '',
+                bio: member.bio,
+            }));
+        }
+    } catch (error) {
+        console.warn('Could not load the team from the portal; using the built-in list', error);
+    }
+    return TEAMS;
+}
+
+/**
+ * The site's search and tracking settings. Returns null when the portal can't be reached, so a portal
+ * outage never takes the website's own defaults away.
+ */
+export async function fetchSiteSettings(): Promise<PortalSiteSettings | null> {
+    try {
+        return await get<PortalSiteSettings>('/site-settings');
+    } catch (error) {
+        console.warn('Could not load site settings from the portal; using built-in values', error);
+        return null;
+    }
+}

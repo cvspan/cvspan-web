@@ -1,9 +1,8 @@
 import type { MetadataRoute } from 'next';
 
 import routes from '@/lib/seo/routes.generated.json';
-import { TEAMS } from '@/components/ui/data';
 import { SITE_URL } from '@/lib/seo/config';
-import { fetchAllPosts, fetchJobs } from '@/lib/portal';
+import { fetchAllPosts, fetchJobs, fetchTeam } from '@/lib/portal';
 
 /**
  * Sitemap, built from three live sources so nothing has to be listed by hand:
@@ -65,7 +64,7 @@ async function fromPortal(): Promise<Item[]> {
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const items: Item[] = [
         ...routes.map((route) => ({ path: route.path, lastModified: new Date(route.lastModified) })),
-        ...TEAMS.map((team) => ({ path: `/about/teams/${encodeURIComponent(team.id)}` })),
+        ...(await fetchTeam()).map((team) => ({ path: `/about/teams/${encodeURIComponent(team.id)}` })),
         // The staff portal's public front door: the only part of it meant to be found in search.
         { path: '/portal/login', priority: 0.4, changeFrequency: 'yearly' as const },
         ...(await fromPortal()),

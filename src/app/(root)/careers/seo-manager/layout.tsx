@@ -7,7 +7,7 @@ import { buildMetadata } from '@/lib/seo/metadata';
 export const metadata: Metadata = buildMetadata({
     title: 'SEO Manager — Careers',
     description:
-        'Drive organic growth and search visibility for CVSpan and its clients. Join CVSpan, a remote-first design and development agency working with clients across the UK, Nigeria and the US.',
+        'Drive organic growth and search visibility for CVSpan and its clients. Join CVSpan, a remote-first design and development agency.',
     path: '/careers/seo-manager',
 });
 

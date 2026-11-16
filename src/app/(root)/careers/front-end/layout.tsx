@@ -7,7 +7,7 @@ import { buildMetadata } from '@/lib/seo/metadata';
 export const metadata: Metadata = buildMetadata({
     title: 'Frontend Engineer — Careers',
     description:
-        'Build fast, accessible interfaces for digital products used worldwide. Join CVSpan, a remote-first design and development agency working with clients across the UK, Nigeria and the US.',
+        'Build fast, accessible interfaces for digital products used worldwide. Join CVSpan, a remote-first design and development agency.',
     path: '/careers/front-end',
 });
 

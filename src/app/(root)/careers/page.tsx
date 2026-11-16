@@ -5,7 +5,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
     title: 'Careers at CV Span',
     description:
-        'We are pioneering the future of work, working together to bring creativity to another scale. We are a supportive and diverse community of people that are kind, truth seeking, and authentic',
+        'Join CVSpan, a remote-first design and development agency. Explore open roles and work with a supportive, diverse team that is kind, truth seeking and authentic.',
 };
 
 export default function page() {

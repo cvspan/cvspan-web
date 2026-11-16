@@ -5,7 +5,7 @@ import { buildMetadata } from '@/lib/seo/metadata';
 // Without this the blog index inherited the site's root title and description,
 // so it competed with the homepage in search results.
 const base = buildMetadata({
-    title: 'Blog',
+    title: 'Blog — Product Design & Development Notes',
     description:
         'Notes from the CVSpan team on product design, user research, development and the work of building digital products people actually want to use.',
     path: '/blog',

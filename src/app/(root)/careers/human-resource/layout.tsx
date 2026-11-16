@@ -7,7 +7,7 @@ import { buildMetadata } from '@/lib/seo/metadata';
 export const metadata: Metadata = buildMetadata({
     title: 'Human Resource Manager — Careers',
     description:
-        'Grow and support a distributed, people-first creative team. Join CVSpan, a remote-first design and development agency working with clients across the UK, Nigeria and the US.',
+        'Grow and support a distributed, people-first creative team. Join CVSpan, a remote-first design and development agency.',
     path: '/careers/human-resource',
 });
 

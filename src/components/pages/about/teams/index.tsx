@@ -1,10 +1,12 @@
+'use client';
+
 import React from 'react';
 import Navbar from '@/components/molecules/layout/navbar';
 import Cta from '@/components/molecules/CTA';
 import GlobalTeam from '@/components/molecules/GlobalTeam';
 import Footer from '@/components/molecules/layout/footer';
 import { OurTeamList } from '@/components/molecules/OurTeam/OurTeamList';
-import { TEAMS } from '@/components/ui/data';
+import type { Team } from '@/components/molecules/OurTeam/types';
 
 const HeroHeader = () => {
     return (
@@ -24,7 +26,7 @@ const HeroHeader = () => {
         </div>
     );
 };
-const Hero = () => {
+const Hero = ({ team }: { team: Team[] }) => {
     return (
         <div className="relative box-border overflow-hidden">
             <div className="absolute -left-[103px] -top-[70px] h-[398px] w-[398px] rounded-[398px] bg-[#1a1aff] opacity-20 blur-[150px]" />
@@ -32,16 +34,16 @@ const Hero = () => {
             <div className="absolute -right-[79px] top-[163px] h-[398px] w-[398px] rounded-[398px] bg-[#00ffb2] opacity-20 blur-[150px]" />
             <div className="mx-auto w-full max-w-[1200px] px-5 pb-24 pt-28">
                 <HeroHeader />
-                <OurTeamList teams={TEAMS} />
+                <OurTeamList teams={team} />
             </div>
         </div>
     );
 };
-export default function TeamPage() {
+export default function TeamPage({ team }: { team: Team[] }) {
     return (
         <>
             <Navbar light={true} />
-            <Hero />
+            <Hero team={team} />
             <GlobalTeam />
             <Cta />
             <Footer />

@@ -3,15 +3,19 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import EmployeePage from '@/components/pages/about/team';
 import { Team } from '@/components/molecules/OurTeam/types';
-import { TEAMS } from '@/components/ui/data';
+import { fetchTeam } from '@/lib/portal';
 import { buildMetadata } from '@/lib/seo/metadata';
 
 type Props = {
     params: { slug: string };
 };
 
+// Profiles for people added in the portal after the last build are rendered on first visit, then cached.
+export const revalidate = 60;
+export const dynamicParams = true;
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-    const employee: Team | undefined = TEAMS.find((team: Team) => team?.id === params?.slug);
+    const employee: Team | undefined = (await fetchTeam()).find((team: Team) => team?.id === params?.slug);
     const path = `/about/teams/${params.slug}`;
 
     // An unknown profile is a 404 in the page below, so keep it out of the index.
@@ -33,12 +37,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 /** Every profile is built ahead of time, so each one is in the HTML crawlers fetch. */
-export function generateStaticParams() {
-    return TEAMS.map((team: Team) => ({ slug: team.id }));
+export async function generateStaticParams() {
+    return (await fetchTeam()).map((team: Team) => ({ slug: team.id }));
 }
 
-export default function Page({ params }: Props) {
-    const employee: Team | undefined = TEAMS.find((team: Team) => team?.id === params?.slug);
+export default async function Page({ params }: Props) {
+    const employee: Team | undefined = (await fetchTeam()).find((team: Team) => team?.id === params?.slug);
     if (!employee) notFound();
 
     return <EmployeePage team={employee} />;

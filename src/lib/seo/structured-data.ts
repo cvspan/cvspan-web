@@ -11,7 +11,7 @@ import { CONTACT_EMAIL, OFFICES, SITE_DESCRIPTION, SITE_NAME, SITE_URL, SOCIAL_P
 export const ORGANIZATION_ID = `${SITE_URL}/#organization`;
 export const WEBSITE_ID = `${SITE_URL}/#website`;
 
-export function organizationSchema() {
+export function organizationSchema(profiles: readonly string[] = SOCIAL_PROFILES) {
     return {
         '@type': 'Organization',
         '@id': ORGANIZATION_ID,
@@ -26,7 +26,7 @@ export function organizationSchema() {
             caption: SITE_NAME,
         },
         image: absoluteUrl('/opengraph-image'),
-        sameAs: SOCIAL_PROFILES,
+        sameAs: profiles,
         address: OFFICES.map((office) => ({
             '@type': 'PostalAddress',
             streetAddress: office.streetAddress,

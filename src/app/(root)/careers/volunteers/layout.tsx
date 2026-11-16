@@ -7,7 +7,7 @@ import { buildMetadata } from '@/lib/seo/metadata';
 export const metadata: Metadata = buildMetadata({
     title: 'Volunteer Programme — Careers',
     description:
-        'Contribute to community-driven design and technology initiatives. Join CVSpan, a remote-first design and development agency working with clients across the UK, Nigeria and the US.',
+        'Contribute to community-driven design and technology initiatives. Join CVSpan, a remote-first design and development agency.',
     path: '/careers/volunteers',
 });
 

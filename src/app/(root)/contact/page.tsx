@@ -5,7 +5,8 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
     title: 'Contact Our Team',
-    description: 'We Create Awesome Stuf',
+    description:
+        'Talk to the CVSpan team about your next digital product. We design and build websites, mobile apps and brand identities for startups and enterprises.',
 };
 
 function page() {

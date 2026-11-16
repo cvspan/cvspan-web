@@ -12,8 +12,9 @@ import Faqs from '@/components/molecules/FAQS';
 import Testimonials from '@/components/molecules/Testimonials';
 import Cta from '@/components/molecules/CTA';
 import GlobalTeam from '@/components/molecules/GlobalTeam';
+import type { Team } from '@/components/molecules/OurTeam/types';
 
-export default function Aboutpage() {
+export default function Aboutpage({ team }: { team: Team[] }) {
     return (
         <>
             <Navbar light={false} />
@@ -30,7 +31,7 @@ export default function Aboutpage() {
                 containerBackground="/assets/images/backgrounds/about-figures-bg.webp"
             />
 
-            <OurTeam />
+            <OurTeam teams={team} />
             <Achievements />
             <GlobalTeam />
             <Faqs />

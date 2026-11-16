@@ -19,4 +19,6 @@ declare global {
 export function trackEvent(name: string, params: Record<string, string | number | boolean> = {}) {
     if (typeof window === 'undefined') return;
     window.gtag?.('event', name, params);
+    // Tag Manager listens to the data layer, so the same events reach it with no extra setup.
+    window.dataLayer?.push({ event: name, ...params });
 }
