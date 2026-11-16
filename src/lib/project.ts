@@ -282,5 +282,5 @@ export function canBeProjectManager(role: Role) {
  * role to do so, so someone later moved down to member loses the powers with the role.
  */
 export function canManageProject(role: Role, projectRole: ProjectRole | null) {
-  return atLeast(role, "admin") || (projectRole === "lead" && canBeProjectManager(role));
+  return atLeast(role, "hr") || (projectRole === "lead" && canBeProjectManager(role));
 }

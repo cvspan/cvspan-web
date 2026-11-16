@@ -14,6 +14,8 @@ const schema = z
     stage: z.enum(programmeStages, "Choose a stage"),
     startDate: optionalDate("Start date"),
     endDate: optionalDate("End date"),
+    /** An unticked checkbox sends nothing at all. */
+    issuesCertificate: z.preprocess((value) => value === "on", z.boolean()),
   })
   .refine((data) => datesInOrder(data.startDate, data.endDate), {
     message: "The end date can't be before the start date.",
@@ -22,7 +24,7 @@ const schema = z
 
 /** Opens a new cohort. Admins only; people are enrolled afterwards. */
 export async function createProgramme(formData: FormData): Promise<ActionResult> {
-  const actor = await requireRole("admin");
+  const actor = await requireRole("hr");
 
   const parsed = parseForm(schema, formData);
   if (!parsed.success) return fail(parsed.error);

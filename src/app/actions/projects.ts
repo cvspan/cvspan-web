@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { ensureManagerAccess, reconcileOrg, refreshOrg } from "./org-sync";
 import { atLeast } from "@/lib/roles";
-import { db } from "@/db";
+import { batch, db } from "@/db";
 import {
   milestones,
   projectMembers,
@@ -78,7 +78,7 @@ const projectFields = z.object({
 });
 
 export async function createProject(formData: FormData): Promise<ActionResult> {
-  const actor = await requireRole("admin");
+  const actor = await requireRole("hr");
 
   const parsed = parseForm(
     projectFields.extend({ leadId: optionalId("lead") }).refine(
@@ -108,7 +108,7 @@ export async function createProject(formData: FormData): Promise<ActionResult> {
   const finalCode = code || (await uniqueCode(values.name));
 
   try {
-    await db.batch([
+    await batch((db) => [
       db.insert(projects).values({
         id: projectId,
         ...values,
@@ -207,7 +207,7 @@ export async function setProjectStatus(
 }
 
 export async function deleteProject(projectId: string): Promise<ActionResult> {
-  const actor = await requireRole("admin");
+  const actor = await requireRole("hr");
 
   const [existing] = await db.select().from(projects).where(eq(projects.id, projectId)).limit(1);
   if (!existing) return fail("That project no longer exists.");
@@ -288,7 +288,7 @@ export async function setProjectMemberRole(
   if (!projectRoles.includes(role)) return fail("Unknown role.");
 
   /** A project manager can't demote themselves out of the project; an admin can reassign it. */
-  if (userId === actor.id && !atLeast(actor.role, "admin") && role !== "lead") {
+  if (userId === actor.id && !atLeast(actor.role, "hr") && role !== "lead") {
     return fail("Ask an admin to change your own role on this project.");
   }
 
@@ -319,7 +319,7 @@ export async function removeProjectMember(
 ): Promise<ActionResult> {
   const actor = await requireProjectManager(projectId);
 
-  if (userId === actor.id && !atLeast(actor.role, "admin")) {
+  if (userId === actor.id && !atLeast(actor.role, "hr")) {
     return fail("Ask an admin to take you off this project.");
   }
 

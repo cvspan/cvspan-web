@@ -28,10 +28,10 @@ export async function gradeMember(formData: FormData) {
     comment,
   });
 
-  await notify(userId, `${user.name} graded your KPI cycle: ${score}%`, "/kpis", "grades");
+  await notify(userId, `${user.name} graded your KPI cycle: ${score}%`, "/performance/scores", "grades");
   await logActivity(user.id, "graded a KPI cycle", `${score}%`);
 
   revalidatePath("/team");
-  revalidatePath("/kpis");
+  revalidatePath("/performance/scores");
   revalidatePath("/");
 }

@@ -7,7 +7,7 @@ import { requireUser } from "@/lib/session";
 export default async function EditJobPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const user = await requireUser();
-  if (!atLeast(user.role, "admin")) notFound();
+  if (!atLeast(user.role, "hr")) notFound();
 
   const job = await getJobById(id);
   if (!job) notFound();

@@ -1,10 +1,10 @@
 import type { DefaultSession } from "next-auth";
-import type { Role } from "@/lib/roles";
+import type { AccessLevel } from "@/lib/roles";
 import type { EmploymentType } from "@/lib/format";
 
 declare module "next-auth" {
   interface User {
-    role: Role;
+    role: AccessLevel;
     employmentType: EmploymentType;
     jobTitle?: string;
   }
@@ -12,7 +12,7 @@ declare module "next-auth" {
   interface Session {
     user: {
       id: string;
-      role: Role;
+      role: AccessLevel;
       employmentType: EmploymentType;
       jobTitle?: string;
     } & DefaultSession["user"];
@@ -21,7 +21,7 @@ declare module "next-auth" {
 
 declare module "next-auth/jwt" {
   interface JWT {
-    role: Role;
+    role: AccessLevel;
     employmentType: EmploymentType;
     jobTitle?: string;
   }
@@ -30,7 +30,7 @@ declare module "next-auth/jwt" {
 /** Auth.js v5 re-exports its JWT type from @auth/core, so augment that too. */
 declare module "@auth/core/jwt" {
   interface JWT {
-    role: Role;
+    role: AccessLevel;
     employmentType: EmploymentType;
     jobTitle?: string;
   }

@@ -1,6 +1,7 @@
 import "server-only";
 import { and, asc, count, desc, eq, inArray, isNull, ne, sql } from "drizzle-orm";
-import { db } from "./index";
+import { presenceView } from "@/modules/attendance/domain/presence";
+import { db, rowsOf } from "./index";
 import {
   applicationResumes,
   applications,
@@ -28,6 +29,7 @@ import {
   users,
   activityLog,
 } from "./schema";
+import { tierSql } from "./tier";
 
 /* ------------------------------------------------------------------ People */
 
@@ -39,10 +41,15 @@ export async function getPeople() {
       email: users.email,
       avatarUrl: users.avatarUrl,
       jobTitle: users.jobTitle,
-      role: users.role,
+      role: tierSql(),
+      /** What is stored: the access level and the two functions an employee can hold. */
+      access: users.role,
+      isHr: users.isHr,
+      isManagement: users.isManagement,
       employmentType: users.employmentType,
       status: users.status,
       startDate: users.startDate,
+      endDate: users.endDate,
       department: departments.name,
       departmentId: users.departmentId,
       managerId: users.managerId,
@@ -215,20 +222,33 @@ export async function getTasksForTeam(managerId: string) {
 
 /* -------------------------------------------------------------- Attendance */
 
+/**
+ * A person's recent days, newest first. Clock-out and hours are worked out from the presence
+ * signals, so a record whose signals stopped already shows as clocked out at the last one.
+ */
 export async function getAttendanceFor(userId: string, limit = 10) {
-  return db
+  const rows = await db
     .select()
     .from(attendance)
     .where(eq(attendance.userId, userId))
     .orderBy(desc(attendance.day))
     .limit(limit);
+
+  const now = new Date();
+  return rows.map((row) => ({ ...row, ...presenceView(row, now) }));
 }
 
+/** Present days as a share of recorded days, counted in the database rather than by loading every row. */
 export async function getAttendanceRate(userId: string) {
-  const rows = await db.select().from(attendance).where(eq(attendance.userId, userId));
-  if (rows.length === 0) return 0;
-  const present = rows.filter((row) => row.kind === "on_site" || row.kind === "remote").length;
-  return Math.round((present / rows.length) * 100);
+  const [row] = await db
+    .select({
+      total: count(),
+      present: sql<number>`count(*) filter (where ${attendance.kind} in ('on_site', 'remote'))`.mapWith(Number),
+    })
+    .from(attendance)
+    .where(eq(attendance.userId, userId));
+  if (!row || row.total === 0) return 0;
+  return Math.round((row.present / Number(row.total)) * 100);
 }
 
 export async function getLeaveFor(userId: string) {
@@ -357,6 +377,7 @@ export async function getCertificates() {
     .from(certificates)
     .leftJoin(users, eq(certificates.userId, users.id))
     .leftJoin(programmes, eq(certificates.programmeId, programmes.id))
+    .where(and(eq(certificates.status, "issued"), isNull(certificates.revokedAt)))
     .orderBy(desc(certificates.issuedAt));
 }
 
@@ -446,10 +467,13 @@ export async function getMessages(threadId: string) {
 
 /* ----------------------------------------------------------------- Website */
 
-export async function getBlogPosts() {
+/** Posts, newest first. Pass an author to get only theirs: employees see nobody else's. */
+export async function getBlogPosts(authorId?: string) {
   return db
     .select({
       id: blogPosts.id,
+      authorId: blogPosts.authorId,
+      reviewNote: blogPosts.reviewNote,
       title: blogPosts.title,
       slug: blogPosts.slug,
       excerpt: blogPosts.excerpt,
@@ -465,6 +489,7 @@ export async function getBlogPosts() {
     .from(blogPosts)
     .leftJoin(users, eq(blogPosts.authorId, users.id))
     .leftJoin(categories, eq(blogPosts.categoryId, categories.id))
+    .where(authorId ? eq(blogPosts.authorId, authorId) : undefined)
     .orderBy(desc(blogPosts.updatedAt));
 }
 
@@ -572,6 +597,7 @@ export async function getApprovalsFor(userId: string) {
     .select({
       id: approvals.id,
       kind: approvals.kind,
+      subjectId: approvals.subjectId,
       detail: approvals.detail,
       createdAt: approvals.createdAt,
       requestedBy: users.name,
@@ -587,6 +613,7 @@ export async function getOpenApprovals() {
     .select({
       id: approvals.id,
       kind: approvals.kind,
+      subjectId: approvals.subjectId,
       detail: approvals.detail,
       createdAt: approvals.createdAt,
       requestedBy: users.name,
@@ -632,7 +659,7 @@ export async function getRecentActivity(limit = 8) {
 /* ----------------------------------------------------------------- Counters */
 
 export async function getOrgCounts() {
-  /** One round trip: the HTTP driver makes every extra query a separate request. */
+  /** One round trip: on the HTTP driver every extra query is a separate request. */
   const result = await db.execute<{
     people: number;
     open_roles: number;
@@ -646,7 +673,7 @@ export async function getOrgCounts() {
       (select count(*) from ${programmes} where end_date >= current_date)::int as programmes
   `);
 
-  const row = result.rows[0];
+  const row = rowsOf<{ people: number; open_roles: number; applicants: number; programmes: number }>(result)[0];
 
   return {
     people: Number(row?.people ?? 0),
@@ -710,7 +737,7 @@ export async function getCertificateByReference(reference: string) {
     .from(certificates)
     .leftJoin(users, eq(certificates.userId, users.id))
     .leftJoin(programmes, eq(certificates.programmeId, programmes.id))
-    .where(eq(certificates.reference, reference))
+    .where(and(eq(certificates.reference, reference), eq(certificates.status, "issued")))
     .limit(1);
   return row ?? null;
 }

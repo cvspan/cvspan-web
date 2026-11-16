@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
 import { Table, Td, Thead, Tr } from "@/components/ui/table";
-import { JobStageActions } from "@/components/forms/website-forms";
+import { JobDeleteButton, JobStageSelect } from "@/components/forms/website-forms";
 import { getDepartmentSummary, getHiringPipeline, getJobListings } from "@/db/queries";
 import {
   applicationStageLabels,
@@ -30,7 +30,7 @@ export default async function CareersPage() {
     getDepartmentSummary(),
   ]);
 
-  const canManage = atLeast(user.role, "admin");
+  const canManage = atLeast(user.role, "hr");
   const pipelineMax = Math.max(...pipeline.map((stage) => stage.count), 1);
 
   const counts = [
@@ -140,7 +140,7 @@ export default async function CareersPage() {
         ) : (
           <Table>
             <Thead
-              columns={["Role", "Type", "Salary", "Applicants", "Closes", "Status", ""]}
+              columns={["Role", "Type and pay", "Applicants", "Closes", "Status", ""]}
             />
             <tbody>
               {jobs.map((job) => {
@@ -150,7 +150,7 @@ export default async function CareersPage() {
 
                 return (
                   <Tr key={job.id}>
-                    <Td className="max-w-80">
+                    <Td className="max-w-52">
                       <Link
                         href={`/careers/${job.id}`}
                         className="text-primary hover:text-accent block truncate font-semibold"
@@ -174,24 +174,18 @@ export default async function CareersPage() {
                       </span>
                     </Td>
 
-                    <Td className="whitespace-nowrap">
+                    <Td className="max-w-48">
                       <Badge>{employmentLabels[job.employmentType]}</Badge>
                       <span className="text-muted mt-1 block text-tiny">
                         {seniorityLabels[job.seniority]}
+                        {salary ? (
+                          <>
+                            {" · "}
+                            {salary}
+                            {!job.salaryPublic ? " (internal only)" : ""}
+                          </>
+                        ) : null}
                       </span>
-                    </Td>
-
-                    <Td className="whitespace-nowrap">
-                      {salary ? (
-                        <>
-                          {salary}
-                          {!job.salaryPublic ? (
-                            <span className="text-muted block text-tiny">Internal only</span>
-                          ) : null}
-                        </>
-                      ) : (
-                        <span className="text-muted">—</span>
-                      )}
                     </Td>
 
                     <Td>
@@ -217,12 +211,17 @@ export default async function CareersPage() {
                       )}
                     </Td>
 
-                    <Td>
-                      <Badge tone={statusTone(job.stage)}>{jobStageLabels[job.stage]}</Badge>
+                    <Td className="whitespace-nowrap">
+                      {canManage ? (
+                        <JobStageSelect jobId={job.id} stage={job.stage} title={job.title} />
+                      ) : (
+                        <Badge tone={statusTone(job.stage)}>{jobStageLabels[job.stage]}</Badge>
+                      )}
                     </Td>
 
-                    <Td className="whitespace-nowrap">
-                      <span className="flex justify-end">
+                    {/* Sticky, so the actions stay in view when a narrow window makes the table scroll sideways. */}
+                    <Td className="bg-card sticky right-0 whitespace-nowrap">
+                      <span className="flex items-center justify-end gap-1">
                         {job.stage === "open" ? (
                           <a
                             href={websiteJobUrl(job.slug)}
@@ -235,7 +234,7 @@ export default async function CareersPage() {
                             <RiExternalLinkLine size={18} aria-hidden />
                           </a>
                         ) : null}
-                        {canManage ? <JobStageActions jobId={job.id} stage={job.stage} /> : null}
+                        {canManage ? <JobDeleteButton jobId={job.id} stage={job.stage} /> : null}
                       </span>
                     </Td>
                   </Tr>

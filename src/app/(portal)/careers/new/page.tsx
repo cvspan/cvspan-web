@@ -8,7 +8,7 @@ export const metadata = { title: "New listing · CVSpan Portal" };
 
 export default async function NewJobPage() {
   const user = await requireUser();
-  if (!atLeast(user.role, "admin")) notFound();
+  if (!atLeast(user.role, "hr")) notFound();
 
   const [departments, people, skills] = await Promise.all([
     getDepartments(),

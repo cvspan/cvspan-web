@@ -4,10 +4,10 @@ import { uploadImage } from "./image";
 const SIZE = 512;
 
 /**
- * Crops the middle square of a photo, scales it to 512px and uploads it, so a portrait or
+ * Crops the middle square of a photo, scales it down to `size` (512px by default) and uploads it, so a portrait or
  * landscape picture fills the round avatar without being squashed. Returns the stored path.
  */
-export async function uploadAvatar(file: File): Promise<string> {
+export async function uploadAvatar(file: File, size = SIZE): Promise<string> {
   if (!file.type.startsWith("image/") || file.type === "image/gif") {
     throw new Error("Choose a JPG, PNG or WebP photo.");
   }
@@ -17,7 +17,7 @@ export async function uploadAvatar(file: File): Promise<string> {
     const bitmap = await createImageBitmap(file);
     const side = Math.min(bitmap.width, bitmap.height);
     const canvas = document.createElement("canvas");
-    canvas.width = canvas.height = Math.min(SIZE, side);
+    canvas.width = canvas.height = Math.min(size, side);
 
     const context = canvas.getContext("2d");
     if (context) {

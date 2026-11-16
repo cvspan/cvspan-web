@@ -46,7 +46,7 @@ export default async function ProgrammesPage() {
                 </Button>
               </a>
             ) : null}
-            {atLeast(user.viewRole, "admin") ? <NewCohortButton /> : null}
+            {atLeast(user.viewRole, "hr") ? <NewCohortButton /> : null}
           </>
         }
       />

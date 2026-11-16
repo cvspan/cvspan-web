@@ -23,7 +23,8 @@ import { getDepartmentOverview } from "@/db/queries-departments";
 import { getReviewsForUser } from "@/db/queries-reviews";
 import { getSelfAssessments } from "@/db/queries";
 import { EditDatesButton } from "@/components/forms/review-forms";
-import { ManageAccessButton } from "@/components/forms/access-forms";
+import { workedLabel } from "@/modules/attendance/domain/presence";
+import { EditDetailsButton, ManageAccessButton } from "@/components/forms/access-forms";
 import { InternshipCountdown } from "@/components/reviews/internship-countdown";
 import { RatingMeter } from "@/components/reviews/rating-meter";
 import { getProjectsForPerson } from "@/db/queries-projects";
@@ -36,7 +37,7 @@ import {
   relativeDays,
   taskStatusLabels,
 } from "@/lib/format";
-import { atLeast, roleLabels } from "@/lib/roles";
+import { accessSummary, atLeast } from "@/lib/roles";
 import { requireUser } from "@/lib/session";
 import { companyDay } from "@/lib/dates";
 import { CRITERIA, internshipWindow, ratingTone } from "@/lib/grading";
@@ -95,16 +96,26 @@ export default async function PersonPage({ params }: { params: Promise<{ id: str
                 Message
               </Button>
             </form>
-            {atLeast(viewer.role, "admin") && viewer.id !== person.id ? (
+            {atLeast(viewer.role, "hr") && viewer.id !== person.id ? (
               <ManageAccessButton
                 userId={person.id}
                 name={person.name}
-                role={person.role}
+                access={person.role}
+                isHr={person.isHr}
+                isManagement={person.isManagement}
                 status={person.status}
-                canChangeRole={viewer.role === "super_admin"}
+                viewerRole={viewer.role}
               />
             ) : null}
-            {atLeast(viewer.role, "admin") ? (
+            {atLeast(viewer.role, "hr") ? (
+              <EditDetailsButton
+                userId={person.id}
+                name={person.name}
+                email={person.email}
+                jobTitle={person.jobTitle}
+              />
+            ) : null}
+            {atLeast(viewer.role, "hr") ? (
               <EditDatesButton
                 userId={person.id}
                 startDate={person.startDate}
@@ -131,7 +142,7 @@ export default async function PersonPage({ params }: { params: Promise<{ id: str
               <p className="text-muted text-body">{person.email}</p>
               <p className="mt-2 flex flex-wrap gap-2">
                 <Badge>{employmentLabels[person.employmentType]}</Badge>
-                <Badge tone="accent">{roleLabels[person.role]}</Badge>
+                <Badge tone="accent">{accessSummary(person)}</Badge>
                 <Badge tone={statusTone(person.status)} className="capitalize">
                   {person.status}
                 </Badge>
@@ -145,7 +156,7 @@ export default async function PersonPage({ params }: { params: Promise<{ id: str
               </dt>
               <dd className="text-primary">
                 {department ? (
-                  atLeast(viewer.role, "admin") ? (
+                  atLeast(viewer.role, "hr") ? (
                     <Link href={`/departments/${department.id}`} className="hover:text-accent">
                       {department.name}
                     </Link>
@@ -210,7 +221,7 @@ export default async function PersonPage({ params }: { params: Promise<{ id: str
                   <Tr key={task.id}>
                     <Td className="text-primary font-semibold">{task.title}</Td>
                     <Td className="whitespace-nowrap">
-                      {task.projectId && atLeast(viewer.role, "admin") ? (
+                      {task.projectId && atLeast(viewer.role, "hr") ? (
                         <Link href={`/projects/${task.projectId}`} className="hover:text-accent">
                           {task.projectName}
                         </Link>
@@ -234,7 +245,7 @@ export default async function PersonPage({ params }: { params: Promise<{ id: str
         <Card>
           <CardHeader title="Recent attendance" />
           <Table>
-            <Thead columns={["Day", "Type", "In", "Out"]} />
+            <Thead columns={["Day", "Type", "In", "Out", "Hours"]} />
             <tbody>
               {attendance.map((entry) => (
                 <Tr key={entry.id}>
@@ -246,6 +257,7 @@ export default async function PersonPage({ params }: { params: Promise<{ id: str
                   </Td>
                   <Td>{formatTime(entry.clockIn)}</Td>
                   <Td>{formatTime(entry.clockOut)}</Td>
+                  <Td>{workedLabel(entry.workedMs)}</Td>
                 </Tr>
               ))}
             </tbody>

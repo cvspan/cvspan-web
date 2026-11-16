@@ -7,13 +7,10 @@
  *
  *   npm run db:backfill-projects
  */
-import { neon } from "@neondatabase/serverless";
 import { and, inArray, isNotNull, isNull } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/neon-http";
 import { deriveProjectCode } from "../lib/project";
+import { db } from "./index";
 import * as schema from "./schema";
-
-const db = drizzle(neon(process.env.DATABASE_URL!), { schema });
 const { tasks, projects, projectMembers, users } = schema;
 
 /** The value that appears most often, or null for an empty list. */
@@ -121,7 +118,9 @@ async function main() {
   console.log("\nDone. The legacy tasks.project column is untouched.");
 }
 
-main().catch((error) => {
-  console.error(error);
-  process.exit(1);
-});
+main()
+  .then(() => process.exit(0))
+  .catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });

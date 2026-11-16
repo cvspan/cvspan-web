@@ -7,8 +7,9 @@ import { Gauge, Progress } from "@/components/ui/chart";
 import { Delta } from "@/components/ui/delta";
 import { PageHeader } from "@/components/ui/page-header";
 import { KpiBars } from "@/components/portal/kpi-bars";
+import { companyDay } from "@/lib/dates";
 import { MyInternshipCountdown, MyLatestReview } from "@/components/reviews/snapshots";
-import { ClockButton } from "@/components/forms/attendance-forms";
+import { PresenceBadge } from "@/components/portal/presence-badge";
 import { TaskCheckbox } from "@/components/forms/task-forms";
 import {
   getAssignmentsFor,
@@ -38,12 +39,7 @@ export async function MemberDashboard({
   ]);
 
   const todayEntry = attendance[0];
-  const clockedIn = Boolean(
-    todayEntry &&
-      todayEntry.day === new Date().toISOString().slice(0, 10) &&
-      todayEntry.clockIn &&
-      !todayEntry.clockOut,
-  );
+  const clockedIn = Boolean(todayEntry && todayEntry.day === companyDay() && todayEntry.working);
 
   const open = tasks.filter((task) => task.status !== "done");
   const overdue = open.filter((task) => task.dueAt && new Date(task.dueAt) < new Date());
@@ -79,7 +75,7 @@ export async function MemberDashboard({
         title="Dashboard"
         actions={
           <>
-            <ClockButton clockedIn={clockedIn} />
+            <PresenceBadge working={clockedIn} clockIn={todayEntry?.day === companyDay() ? todayEntry.clockIn : null} />
           </>
         }
       />

@@ -14,7 +14,7 @@ export const metadata = { title: "Departments · CVSpan Portal" };
 
 export default async function DepartmentsPage() {
   const user = await requireUser();
-  if (!atLeast(user.viewRole, "admin")) notFound();
+  if (!atLeast(user.viewRole, "hr")) notFound();
 
   const [departments, people] = await Promise.all([getDepartmentsOverview(), getPeople()]);
 

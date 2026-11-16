@@ -9,6 +9,9 @@ export const notificationCategories = [
   { key: "approvals", label: "Leave requests for me to approve, and decisions on mine" },
   { key: "projects", label: "I am added to a project or made its manager" },
   { key: "organisation", label: "My role, department or reporting line changes" },
+  { key: "objectives", label: "My objectives are reviewed, or a report submits theirs for me" },
+  { key: "certificates", label: "A certificate of mine is approved, declined or revoked" },
+  { key: "blog", label: "A blog post of mine is approved or sent back, or one needs my review" },
   { key: "careers", label: "A candidate applies for a role I am hiring for" },
 ] as const;
 

@@ -22,6 +22,7 @@ import {
 } from "@/lib/grading";
 import { alias } from "drizzle-orm/pg-core";
 import { atLeast, type Role } from "@/lib/roles";
+import { tierSql } from "./tier";
 
 const reviewer = alias(users, "reviewer");
 const departmentHead = alias(users, "department_head");
@@ -104,13 +105,13 @@ export async function getGradablePeople() {
       id: users.id,
       name: users.name,
       jobTitle: users.jobTitle,
-      role: users.role,
+      role: tierSql(),
       employmentType: users.employmentType,
       managerId: users.managerId,
       departmentId: users.departmentId,
       departmentName: departments.name,
       headId: departments.headId,
-      headRole: departmentHead.role,
+      headRole: tierSql(departmentHead),
       startDate: users.startDate,
       endDate: users.endDate,
     })
@@ -119,7 +120,7 @@ export async function getGradablePeople() {
     .leftJoin(departmentHead, eq(departments.headId, departmentHead.id))
     .where(
       and(
-        inArray(users.role, ["member", "manager"]),
+        eq(users.role, "employee"),
         notInArray(users.status, ["alumni", "suspended"]),
       ),
     )

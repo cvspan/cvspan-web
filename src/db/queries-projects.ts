@@ -10,6 +10,7 @@ import {
   tasks,
   users,
 } from "./schema";
+import { tierSql } from "./tier";
 
 /**
  * The aggregates every project row needs. They are correlated subqueries rather than joins, so
@@ -94,7 +95,7 @@ export async function getProjectMembers(projectId: string) {
       name: users.name,
       jobTitle: users.jobTitle,
       departmentName: departments.name,
-      userRole: users.role,
+      userRole: tierSql(),
       role: projectMembers.role,
       openTasks: sql<number>`(select count(*)::int from ${tasks} where ${tasks.projectId} = ${projectId} and ${tasks.assigneeId} = ${users.id} and ${tasks.status} <> 'done')`,
     })

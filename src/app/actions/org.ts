@@ -36,7 +36,7 @@ const positionSchema = z.object({
  * involved are told when it changes.
  */
 export async function updatePosition(formData: FormData): Promise<ActionResult> {
-  const actor = await requireRole("admin");
+  const actor = await requireRole("hr");
 
   const parsed = parseForm(positionSchema, formData);
   if (!parsed.success) return fail(parsed.error);

@@ -31,7 +31,7 @@ import { statusTone } from "@/lib/tone";
 export default async function DepartmentPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const user = await requireUser();
-  if (!atLeast(user.viewRole, "admin")) notFound();
+  if (!atLeast(user.viewRole, "hr")) notFound();
 
   const department = await getDepartmentOverview(id);
   if (!department) notFound();

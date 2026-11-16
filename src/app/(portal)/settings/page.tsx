@@ -1,13 +1,11 @@
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardHeader } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
-import { updateProfile } from "@/app/actions/profile";
 import { requireUser } from "@/lib/session";
 import { getNotificationPreferences, getUserById } from "@/db/queries";
 import { AvatarField } from "@/components/forms/avatar-field";
 import { NotificationPreferences } from "@/components/forms/notification-preferences";
-import { roleLabels } from "@/lib/roles";
+import { accessSummary } from "@/lib/roles";
 
 export default async function SettingsPage() {
   const session = await requireUser();
@@ -25,49 +23,32 @@ export default async function SettingsPage() {
 
       <section className="grid gap-4 xl:grid-cols-3">
         <Card className="xl:col-span-2">
-          <form action={updateProfile}>
           <CardHeader title="Profile" />
           <div className="border-line border-b p-5">
             <AvatarField name={session.name} initialUrl={session.avatarUrl} />
           </div>
           <div className="grid gap-4 p-5 sm:grid-cols-2">
-            <label className="flex flex-col gap-1.5">
-              <span className="text-primary text-body font-semibold">Full name</span>
-              <input
-                name="name"
-                defaultValue={session.name}
-                className="border-line-input text-primary h-11 rounded-lg border bg-transparent px-3.5 text-para outline-none"
-              />
-            </label>
-            <label className="flex flex-col gap-1.5">
-              <span className="text-primary text-body font-semibold">Job title</span>
-              <input
-                name="jobTitle"
-                defaultValue={session.jobTitle}
-                className="border-line-input text-primary h-11 rounded-lg border bg-transparent px-3.5 text-para outline-none"
-              />
-            </label>
-            <label className="flex flex-col gap-1.5">
-              <span className="text-primary text-body font-semibold">Work email</span>
-              <input
-                readOnly
-                defaultValue={session.email}
-                className="border-line-input text-primary h-11 rounded-lg border bg-transparent px-3.5 text-para outline-none"
-              />
-            </label>
-            <label className="flex flex-col gap-1.5">
-              <span className="text-primary text-body font-semibold">Role</span>
-              <input
-                readOnly
-                defaultValue={roleLabels[session.role]}
-                className="border-line-input text-muted h-11 rounded-lg border bg-transparent px-3.5 text-para outline-none"
-              />
-            </label>
+            {[
+              ["Full name", session.name],
+              ["Job title", session.jobTitle ?? ""],
+              ["Work email", session.email],
+              ["Access", accessSummary({ role: session.access, isHr: session.isHr, isManagement: session.isManagement })],
+            ].map(([label, value]) => (
+              <label key={label} className="flex flex-col gap-1.5">
+                <span className="text-primary text-body font-semibold">{label}</span>
+                <input
+                  readOnly
+                  value={value}
+                  placeholder="—"
+                  className="border-line-input text-muted bg-raised h-11 cursor-not-allowed rounded-lg border px-3.5 text-para outline-none"
+                />
+              </label>
+            ))}
           </div>
-          <footer className="border-line flex justify-end border-t px-5 py-4">
-            <Button type="submit">Save changes</Button>
-          </footer>
-          </form>
+          <p className="text-muted border-line border-t px-5 py-4 text-caption">
+            Your name, email, job title and access are set by an admin. If any of them is wrong, ask HR to
+            correct it. You can change your photo here.
+          </p>
         </Card>
 
         <Card>

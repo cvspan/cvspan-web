@@ -6,9 +6,7 @@
  *
  *   npm run db:backfill-org-levels
  */
-import { neon } from "@neondatabase/serverless";
-
-const sql = neon(process.env.DATABASE_URL!);
+import { sql } from "./sql";
 
 async function main() {
   const changed = await sql`

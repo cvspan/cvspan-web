@@ -63,7 +63,7 @@ export default async function ReviewsPage({
   const me = people.find((person) => person.id === user.id) ?? null;
 
   /** Admins can grade anyone; everyone else grades the people they are the reviewer for. */
-  const isAdminView = atLeast(user.viewRole, "admin");
+  const isAdminView = atLeast(user.viewRole, "hr");
   const canGrade = atLeast(user.viewRole, "manager");
   const subjects = !canGrade
     ? []

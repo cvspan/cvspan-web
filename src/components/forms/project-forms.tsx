@@ -380,7 +380,7 @@ export function AddMembersButton({
         </Button>
       }
       title={`Add people to ${projectName}`}
-      description="They are notified and can see the project, its timeline and its tasks. Only an admin can make a member the project manager, which also makes them a Manager."
+      description="They are notified and can see the project, its timeline and its tasks. Only HR or an admin can make a staff member the project manager, which also makes them a Manager."
       submitLabel="Add to project"
       action={addProjectMembers}
     >

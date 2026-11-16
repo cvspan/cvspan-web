@@ -1,7 +1,9 @@
 import { auth } from "@/auth";
 import { getAllTasks, getEnrolmentProgress, getKpiHistory, getPeople } from "@/db/queries";
+import { directoryGroup, directoryStatusLabels } from "@/lib/directory";
 import { employmentLabels, taskStatusLabels } from "@/lib/format";
 import { atLeast, roleLabels } from "@/lib/roles";
+import { currentTier } from "@/lib/session";
 
 /** Minimal CSV escaping: quote everything, double internal quotes. */
 function toCsv(rows: string[][]) {
@@ -14,15 +16,18 @@ export async function GET(
 ) {
   const session = await auth();
   if (!session?.user) return new Response("Unauthorised", { status: 401 });
+  /** The role comes from the database: the session token only says who someone was when they signed in. */
+  const me = await currentTier();
+  if (!me) return new Response("Unauthorised", { status: 401 });
 
   const { dataset } = await params;
 
   if (dataset === "people") {
-    if (!atLeast(session.user.role, "admin")) return new Response("Forbidden", { status: 403 });
+    if (!atLeast(me.role, "hr")) return new Response("Forbidden", { status: 403 });
 
     const people = await getPeople();
     const csv = toCsv([
-      ["Name", "Email", "Job title", "Department", "Employment type", "Access", "Status", "Started"],
+      ["Name", "Email", "Job title", "Department", "Employment type", "Access", "Status", "Started", "Ended"],
       ...people.map((person) => [
         person.name,
         person.email,
@@ -30,8 +35,9 @@ export async function GET(
         person.department ?? "",
         employmentLabels[person.employmentType],
         roleLabels[person.role],
-        person.status,
+        directoryStatusLabels[directoryGroup(person)],
         person.startDate ?? "",
+        person.endDate ?? "",
       ]),
     ]);
 
@@ -44,7 +50,7 @@ export async function GET(
   }
 
   if (dataset === "tasks") {
-    if (!atLeast(session.user.role, "manager")) return new Response("Forbidden", { status: 403 });
+    if (!atLeast(me.role, "manager")) return new Response("Forbidden", { status: 403 });
 
     const tasks = await getAllTasks();
     const csv = toCsv([
@@ -68,7 +74,7 @@ export async function GET(
   }
 
   if (dataset === "programmes") {
-    if (!atLeast(session.user.role, "manager")) return new Response("Forbidden", { status: 403 });
+    if (!atLeast(me.role, "manager")) return new Response("Forbidden", { status: 403 });
 
     const rows = await getEnrolmentProgress();
     const csv = toCsv([

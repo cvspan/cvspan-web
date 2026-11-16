@@ -3,7 +3,7 @@
 import { and, eq, inArray, ne, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { db } from "@/db";
+import { batch, db } from "@/db";
 import { departments, jobListings, projects, teams, users } from "@/db/schema";
 import { slugify } from "@/lib/slug";
 import {
@@ -34,7 +34,7 @@ function refresh(departmentId?: string) {
 }
 
 export async function createDepartment(formData: FormData): Promise<ActionResult> {
-  const actor = await requireRole("admin");
+  const actor = await requireRole("hr");
 
   const parsed = parseForm(departmentSchema, formData);
   if (!parsed.success) return fail(parsed.error);
@@ -59,7 +59,7 @@ export async function createDepartment(formData: FormData): Promise<ActionResult
 }
 
 export async function updateDepartment(formData: FormData): Promise<ActionResult> {
-  const actor = await requireRole("admin");
+  const actor = await requireRole("hr");
 
   const parsed = parseForm(
     departmentSchema.extend({ id: requiredId("department"), headId: optionalId("head") }),
@@ -107,7 +107,7 @@ export async function updateDepartment(formData: FormData): Promise<ActionResult
 }
 
 export async function deleteDepartment(departmentId: string): Promise<ActionResult> {
-  const actor = await requireRole("admin");
+  const actor = await requireRole("hr");
 
   const [department] = await db
     .select()
@@ -147,7 +147,7 @@ export async function deleteDepartment(departmentId: string): Promise<ActionResu
 
 /** Moves people into a department. A person has one department, so this is also a transfer. */
 export async function assignToDepartment(formData: FormData): Promise<ActionResult> {
-  const actor = await requireRole("admin");
+  const actor = await requireRole("hr");
 
   const parsed = parseForm(
     z.object({ departmentId: requiredId("department"), userIds: idList("person") }),
@@ -172,7 +172,7 @@ export async function assignToDepartment(formData: FormData): Promise<ActionResu
   if (moving.length === 0) return fail("Everyone selected is already in this department.");
   const movingIds = moving.map((row) => row.id);
 
-  await db.batch([
+  await batch((db) => [
     /** A team belongs to one department, so a transfer leaves the old team behind. */
     db
       .update(users)
@@ -207,7 +207,7 @@ export async function removeFromDepartment(
   departmentId: string,
   userId: string,
 ): Promise<ActionResult> {
-  const actor = await requireRole("admin");
+  const actor = await requireRole("hr");
 
   const [member] = await db
     .select({ name: users.name })
@@ -216,7 +216,7 @@ export async function removeFromDepartment(
     .limit(1);
   if (!member) return fail("That person is not in this department.");
 
-  await db.batch([
+  await batch((db) => [
     db.update(users).set({ departmentId: null, teamId: null }).where(eq(users.id, userId)),
     db
       .update(departments)

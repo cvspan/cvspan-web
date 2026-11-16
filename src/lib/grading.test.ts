@@ -61,6 +61,12 @@ describe("which week to grade", () => {
 });
 
 describe("who grades whom", () => {
+  it("grades HR employees like Management: by their department head", () => {
+    const head = { id: "head", role: "manager" as const };
+    assert.equal(reviewerIdFor({ id: "hr1", role: "hr", managerId: "boss" }, head), "head");
+    assert.equal(reviewerIdFor({ id: "hr1", role: "hr", managerId: "boss" }, null), "boss");
+  });
+
   const member = { id: "m", role: "member" as const, managerId: "boss" };
   const manager = { id: "mgr", role: "manager" as const, managerId: "coo" };
   const head = { id: "head", role: "manager" as const };

@@ -452,3 +452,126 @@ body {
   :root:not(.light) .brand-on-light { display: none; }
   :root:not(.light) .brand-on-dark { display: block; }
 }
+
+/* ------------------------------------------------------------------
+   Certificate lightbox: a native <dialog> that fades and lifts in over a blurred backdrop.
+   Transitions run on `display`/`overlay` too, so closing animates instead of snapping shut.
+   ------------------------------------------------------------------ */
+
+.cert-lightbox {
+  /* Wide enough to read, never taller than the screen: the certificate is 4035 × 2851, so width follows the height left over. */
+  width: min(72rem, calc(100vw - 2rem), calc((100dvh - 10.5rem) * 1.4155));
+  min-width: min(22rem, calc(100vw - 2rem));
+  max-width: none;
+  max-height: calc(100dvh - 1.5rem);
+  margin: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  overflow: visible;
+  opacity: 0;
+  transform: translateY(14px) scale(0.985);
+  transition:
+    opacity 0.28s ease,
+    transform 0.34s cubic-bezier(0.2, 0.8, 0.2, 1),
+    overlay 0.28s allow-discrete,
+    display 0.28s allow-discrete;
+}
+.cert-lightbox[open] {
+  opacity: 1;
+  transform: none;
+}
+@starting-style {
+  .cert-lightbox[open] {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+  }
+}
+
+.cert-lightbox::backdrop {
+  background: rgb(5 5 40 / 0.72);
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  transition:
+    opacity 0.28s ease,
+    overlay 0.28s allow-discrete,
+    display 0.28s allow-discrete;
+}
+.cert-lightbox[open]::backdrop {
+  opacity: 1;
+}
+@starting-style {
+  .cert-lightbox[open]::backdrop {
+    opacity: 0;
+  }
+}
+
+.cert-lightbox-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  max-height: calc(100dvh - 1.5rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.cert-lightbox-head {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0 0.25rem;
+}
+.cert-lightbox-head > div {
+  flex: 1;
+}
+
+.cert-lightbox-close {
+  display: flex;
+  width: 2.25rem;
+  height: 2.25rem;
+  flex-shrink: 0;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 9999px;
+  background: rgb(255 255 255 / 0.12);
+  color: #fff;
+  transition: background-color 0.15s;
+}
+.cert-lightbox-close:hover {
+  background: rgb(255 255 255 / 0.22);
+}
+
+.cert-lightbox-sheet {
+  overflow: hidden;
+  border-radius: 0.75rem;
+  box-shadow:
+    0 30px 80px -20px rgb(0 0 0 / 0.55),
+    0 0 0 1px rgb(255 255 255 / 0.08);
+}
+
+.cert-lightbox-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-line);
+  background: var(--color-card);
+  padding: 0.75rem 1rem;
+}
+
+/* Scrolling stays on the dialog while it is open, not the page behind it. */
+body:has(.cert-lightbox[open]) {
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cert-lightbox,
+  .cert-lightbox::backdrop {
+    transition-duration: 0.01ms;
+  }
+}

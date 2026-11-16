@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { Inter } from "next/font/google";
 import { Analytics } from "@/components/analytics";
+import { getSiteSettings } from "@/db/queries-site";
 import { websiteUrl } from "@/lib/website";
 import "./globals.css";
 
@@ -38,13 +39,15 @@ export default async function RootLayout({
    */
   const store = await cookies();
   const choice = store.get(THEME_COOKIE)?.value;
+  /** The same Google Analytics property as the website, set in Site settings. A failure never stops a page. */
+  const measurementId = await getSiteSettings().then((settings) => settings.gaMeasurementId).catch(() => null);
   const themeClass = choice === "dark" ? "dark" : choice === "light" ? "light" : "";
 
   return (
     <html lang="en" className={themeClass}>
       <body className={`${inter.variable} font-sans antialiased`}>
         {children}
-        <Analytics />
+        <Analytics measurementId={measurementId} />
       </body>
     </html>
   );

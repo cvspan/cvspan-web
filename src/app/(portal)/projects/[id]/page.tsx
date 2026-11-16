@@ -65,7 +65,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ id: st
   const project = await getProject(id);
   if (!project) notFound();
 
-  const canAdmin = atLeast(user.viewRole, "admin");
+  const canAdmin = atLeast(user.viewRole, "hr");
   const myRole = await getProjectRole(id, user.id);
 
   /** Admins see every project; everyone else only the ones they are on. */

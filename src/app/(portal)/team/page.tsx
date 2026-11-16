@@ -59,7 +59,7 @@ export default async function TeamPage() {
       {rows.length === 0 ? (
         <Card>
           <p className="text-muted px-5 py-8 text-center text-body">
-            No one reports to you yet. An admin can set reporting lines on the People page.
+            No one reports to you yet. HR or an admin can set reporting lines on the People page.
           </p>
         </Card>
       ) : (

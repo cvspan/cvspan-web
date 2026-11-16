@@ -10,7 +10,7 @@ import { logActivity, requireRole } from "./guards";
 
 /** Moves a candidate along the hiring pipeline. Admins only. */
 export async function setApplicationStage(applicationId: string, stage: string): Promise<ActionResult> {
-  const actor = await requireRole("admin");
+  const actor = await requireRole("hr");
 
   if (!(applicationStages as readonly string[]).includes(stage)) return fail("Unknown stage.");
 

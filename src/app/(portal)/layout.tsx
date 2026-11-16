@@ -1,5 +1,6 @@
 import { after } from "next/server";
 import { RoleProvider } from "@/components/portal/role-context";
+import { PresenceTracker } from "@/components/portal/presence-tracker";
 import { Shell } from "@/components/portal/shell";
 import { getNotificationsFor } from "@/db/queries";
 import { relativeDays } from "@/lib/format";
@@ -16,6 +17,7 @@ export default async function PortalLayout({
 
   return (
     <RoleProvider user={{ ...user, role: user.viewRole, realRole: user.role }}>
+      <PresenceTracker />
       <Shell
         notifications={notifications.map((item) => ({
           id: item.id,

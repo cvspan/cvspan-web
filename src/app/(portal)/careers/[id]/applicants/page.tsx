@@ -7,12 +7,12 @@ import { Card, CardHeader } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
 import { Table, Td, Thead, Tr } from "@/components/ui/table";
 import { ApplicationStageSelect } from "@/components/forms/application-forms";
+import { JobStageSelect } from "@/components/forms/website-forms";
 import { getApplicationsFor, getJobById } from "@/db/queries";
 import { applicationStages } from "@/lib/applications";
-import { applicationStageLabels, formatDay, jobStageLabels, relativeDays } from "@/lib/format";
+import { applicationStageLabels, formatDay, relativeDays } from "@/lib/format";
 import { atLeast } from "@/lib/roles";
 import { requireUser } from "@/lib/session";
-import { statusTone } from "@/lib/tone";
 import { withBasePath } from "@/lib/base-path";
 import { websiteJobUrl } from "@/lib/website";
 
@@ -21,7 +21,7 @@ export const metadata = { title: "Applicants · CVSpan Portal" };
 export default async function ApplicantsPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const user = await requireUser();
-  if (!atLeast(user.viewRole, "admin")) notFound();
+  if (!atLeast(user.viewRole, "hr")) notFound();
 
   const job = await getJobById(id);
   if (!job) notFound();
@@ -40,7 +40,7 @@ export default async function ApplicantsPage({ params }: { params: Promise<{ id:
         title={job.title}
         actions={
           <>
-            <Badge tone={statusTone(job.stage)}>{jobStageLabels[job.stage]}</Badge>
+            <JobStageSelect jobId={job.id} stage={job.stage} title={job.title} />
             {job.stage === "open" ? (
               <a href={websiteJobUrl(job.slug)} target="_blank" rel="noopener noreferrer">
                 <Button variant="secondary" type="button">

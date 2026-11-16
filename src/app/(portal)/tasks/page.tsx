@@ -31,12 +31,12 @@ export default async function TasksPage({
 
   if (!listView) {
     /** Admins see everyone's tasks, managers their own and their team's, members their own. */
-    const reports = isManager && !atLeast(user.viewRole, "admin") ? await getDirectReports(user.id) : [];
+    const reports = isManager && !atLeast(user.viewRole, "hr") ? await getDirectReports(user.id) : [];
     const rows = await getBoardTasks(
-      atLeast(user.viewRole, "admin") ? null : [user.id, ...reports.map((report) => report.id)],
+      atLeast(user.viewRole, "hr") ? null : [user.id, ...reports.map((report) => report.id)],
     );
-    const boardProjects = await getProjectOptions(atLeast(user.viewRole, "admin") ? undefined : user.id);
-    const boardPeople = atLeast(user.viewRole, "admin")
+    const boardProjects = await getProjectOptions(atLeast(user.viewRole, "hr") ? undefined : user.id);
+    const boardPeople = atLeast(user.viewRole, "hr")
       ? (await getPeople()).map((person) => ({ id: person.id, name: person.name }))
       : isManager
         ? [{ id: user.id, name: `${user.name} (me)` }, ...reports.map((report) => ({ id: report.id, name: report.name }))]
@@ -82,20 +82,20 @@ export default async function TasksPage({
     );
   }
 
-  const tasks = atLeast(user.viewRole, "admin")
+  const tasks = atLeast(user.viewRole, "hr")
     ? await getAllTasks()
     : atLeast(user.viewRole, "manager")
       ? [...(await getTasksFor(user.id)), ...(await getTasksForTeam(user.id))]
       : await getTasksFor(user.id);
 
-  const assignable = atLeast(user.viewRole, "admin")
+  const assignable = atLeast(user.viewRole, "hr")
     ? (await getPeople()).map((person) => ({ id: person.id, name: person.name }))
     : atLeast(user.viewRole, "manager")
       ? [{ id: user.id, name: `${user.name} (me)` }, ...(await getDirectReports(user.id))]
       : [{ id: user.id, name: user.name }];
 
   const projectOptions = await getProjectOptions(
-    atLeast(user.viewRole, "admin") ? undefined : user.id,
+    atLeast(user.viewRole, "hr") ? undefined : user.id,
   );
 
   const visible =
@@ -122,7 +122,7 @@ export default async function TasksPage({
     { label: "Done", count: tasks.filter((task) => task.status === "done").length, tone: "success" },
   ];
 
-  const scope = atLeast(user.viewRole, "admin")
+  const scope = atLeast(user.viewRole, "hr")
     ? "Everyone"
     : atLeast(user.viewRole, "manager")
       ? "My team and me"

@@ -19,12 +19,16 @@ const nextConfig: NextConfig = {
   },
 
   async redirects() {
-    return BASE_PATH
-      ? [
-          /** Convenience: opening the bare host (local dev) lands on the portal. */
-          { source: "/", destination: BASE_PATH, permanent: false, basePath: false },
-        ]
-      : [];
+    return [
+      /** KPIs became Performance; old links and notifications still land on the scores. */
+      { source: "/kpis", destination: "/performance/scores", permanent: false },
+      ...(BASE_PATH
+        ? [
+            /** Convenience: opening the bare host (local dev) lands on the portal. */
+            { source: "/", destination: BASE_PATH, permanent: false, basePath: false as const },
+          ]
+        : []),
+    ];
   },
 };
 

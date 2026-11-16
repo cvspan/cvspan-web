@@ -11,6 +11,8 @@ import { getKpiHistory, getKpiTrend, getSelfAssessments } from "@/db/queries";
 import { SelfAssessmentButton } from "@/components/forms/self-assessment";
 import { companyDay } from "@/lib/dates";
 import { formatMonth } from "@/lib/format";
+import { PerformanceTabs } from "@/components/portal/performance-tabs";
+import { atLeast } from "@/lib/roles";
 import { requireUser } from "@/lib/session";
 
 /** Weightings are defined per team; shown here so people know what is measured. */
@@ -42,7 +44,7 @@ export default async function KpisPage() {
     <>
       <PageHeader
         pretitle="Performance"
-        title="My KPIs"
+        title="Performance"
         actions={
           <>
             <a href={withBasePath("/api/export/kpis")} download>
@@ -62,6 +64,8 @@ export default async function KpisPage() {
           </>
         }
       />
+
+      <PerformanceTabs active="scores" canReview={atLeast(user.viewRole, "manager")} />
 
       <section className="grid gap-4 xl:grid-cols-3">
         <Card>

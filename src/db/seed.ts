@@ -6,14 +6,10 @@
  */
 import bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
-import { neon } from "@neondatabase/serverless";
-import { drizzle } from "drizzle-orm/neon-http";
 import { addDays, mondayOf } from "../lib/dates";
 import { criterionKeys } from "../lib/grading";
+import { db } from "./index";
 import * as schema from "./schema";
-
-const sql = neon(process.env.DATABASE_URL!);
-const db = drizzle(sql, { schema });
 
 const DEMO_PASSWORD = "cvspan2026";
 
@@ -124,10 +120,10 @@ async function main() {
   const staff = await db
     .insert(schema.users)
     .values([
-      { email: "kemi@cvspan.com", passwordHash, name: "Kemi Lawal", role: "admin", orgLevel: "manager", employmentType: "full_time", status: "active", jobTitle: "HR Manager", departmentId: dept.management, teamId: team["People Ops"], managerId: seyi.id, startDate: "2024-06-03" },
-      { email: "ada@cvspan.com", passwordHash, name: "Ada Obi", role: "manager", orgLevel: "manager", employmentType: "full_time", status: "active", jobTitle: "Design Lead", departmentId: dept.design, teamId: team["Product Design"], managerId: seyi.id, startDate: "2024-03-11" },
-      { email: "tunde@cvspan.com", passwordHash, name: "Tunde Ke", role: "manager", orgLevel: "manager", employmentType: "full_time", status: "active", jobTitle: "Engineering Lead", departmentId: dept.development, teamId: team.Platform, managerId: seyi.id, startDate: "2023-08-21" },
-      { email: "ngozi@cvspan.com", passwordHash, name: "Ngozi Uche", role: "manager", orgLevel: "manager", employmentType: "full_time", status: "active", jobTitle: "Marketing Lead", departmentId: dept.marketing, teamId: team.Growth, managerId: seyi.id, startDate: "2024-11-04" },
+      { email: "kemi@cvspan.com", passwordHash, name: "Kemi Lawal", role: "employee", isHr: true, orgLevel: "manager", employmentType: "full_time", status: "active", jobTitle: "HR Manager", departmentId: dept.management, teamId: team["People Ops"], managerId: seyi.id, startDate: "2024-06-03" },
+      { email: "ada@cvspan.com", passwordHash, name: "Ada Obi", role: "employee", isManagement: true, orgLevel: "manager", employmentType: "full_time", status: "active", jobTitle: "Design Lead", departmentId: dept.design, teamId: team["Product Design"], managerId: seyi.id, startDate: "2024-03-11" },
+      { email: "tunde@cvspan.com", passwordHash, name: "Tunde Ke", role: "employee", isManagement: true, orgLevel: "manager", employmentType: "full_time", status: "active", jobTitle: "Engineering Lead", departmentId: dept.development, teamId: team.Platform, managerId: seyi.id, startDate: "2023-08-21" },
+      { email: "ngozi@cvspan.com", passwordHash, name: "Ngozi Uche", role: "employee", isManagement: true, orgLevel: "manager", employmentType: "full_time", status: "active", jobTitle: "Marketing Lead", departmentId: dept.marketing, teamId: team.Growth, managerId: seyi.id, startDate: "2024-11-04" },
     ])
     .returning();
 
@@ -139,13 +135,13 @@ async function main() {
   const members = await db
     .insert(schema.users)
     .values([
-      { email: "moses@cvspan.com", passwordHash, name: "Moses Arfo", role: "member", employmentType: "full_time", status: "active", jobTitle: "Product Designer", departmentId: dept.design, teamId: team["Product Design"], managerId: ada.id, startDate: "2025-01-13" },
-      { email: "chioma@cvspan.com", passwordHash, name: "Chioma Eze", role: "member", employmentType: "internship", status: "active", jobTitle: "Frontend Intern", departmentId: dept.development, teamId: team.Platform, managerId: tunde.id, startDate: "2026-07-06", endDate: "2026-12-12" },
-      { email: "bello@cvspan.com", passwordHash, name: "Bello Ibrahim", role: "member", employmentType: "part_time", status: "active", jobTitle: "Content Writer", departmentId: dept.marketing, teamId: team.Growth, managerId: ngozi.id, startDate: "2026-02-02" },
-      { email: "femi@cvspan.com", passwordHash, name: "Femi Adeyemi", role: "member", employmentType: "volunteer", status: "active", jobTitle: "Community Volunteer", departmentId: dept.project, teamId: team.Cohorts, managerId: ngozi.id, startDate: "2026-05-18" },
-      { email: "grace@cvspan.com", passwordHash, name: "Grace Peters", role: "member", employmentType: "student", status: "active", jobTitle: "Data Student", departmentId: dept.project, teamId: team.Cohorts, managerId: tunde.id, startDate: "2026-09-01" },
-      { email: "daniel@cvspan.com", passwordHash, name: "Daniel Okoro", role: "member", employmentType: "internship", status: "invited", jobTitle: "Backend Intern", departmentId: dept.development, teamId: team.Platform, managerId: tunde.id, startDate: "2026-10-05" },
-      { email: "amaka@cvspan.com", passwordHash, name: "Amaka Nwosu", role: "member", employmentType: "internship", status: "alumni", jobTitle: "Design Intern", departmentId: dept.design, teamId: team["Product Design"], managerId: ada.id, startDate: "2026-02-10", endDate: "2026-08-28" },
+      { email: "moses@cvspan.com", passwordHash, name: "Moses Arfo", role: "employee", employmentType: "full_time", status: "active", jobTitle: "Product Designer", departmentId: dept.design, teamId: team["Product Design"], managerId: ada.id, startDate: "2025-01-13" },
+      { email: "chioma@cvspan.com", passwordHash, name: "Chioma Eze", role: "employee", employmentType: "internship", status: "active", jobTitle: "Frontend Intern", departmentId: dept.development, teamId: team.Platform, managerId: tunde.id, startDate: "2026-07-06", endDate: "2026-12-12" },
+      { email: "bello@cvspan.com", passwordHash, name: "Bello Ibrahim", role: "employee", employmentType: "part_time", status: "active", jobTitle: "Content Writer", departmentId: dept.marketing, teamId: team.Growth, managerId: ngozi.id, startDate: "2026-02-02" },
+      { email: "femi@cvspan.com", passwordHash, name: "Femi Adeyemi", role: "employee", employmentType: "volunteer", status: "active", jobTitle: "Community Volunteer", departmentId: dept.project, teamId: team.Cohorts, managerId: ngozi.id, startDate: "2026-05-18" },
+      { email: "grace@cvspan.com", passwordHash, name: "Grace Peters", role: "employee", employmentType: "part_time", status: "active", jobTitle: "Data Student", departmentId: dept.project, teamId: team.Cohorts, managerId: tunde.id, startDate: "2026-09-01" },
+      { email: "daniel@cvspan.com", passwordHash, name: "Daniel Okoro", role: "employee", employmentType: "internship", status: "invited", jobTitle: "Backend Intern", departmentId: dept.development, teamId: team.Platform, managerId: tunde.id, startDate: "2026-10-05" },
+      { email: "amaka@cvspan.com", passwordHash, name: "Amaka Nwosu", role: "employee", employmentType: "internship", status: "alumni", jobTitle: "Design Intern", departmentId: dept.design, teamId: team["Product Design"], managerId: ada.id, startDate: "2026-02-10", endDate: "2026-08-28" },
     ])
     .returning();
 
@@ -650,7 +646,7 @@ async function main() {
 
   await db.insert(schema.notifications).values([
     { userId: person.moses.id, title: "Ada Obi assigned you “Review blog drafts”", href: "/tasks" },
-    { userId: person.moses.id, title: "Tunde Ke graded your week 38 KPI: 4.2 / 5", href: "/kpis" },
+    { userId: person.moses.id, title: "Tunde Ke graded your week 38 KPI: 4.2 / 5", href: "/performance/scores" },
     { userId: person.moses.id, title: "HR published the October holiday calendar", href: "/attendance" },
     { userId: person.chioma.id, title: "Your week 3 assignment was graded", href: "/programmes" },
   ]);
@@ -665,9 +661,9 @@ async function main() {
 
   console.log(`\nSeeded. Demo sign-in password for every account: ${DEMO_PASSWORD}`);
   console.log("  seyi@cvspan.com   — super admin");
-  console.log("  kemi@cvspan.com   — admin / HR");
-  console.log("  ada@cvspan.com    — manager");
-  console.log("  moses@cvspan.com  — member");
+  console.log("  kemi@cvspan.com   — employee, HR");
+  console.log("  ada@cvspan.com    — employee, Management");
+  console.log("  moses@cvspan.com  — employee, Staff");
 }
 
 main()

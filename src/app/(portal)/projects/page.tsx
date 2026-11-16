@@ -44,7 +44,7 @@ export default async function ProjectsPage({
 }) {
   const user = await requireUser();
   const { status: statusFilter } = await searchParams;
-  const canAdmin = atLeast(user.viewRole, "admin");
+  const canAdmin = atLeast(user.viewRole, "hr");
 
   /** Admins see every project; everyone else sees the ones they have been added to. */
   const all = await getProjects(canAdmin ? {} : { memberUserId: user.id });

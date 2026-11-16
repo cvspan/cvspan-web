@@ -1,17 +1,20 @@
 "use server";
 
-import { eq } from "drizzle-orm";
+import { and, eq, inArray, isNull } from "drizzle-orm";
 import { after } from "next/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { db } from "@/db";
-import { approvals, blogPosts, categories, departments, jobListings } from "@/db/schema";
+import { approvals, blogPosts, categories, departments, jobListings, users } from "@/db/schema";
 import type { EmploymentType } from "@/lib/format";
-import { logActivity, requireRole } from "./guards";
+import { logActivity, notify, requireRole } from "./guards";
 import { slugify } from "@/lib/slug";
 import { pingWebsite } from "@/lib/website-sync";
 import { RESERVED_SLUGS } from "@/lib/website";
+import { canEditPost } from "@/lib/blog";
+import { atLeast } from "@/lib/roles";
 import { requireUser } from "@/lib/session";
+import { fail, ok, type ActionResult } from "@/lib/validation";
 
 /** Strip tags so we can derive an excerpt and a reading time from the body. */
 function plainText(html: string) {
@@ -84,6 +87,39 @@ async function slugOf(kind: "post" | "job", id: string | null | undefined) {
   return row?.slug ?? null;
 }
 
+
+/** Admins (and super admins) who can review a post. */
+async function reviewers() {
+  return db
+    .select({ id: users.id })
+    .from(users)
+    .where(and(inArray(users.role, ["admin", "super_admin"]), inArray(users.status, ["active", "invited"])));
+}
+
+/** Puts a post in the admins' queue, replacing any request still open for it, and tells them. */
+async function requestReview(post: { id: string; title: string }, author: { id: string; name: string }) {
+  await closeReviewRequests(post.id);
+  await db.insert(approvals).values({
+    kind: "blog_post",
+    subjectId: post.id,
+    requestedById: author.id,
+    detail: `“${post.title}”`,
+  });
+  for (const reviewer of await reviewers()) {
+    if (reviewer.id === author.id) continue;
+    await notify(reviewer.id, `${author.name} sent a blog post for review: “${post.title}”`, "/approvals?type=blog", "blog");
+  }
+  revalidatePath("/approvals");
+}
+
+/** A post's review is over, one way or the other: take it out of the queue. */
+async function closeReviewRequests(postId: string) {
+  await db
+    .update(approvals)
+    .set({ resolvedAt: new Date() })
+    .where(and(eq(approvals.kind, "blog_post"), eq(approvals.subjectId, postId), isNull(approvals.resolvedAt)));
+}
+
 export async function savePost(formData: FormData) {
   const user = await requireUser();
 
@@ -92,6 +128,12 @@ export async function savePost(formData: FormData) {
   const body = String(formData.get("body") ?? "");
   const intent = String(formData.get("intent") ?? "draft");
   if (!title) return;
+
+  /** Anyone can write, but only their own drafts: a post in review or live is locked to its author. */
+  if (id) {
+    const [existing] = await db.select().from(blogPosts).where(eq(blogPosts.id, id)).limit(1);
+    if (!existing || !canEditPost(user, existing)) redirect("/blog");
+  }
 
   const categoryId = await resolveCategory(
     String(formData.get("categoryId") ?? ""),
@@ -106,8 +148,8 @@ export async function savePost(formData: FormData) {
 
   const publishAtRaw = String(formData.get("publishAt") ?? "");
 
-  /** Members draft and submit; only admins publish or schedule directly. */
-  const canPublish = user.role === "admin" || user.role === "super_admin";
+  /** Everyone else drafts and sends for review; only admins publish or schedule directly. */
+  const canPublish = atLeast(user.role, "admin");
   const status =
     intent === "publish" && canPublish
       ? publishAtRaw && new Date(publishAtRaw) > new Date()
@@ -127,6 +169,8 @@ export async function savePost(formData: FormData) {
     coverImageUrl: String(formData.get("coverImageUrl") ?? "").trim() || null,
     coverAlt: String(formData.get("coverAlt") ?? "").trim() || null,
     status: status as "draft" | "in_review" | "scheduled" | "published",
+    /** Feedback stays on a draft until it is sent again; any other state has moved past it. */
+    ...(status === "draft" ? {} : { reviewNote: null }),
     publishAt:
       status === "published"
         ? new Date()
@@ -153,13 +197,10 @@ export async function savePost(formData: FormData) {
   }
 
   if (status === "in_review") {
-    await db.insert(approvals).values({
-      kind: "blog_post",
-      subjectId: postId,
-      requestedById: user.id,
-      detail: `“${title}”`,
-    });
-    revalidatePath("/approvals");
+    await requestReview({ id: postId, title }, user);
+  } else if (status === "published" || status === "scheduled") {
+    /** An admin publishing straight from the editor ends any review that was open. */
+    await closeReviewRequests(postId);
   }
 
   await logActivity(
@@ -173,36 +214,79 @@ export async function savePost(formData: FormData) {
   redirect("/blog");
 }
 
+/** Approves and publishes a post (or schedules it, if it has a future date). Admins only. */
 export async function publishPost(postId: string) {
   const user = await requireRole("admin");
-
-  await db
-    .update(blogPosts)
-    .set({ status: "published", publishAt: new Date(), updatedAt: new Date() })
-    .where(eq(blogPosts.id, postId));
-
-  await logActivity(user.id, "published a blog post");
-  revalidatePath("/blog");
-  revalidatePath("/");
-  after(async () => pingWebsite(await websitePaths("post", await slugOf("post", postId))));
-}
-
-export async function submitPostForReview(postId: string) {
-  const user = await requireUser();
 
   const [post] = await db.select().from(blogPosts).where(eq(blogPosts.id, postId)).limit(1);
   if (!post) return;
 
-  await db.update(blogPosts).set({ status: "in_review" }).where(eq(blogPosts.id, postId));
-  await db.insert(approvals).values({
-    kind: "blog_post",
-    subjectId: postId,
-    requestedById: user.id,
-    detail: `“${post.title}”`,
-  });
+  const scheduled = post.publishAt !== null && post.publishAt > new Date();
+  await db
+    .update(blogPosts)
+    .set({
+      status: scheduled ? "scheduled" : "published",
+      publishAt: scheduled ? post.publishAt : new Date(),
+      reviewNote: null,
+      updatedAt: new Date(),
+    })
+    .where(eq(blogPosts.id, postId));
+  await closeReviewRequests(postId);
 
+  if (post.authorId && post.authorId !== user.id) {
+    await notify(
+      post.authorId,
+      `${user.name} approved your post “${post.title}”${scheduled ? ": it is scheduled" : ": it is live"}`,
+      `/blog/${post.id}`,
+      "blog",
+    );
+  }
+
+  await logActivity(user.id, "published a blog post", post.title);
   revalidatePath("/blog");
   revalidatePath("/approvals");
+  revalidatePath("/");
+  after(async () => pingWebsite(await websitePaths("post", post.slug)));
+}
+
+/** Sends a post back to its author with what to change. Admins only, and the reason is required. */
+export async function declinePost(postId: string, note: string): Promise<ActionResult> {
+  const user = await requireRole("admin");
+  const reason = note.trim();
+  if (!reason) return fail("Say what needs changing, so the author knows what to fix.");
+
+  const [post] = await db.select().from(blogPosts).where(eq(blogPosts.id, postId)).limit(1);
+  if (!post) return fail("That post no longer exists.");
+
+  await db
+    .update(blogPosts)
+    .set({ status: "draft", reviewNote: reason, updatedAt: new Date() })
+    .where(eq(blogPosts.id, postId));
+  await closeReviewRequests(postId);
+
+  if (post.authorId && post.authorId !== user.id) {
+    await notify(post.authorId, `${user.name} sent your post “${post.title}” back with changes to make`, `/blog/${post.id}`, "blog");
+  }
+
+  await logActivity(user.id, "sent a blog post back", post.title);
+  revalidatePath("/blog");
+  revalidatePath("/approvals");
+  after(async () => pingWebsite(await websitePaths("post", post.slug)));
+  return ok;
+}
+
+/** An author sends their own draft for review. */
+export async function submitPostForReview(postId: string) {
+  const user = await requireUser();
+
+  const [post] = await db.select().from(blogPosts).where(eq(blogPosts.id, postId)).limit(1);
+  if (!post || post.status !== "draft" || !canEditPost(user, post)) return;
+
+  await db.update(blogPosts).set({ status: "in_review", reviewNote: null, updatedAt: new Date() }).where(eq(blogPosts.id, postId));
+  await requestReview({ id: post.id, title: post.title }, user);
+  await logActivity(user.id, "sent a blog post for review", post.title);
+
+  revalidatePath("/blog");
 }
 
 export async function deletePost(postId: string) {
@@ -215,7 +299,7 @@ export async function deletePost(postId: string) {
 }
 
 export async function saveJob(formData: FormData) {
-  const user = await requireRole("admin");
+  const user = await requireRole("hr");
 
   const id = String(formData.get("id") ?? "");
   const title = String(formData.get("title") ?? "").trim();
@@ -325,7 +409,7 @@ export async function setJobStage(
   jobId: string,
   stage: "draft" | "open" | "screening" | "interviewing" | "closed",
 ) {
-  const user = await requireRole("admin");
+  const user = await requireRole("hr");
 
   const [existing] = await db.select().from(jobListings).where(eq(jobListings.id, jobId)).limit(1);
 
@@ -345,7 +429,7 @@ export async function setJobStage(
 }
 
 export async function deleteJob(jobId: string) {
-  const user = await requireRole("admin");
+  const user = await requireRole("hr");
   const slug = await slugOf("job", jobId);
   await db.delete(jobListings).where(eq(jobListings.id, jobId));
   await logActivity(user.id, "deleted a job listing");

@@ -50,7 +50,7 @@ export async function saveSelfAssessment(formData: FormData): Promise<ActionResu
   }
   await logActivity(user.id, "submitted a self-assessment", `${parsed.data.score}%`);
 
-  revalidatePath("/kpis");
+  revalidatePath("/performance/scores");
   revalidatePath(`/people/${user.id}`);
   return ok;
 }

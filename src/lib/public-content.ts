@@ -1,6 +1,7 @@
 import { absoluteMedia, htmlWithAbsoluteMedia } from "./base-path";
 import { employmentLabels, formatSalary, seniorityLabels, workModeLabels, type EmploymentType } from "./format";
 import { sanitizeRichText } from "./sanitize";
+import { bioParagraphs } from "./website-team";
 
 /*
  * Turns database rows into the shapes the public website receives. Pure, so what is exposed (and
@@ -116,4 +117,62 @@ export function toPublicJobSummary(row: JobRow) {
 
 export function toPublicJob(row: JobRow) {
   return { ...toPublicJobSummary(row), descriptionHtml: sanitizeRichText(row.description) };
+}
+
+type TeamRow = { slug: string; name: string; role: string; bio: string | null; photoUrl: string | null };
+
+/** A person on the website's Team page. `id` is the address of their profile: /about/teams/<id>. */
+export function toPublicTeamMember(row: TeamRow, portalUrl: string) {
+  return {
+    id: row.slug,
+    name: row.name,
+    role: row.role,
+    photoUrl: absoluteMedia(row.photoUrl, portalUrl),
+    bio: bioParagraphs(row.bio),
+  };
+}
+
+import { parseCustomTags, type SiteSettings } from "./site-settings";
+
+/**
+ * Site settings as the public website receives them. Custom tags are parsed here into plain
+ * descriptions of elements, so the website never has to trust or render raw HTML.
+ */
+export function toPublicSiteSettings(settings: SiteSettings, portalUrl: string) {
+  const { siteName, tagline, description, titleTemplate, twitterHandle, allowIndexing, robotsExtra } = settings;
+  return {
+    siteName,
+    tagline,
+    description,
+    titleTemplate,
+    shareImage: absoluteMedia(settings.defaultShareImage, portalUrl),
+    twitterHandle,
+    social: {
+      facebook: settings.facebookUrl,
+      twitter: settings.twitterUrl,
+      instagram: settings.instagramUrl,
+      linkedin: settings.linkedinUrl,
+      tiktok: settings.tiktokUrl,
+      youtube: settings.youtubeUrl,
+    },
+    verification: {
+      google: settings.googleVerification,
+      bing: settings.bingVerification,
+      yandex: settings.yandexVerification,
+      facebook: settings.facebookDomainVerification,
+    },
+    analytics: {
+      googleAnalytics: settings.gaMeasurementId,
+      tagManager: settings.gtmContainerId,
+      metaPixel: settings.metaPixelId,
+      linkedinInsight: settings.linkedinPartnerId,
+    },
+    allowIndexing,
+    robotsExtra,
+    tags: {
+      head: parseCustomTags(settings.headTags, "head").tags,
+      bodyStart: parseCustomTags(settings.bodyStartTags, "bodyStart").tags,
+      bodyEnd: parseCustomTags(settings.bodyEndTags, "bodyEnd").tags,
+    },
+  };
 }

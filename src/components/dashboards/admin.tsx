@@ -7,6 +7,7 @@ import { Card, CardHeader } from "@/components/ui/card";
 import { Progress } from "@/components/ui/chart";
 import { PageHeader } from "@/components/ui/page-header";
 import { Table, Td, Thead, Tr } from "@/components/ui/table";
+import type { Role } from "@/lib/roles";
 import { InviteMemberButton } from "@/components/forms/people-forms";
 import {
   getBlogPosts,
@@ -22,7 +23,7 @@ import {
 import { employmentLabels, initials, postStatusLabels, relativeDays } from "@/lib/format";
 import { statusTone } from "@/lib/tone";
 
-export async function AdminDashboard() {
+export async function AdminDashboard({ viewerRole }: { viewerRole: Role }) {
   const [counts, headcount, departments, pipeline, programmes, posts, activity, approvals, people] =
     await Promise.all([
       getOrgCounts(),
@@ -57,6 +58,7 @@ export async function AdminDashboard() {
               managers={people
                 .filter((person) => person.role !== "member")
                 .map((person) => ({ id: person.id, name: person.name }))}
+              viewerRole={viewerRole}
             />
           </>
         }

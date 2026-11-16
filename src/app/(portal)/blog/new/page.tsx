@@ -23,7 +23,7 @@ export default async function NewPostPage() {
       }}
       categories={categories}
       tagSuggestions={tags}
-      canPublish={atLeast(user.role, "admin")}
+      canPublish={atLeast(user.viewRole, "admin")}
     />
   );
 }

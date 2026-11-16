@@ -13,7 +13,7 @@ import { withBasePath } from "@/lib/base-path";
  * localStorage on the shared origin); no user id or email is ever sent; and page views carry the
  * path only, never the query string, since portal URLs can contain names and search terms.
  */
-const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? "";
+const ENV_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? "";
 const CONSENT_KEY = "cvspan-consent";
 
 declare global {
@@ -23,7 +23,15 @@ declare global {
   }
 }
 
-export function Analytics() {
+/** Sends a custom event: a no-op while analytics is off or hasn't loaded. Never put names, emails or ids in `params`. */
+export function trackEvent(name: string, params: Record<string, string | number | boolean> = {}) {
+  if (typeof window === "undefined") return;
+  window.gtag?.("event", name, params);
+}
+
+/** `measurementId` is the one set in Site settings; the environment value is the fallback for sites set up before it existed. */
+export function Analytics({ measurementId }: { measurementId?: string | null }) {
+  const GA_MEASUREMENT_ID = measurementId || ENV_MEASUREMENT_ID;
   const pathname = usePathname();
 
   useEffect(() => {

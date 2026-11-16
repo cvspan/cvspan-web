@@ -2,7 +2,7 @@ import { and, asc, eq, ilike, inArray, notInArray, or, sql } from "drizzle-orm";
 import { auth } from "@/auth";
 import { db } from "@/db";
 import { blogPosts, departments, projectMembers, projects, tasks, users } from "@/db/schema";
-import { atLeast } from "@/lib/roles";
+import { atLeast, tierOf } from "@/lib/roles";
 
 type Item = { id: string; title: string; detail?: string; href: string };
 type Group = { label: string; items: Item[] };
@@ -23,7 +23,7 @@ export async function GET(request: Request) {
 
   /** The database is the truth for role and status, not the session token. */
   const [account] = await db
-    .select({ role: users.role, status: users.status })
+    .select({ role: users.role, isHr: users.isHr, isManagement: users.isManagement, status: users.status })
     .from(users)
     .where(eq(users.id, session.user.id))
     .limit(1);
@@ -32,11 +32,11 @@ export async function GET(request: Request) {
   }
 
   const me = session.user.id;
-  const role = account.role;
+  const role = tierOf(account);
   /** Escape LIKE wildcards so "100%" means 100%. */
   const pattern = `%${query.replace(/[\\%_]/g, "\\$&")}%`;
 
-  const isAdmin = atLeast(role, "admin");
+  const isAdmin = atLeast(role, "hr");
 
   /** The lookups don't depend on each other, so they run together: one round trip, not five. */
   const taskScope = isAdmin

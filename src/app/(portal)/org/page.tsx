@@ -41,7 +41,7 @@ export default async function OrgPage({ searchParams }: { searchParams: Promise<
   const byManager = childrenMap(people);
   const me = byId.get(user.id) ?? null;
 
-  const isAdmin = atLeast(user.viewRole, "admin");
+  const isAdmin = atLeast(user.viewRole, "hr");
   const showCompany = isAdmin && view !== "mine";
   /** Managers and above may open other people's profiles; members only see names. */
   const linkProfiles = atLeast(user.viewRole, "manager");
@@ -212,7 +212,7 @@ function MyPlace({
     return (
       <Card>
         <p className="text-muted px-5 py-10 text-center text-body">
-          You aren&apos;t in the org chart yet. An admin can place you.
+          You aren&apos;t in the org chart yet. HR or an admin can place you.
         </p>
       </Card>
     );

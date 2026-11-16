@@ -3,6 +3,7 @@ import { asc, eq, sql } from "drizzle-orm";
 import { alias } from "drizzle-orm/pg-core";
 import { db } from "./index";
 import { departments, jobListings, projectMembers, projects, teams, users } from "./schema";
+import { tierSql } from "./tier";
 
 const head = alias(users, "head");
 
@@ -45,7 +46,7 @@ export async function getDepartmentMembers(departmentId: string) {
       name: users.name,
       email: users.email,
       jobTitle: users.jobTitle,
-      role: users.role,
+      role: tierSql(),
       employmentType: users.employmentType,
       status: users.status,
       teamName: teams.name,
@@ -66,7 +67,7 @@ export async function getAssignablePeople() {
       jobTitle: users.jobTitle,
       departmentId: users.departmentId,
       departmentName: departments.name,
-      role: users.role,
+      role: tierSql(),
     })
     .from(users)
     .leftJoin(departments, eq(users.departmentId, departments.id))

@@ -27,7 +27,12 @@ const bytea = customType<{ data: Buffer; notNull: true; default: false }>({
 
 /* ------------------------------------------------------------------ Enums */
 
-export const roleEnum = pgEnum("role", ["super_admin", "admin", "manager", "member"]);
+/**
+ * Access: super_admin, admin or employee. The database type also still holds "manager" and "member",
+ * which the column used before Management and HR became functions of an employee. Nothing writes
+ * them any more, so they are left out here.
+ */
+export const roleEnum = pgEnum("role", ["super_admin", "admin", "employee"]);
 
 export const employmentTypeEnum = pgEnum("employment_type", [
   "full_time",
@@ -133,7 +138,18 @@ export const approvalKindEnum = pgEnum("approval_kind", [
   "timesheet",
   "kpi_grade",
   "blog_post",
+  "certificate",
 ]);
+
+/** A certificate is requested, then an admin decides. Revoking is separate: see `revokedAt`. */
+export const objectiveStatusEnum = pgEnum("objective_status", [
+  "draft",
+  "submitted",
+  "approved",
+  "changes_requested",
+]);
+
+export const certificateStatusEnum = pgEnum("certificate_status", ["pending", "issued", "declined"]);
 
 /* ----------------------------------------------------------------- People */
 
@@ -168,8 +184,12 @@ export const users = pgTable(
     name: text("name").notNull(),
     /** A portable media path (/api/media/<id>) the person uploaded themselves; null shows their initials. */
     avatarUrl: text("avatar_url"),
-    /** Permission level. Independent of employmentType: an intern can be a manager. */
-    role: roleEnum("role").default("member").notNull(),
+    /** Access level. Independent of employmentType: an intern can be in management. */
+    role: roleEnum("role").default("employee").notNull(),
+    /** An employee who supervises people. See lib/roles.ts. */
+    isManagement: boolean("is_management").default(false).notNull(),
+    /** An employee who runs people operations (people, leave, recruitment, certificates). */
+    isHr: boolean("is_hr").default(false).notNull(),
     orgLevel: orgLevelEnum("org_level").default("member").notNull(),
     employmentType: employmentTypeEnum("employment_type").default("full_time").notNull(),
     status: memberStatusEnum("status").default("invited").notNull(),
@@ -183,6 +203,8 @@ export const users = pgTable(
   },
   (table) => [
     uniqueIndex("users_email_idx").on(table.email),
+    index("users_manager_idx").on(table.managerId),
+    index("users_department_idx").on(table.departmentId),
     /** There is one CEO. */
     uniqueIndex("users_single_ceo_idx")
       .on(table.orgLevel)
@@ -314,17 +336,27 @@ export const tasks = pgTable(
 
 /* ------------------------------------------------------------- Attendance */
 
-export const attendance = pgTable("attendance", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  userId: uuid("user_id")
-    .references(() => users.id, { onDelete: "cascade" })
-    .notNull(),
-  day: date("day").notNull(),
-  kind: attendanceKindEnum("kind").default("on_site").notNull(),
-  clockIn: timestamp("clock_in", { withTimezone: true }),
-  clockOut: timestamp("clock_out", { withTimezone: true }),
-  note: text("note"),
-});
+export const attendance = pgTable(
+  "attendance",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    userId: uuid("user_id")
+      .references(() => users.id, { onDelete: "cascade" })
+      .notNull(),
+    day: date("day").notNull(),
+    kind: attendanceKindEnum("kind").default("on_site").notNull(),
+    /** Recorded automatically: the first signal of the day from the open portal. */
+    clockIn: timestamp("clock_in", { withTimezone: true }),
+    /** Set when they sign out, or filled in from `lastSeenAt` once their signals stop. */
+    clockOut: timestamp("clock_out", { withTimezone: true }),
+    /** The last time the open portal told us someone was there. */
+    lastSeenAt: timestamp("last_seen_at", { withTimezone: true }),
+    /** Time spent away between clocking out and coming back the same day, taken off the hours. */
+    awaySeconds: integer("away_seconds").default(0).notNull(),
+    note: text("note"),
+  },
+  (table) => [uniqueIndex("attendance_user_day_idx").on(table.userId, table.day)],
+);
 
 export const leaveRequests = pgTable("leave_requests", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -339,7 +371,11 @@ export const leaveRequests = pgTable("leave_requests", {
   status: leaveStatusEnum("status").default("pending").notNull(),
   decidedById: uuid("decided_by_id").references(() => users.id, { onDelete: "set null" }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
-});
+},
+  (table) => [
+    index("leave_requests_user_status_idx").on(table.userId, table.status),
+  ],
+);
 
 /* ------------------------------------------------------------ Performance */
 
@@ -365,7 +401,11 @@ export const kpiScores = pgTable("kpi_scores", {
   score: integer("score").notNull(),
   comment: text("comment"),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
-});
+},
+  (table) => [
+    index("kpi_scores_user_period_idx").on(table.userId, table.periodStart),
+  ],
+);
 
 /** A person's own view of how a month went, written before (and shown to) their manager. */
 export const selfAssessments = pgTable(
@@ -395,6 +435,8 @@ export const programmes = pgTable("programmes", {
   stage: text("stage"),
   startDate: date("start_date"),
   endDate: date("end_date"),
+  /** Whether finishing it earns a certificate; completions then appear in the admin's Approvals queue. */
+  issuesCertificate: boolean("issues_certificate").default(true).notNull(),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
@@ -408,7 +450,11 @@ export const enrolments = pgTable("enrolments", {
     .notNull(),
   progress: integer("progress").default(0).notNull(),
   completedAt: timestamp("completed_at", { withTimezone: true }),
-});
+},
+  (table) => [
+    index("enrolments_user_idx").on(table.userId),
+  ],
+);
 
 export const assignments = pgTable("assignments", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -434,17 +480,89 @@ export const submissions = pgTable("submissions", {
   feedback: text("feedback"),
   submittedAt: timestamp("submitted_at", { withTimezone: true }),
   gradedById: uuid("graded_by_id").references(() => users.id, { onDelete: "set null" }),
-});
+},
+  (table) => [
+    index("submissions_user_idx").on(table.userId),
+  ],
+);
 
 export const certificates = pgTable("certificates", {
   id: uuid("id").primaryKey().defaultRandom(),
   userId: uuid("user_id")
     .references(() => users.id, { onDelete: "cascade" })
     .notNull(),
+  /** Null for an internship certificate; set for a programme certificate. */
   programmeId: uuid("programme_id").references(() => programmes.id, { onDelete: "set null" }),
   reference: text("reference").notNull().unique(),
-  issuedAt: timestamp("issued_at", { withTimezone: true }).defaultNow().notNull(),
+  status: certificateStatusEnum("status").default("issued").notNull(),
+  /** Who asked for it (a manager recommending someone) and what they said about the work. */
+  requestedById: uuid("requested_by_id").references(() => users.id, { onDelete: "set null" }),
+  requestedAt: timestamp("requested_at", { withTimezone: true }).defaultNow().notNull(),
+  requestNote: text("request_note"),
+  /** The admin who approved or declined it, and why. */
+  decidedById: uuid("decided_by_id").references(() => users.id, { onDelete: "set null" }),
+  decidedAt: timestamp("decided_at", { withTimezone: true }),
+  decisionNote: text("decision_note"),
+  /** Set when an admin approves; the date printed on the certificate. Null while pending or declined. */
+  issuedAt: timestamp("issued_at", { withTimezone: true }),
   revokedAt: timestamp("revoked_at", { withTimezone: true }),
+},
+  (table) => [
+    index("certificates_user_idx").on(table.userId),
+  ],
+);
+
+/* ------------------------------------------------------- Objectives (OKRs) */
+
+export const performanceCycles = pgTable("performance_cycles", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  name: text("name").notNull(),
+  startDate: date("start_date").notNull(),
+  endDate: date("end_date").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const objectives = pgTable(
+  "objectives",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    cycleId: uuid("cycle_id")
+      .references(() => performanceCycles.id, { onDelete: "cascade" })
+      .notNull(),
+    userId: uuid("user_id")
+      .references(() => users.id, { onDelete: "cascade" })
+      .notNull(),
+    title: text("title").notNull(),
+    description: text("description"),
+    /** Percent of the person's total for the cycle; their objectives add up to 100. */
+    weight: integer("weight").notNull(),
+    status: objectiveStatusEnum("status").default("draft").notNull(),
+    /** Who was asked to review it when it was submitted. */
+    reviewerId: uuid("reviewer_id").references(() => users.id, { onDelete: "set null" }),
+    submittedAt: timestamp("submitted_at", { withTimezone: true }),
+    reviewedById: uuid("reviewed_by_id").references(() => users.id, { onDelete: "set null" }),
+    reviewedAt: timestamp("reviewed_at", { withTimezone: true }),
+    reviewNote: text("review_note"),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    index("objectives_user_cycle_idx").on(table.userId, table.cycleId),
+    check("objectives_weight_range", sql`${table.weight} between 1 and 100`),
+  ],
+);
+
+export const keyResults = pgTable("key_results", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  objectiveId: uuid("objective_id")
+    .references(() => objectives.id, { onDelete: "cascade" })
+    .notNull(),
+  title: text("title").notNull(),
+  /** What done looks like, in `unit`s, e.g. 12 "designs shipped". */
+  target: integer("target").notNull(),
+  current: integer("current").default(0).notNull(),
+  unit: text("unit"),
+  position: integer("position").default(0).notNull(),
 });
 
 /* --------------------------------------------------------------- Messaging */
@@ -465,7 +583,11 @@ export const threadMembers = pgTable("thread_members", {
     .references(() => users.id, { onDelete: "cascade" })
     .notNull(),
   lastReadAt: timestamp("last_read_at", { withTimezone: true }),
-});
+},
+  (table) => [
+    index("thread_members_user_idx").on(table.userId),
+  ],
+);
 
 export const messages = pgTable("messages", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -476,7 +598,11 @@ export const messages = pgTable("messages", {
     .references(() => users.id, { onDelete: "set null" }),
   body: text("body").notNull(),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
-});
+},
+  (table) => [
+    index("messages_thread_created_idx").on(table.threadId, table.createdAt),
+  ],
+);
 
 /* ----------------------------------------------------------------- Website */
 
@@ -488,6 +614,64 @@ export const media = pgTable("media", {
   data: bytea("data").notNull(),
   uploadedById: uuid("uploaded_by_id").references(() => users.id, { onDelete: "set null" }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+/** The people shown on the website's Team page, kept here so admins can change them without a deploy. */
+export const websiteTeamMembers = pgTable("website_team_members", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  /** The address of their profile on the website: cvspan.com/about/teams/<slug>. Fixed once created. */
+  slug: text("slug").notNull().unique(),
+  name: text("name").notNull(),
+  role: text("role").notNull(),
+  /** Optional. Paragraphs are separated by a blank line; with a bio, the website links the card to a profile page. */
+  bio: text("bio"),
+  /** An uploaded picture (/api/media/<id>) or, for people added before this existed, a path on the website. */
+  photoUrl: text("photo_url"),
+  sortOrder: integer("sort_order").default(0).notNull(),
+  /** Hidden people stay here but are left off the website. */
+  published: boolean("published").default(true).notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+/**
+ * Site-wide search and tracking settings, one row (id "site"). Admins edit them in the portal; the
+ * website reads the public part through /api/public/v1/site-settings.
+ */
+export const siteSettings = pgTable("site_settings", {
+  id: text("id").primaryKey().default("site"),
+  siteName: text("site_name"),
+  tagline: text("tagline"),
+  description: text("description"),
+  /** Page title pattern, with %s for the page's own title: "%s | CVSpan". */
+  titleTemplate: text("title_template"),
+  /** A stored image path (/api/media/<id>) or a path on the website. */
+  defaultShareImage: text("default_share_image"),
+  twitterHandle: text("twitter_handle"),
+  facebookUrl: text("facebook_url"),
+  twitterUrl: text("twitter_url"),
+  instagramUrl: text("instagram_url"),
+  linkedinUrl: text("linkedin_url"),
+  tiktokUrl: text("tiktok_url"),
+  youtubeUrl: text("youtube_url"),
+  googleVerification: text("google_verification"),
+  bingVerification: text("bing_verification"),
+  yandexVerification: text("yandex_verification"),
+  facebookDomainVerification: text("facebook_domain_verification"),
+  gaMeasurementId: text("ga_measurement_id"),
+  gtmContainerId: text("gtm_container_id"),
+  metaPixelId: text("meta_pixel_id"),
+  linkedinPartnerId: text("linkedin_partner_id"),
+  /** Turn off to ask search engines not to index the whole website (for a staging copy, say). */
+  allowIndexing: boolean("allow_indexing").default(true).notNull(),
+  /** Extra lines for robots.txt, one rule per line. */
+  robotsExtra: text("robots_extra"),
+  /** Raw tags for the head, the start of the body and the end of the body, as an admin typed them. */
+  headTags: text("head_tags"),
+  bodyStartTags: text("body_start_tags"),
+  bodyEndTags: text("body_end_tags"),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedById: uuid("updated_by_id").references(() => users.id, { onDelete: "set null" }),
 });
 
 export const categories = pgTable("categories", {
@@ -513,8 +697,15 @@ export const blogPosts = pgTable("blog_posts", {
   authorId: uuid("author_id").references(() => users.id, { onDelete: "set null" }),
   status: postStatusEnum("status").default("draft").notNull(),
   publishAt: timestamp("publish_at", { withTimezone: true }),
+  /** An admin's feedback when a post is sent back. It stays on the draft until the author resubmits. */
+  reviewNote: text("review_note"),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
-});
+},
+  (table) => [
+    index("blog_posts_author_idx").on(table.authorId),
+    index("blog_posts_status_publish_idx").on(table.status, table.publishAt),
+  ],
+);
 
 export const jobListings = pgTable("job_listings", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -562,7 +753,11 @@ export const applications = pgTable("applications", {
   stage: applicationStageEnum("stage").default("applied").notNull(),
   notes: text("notes"),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
-});
+},
+  (table) => [
+    index("applications_job_idx").on(table.jobId),
+  ],
+);
 
 /**
  * A candidate's CV. Kept apart from `applications` so listing applicants never loads the file,
@@ -647,7 +842,12 @@ export const approvals = pgTable("approvals", {
   detail: text("detail"),
   resolvedAt: timestamp("resolved_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
-});
+},
+  (table) => [
+    index("approvals_assignee_open_idx").on(table.assignedToId, table.resolvedAt),
+    index("approvals_subject_idx").on(table.kind, table.subjectId),
+  ],
+);
 
 export const notifications = pgTable("notifications", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -660,7 +860,11 @@ export const notifications = pgTable("notifications", {
   readAt: timestamp("read_at", { withTimezone: true }),
   emailedAt: timestamp("emailed_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
-});
+},
+  (table) => [
+    index("notifications_user_created_idx").on(table.userId, table.createdAt),
+  ],
+);
 
 /**
  * Which kinds of notification someone wants in the portal. A category with no row is on, so
@@ -684,7 +888,11 @@ export const activityLog = pgTable("activity_log", {
   action: text("action").notNull(),
   subject: text("subject"),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
-});
+},
+  (table) => [
+    index("activity_log_created_idx").on(table.createdAt),
+  ],
+);
 
 /* -------------------------------------------------------------- Relations */
 

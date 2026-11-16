@@ -10,7 +10,8 @@ export const employmentLabels: Record<EmploymentType, string> = {
   part_time: "Part time",
   internship: "Internship",
   volunteer: "Volunteer",
-  student: "Student",
+  /** Students are part-time now; kept so older records still read. */
+  student: "Part time",
 };
 
 export const taskStatusLabels = {

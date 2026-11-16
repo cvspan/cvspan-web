@@ -20,6 +20,8 @@ export type PostDraft = {
   coverAlt: string | null;
   status: string;
   publishAt: string | null;
+  /** An admin's note when the post was sent back. */
+  reviewNote?: string | null;
 };
 
 const inputClass =
@@ -75,6 +77,13 @@ export function PostEditor({
           </Button>
         )}
       </header>
+
+      {post.reviewNote ? (
+        <div role="note" className="bg-error-surface text-error-text border-error-border mx-4 mt-4 rounded-lg border px-4 py-3 text-body lg:mx-6">
+          <p className="font-semibold">Sent back for changes</p>
+          <p className="mt-0.5 whitespace-pre-line">{post.reviewNote}</p>
+        </div>
+      ) : null}
 
       <div className="mx-auto grid w-full max-w-450 flex-1 gap-6 p-4 lg:grid-cols-[minmax(0,1fr)_20rem] lg:p-6">
         <div className="border-line bg-card flex flex-col overflow-hidden rounded-lg border">

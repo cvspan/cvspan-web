@@ -10,6 +10,7 @@ import { PostActions } from "@/components/forms/website-forms";
 import { getBlogPosts } from "@/db/queries";
 import { formatDay, initials, postStatusLabels, relativeDays } from "@/lib/format";
 import { atLeast } from "@/lib/roles";
+import { postState, postStateLabels } from "@/lib/blog";
 import { requireUser } from "@/lib/session";
 import { statusTone } from "@/lib/tone";
 import { websitePostUrl, websiteUrl } from "@/lib/website";
@@ -20,8 +21,10 @@ const isLive = (post: { status: string; publishAt: Date | null }) =>
 
 export default async function BlogPage() {
   const user = await requireUser();
-  const posts = await getBlogPosts();
-  const canPublish = atLeast(user.role, "admin");
+  /** viewRole, so a super admin previewing as Staff sees exactly what an employee sees. */
+  const canPublish = atLeast(user.viewRole, "admin");
+  /** Employees see only their own posts; admins see everyone's, since they review them. */
+  const posts = await getBlogPosts(canPublish ? undefined : user.id);
 
   const counts = (["published", "scheduled", "in_review", "draft"] as const).map((status) => ({
     status,
@@ -52,8 +55,9 @@ export default async function BlogPage() {
       />
 
       <p className="text-secondary -mt-1 max-w-200 text-body">
-        Posts written here publish to the blog section of the CVSpan website. Anything in review
-        needs an admin approval before it goes live.
+        {canPublish
+          ? "Posts written here publish to the blog section of the CVSpan website. Anything sent for review needs your approval before it goes live."
+          : "Write a post and send it for review. An admin reads it and either publishes it to the CVSpan website or sends it back with what to change. You only see your own posts."}
       </p>
 
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -80,7 +84,9 @@ export default async function BlogPage() {
               columns={["", "Post", "Category", "Author", "Read", "Updated", "Status", ""]}
             />
             <tbody>
-              {posts.map((post) => (
+              {posts.map((post) => {
+                const state = postState(post);
+                return (
                 <Tr key={post.id}>
                   <Td className="w-16 pr-0">
                     <Link href={`/blog/${post.id}`} aria-label={`Edit ${post.title}`}>
@@ -109,6 +115,11 @@ export default async function BlogPage() {
                     <span className="text-muted block truncate text-tiny">
                       {post.tags.length > 0 ? post.tags.join(" · ") : (post.excerpt ?? "No content yet")}
                     </span>
+                    {state === "changes_requested" && post.reviewNote ? (
+                      <span className="text-error-text mt-0.5 block truncate text-tiny" title={post.reviewNote}>
+                        Sent back: {post.reviewNote}
+                      </span>
+                    ) : null}
                   </Td>
 
                   <Td className="whitespace-nowrap">{post.category ?? "—"}</Td>
@@ -133,7 +144,7 @@ export default async function BlogPage() {
                   </Td>
 
                   <Td>
-                    <Badge tone={statusTone(post.status)}>{postStatusLabels[post.status]}</Badge>
+                    <Badge tone={state === "changes_requested" ? "error" : statusTone(post.status)}>{postStateLabels[state]}</Badge>
                   </Td>
 
                   {/* The title and thumbnail already open the editor, so this
@@ -152,11 +163,12 @@ export default async function BlogPage() {
                           <RiExternalLinkLine size={18} aria-hidden />
                         </a>
                       ) : null}
-                      <PostActions postId={post.id} status={post.status} canPublish={canPublish} />
+                      <PostActions postId={post.id} title={post.title} status={post.status} canPublish={canPublish} />
                     </span>
                   </Td>
                 </Tr>
-              ))}
+                );
+              })}
             </tbody>
           </Table>
         )}

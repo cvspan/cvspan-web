@@ -38,6 +38,15 @@ export function NewCohortButton() {
           <input name="endDate" type="date" className={fieldClass} />
         </Field>
       </div>
+      <label className="flex items-start gap-2.5 text-body">
+        <input type="checkbox" name="issuesCertificate" defaultChecked className="mt-1" />
+        <span>
+          Issues a certificate on completion
+          <span className="text-muted block text-tiny">
+            When someone finishes, a certificate request appears in the admins&apos; Approvals queue.
+          </span>
+        </span>
+      </label>
     </Dialog>
   );
 }

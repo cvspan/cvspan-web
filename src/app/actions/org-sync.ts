@@ -2,9 +2,10 @@ import "server-only";
 import { and, desc, eq, isNotNull, ne } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { alias } from "drizzle-orm/pg-core";
-import { db } from "@/db";
+import { batch, db } from "@/db";
 import { getOrgPeople } from "@/db/queries-org";
 import { departments, projectMembers, projects, users } from "@/db/schema";
+import { tierSql } from "@/db/tier";
 import { planReportingLines, type OrgContext } from "@/lib/org";
 import { atLeast, type Role } from "@/lib/roles";
 import { notify } from "./guards";
@@ -54,10 +55,9 @@ export async function reconcileOrg() {
   const changes = planReportingLines(people, context, projectManagers);
   if (changes.length === 0) return 0;
 
-  const [first, ...rest] = changes.map((change) =>
-    db.update(users).set({ managerId: change.managerId }).where(eq(users.id, change.id)),
+  await batch((db) =>
+    changes.map((change) => db.update(users).set({ managerId: change.managerId }).where(eq(users.id, change.id))),
   );
-  await db.batch([first, ...rest]);
 
   const names = new Map(people.map((person) => [person.id, person.name]));
   await Promise.all(
@@ -80,13 +80,13 @@ export type AccessResult =
   | { ok: false; error: string };
 
 /**
- * Makes sure someone has manager access, which running people or a project requires. A member
- * is promoted to Manager, but only when an admin is the one asking: otherwise a project manager
- * could hand out access. Anyone already a manager or above is left as they are.
+ * Makes sure someone is in Management, which running people or a project requires. A staff member
+ * is moved into Management, but only when HR or an admin is the one asking: otherwise a project
+ * manager could hand out access. Anyone already in Management or above is left as they are.
  */
 export async function ensureManagerAccess(userId: string, actorRole: Role): Promise<AccessResult> {
   const [person] = await db
-    .select({ name: users.name, role: users.role, orgLevel: users.orgLevel })
+    .select({ name: users.name, role: tierSql(), orgLevel: users.orgLevel })
     .from(users)
     .where(eq(users.id, userId))
     .limit(1);
@@ -94,18 +94,18 @@ export async function ensureManagerAccess(userId: string, actorRole: Role): Prom
 
   if (atLeast(person.role, "manager")) return { ok: true, promoted: false, name: person.name };
 
-  if (!atLeast(actorRole, "admin")) {
+  if (!atLeast(actorRole, "hr")) {
     return {
       ok: false,
-      error: `${person.name} is a member. Only an admin can make a member a manager, and so a project manager.`,
+      error: `${person.name} is staff. Only HR or an admin can move a staff member into Management, and so make them a project manager.`,
     };
   }
 
   await db
     .update(users)
-    .set({ role: "manager", orgLevel: person.orgLevel === "member" ? "manager" : person.orgLevel })
+    .set({ isManagement: true, orgLevel: person.orgLevel === "member" ? "manager" : person.orgLevel })
     .where(eq(users.id, userId));
-  await notify(userId, "You are now a Manager", "/org", "organisation");
+  await notify(userId, "You are now in Management", "/org", "organisation");
   return { ok: true, promoted: true, name: person.name };
 }
 

@@ -96,7 +96,7 @@ export type Gradable = { id: string; role: Role; managerId: string | null };
 export type DepartmentHead = { id: string; role: Role } | null;
 
 /**
- * Who is expected to grade someone. Only managers and admins ever grade; members are only graded.
+ * Who is expected to grade someone. Only Management, HR and admins ever grade; staff are only graded.
  *   - a member is graded by the manager they report to;
  *   - a manager is graded by the head of their department, when that head is a manager or above
  *     and isn't the person themselves; otherwise by their own manager.
@@ -104,7 +104,8 @@ export type DepartmentHead = { id: string; role: Role } | null;
  */
 export function reviewerIdFor(subject: Gradable, head: DepartmentHead) {
   if (subject.role === "member") return subject.managerId;
-  if (subject.role === "manager") {
+  /** HR sit above staff in the ladder, so they are graded like Management: by their department head. */
+  if (subject.role === "manager" || subject.role === "hr") {
     const headCanGrade = head && head.id !== subject.id && atLeast(head.role, "manager");
     return headCanGrade ? head.id : subject.managerId;
   }
@@ -130,10 +131,10 @@ export function headsDepartmentOf(actor: { id: string }, subject: { id: string }
 export function canReview(actor: { id: string; role: Role }, subject: Gradable, head: DepartmentHead) {
   if (!atLeast(actor.role, "manager")) return false;
   if (actor.id === subject.id) return false;
-  if (subject.role !== "member" && subject.role !== "manager") return false;
+  if (subject.role !== "member" && subject.role !== "manager" && subject.role !== "hr") return false;
 
   return (
-    atLeast(actor.role, "admin") ||
+    atLeast(actor.role, "hr") ||
     reviewerIdFor(subject, head) === actor.id ||
     headsDepartmentOf(actor, subject, head)
   );

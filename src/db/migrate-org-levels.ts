@@ -10,9 +10,7 @@
  *
  *   npm run db:migrate-org-levels
  */
-import { neon } from "@neondatabase/serverless";
-
-const sql = neon(process.env.DATABASE_URL!);
+import { sql } from "./sql";
 
 async function main() {
   const [{ values }] = await sql`select enum_range(null::org_level)::text as values`;

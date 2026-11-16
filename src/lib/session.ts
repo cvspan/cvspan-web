@@ -7,7 +7,7 @@ import { auth } from "@/auth";
 import { db } from "@/db";
 import { users } from "@/db/schema";
 import { employmentLabels, initials, type EmploymentType } from "./format";
-import { ROLES, type Role } from "./roles";
+import { ROLES, tierOf, type Role } from "./roles";
 
 export const VIEW_ROLE_COOKIE = "cvspan-view-role";
 
@@ -19,6 +19,8 @@ const loadAccount = cache(async (id: string) => {
   const [account] = await db
     .select({
       role: users.role,
+      isHr: users.isHr,
+      isManagement: users.isManagement,
       status: users.status,
       jobTitle: users.jobTitle,
       avatarUrl: users.avatarUrl,
@@ -48,7 +50,7 @@ export async function requireUser() {
     redirect("/session-ended");
   }
 
-  const role = account.role;
+  const role = tierOf(account);
   let viewRole: Role = role;
 
   if (role === "super_admin") {
@@ -63,9 +65,25 @@ export async function requireUser() {
     email: session.user.email ?? "",
     initials: initials(session.user.name ?? "CV"),
     role,
+    /** What is stored: the access level, and whether they hold the HR or Management function. */
+    access: account.role,
+    isHr: account.isHr,
+    isManagement: account.isManagement,
     viewRole,
     jobTitle: account.jobTitle ?? "",
     avatarUrl: account.avatarUrl,
     employmentType: employmentLabels[account.employmentType as EmploymentType],
   };
+}
+
+/**
+ * The tier of whoever is signed in, read from the database. For API routes, which have no layout to
+ * go through requireUser; the session token only says who someone was when they signed in.
+ */
+export async function currentTier() {
+  const session = await auth();
+  if (!session?.user?.id) return null;
+  const account = await loadAccount(session.user.id);
+  if (!account || (account.status !== "active" && account.status !== "invited")) return null;
+  return { id: session.user.id, role: tierOf(account) };
 }

@@ -2,7 +2,7 @@ import { eq } from "drizzle-orm";
 import { auth } from "@/auth";
 import { db } from "@/db";
 import { applicationResumes, users } from "@/db/schema";
-import { atLeast } from "@/lib/roles";
+import { atLeast, tierOf } from "@/lib/roles";
 
 /**
  * A candidate's CV, for staff who can see applicants. Never cached or served publicly: it is
@@ -14,11 +14,11 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
 
   /** The database decides the role, not the token. */
   const [account] = await db
-    .select({ role: users.role, status: users.status })
+    .select({ role: users.role, isHr: users.isHr, isManagement: users.isManagement, status: users.status })
     .from(users)
     .where(eq(users.id, session.user.id))
     .limit(1);
-  if (!account || (account.status !== "active" && account.status !== "invited") || !atLeast(account.role, "admin")) {
+  if (!account || (account.status !== "active" && account.status !== "invited") || !atLeast(tierOf(account), "hr")) {
     return new Response("Forbidden", { status: 403 });
   }
 

@@ -1,6 +1,6 @@
 import { and, eq, inArray, isNull, or, sql } from "drizzle-orm";
 import { z } from "zod";
-import { db } from "@/db";
+import { batch, db } from "@/db";
 import { applicationResumes, applications, jobListings, users } from "@/db/schema";
 import { notify } from "@/app/actions/guards";
 import { allowedOrigins, corsHeaders, preflight } from "@/lib/public-api";
@@ -124,7 +124,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ slu
   const notes = [message, portfolio ? `Portfolio: ${portfolio}` : null].filter(Boolean).join("\n\n") || null;
   /** One batch, so an application never exists without the CV it came with. */
   const applicationId = crypto.randomUUID();
-  await db.batch([
+  await batch((db) => [
     db
       .insert(applications)
       .values({ id: applicationId, jobId: job.id, candidateName: name, candidateEmail: email, notes }),
@@ -144,7 +144,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ slu
         await db
           .select({ id: users.id })
           .from(users)
-          .where(and(inArray(users.role, ["admin", "super_admin"]), inArray(users.status, ["active", "invited"])))
+          .where(and(or(inArray(users.role, ["admin", "super_admin"]), eq(users.isHr, true)), inArray(users.status, ["active", "invited"])))
       ).map((row) => row.id);
 
   await Promise.all(

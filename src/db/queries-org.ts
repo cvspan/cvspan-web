@@ -4,6 +4,7 @@ import { eq } from "drizzle-orm";
 import { db } from "./index";
 import { departments, users } from "./schema";
 import type { OrgPerson } from "@/lib/org";
+import { tierSql } from "./tier";
 
 export type OrgMember = OrgPerson & {
   status: "invited" | "active" | "suspended" | "alumni";
@@ -19,7 +20,7 @@ export async function getOrgPeople(): Promise<OrgMember[]> {
         name: users.name,
         avatarUrl: users.avatarUrl,
         jobTitle: users.jobTitle,
-        role: users.role,
+        role: tierSql(),
         orgLevel: users.orgLevel,
         managerId: users.managerId,
         departmentId: users.departmentId,

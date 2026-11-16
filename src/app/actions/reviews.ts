@@ -3,8 +3,9 @@
 import { and, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { db } from "@/db";
+import { batch, db } from "@/db";
 import { departments, reviewRatings, users, weeklyReviews } from "@/db/schema";
+import { tierSql } from "@/db/tier";
 import { alias } from "drizzle-orm/pg-core";
 import { companyDay } from "@/lib/dates";
 import { formatDay } from "@/lib/format";
@@ -62,11 +63,11 @@ export async function submitWeeklyReview(formData: FormData): Promise<ActionResu
     .select({
       id: users.id,
       name: users.name,
-      role: users.role,
+      role: tierSql(),
       managerId: users.managerId,
       startDate: users.startDate,
       headId: departments.headId,
-      headRole: head.role,
+      headRole: tierSql(head),
     })
     .from(users)
     .leftJoin(departments, eq(users.departmentId, departments.id))
@@ -99,7 +100,7 @@ export async function submitWeeklyReview(formData: FormData): Promise<ActionResu
   const reviewId = existing?.id ?? crypto.randomUUID();
 
   /** One atomic batch: the review and its ratings are replaced together or not at all. */
-  await db.batch([
+  await batch((db) => [
     existing
       ? db
           .update(weeklyReviews)
