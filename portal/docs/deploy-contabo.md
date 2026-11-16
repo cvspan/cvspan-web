@@ -11,16 +11,25 @@ What was tested, and what was not:
   the process manager, and the data copy from Neon. The commands below are standard but were not run against your
   server.
 
-## 0. Before anything else: passwords
+## 0. Passwords
 
-**The portal cannot set or change a password.** Only `npm run db:seed` writes passwords, and it fills a demo
-organisation, wipes tables, and gives every account the same known password. People you invite have no password
-and cannot sign in. A real launch needs a way to set passwords (a temporary password an admin sets, a change
-password page, ideally an emailed link). Until that exists:
+People sign in with a password that only they know:
 
-- Never run `db:seed` on the production database.
-- If you copy data over from Neon, every account in it still has the demo password. Do not go live with that data.
-- Create your own first admin with `npm run db:create-admin` (below).
+- You create the first Super admin with `npm run db:create-admin` (section 1).
+- After that, HR and admins open a person's profile and press **Set password** (or **Reset password**). A
+  temporary password is shown once, to pass on in person or in a message. It is stored only as a hash.
+- The person is made to choose their own password the first time they sign in, and can change it later in
+  Settings. Changing or resetting a password signs out every older session.
+- After 8 wrong passwords for one email in 15 minutes, sign-in pauses for that email. Resetting the password
+  clears the pause.
+
+Passwords are at least 10 characters, cannot be a common password (the old demo one is blocked), and cannot
+contain the person's email or name. The portal does not send email, so there is no "forgot password" link: a person
+who forgets asks HR or an admin for a new temporary one.
+
+Never run `npm run db:seed` on the production database: it wipes tables and gives every account the same known
+demo password. If you copy data from Neon (option B below), every account in it still has that demo password, so
+reset them all or start fresh.
 
 ## 1. The database
 
@@ -42,7 +51,7 @@ postgresql://cvspan_app:PASSWORD@HOST:5432/cvspan?sslmode=require
 Use `sslmode=disable` only when the database and portal are on the same machine. Special characters in the
 password must be percent-encoded in the URL.
 
-### Option A, a fresh start (recommended while the passwords problem exists)
+### Option A, a fresh start (recommended)
 
 ```bash
 cd cvspan-portal
@@ -70,7 +79,7 @@ The restored schema is already current, so no migrations are needed. Check it:
 psql "$CONTABO_URL" -c "select count(*) from users" -c "select count(*) from media"
 ```
 
-Then see section 0 about passwords.
+Then reset every password (section 0): the copied accounts still use the demo password.
 
 ## 2. The portal
 
