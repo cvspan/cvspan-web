@@ -1,0 +1,28 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "cvspan-portal",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "dev"
+      ],
+      "port": 3000
+    },
+    {
+      "name": "cvspan-website",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--prefix",
+        "/Users/m.arfo/Documents/GitHub/website-frontend",
+        "run",
+        "dev",
+        "--",
+        "-p",
+        "2000"
+      ],
+      "port": 2000
+    }
+  ]
+}

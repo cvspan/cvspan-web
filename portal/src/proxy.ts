@@ -1,0 +1,21 @@
+import NextAuth from "next-auth";
+import { authConfig } from "./auth.config";
+
+/**
+ * Next 16 renamed `middleware` to `proxy`. The `authorized` callback in
+ * auth.config.ts decides who may see each route.
+ */
+const { auth: proxy } = NextAuth(authConfig);
+
+export default proxy;
+
+export const config = {
+  /**
+   * Everything except static assets, the auth endpoints, and uploaded media —
+   * cover images have to load on the public website, where there is no session.
+   * Brand files and the app icon are public too: the sign-in page needs them before anyone
+   * is signed in. So is certificate verification: its whole point is that anyone can check one. And the public API
+   * the website reads, which has no session by design.
+   */
+  matcher: ["/((?!api/auth|api/media|_next/static|_next/image|brand/|verify/|api/public/|icon.svg|favicon.ico).*)"],
+};

@@ -1,0 +1,577 @@
+@import "tailwindcss";
+
+/* Dark mode is driven by the `dark` class on <html>, not the OS setting alone. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ------------------------------------------------------------------
+   CVSpan design tokens
+   Palette values come from the CVSpan Colour collection in Figma.
+   Semantic tokens mirror the CVSpan Theme collection (Light / Dark).
+   ------------------------------------------------------------------ */
+
+:root {
+  /* Palette — Neutral */
+  --cv-black: #1a1a1a;
+  --cv-ink: #0c0c0c;
+  --cv-hairline: #272727;
+  --cv-n5: #484848;
+  --cv-n4: #767676;
+  --cv-n3: #a3a3a3;
+  --cv-n2: #d1d1d1;
+  --cv-n1: #f4f4f4;
+  --cv-white: #ffffff;
+
+  /* Palette — Primary */
+  --cv-primary: #1a1aff;
+  --cv-p10: #01010d;
+  --cv-p9: #050533;
+  --cv-p8: #0a0a66;
+  --cv-p7: #101099;
+  --cv-p6: #1515cc;
+  --cv-p5: #4848ff;
+  --cv-p4: #7676ff;
+  --cv-p3: #a3a3ff;
+  --cv-p2: #d1d1ff;
+  --cv-p1: #f4f4ff;
+
+  /* Palette — Secondary */
+  --cv-secondary: #00ffb2;
+  --cv-s8: #006647;
+  --cv-s6: #00cc8e;
+  --cv-s2: #ccfff0;
+  --cv-s1: #f2fffb;
+
+  /* Palette — Action */
+  --cv-success-1: #f3fcf2;
+  --cv-success-2: #9fe999;
+  --cv-success-3: #10c900;
+  --cv-success-5: #0a7900;
+  --cv-warning-1: #fffbf4;
+  --cv-warning-2: #fdddab;
+  --cv-warning-3: #fba92d;
+  --cv-warning-5: #97651b;
+  --cv-error-1: #fff2f2;
+  --cv-error-2: #ff9999;
+  --cv-error-3: #ff0000;
+  --cv-error-4: #cc0000;
+  --cv-error-5: #990000;
+
+  /* ------------------------------------------------------------------
+     Semantic tokens. light-dark() resolves against color-scheme, so the
+     OS preference works with no JavaScript and an explicit choice is a
+     single class on <html>. No inline script, so no flash either.
+     ------------------------------------------------------------------ */
+  color-scheme: light dark;
+
+  --surface-app: light-dark(var(--cv-n1), var(--cv-ink));
+  --surface-card: light-dark(var(--cv-white), var(--cv-black));
+  --surface-raised: light-dark(var(--cv-n1), var(--cv-hairline));
+  --surface-accent-soft: light-dark(var(--cv-p1), var(--cv-p10));
+  --surface-overlay: light-dark(var(--cv-white), var(--cv-black));
+  --text-primary: light-dark(var(--cv-black), var(--cv-white));
+  --text-secondary: light-dark(var(--cv-n5), var(--cv-n2));
+  --text-muted: light-dark(var(--cv-n4), var(--cv-n3));
+  --text-accent: light-dark(var(--cv-primary), var(--cv-p4));
+  --text-on-accent: var(--cv-white);
+  --border-default: light-dark(var(--cv-n2), var(--cv-hairline));
+  --border-strong: light-dark(var(--cv-n3), var(--cv-n5));
+  --border-input: var(--cv-n4);
+  --border-accent: light-dark(var(--cv-primary), var(--cv-p5));
+  --border-focus-ring: light-dark(var(--cv-p3), var(--cv-p5));
+  --accent-primary: var(--cv-primary);
+  --accent-primary-hover: light-dark(var(--cv-p6), var(--cv-p5));
+  --status-success-surface: light-dark(var(--cv-success-1), #0d2812);
+  --status-success-border: light-dark(var(--cv-success-2), var(--cv-success-5));
+  --status-success-text: light-dark(var(--cv-success-5), var(--cv-success-2));
+  --status-warning-surface: light-dark(var(--cv-warning-1), #302411);
+  --status-warning-border: light-dark(var(--cv-warning-2), var(--cv-warning-5));
+  --status-warning-text: light-dark(var(--cv-warning-5), var(--cv-warning-2));
+  --status-error-surface: light-dark(var(--cv-error-1), #300a0a);
+  --status-error-border: light-dark(var(--cv-error-2), var(--cv-error-4));
+  --status-error-text: light-dark(var(--cv-error-5), var(--cv-error-2));
+  --sidebar-bg: light-dark(var(--cv-primary), var(--cv-black));
+  --sidebar-text: var(--cv-white);
+  --sidebar-muted: light-dark(color-mix(in srgb, var(--cv-white) 65%, transparent), var(--cv-n3));
+  --sidebar-active-bg: light-dark(color-mix(in srgb, var(--cv-white) 16%, transparent), color-mix(in srgb, var(--cv-primary) 30%, transparent));
+  --sidebar-hover-bg: light-dark(color-mix(in srgb, var(--cv-white) 10%, transparent), color-mix(in srgb, var(--cv-white) 8%, transparent));
+  --sidebar-border: light-dark(color-mix(in srgb, var(--cv-white) 14%, transparent), var(--cv-hairline));
+
+  --radius-control: 8px;
+}
+
+/* An explicit choice wins over the OS setting. */
+.light {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+/* ------------------------------------------------------------------
+   Tailwind theme mapping — utilities such as bg-card, text-muted,
+   border-default, text-accent are generated from these.
+   ------------------------------------------------------------------ */
+
+@theme inline {
+  --color-app: var(--surface-app);
+  --color-card: var(--surface-card);
+  --color-raised: var(--surface-raised);
+  --color-accent-soft: var(--surface-accent-soft);
+  --color-overlay: var(--surface-overlay);
+
+  --color-primary: var(--text-primary);
+  --color-secondary: var(--text-secondary);
+  --color-muted: var(--text-muted);
+  --color-accent: var(--text-accent);
+  --color-on-accent: var(--text-on-accent);
+
+  --color-line: var(--border-default);
+  --color-line-strong: var(--border-strong);
+  --color-line-input: var(--border-input);
+  --color-ring: var(--border-focus-ring);
+
+  --color-sidebar: var(--sidebar-bg);
+  --color-sidebar-text: var(--sidebar-text);
+  --color-sidebar-muted: var(--sidebar-muted);
+  --color-sidebar-active: var(--sidebar-active-bg);
+  --color-sidebar-hover: var(--sidebar-hover-bg);
+  --color-sidebar-line: var(--sidebar-border);
+
+  --color-brand: var(--accent-primary);
+  --color-brand-hover: var(--accent-primary-hover);
+
+  --color-success-surface: var(--status-success-surface);
+  --color-success-border: var(--status-success-border);
+  --color-success-text: var(--status-success-text);
+  --color-warning-surface: var(--status-warning-surface);
+  --color-warning-border: var(--status-warning-border);
+  --color-warning-text: var(--status-warning-text);
+  --color-error-surface: var(--status-error-surface);
+  --color-error-border: var(--status-error-border);
+  --color-error-text: var(--status-error-text);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  /* Type scale from the CVSpan text styles */
+  --text-h4: 34px;
+  --text-h4--line-height: 42px;
+  --text-h5: 24px;
+  --text-h5--line-height: 32px;
+  --text-title: 18px;
+  --text-title--line-height: 26px;
+  --text-para: 16px;
+  --text-para--line-height: 24px;
+  --text-body: 14px;
+  --text-body--line-height: 22px;
+  --text-caption: 12px;
+  --text-caption--line-height: 20px;
+  --text-tiny: 10px;
+  --text-tiny--line-height: 18px;
+}
+
+/* An explicit choice wins over the OS setting. */
+.light {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--surface-app);
+  color: var(--text-primary);
+  font-size: 14px;
+  line-height: 22px;
+}
+
+/* An explicit choice wins over the OS setting. */
+.light {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+/* Consistent focus treatment, matching the Figma components */
+:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 3px solid var(--border-focus-ring);
+  outline-offset: 1px;
+  border-radius: 8px;
+}
+
+/* An explicit choice wins over the OS setting. */
+.light {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+/* ------------------------------------------------------------------
+   Editor content. Mirrors how the post should read on the website, so
+   what someone writes here is what they get there.
+   ------------------------------------------------------------------ */
+
+.prose-cvspan {
+  color: var(--text-primary);
+  font-size: 18px;
+  line-height: 30px;
+}
+
+/* An explicit choice wins over the OS setting. */
+.light {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+.prose-cvspan > * + * {
+  margin-top: 1em;
+}
+
+/* An explicit choice wins over the OS setting. */
+.light {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+.prose-cvspan h2 {
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 600;
+  margin-top: 1.6em;
+}
+
+/* An explicit choice wins over the OS setting. */
+.light {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+.prose-cvspan h3 {
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 600;
+  margin-top: 1.4em;
+}
+
+/* An explicit choice wins over the OS setting. */
+.light {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+.prose-cvspan a {
+  color: var(--text-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* An explicit choice wins over the OS setting. */
+.light {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+.prose-cvspan ul,
+.prose-cvspan ol {
+  padding-left: 1.4em;
+}
+
+/* An explicit choice wins over the OS setting. */
+.light {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+.prose-cvspan ul {
+  list-style: disc;
+}
+
+/* An explicit choice wins over the OS setting. */
+.light {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+.prose-cvspan ol {
+  list-style: decimal;
+}
+
+/* An explicit choice wins over the OS setting. */
+.light {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+.prose-cvspan li + li {
+  margin-top: 0.3em;
+}
+
+/* An explicit choice wins over the OS setting. */
+.light {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+.prose-cvspan blockquote {
+  border-left: 3px solid var(--border-accent);
+  padding-left: 1em;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+/* An explicit choice wins over the OS setting. */
+.light {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+.prose-cvspan pre {
+  background: var(--surface-raised);
+  border-radius: 8px;
+  padding: 1em;
+  overflow-x: auto;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+/* An explicit choice wins over the OS setting. */
+.light {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+.prose-cvspan code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.9em;
+}
+
+/* An explicit choice wins over the OS setting. */
+.light {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+.prose-cvspan img {
+  border-radius: 8px;
+  max-width: 100%;
+}
+
+/* An explicit choice wins over the OS setting. */
+.light {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+.prose-cvspan hr {
+  border: 0;
+  border-top: 1px solid var(--border-default);
+  margin: 2em 0;
+}
+
+/* An explicit choice wins over the OS setting. */
+.light {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+/* Tiptap's empty-document placeholder */
+.prose-cvspan p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: var(--text-muted);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Sidebar navigation scrolls without chrome: the scrollbar only appears while the pointer
+   (or keyboard focus) is over it. The gutter is reserved on both edges so nothing shifts. */
+.sidebar-scroll {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-gutter: stable both-edges;
+  scrollbar-color: transparent transparent;
+  overscroll-behavior: contain;
+}
+.sidebar-scroll:hover,
+.sidebar-scroll:focus-within {
+  scrollbar-color: color-mix(in srgb, var(--sidebar-text) 38%, transparent) transparent;
+}
+
+/* Logo pair: coloured on light surfaces, white on dark. Mirrors how the theme tokens switch. */
+.brand-on-dark { display: none; }
+:root.dark .brand-on-light { display: none; }
+:root.dark .brand-on-dark { display: block; }
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) .brand-on-light { display: none; }
+  :root:not(.light) .brand-on-dark { display: block; }
+}
+
+/* ------------------------------------------------------------------
+   Certificate lightbox: a native <dialog> that fades and lifts in over a blurred backdrop.
+   Transitions run on `display`/`overlay` too, so closing animates instead of snapping shut.
+   ------------------------------------------------------------------ */
+
+.cert-lightbox {
+  /* Wide enough to read, never taller than the screen: the certificate is 4035 × 2851, so width follows the height left over. */
+  width: min(72rem, calc(100vw - 2rem), calc((100dvh - 10.5rem) * 1.4155));
+  min-width: min(22rem, calc(100vw - 2rem));
+  max-width: none;
+  max-height: calc(100dvh - 1.5rem);
+  margin: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  overflow: visible;
+  opacity: 0;
+  transform: translateY(14px) scale(0.985);
+  transition:
+    opacity 0.28s ease,
+    transform 0.34s cubic-bezier(0.2, 0.8, 0.2, 1),
+    overlay 0.28s allow-discrete,
+    display 0.28s allow-discrete;
+}
+.cert-lightbox[open] {
+  opacity: 1;
+  transform: none;
+}
+@starting-style {
+  .cert-lightbox[open] {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+  }
+}
+
+.cert-lightbox::backdrop {
+  background: rgb(5 5 40 / 0.72);
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  transition:
+    opacity 0.28s ease,
+    overlay 0.28s allow-discrete,
+    display 0.28s allow-discrete;
+}
+.cert-lightbox[open]::backdrop {
+  opacity: 1;
+}
+@starting-style {
+  .cert-lightbox[open]::backdrop {
+    opacity: 0;
+  }
+}
+
+.cert-lightbox-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  max-height: calc(100dvh - 1.5rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.cert-lightbox-head {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0 0.25rem;
+}
+.cert-lightbox-head > div {
+  flex: 1;
+}
+
+.cert-lightbox-close {
+  display: flex;
+  width: 2.25rem;
+  height: 2.25rem;
+  flex-shrink: 0;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 9999px;
+  background: rgb(255 255 255 / 0.12);
+  color: #fff;
+  transition: background-color 0.15s;
+}
+.cert-lightbox-close:hover {
+  background: rgb(255 255 255 / 0.22);
+}
+
+.cert-lightbox-sheet {
+  overflow: hidden;
+  border-radius: 0.75rem;
+  box-shadow:
+    0 30px 80px -20px rgb(0 0 0 / 0.55),
+    0 0 0 1px rgb(255 255 255 / 0.08);
+}
+
+.cert-lightbox-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-line);
+  background: var(--color-card);
+  padding: 0.75rem 1rem;
+}
+
+/* Scrolling stays on the dialog while it is open, not the page behind it. */
+body:has(.cert-lightbox[open]) {
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cert-lightbox,
+  .cert-lightbox::backdrop {
+    transition-duration: 0.01ms;
+  }
+}
