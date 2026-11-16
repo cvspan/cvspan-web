@@ -60,12 +60,48 @@ Behaviour:
 3. Optional, faster indexing on Bing/Yandex: set `INDEXNOW_KEY` on the website (any 8 to 128 letters, numbers or
    dashes). The key is served at `/api/indexnow-key` and every portal publish submits the changed URLs.
 
+## Site settings (managed in the portal)
+
+Admins manage search and tracking from **Website → Site settings** in the portal, with no deploy. The website
+reads them from `/api/public/v1/site-settings` (cached for a minute; saving pings the site so it shows at once).
+Anything left empty keeps the website's built-in value, and if the portal is unreachable the website uses its
+built-ins, so a portal outage never changes how the site looks to search engines.
+
+| Section | What it controls |
+| --- | --- |
+| Site identity | Site name, tagline, page-title pattern (`%s | CVSpan`), default description, default share image, X handle. |
+| Social profiles | Six profile URLs, published as the Organization's `sameAs` in structured data. |
+| Search engines | An **indexing switch** (off = `Disallow: /` in robots.txt and `noindex` on every page, for staging or pre-launch), verification codes for Google, Bing, Yandex and Facebook (paste the code or the whole meta tag), and extra robots.txt rules. |
+| Analytics and tracking | Google Analytics 4 ID (also used by the portal, so one property sees both), Google Tag Manager container, Meta Pixel and LinkedIn Insight. GA and GTM start with storage denied (Consent Mode); the Meta and LinkedIn pixels do not load at all until a visitor accepts cookies. |
+| Custom tags | Raw tags for the head, the start of the body and the end of the body. |
+
+Custom tags are checked when saved and **parsed into plain data**: only `script` (https source), `meta`, `link`
+(a short list of `rel` values), `style` and `noscript` are accepted, refresh redirects and `on…` handlers are
+refused, and the website renders real elements instead of trusting raw HTML. They run for every visitor, so only
+paste code from tools you trust. They are never added to the portal, which holds staff data.
+
+The Health list beside the form says what is still missing (description length, share image, analytics,
+verification, social profiles) and the previews show the result as it would appear in Google and when shared.
+
+### What is tracked
+
+Beyond page views, the website records (to Google Analytics and the Tag Manager data layer, after consent):
+`click_outbound`, `click_email`, `click_phone`, `file_download`, `form_submit`, `scroll_depth` (50 and 90 percent),
+and the existing `generate_lead`, `share` and `search`. The portal records `share` (certificate shares) and page
+views. No names, emails, ids or form values are sent.
+
+### Auditing
+
+`node scripts/seo-audit.mjs [site url]` in the website repo fetches every public page and reports missing or badly
+sized titles and descriptions, canonicals, `noindex`, the number of `h1`s, Open Graph and Twitter tags, structured
+data and images without alt text. It exits non-zero on any problem, so it can run in CI.
+
 ## Environment variables
 
 | App | Variable | Purpose |
 | --- | --- | --- |
 | Website | `NEXT_PUBLIC_SITE_URL` | Canonical origin. Defaults to `https://www.cvspan.com`. |
-| Website, portal | `NEXT_PUBLIC_GA_MEASUREMENT_ID` | GA4 measurement ID. |
+| Website, portal | `NEXT_PUBLIC_GA_MEASUREMENT_ID` | GA4 measurement ID. Site settings overrides it when set. |
 | Website | `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION`, `NEXT_PUBLIC_BING_SITE_VERIFICATION` | Webmaster tool ownership. |
 | Website | `INDEXNOW_KEY` | Enables IndexNow. |
 | Website | `REVALIDATE_SECRET` | Lets the portal refresh pages and the sitemap on publish. |
